@@ -1,0 +1,31 @@
+name: Task
+description: A small, self-contained build task
+labels: ["task"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What to build and which SPEC step/section it comes from.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Files/components to touch. What is out of scope.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      value: |
+        - [ ]
+        - [ ] `npm run lint`, `npm run typecheck`, `npm run build` pass
+        - [ ] Follows docs/DESIGN_RULES.md; no fake stats/reviews/degree claims
+    validations:
+      required: true
+  - type: textarea
+    id: refs
+    attributes:
+      label: References
+      value: "docs/SPEC.md, docs/BRAND.md, docs/DESIGN_RULES.md, docs/QA.md"

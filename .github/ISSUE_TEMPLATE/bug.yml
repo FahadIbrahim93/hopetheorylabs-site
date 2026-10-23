@@ -1,0 +1,28 @@
+name: Bug
+description: Something is broken or breaks a rule in docs/
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected (cite SPEC/BRAND/DESIGN_RULES/QA if relevant)
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: URL (preview or local), viewport width, browser, reduced-motion on/off.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      value: |
+        - [ ] Bug no longer reproduces
+        - [ ] CI passes

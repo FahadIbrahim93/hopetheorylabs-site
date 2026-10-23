@@ -4,6 +4,7 @@ import { whatsappLink, whatsappOrderLink } from "./types";
 // All copy below is verbatim from docs/SPEC.md ("Section-by-section layout").
 export const en: SiteContent = {
   header: {
+    wordmark: "hope theory labs",
     nav: [
       { label: "How it works", href: "#how" },
       { label: "Work", href: "#work" },
@@ -11,6 +12,8 @@ export const en: SiteContent = {
       { label: "Contact", href: "#contact" },
     ],
     whatsapp: "WhatsApp",
+    menu: "Menu",
+    skip: "Skip to content",
   },
   hero: {
     heading: "Fast websites for Bangladeshi businesses.",
@@ -20,8 +23,10 @@ export const en: SiteContent = {
     whatsappLink: whatsappOrderLink,
     secondaryCta: "See pricing",
     pricingHref: "#pricing",
+    mockupDescription: "Preview of the WhatsApp ordering flow — placeholder for now.",
   },
   howItWorks: {
+    heading: "How it works",
     steps: [
       "We build a free working concept with your products.",
       "You try it on your phone.",
@@ -29,6 +34,7 @@ export const en: SiteContent = {
     ],
   },
   whatYouGet: {
+    heading: "What you get",
     items: [
       "Fast on mobile",
       "Orders straight to your WhatsApp",
@@ -38,14 +44,18 @@ export const en: SiteContent = {
   },
   speedSlider: {
     label: "Illustrative only",
+    before: "Before",
+    after: "After",
   },
   work: {
+    heading: "Work",
     title: "Rollers Republic",
     tag: "Concept",
     description: "A free concept built on the shop's real catalog.",
     link: "https://rollers-republic.vercel.app",
   },
   pricing: {
+    heading: "Pricing",
     base: "Websites from ৳25,000.",
     founding:
       "Founding clients: ৳15,000, in exchange for a short review and permission to show your site.",
@@ -58,9 +68,11 @@ export const en: SiteContent = {
     text: "Ask us if you're curious.",
   },
   about: {
+    heading: "About",
     text: "We're a small team in Dhaka: Fahad Ibrahim and Tamim Abir. We keep things simple and honest.",
   },
   contact: {
+    heading: "Contact",
     phone: "WhatsApp 01718463471",
     phoneHref: whatsappLink,
     email: "hopetheorybd@gmail.com",

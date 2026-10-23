@@ -11,8 +11,11 @@ export interface NavLink {
 
 export interface SiteContent {
   header: {
+    wordmark: string;
     nav: NavLink[];
     whatsapp: string;
+    menu: string;
+    skip: string;
   };
   hero: {
     heading: string;
@@ -21,23 +24,30 @@ export interface SiteContent {
     whatsappLink: string;
     secondaryCta: string;
     pricingHref: string;
+    mockupDescription: string;
   };
   howItWorks: {
+    heading: string;
     steps: string[];
   };
   whatYouGet: {
+    heading: string;
     items: string[];
   };
   speedSlider: {
     label: string;
+    before: string;
+    after: string;
   };
   work: {
+    heading: string;
     title: string;
     tag: string;
     description: string;
     link: string;
   };
   pricing: {
+    heading: string;
     base: string;
     founding: string;
     cta: string;
@@ -49,9 +59,11 @@ export interface SiteContent {
     text: string;
   };
   about: {
+    heading: string;
     text: string;
   };
   contact: {
+    heading: string;
     phone: string;
     phoneHref: string;
     email: string;

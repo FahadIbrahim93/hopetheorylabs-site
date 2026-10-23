@@ -1,3 +1,18 @@
 @import "tailwindcss";
 
-/* Brand tokens are added in the "Step 1 - Setup" issue. See docs/BRAND.md. */
+/*
+  Brand tokens — docs/BRAND.md (single source of truth).
+  tealDark is exposed as `teal-dark` (Tailwind v4 dash-cases custom keys).
+*/
+@theme {
+  --color-ink: #0f1b2d; /* main background, dark sections, text on teal buttons */
+  --color-teal: #14b8a6; /* buttons, highlights, particles — never body text on light */
+  --color-teal-dark: #0f766e; /* links and teal text on light backgrounds */
+  --color-paper: #f8fafc; /* light sections, text on navy */
+  --color-slate: #475569; /* secondary text on light backgrounds */
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-bangla: var(--font-hind-siliguri), var(--font-inter), ui-sans-serif, sans-serif;
+}

@@ -4,6 +4,7 @@ import { useContent } from "./LanguageProvider";
 
 import { PhoneMockup } from "./PhoneMockup";
 import { WhatsAppCta } from "./WhatsAppCta";
+import { WordReveal } from "./WordReveal";
 
 /*
   Hero: heading spans ~7 of 12 columns, mockup sits at column 8.
@@ -31,9 +32,10 @@ export function Hero() {
         <div className="col-span-12 md:col-span-7">
           <h1
             id="hero-heading"
+            aria-label={content.hero.heading}
             className="font-heading text-5xl leading-[1.05] tracking-[-0.03em] text-paper md:text-7xl"
           >
-            {content.hero.heading}
+            <WordReveal text={content.hero.heading} />
           </h1>
           <p className="mt-8 max-w-md text-lg leading-relaxed text-paper/70">
             {content.hero.subheading}

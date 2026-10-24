@@ -1,5 +1,8 @@
 "use client";
 
+import { LazyMotion, domAnimation } from "framer-motion";
+
+import { Reveal } from "./Reveal";
 import { LanguageProvider, useContent, useLang } from "./LanguageProvider";
 
 import { About } from "./About";
@@ -38,15 +41,31 @@ function Shell() {
       <Header />
       <main id="main">
         <Hero />
-        <HowItWorksTimeline />
-        <FeatureGrid />
-        <WorkCard />
-        <Pricing />
-        <EarlyAccessAI />
-        <About />
-        <Contact />
+        <Reveal>
+          <HowItWorksTimeline />
+        </Reveal>
+        <Reveal>
+          <FeatureGrid />
+        </Reveal>
+        <Reveal>
+          <WorkCard />
+        </Reveal>
+        <Reveal>
+          <Pricing />
+        </Reveal>
+        <Reveal>
+          <EarlyAccessAI />
+        </Reveal>
+        <Reveal>
+          <About />
+        </Reveal>
+        <Reveal>
+          <Contact />
+        </Reveal>
       </main>
-      <Footer />
+      <Reveal>
+        <Footer />
+      </Reveal>
       <StickyWhatsApp href={content.contact.phoneHref} label={content.hero.primaryCta} />
     </div>
   );
@@ -55,7 +74,10 @@ function Shell() {
 export function PageShell() {
   return (
     <LanguageProvider>
-      <Shell />
+      {/* issue #5: LazyMotion + domAnimation, strict — plain motion.* imports are rejected. */}
+      <LazyMotion features={domAnimation} strict>
+        <Shell />
+      </LazyMotion>
     </LanguageProvider>
   );
 }

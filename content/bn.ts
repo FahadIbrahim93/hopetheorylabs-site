@@ -5,7 +5,6 @@ import { whatsappLink, whatsappOrderLink } from "./types";
 // Values are the English copy for now; they will be translated and reviewed
 // before the language toggle goes live (docs/SPEC.md, "Made for Bangladesh").
 export const bn: SiteContent = {
-
   header: {
     wordmark: "hope theory labs",
     nav: [

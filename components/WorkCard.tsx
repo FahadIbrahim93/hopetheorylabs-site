@@ -1,4 +1,4 @@
-import { en as content } from "@/content/en";
+import { useContent } from "./LanguageProvider";
 
 import { SectionLabel } from "./SectionLabel";
 
@@ -8,6 +8,7 @@ import { SectionLabel } from "./SectionLabel";
   framed area below. Not faked, per AGENTS.md — asked on the issue.
 */
 export function WorkCard() {
+  const content = useContent();
   return (
     <section id="work" className="border-b border-paper/10" aria-labelledby="work-heading">
       <div className="mx-auto grid max-w-6xl grid-cols-12 gap-8 px-6 py-20 md:px-8 md:py-24">

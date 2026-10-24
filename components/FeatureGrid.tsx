@@ -1,4 +1,4 @@
-import { en as content } from "@/content/en";
+import { useContent } from "./LanguageProvider";
 
 import { SectionLabel } from "./SectionLabel";
 import { SpeedSlider } from "./SpeedSlider";
@@ -10,6 +10,7 @@ import { SpeedSlider } from "./SpeedSlider";
   (Step 5), so nothing is invented here.
 */
 export function FeatureGrid() {
+  const content = useContent();
   return (
     <section className="border-b border-paper/10" aria-labelledby="what-heading">
       <div className="mx-auto grid max-w-6xl grid-cols-12 gap-8 px-6 py-20 md:px-8 md:py-24">

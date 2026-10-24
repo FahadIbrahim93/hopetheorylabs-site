@@ -1,4 +1,4 @@
-import { en as content } from "@/content/en";
+import { useContent } from "./LanguageProvider";
 
 /*
   Before/after loading comparison. Step 2 ships the static placeholder;
@@ -7,6 +7,7 @@ import { en as content } from "@/content/en";
   "Illustrative only" label from the content files — no numbers, ever.
 */
 export function SpeedSlider() {
+  const content = useContent();
   return (
     <div className="mt-16 border-t border-paper/10 pt-16">
       <div className="mt-8 grid gap-10 md:grid-cols-2" aria-hidden="true">

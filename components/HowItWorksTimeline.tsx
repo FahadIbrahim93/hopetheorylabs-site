@@ -1,4 +1,4 @@
-import { en as content } from "@/content/en";
+import { useContent } from "./LanguageProvider";
 
 import { SectionLabel } from "./SectionLabel";
 
@@ -7,6 +7,7 @@ import { SectionLabel } from "./SectionLabel";
   arrive with Step 5; the markup is already the interactive-ready list.
 */
 export function HowItWorksTimeline() {
+  const content = useContent();
   return (
     <section id="how" className="border-b border-paper/10" aria-labelledby="how-heading">
       <div className="mx-auto grid max-w-6xl grid-cols-12 gap-8 px-6 py-20 md:px-8 md:py-24">

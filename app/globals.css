@@ -16,3 +16,24 @@
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-bangla: var(--font-hind-siliguri), var(--font-inter), ui-sans-serif, sans-serif;
 }
+
+/* Motion: anchor scrolling eases only when the user has not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Crisp 2px teal focus rings with offset (docs/DESIGN_RULES.md). */
+:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 2px;
+}
+
+/* Custom mobile-menu marker: we draw our own icon inside the <summary>. */
+summary::-webkit-details-marker {
+  display: none;
+}
+summary {
+  list-style: none;
+}

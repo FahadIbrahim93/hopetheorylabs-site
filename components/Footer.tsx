@@ -1,6 +1,7 @@
-import { en as content } from "@/content/en";
+import { useContent } from "./LanguageProvider";
 
 export function Footer() {
+  const content = useContent();
   return (
     <footer>
       <div className="mx-auto max-w-6xl px-6 py-10 md:px-8">

@@ -39,6 +39,7 @@ export interface SiteContent {
     label: string;
     before: string;
     after: string;
+    aria: string;
   };
   work: {
     heading: string;

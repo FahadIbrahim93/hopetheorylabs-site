@@ -24,7 +24,8 @@ export const en: SiteContent = {
     whatsappLink: whatsappOrderLink,
     secondaryCta: "See pricing",
     pricingHref: "#pricing",
-    mockupDescription: "Preview of the WhatsApp ordering flow — placeholder for now.",
+    mockupDescription:
+      "Animated preview of the WhatsApp ordering flow: browse sample products, add one to the cart, order on WhatsApp and see the WhatsApp message. Generic sample products only.",
   },
   howItWorks: {
     heading: "How it works",
@@ -47,6 +48,7 @@ export const en: SiteContent = {
     label: "Illustrative only",
     before: "Before",
     after: "After",
+    aria: "Compare page load speed — before and after",
   },
   work: {
     heading: "Work",

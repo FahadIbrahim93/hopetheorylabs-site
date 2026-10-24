@@ -96,7 +96,7 @@ export default function LabsBackground() {
 
     /** Advance one step (dt seconds) and paint. dt = 0 paints without moving. */
     function step(dt: number) {
-      ctx?.clearRect(0, 0, width, height);
+      ctx!.clearRect(0, 0, width, height);
       for (const p of particles) {
         if (dt > 0) {
           // Slow random drift.

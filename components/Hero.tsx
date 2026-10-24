@@ -17,7 +17,7 @@ export function Hero() {
   const content = useContent();
   return (
     <section className="relative overflow-hidden border-b border-paper/10" aria-labelledby="hero-heading">
-      {/* Static fallback layer — always present (SPEC: no-JS fallback). */}   
+      {/* Static fallback layer — always present (SPEC: no-JS fallback). */}
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(20,184,166,0.08),transparent_60%)]"

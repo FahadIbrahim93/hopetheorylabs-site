@@ -54,7 +54,7 @@ export const bn: SiteContent = {
     title: "Rollers Republic",
     tag: "Concept",
     description: "A free concept built on the shop's real catalog.",
-    link: "https://rollers-republic.vercel.app",
+    link: "https://rollers-republic-pitch.vercel.app",
   },
   pricing: {
     heading: "Pricing",

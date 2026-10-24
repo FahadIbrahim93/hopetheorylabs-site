@@ -10,7 +10,7 @@ import { useEffect, useRef } from "react";
   - Starts only after first paint, and only while the hero is visible
     (IntersectionObserver) and the tab is visible (visibilitychange).
   - Max 60 particles on mobile, 140 on desktop; devicePixelRatio capped at 2.
-  - Dot opacity 0.15-0.4; near the pointer dots brighten and gently move away.
+  - Dot opacity 0.15–0.4; near the pointer dots brighten and gently move away.
   - prefers-reduced-motion: exactly one static frame, no drift.
   Canvas is aria-hidden; the static CSS fallback beneath it carries the look.
 
@@ -24,7 +24,7 @@ interface Particle {
   vx: number;
   vy: number;
   r: number; // radius, px
-  base: number; // base opacity 0.15-0.4
+  base: number; // base opacity 0.15–0.4
 }
 
 const COUNT_MOBILE = 60;
@@ -65,7 +65,7 @@ export default function LabsBackground() {
       height = Math.max(1, Math.round(rect.height));
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
-      ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       seed();
     }
 

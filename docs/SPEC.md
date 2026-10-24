@@ -145,7 +145,7 @@ Four items: Fast on mobile · Orders straight to your WhatsApp · Cash on delive
 
 ### 4. Work (#work)
 
-- Card: **Rollers Republic (concept)** — a free concept built on the shop's real catalog. Link: [https://rollers-republic.vercel.app](https://rollers-republic.vercel.app). Tag: Concept.
+- Card: **Rollers Republic (concept)** — a free concept built on the shop's real catalog. Link: [https://rollers-republic-pitch.vercel.app](https://rollers-republic-pitch.vercel.app). Tag: Concept.
 - (Add Sthappo once delivered and approved. Do not add a placeholder.)
 
 ### 5. Pricing (#pricing)
@@ -246,7 +246,7 @@ Build these components in components/, render them in app/page.tsx in this order
 3. HowItWorksTimeline (#how): "1. We build a free working concept with your products." "2. You try it on your phone." "3. If you like it, we set it up on your domain."
 4. FeatureGrid "What you get": Fast on mobile / Orders straight to your WhatsApp / Cash on delivery / Easy to update. Use simple examples of shops, cafés, clinics in small illustrations or labels.
 5. SpeedSlider placeholder with the label "Illustrative only".
-6. WorkCard (#work): "Rollers Republic" with tag "Concept", text "A free concept built on the shop's real catalog.", link https://rollers-republic.vercel.app
+6. WorkCard (#work): "Rollers Republic" with tag "Concept", text "A free concept built on the shop's real catalog.", link https://rollers-republic-pitch.vercel.app
 7. Pricing (#pricing): "Websites from ৳25,000." then "Founding clients: ৳15,000, in exchange for a short review and permission to show your site." Button "Ask about a free concept" -> WhatsApp link.
 8. EarlyAccessAI: heading "Coming soon", items "AI audits" and "Forward-deployed AI engineering", tag "Early access", text "Ask us if you're curious." linking to WhatsApp. No prices.
 9. About: "We're a small team in Dhaka: Fahad Ibrahim and Tamim Abir. We keep things simple and honest."

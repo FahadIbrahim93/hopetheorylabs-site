@@ -16,6 +16,7 @@ export const bn: SiteContent = {
     whatsapp: "WhatsApp",
     menu: "Menu",
     skip: "Skip to content",
+    language: "Site language",
   },
   hero: {
     heading: "Fast websites for Bangladeshi businesses.",

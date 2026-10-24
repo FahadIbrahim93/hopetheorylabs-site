@@ -16,6 +16,7 @@ export interface SiteContent {
     whatsapp: string;
     menu: string;
     skip: string;
+    language: string;
   };
   hero: {
     heading: string;

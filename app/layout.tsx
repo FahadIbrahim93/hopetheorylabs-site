@@ -55,6 +55,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         hindSiliguri.variable,
       ].join(" ")}
     >
+      <head>
+        {/* Issue #5: JS gate for the CSS reveals — no-JS readers keep full visibility. */}
+        <script
+          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

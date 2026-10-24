@@ -1,4 +1,4 @@
-import { en as content } from "@/content/en";
+import { useContent } from "./LanguageProvider";
 
 import { LanguageToggle } from "./LanguageToggle";
 import { WhatsAppCta } from "./WhatsAppCta";
@@ -9,6 +9,7 @@ import { WhatsAppCta } from "./WhatsAppCta";
   keyboard focusable, and exposes its expanded state to assistive tech.
 */
 export function Header() {
+  const content = useContent();
   return (
     <header className="sticky top-0 z-50 border-b border-paper/10 bg-ink">
       <nav

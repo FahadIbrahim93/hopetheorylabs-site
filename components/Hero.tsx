@@ -1,4 +1,4 @@
-import { en as content } from "@/content/en";
+import { useContent } from "./LanguageProvider";
 
 import { PhoneMockup } from "./PhoneMockup";
 import { WhatsAppCta } from "./WhatsAppCta";
@@ -8,6 +8,7 @@ import { WhatsAppCta } from "./WhatsAppCta";
   No animation yet — word-reveal comes with Step 5.
 */
 export function Hero() {
+  const content = useContent();
   return (
     <section className="border-b border-paper/10" aria-labelledby="hero-heading">
       <div className="mx-auto grid max-w-6xl grid-cols-12 gap-8 px-6 pb-20 pt-16 md:px-8 md:pb-28 md:pt-24">

@@ -10,7 +10,7 @@ import { WhatsAppCta } from "./WhatsAppCta";
 */
 export function Pricing() {
   return (
-    <section id="pricing" className="bg-paper text-in-ink" aria-labelledby="pricing-heading">
+    <section id="pricing" className="bg-paper text-ink" aria-labelledby="pricing-heading">
       <div className="mx-auto grid max-w-6xl grid-cols-12 gap-8 px-6 py-20 md:px-8 md:py-24">
         <div className="col-span-12 md:col-span-4">
           <SectionLabel index="04" label={content.pricing.heading} className="text-teal-dark" />

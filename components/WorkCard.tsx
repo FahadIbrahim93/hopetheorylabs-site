@@ -26,7 +26,7 @@ export function WorkCard() {
             className="h-64 w-full rounded-lg border border-paper/15 bg-paper/5 bg-[radial-gradient(var(--color-paper)_1px,transparent_1px)] [background-size:16px_16px] [background-position:center] md:h-96"
           />
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <h3 className="font-heading text-c-3xl tracking-[-0.03em] text-paper">
+            <h3 className="font-heading text-3xl tracking-[-0.03em] text-paper">
               <a
                 href={content.work.link}
                 target="_blank"

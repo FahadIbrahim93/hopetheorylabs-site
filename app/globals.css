@@ -238,7 +238,9 @@ summary {
   color-scheme: dark;
 }
 html { scroll-padding-top: 90px; }
-body { background: #07090c; color: #eef0f2; font-family: var(--font-instrument-sans), system-ui, sans-serif; }
+body { background: #07090c; color: #eef0f2; font-family: var(--font-sans); }
+:root { --font-sans: var(--font-instrument-sans), system-ui, sans-serif; --font-heading: var(--font-newsreader), Georgia, serif; }
+[data-lang="bn"] { --font-sans: var(--font-hind-siliguri), system-ui, sans-serif; --font-heading: var(--font-hind-siliguri), system-ui, sans-serif; }
 .site-shell { position: relative; isolation: isolate; overflow: clip; background: #07090c; }
 .site-shell main { position: relative; z-index: 1; }
 .site-header {
@@ -279,7 +281,7 @@ body { background: #07090c; color: #eef0f2; font-family: var(--font-instrument-s
 .story-inner { width:100%; max-width:1500px; margin:auto; }
 .story-copy { max-width:640px; }
 .story-copy h2, .flow-heading h2, .how-head h2, .services-intro h2, .work-copy h2, .about-inner h2, .contact-intro h2 {
-  margin:0; font-family:var(--font-newsreader), Georgia, serif; font-size:clamp(38px,5vw,70px); line-height:1.03; font-weight:400; letter-spacing:-.035em;
+  margin:0; font-family:var(--font-heading); font-size:clamp(38px,5vw,70px); line-height:1.03; font-weight:400; letter-spacing:-.035em;
 }
 .story-copy > p:not(.eyebrow), .work-copy > p:not(.eyebrow), .about-inner > p:not(.eyebrow), .contact-intro > p { margin:22px 0 0; color:#a3acb8; font-size:clamp(17px,1.5vw,20px); line-height:1.58; }
 .story-copy .text-link { margin-top:16px; }

@@ -167,3 +167,56 @@ summary::-webkit-details-marker {
 summary {
   list-style: none;
 }
+
+
+/* Hope Theory Labs intelligence core — inline SVG, no 3D runtime. */
+.intelligence-core {
+  isolation: isolate;
+  perspective: 1000px;
+}
+.core-aura {
+  position: absolute;
+  inset: 14% 8%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgb(20 184 166 / 10%), rgb(15 27 45 / 0%) 68%);
+  filter: blur(12px);
+  pointer-events: none;
+}
+.core-art {
+  transform: rotateX(var(--core-tilt-x, 0deg)) rotateY(var(--core-tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.core-orbit {
+  transform-origin: 320px 292px;
+  animation: core-orbit-drift 36s linear infinite;
+}
+.core-radar {
+  transform-origin: 320px 292px;
+  animation: core-radar-sweep 8s linear infinite;
+}
+.core-signal {
+  animation: core-signal-pulse 2.4s ease-in-out infinite;
+}
+@keyframes core-orbit-drift {
+  to { transform: rotate(360deg); }
+}
+@keyframes core-radar-sweep {
+  to { transform: rotate(360deg); }
+}
+@keyframes core-signal-pulse {
+  0%, 100% { opacity: .18; r: 1.5px; }
+  50% { opacity: .9; r: 3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .core-orbit,
+  .core-radar,
+  .core-signal {
+    animation: none !important;
+  }
+  .core-art {
+    transition: none;
+    transform: none;
+  }
+}

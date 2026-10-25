@@ -7,10 +7,10 @@ import "./globals.css";
   only the weights the site uses. CSS variables feed the Tailwind @theme in globals.css.
 */
 
-// Headings: Space Grotesk 600/700 (variable font).
+// Editorial section headings: Newsreader 400.
 const newsreader = Newsreader({ subsets: ["latin"], weight: ["400"], display: "swap", variable: "--font-newsreader" });
 
-// Body: Inter 400/600 (variable font).
+// Body and controls: Instrument Sans 400/500.
 const instrumentSans = Instrument_Sans({ subsets: ["latin"], weight: ["400", "500"], display: "swap", variable: "--font-instrument-sans" });
 
 // Small uppercase section labels: JetBrains Mono 400.
@@ -48,8 +48,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: "Hope Theory Labs",
     title: "Hope Theory Labs — AI transformation and websites for businesses",
-    description:
-      "Hope Theory Labs builds fast websites and AI integrations, and turns your data into one living intelligence. Based in Dhaka, Bangladesh.",
+    description: "Websites, AI integrations and AI transformation. Every source, one mind.",
     images: [
       { url: "/og.png", width: 1200, height: 630, alt: "Hope Theory Labs — AI transformation and websites for businesses" },
     ],

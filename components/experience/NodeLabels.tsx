@@ -31,7 +31,7 @@ export function NodeLabels() {
       }
       if (!visible) return;
       const focused = activeNode();
-      const selected = getDiscrete().selectedNode;
+      const { selectedNode: selected, focusSource } = getDiscrete();
       for (let i = 0; i < nodes.length; i++) {
         const el = itemRefs.current[i];
         const node = nodes[i];
@@ -42,7 +42,9 @@ export function NodeLabels() {
         const alpha = node.visible ? labelOpacity * (0.3 + 0.7 * node.depth) * occlusion : 0;
         el.style.opacity = (focused === i ? Math.max(alpha, labelOpacity) : alpha).toFixed(3);
         el.style.pointerEvents = alpha > 0.15 ? "auto" : "none";
-        const state = focused === i ? "focus" : selected === i ? "selected" : "";
+        // The tooltip only appears for scene-originated focus; legend focus
+        // already shows the same detail text next to the legend.
+        const state = focused === i ? (focusSource === "legend" ? "focus-quiet" : "focus") : selected === i ? "selected" : "";
         if (el.dataset.state !== state) el.dataset.state = state;
         const side = node.x > window.innerWidth * 0.6 ? "left" : node.x < window.innerWidth * 0.4 ? "right" : "center";
         if (el.dataset.side !== side) el.dataset.side = side;

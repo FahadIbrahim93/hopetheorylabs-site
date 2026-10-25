@@ -40,7 +40,7 @@ import {
 */
 
 const FOV = 38;
-const SCENE_RADIUS = 2.55; // ring radius + a small label margin, fitted into the anchor
+const SCENE_RADIUS = 2.3; // ring radius + a small label margin, fitted into the anchor
 const RING_TILT = 0.42;
 const FLOW_SECTION = 3;
 const HOW_SECTION = 4;
@@ -451,7 +451,7 @@ export class SceneRig {
 
     /* 8. publish to DOM overlays */
     // Labels fade out when the composed scene is too small for eight captions.
-    const roomForLabels = MathUtils.clamp((pr - 170) / 80, 0, 1);
+    const roomForLabels = MathUtils.clamp((pr - 140) / 70, 0, 1);
     publishSceneFrame({ nodes: this.frameNodes, labelOpacity: b.labels * b.dim * roomForLabels });
   }
 }

@@ -81,7 +81,7 @@ export const NARRATIVE: NarrativeSection[] = [
     id: "how",
     key: {
       assembly: 1, connection: 1, signals: 0.8, outbound: 0, spread: 0,
-      dim: 1, labels: 0.7, radar: 0.8, links: 0.8,
+      dim: 1, labels: 0.35, radar: 0.8, links: 0.8,
       orbit: 2.75, elevation: 0.3, zoom: 1, anchor: "how",
     },
   },
@@ -89,7 +89,7 @@ export const NARRATIVE: NarrativeSection[] = [
     id: "services",
     key: {
       assembly: 1, connection: 1, signals: 0.7, outbound: 0.5, spread: 0,
-      dim: 0.75, labels: 0.5, radar: 0.5, links: 0.6,
+      dim: 0.75, labels: 0.3, radar: 0.5, links: 0.6,
       orbit: 3.35, elevation: 0.2, zoom: 1.15, anchor: "services",
     },
   },

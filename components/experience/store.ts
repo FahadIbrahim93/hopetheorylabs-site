@@ -61,12 +61,16 @@ const discreteEmitter = new Emitter();
 const discrete = {
   mode: "pending" as ExperienceMode,
   focusNode: -1, // transient hover/focus
+  focusSource: "scene" as FocusSource, // where the current focus came from
   selectedNode: -1, // sticky click/tap selection
   step: 0, // "How it works" active step
   serviceFocus: -1, // hovered/focused service row
   tier: "mid" as QualityTier,
   reducedMotion: false,
 };
+
+/** "legend" = the accessible legend already shows the detail text; "scene" = pointer on the 3D node/label. */
+export type FocusSource = "scene" | "legend";
 
 export type DiscreteState = typeof discrete;
 
@@ -85,7 +89,10 @@ function setDiscrete<K extends keyof DiscreteState>(key: K, value: DiscreteState
 
 export const experienceActions = {
   setMode: (mode: ExperienceMode) => setDiscrete("mode", mode),
-  setFocusNode: (index: number) => setDiscrete("focusNode", index),
+  setFocusNode: (index: number, source: FocusSource = "scene") => {
+    if (index >= 0) setDiscrete("focusSource", source);
+    setDiscrete("focusNode", index);
+  },
   setSelectedNode: (index: number) => setDiscrete("selectedNode", index),
   setStep: (step: number) => setDiscrete("step", step),
   setServiceFocus: (index: number) => setDiscrete("serviceFocus", index),

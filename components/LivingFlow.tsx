@@ -35,9 +35,9 @@ export function LivingFlow() {
                 type="button"
                 className={`legend-item${active === i ? " is-active" : ""}`}
                 aria-pressed={selected === i}
-                onPointerEnter={(event) => { if (event.pointerType !== "touch") experienceActions.setFocusNode(i); }}
+                onPointerEnter={(event) => { if (event.pointerType !== "touch") experienceActions.setFocusNode(i, "legend"); }}
                 onPointerLeave={(event) => { if (event.pointerType !== "touch" && getDiscrete().focusNode === i) experienceActions.setFocusNode(-1); }}
-                onFocus={() => experienceActions.setFocusNode(i)}
+                onFocus={() => experienceActions.setFocusNode(i, "legend")}
                 onBlur={() => { if (getDiscrete().focusNode === i) experienceActions.setFocusNode(-1); }}
                 onClick={() => experienceActions.setSelectedNode(selected === i ? -1 : i)}
               >

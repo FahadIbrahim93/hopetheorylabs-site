@@ -385,7 +385,7 @@ html.js .reveal.reveal-in { opacity:1; transform:none; }
 .node-label { position:absolute; left:0; top:0; padding:4px 8px; border:0; background:none; color:rgb(238 240 242 / 82%); font:400 10px var(--font-jetbrains-mono),monospace; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; cursor:pointer; pointer-events:auto; transform-origin:50% 0; will-change:transform,opacity; transition:color .35s var(--ease-signature); }
 .node-label-name { display:block; }
 .node-label-name::before { content:""; display:block; width:1px; height:9px; margin:0 auto 4px; background:rgb(127 214 194 / 55%); }
-.node-label[data-state="focus"], .node-label[data-state="selected"] { color:var(--color-teal); }
+.node-label[data-state="focus"], .node-label[data-state="focus-quiet"], .node-label[data-state="selected"] { color:var(--color-teal); }
 .node-label-tip { display:none; position:absolute; top:100%; left:50%; width:max-content; max-width:230px; margin-top:4px; padding:9px 11px; border:1px solid #2a323d; border-radius:6px; background:rgb(11 15 20 / 94%); color:#c1c7cf; font:400 12px var(--font-instrument-sans),sans-serif; letter-spacing:0; line-height:1.45; text-align:left; text-transform:none; white-space:normal; transform:translateX(-50%); }
 .node-label[data-state="focus"] .node-label-tip, .node-label[data-state="selected"] .node-label-tip { display:block; }
 .node-label[data-side="left"] .node-label-tip { left:auto; right:0; transform:none; }

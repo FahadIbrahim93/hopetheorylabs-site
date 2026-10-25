@@ -9,7 +9,7 @@ import { QuadraticBezierCurve3, Vector3 } from "three";
 
 export const NODE_COUNT = 8;
 export const CORE_RADIUS = 1;
-export const RING_RADIUS = 2.35;
+export const RING_RADIUS = 2.1;
 export const EDGE_SAMPLES = 36;
 
 export function mulberry32(seed: number) {
@@ -165,7 +165,7 @@ const X_AXIS = new Vector3(1, 0, 0);
 export function nodeScatteredPosition(i: number, out: Vector3) {
   const rand = mulberry32(900 + i * 17);
   const angle = (i / NODE_COUNT) * Math.PI * 2 - Math.PI / 2 + (rand() - 0.5) * 0.9;
-  const r = 2.5 + rand() * 0.7;
+  const r = 2.25 + rand() * 0.65;
   out.set(Math.cos(angle) * r, (rand() - 0.5) * 1.7, Math.sin(angle) * r * 0.7 + (rand() - 0.5) * 2.2);
   return out;
 }

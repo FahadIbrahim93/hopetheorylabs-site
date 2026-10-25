@@ -23,15 +23,30 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
+const siteUrl = "https://hopetheorylabs.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Hope Theory Labs — AI transformation and websites for businesses",
   description:
     "Hope Theory Labs builds fast websites and AI integrations, and turns your data into one living intelligence. Based in Dhaka, Bangladesh.",
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Hope Theory Labs",
     description: "Websites, AI integrations and AI transformation. Every source, one mind.",
     type: "website",
+    url: "/",
+    siteName: "Hope Theory Labs",
+    locale: "en_US",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Hope Theory Labs — Your data. Connected. Your business. Smarter." }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hope Theory Labs",
+    description: "Websites, AI integrations and AI transformation. Every source, one mind.",
+    images: ["/og.png"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
@@ -43,6 +58,8 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   name: "Hope Theory Labs",
+  url: siteUrl,
+  image: `${siteUrl}/og.png`,
   email: "hopetheorybd@gmail.com",
   telephone: "+8801718463471",
   areaServed: "Bangladesh",

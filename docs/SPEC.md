@@ -110,7 +110,7 @@ The site must not look AI-generated. Feel references: [linear.app](https://linea
 ### Motion
 
 - Few, purposeful animations. Easing cubic-bezier(0.16, 1, 0.3, 1), durations 400–700ms.
-- ONE signature interaction: the cursor-reactive teal grid in the hero.
+- ONE signature interaction: the custom intelligence core’s slow radar/orbit motion and subtle pointer response.
 
 ### Details
 
@@ -132,7 +132,7 @@ The site must not look AI-generated. Feel references: [linear.app](https://linea
 - Sub: Mobile-first sites with WhatsApp ordering built in. We'll build a free concept of yours first.
 - Primary button: **Message us on WhatsApp** → [https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20a%20free%20website%20concept](https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20a%20free%20website%20concept).
 - Secondary link: See pricing (#pricing).
-- Visual: phone mockup with the WhatsApp ordering loop.
+- Visual: custom inline-SVG intelligence core with wireframe geometry, radar sweep and eight connected source nodes.
 
 ### 2. How it works (#how)
 
@@ -223,7 +223,7 @@ HARD RULES
 ANTI-AI-LOOK RULES (the site must NOT look AI-generated; feel like linear.app, vercel.com, stripe.com, rauno.me)
 - BANNED: purple/blue gradients, glassmorphism, stock 3D blobs, emoji, generic 3-feature icon grids, identical rounded cards in rows, centered-everything layouts, default shadcn/Tailwind look, buzzword copy like "Unlock the power of AI".
 - DO: editorial asymmetric 12-column grid with generous whitespace; huge tight-tracked Space Grotesk headings (letter-spacing -0.03em); Inter body; small uppercase JetBrains Mono labels like "01 / HOW IT WORKS" above each section; palette only ink, paper #F8FAFC and teal as one sparing accent; 1px hairline rules between sections instead of boxes and shadows; 8px spacing scale; crisp 2px teal focus rings.
-- MOTION: few, purposeful; easing cubic-bezier(0.16,1,0.3,1), 400-700ms. ONE signature interaction: the cursor-reactive teal grid in the hero. Magnetic CTA and card tilt are optional and very subtle, or left out.
+- MOTION: few, purposeful; easing cubic-bezier(0.16,1,0.3,1), 400-700ms. ONE signature interaction: the custom intelligence core’s slow radar/orbit motion and subtle pointer response. Magnetic CTA and card tilt are optional and very subtle, or left out.
 - REAL SHOTS: Rollers Republic concept screenshots (put files in public/work/, ask me for them if missing; do not fake them) inside simple device frames, labelled "Concept".
 
 STACK
@@ -243,7 +243,7 @@ STEP 1 - Setup
 STEP 2 - Layout and static sections (no animation yet)
 Build these components in components/, render them in app/page.tsx in this order, using semantic HTML (header, nav, main, section with ids, footer) and a skip link:
 1. Header: lowercase wordmark "hope theory labs" with a teal dot; links "How it works" (#how), "Work" (#work), "Pricing" (#pricing), "Contact" (#contact); a LanguageToggle (EN / বাংলা); button "WhatsApp". Mobile menu.
-2. Hero: H1 "Fast websites for Bangladeshi businesses." Sub "Mobile-first sites with WhatsApp ordering built in. We'll build a free concept of yours first." Primary button "Message us on WhatsApp" -> https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20a%20free%20website%20concept . Secondary link "See pricing" -> #pricing. Right side: PhoneMockup placeholder box with fixed size.
+2. Hero: H1 "Fast websites for Bangladeshi businesses." Sub "Mobile-first sites with WhatsApp ordering built in. We'll build a free concept of yours first." Primary button "Message us on WhatsApp" -> https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20a%20free%20website%20concept . Secondary link "See pricing" -> #pricing. Right side: responsive IntelligenceCore SVG with reserved aspect ratio.
 3. HowItWorksTimeline (#how): "1. We build a free working concept with your products." "2. You try it on your phone." "3. If you like it, we set it up on your domain."
 4. FeatureGrid "What you get": Fast on mobile / Orders straight to your WhatsApp / Cash on delivery / Easy to update. Use simple examples of shops, cafés, clinics in small illustrations or labels.
 5. SpeedSlider placeholder with the label "Illustrative only".
@@ -296,7 +296,7 @@ STEP 9 - Final QA checklist (all must pass before handoff; report each as pass/f
 - [ ] Rollers Republic labelled "Concept"; speed slider labelled "Illustrative only" with no numbers.
 - [ ] No purple/blue gradients, glassmorphism, emoji, 3D blobs, generic icon grids, identical card rows, centered-everything sections.
 - [ ] Asymmetric grid, mono section labels, hairline rules, teal used sparingly.
-- [ ] Only one signature interaction (hero grid); all easing cubic-bezier(0.16,1,0.3,1) at 400-700ms.
+- [ ] Only one signature interaction (intelligence core); all easing cubic-bezier(0.16,1,0.3,1) at 400-700ms.
 - [ ] prefers-reduced-motion: no motion; page fully readable with JS disabled.
 - [ ] Keyboard: skip link, visible focus on every control, timeline and slider operable.
 - [ ] WCAG AA contrast; #0F766E for links on light backgrounds.

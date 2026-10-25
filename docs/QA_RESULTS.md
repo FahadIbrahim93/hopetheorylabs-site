@@ -18,10 +18,10 @@ This checklist records source review separately from automated and browser QA. D
 
 ## Automated checks — pending current branch
 
-- [ ] `npm run lint`
-- [ ] `npm run typecheck`
-- [ ] `npm run build`
-- [ ] Confirm the Vercel preview succeeds.
+- [x] `npm run lint` — passed in GitHub Actions run #49.
+- [x] `npm run typecheck` — passed in GitHub Actions run #49.
+- [x] `npm run build` — passed in GitHub Actions run #49.
+- [x] Vercel preview check reported success for the current code commit before this QA-note-only update. Recheck after the note commit.
 
 ## Browser / release gates — not yet verified
 

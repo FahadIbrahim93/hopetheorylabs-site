@@ -29,7 +29,6 @@ interface Particle {
 
 const COUNT_MOBILE = 60;
 const COUNT_DESKTOP = 140;
-const POINTER_RADIUS = 110; // interaction distance, px
 const MIN_OPACITY = 0.15;
 const MAX_OPACITY = 0.4;
 const DRIFT = 3.5; // max drift speed, px/s

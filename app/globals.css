@@ -189,11 +189,13 @@ summary {
   transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .core-orbit {
-  transform-origin: 320px 292px;
+  transform-box: view-box;
+  transform-origin: 50% 49.5%;
   animation: core-orbit-drift 36s linear infinite;
 }
 .core-radar {
-  transform-origin: 320px 292px;
+  transform-box: view-box;
+  transform-origin: 50% 49.5%;
   animation: core-radar-sweep 8s linear infinite;
 }
 .core-signal {

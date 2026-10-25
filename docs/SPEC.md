@@ -30,7 +30,8 @@ Fahad's brief: very cool, uniquely aesthetic interactive visuals, yet elegant, p
 ### Hero
 
 - Big Space Grotesk headline with a staggered word-by-word reveal.
-- A live mini phone mockup that loops the WhatsApp ordering flow: browse product → add to cart → "Order on WhatsApp" → prefilled WhatsApp message appears. Built with HTML/CSS + Framer Motion (no video). Uses generic sample products, not a real client.
+- The supplied Hope Theory Labs intelligence-core visual: a custom wireframe sphere, radar sweep, orbit rings, signal routes and eight connected source nodes (Websites, CRM, Databases, Files, Apps, APIs, Systems, People). Rebuild it as inline SVG + CSS inside a reusable React component; no 3D library or external asset.
+- Keep the WhatsApp ordering journey clear in the page copy and conversion path. The intelligence core is a brand illustration, not a claim that these integrations are already deployed for clients.
 
 ### Interactions
 
@@ -38,7 +39,7 @@ Fahad's brief: very cool, uniquely aesthetic interactive visuals, yet elegant, p
 - Optional, subtle: magnetic pull on the main CTA (max 4px; off on touch and reduced motion).
 - Micro-interaction on the WhatsApp CTA: the arrow/icon nudges and a small chat bubble draws in on hover/focus.
 - Optional, very subtle: card tilt (max 3°) without glow. Drop it if it looks showy.
-- One signature interaction only: the cursor-reactive teal grid in the hero. Everything else stays quiet.
+- One signature interaction only: the intelligence core's slow radar/orbit motion and subtle pointer response. Keep the existing particle field low-contrast and non-interactive so it supports rather than competes with the core.
 - Interactive 3-step "How it works" timeline: steps highlight on scroll and on click/tap; keyboard accessible.
 - Before/after speed slider comparing a slow page load vs a fast one, clearly labelled "Illustrative only". No numbers or stats.
 
@@ -60,11 +61,11 @@ Fahad's brief: very cool, uniquely aesthetic interactive visuals, yet elegant, p
 
 ### Performance budget
 
-- First-load JS under 120 KB gzipped for the page; particle field under 8 KB, no 3D libraries.
+- First-load JS under 120 KB gzipped for the page; particle field under 8 KB. The intelligence core uses inline SVG and CSS only; no 3D libraries or external runtime.
 - Particle field lazy-loaded with `next/dynamic` (`ssr: false`) after first paint and only when the hero is visible; paused when off-screen or the tab is hidden; capped at \~60 particles on mobile, device-pixel-ratio capped at 2.
 - Framer Motion via `LazyMotion` + `domAnimation` and `m` components.
 - Fonts via `next/font/google` (self-hosted, subset, `display: swap`); only weights used.
-- LCP element is the headline text, not an image. CLS under 0.1 (reserve space for phone mockup). Images as optimised SVG/WebP with fixed sizes.
+- LCP element is the headline text, not a visual asset. CLS under 0.1; reserve the intelligence core's aspect ratio before hydration. Images as optimised SVG/WebP with fixed sizes.
 - Total page weight under 500 KB on first load.
 
 ### Component list
@@ -72,7 +73,7 @@ Fahad's brief: very cool, uniquely aesthetic interactive visuals, yet elegant, p
 - `Header` (wordmark, nav, WhatsApp button, mobile menu)
 - `LanguageToggle` (EN / বাংলা)
 - `LabsBackground` (canvas particle/grid field + static fallback)
-- `Hero` with `WordReveal` and `PhoneMockup` (WhatsApp order flow loop)
+- `Hero` with `WordReveal` and `IntelligenceCore` (wireframe/radar visual)
 - `MagneticButton` (CTA wrapper)
 - `HowItWorksTimeline` (3 interactive steps)
 - `FeatureGrid` + `TiltCard` (What you get)

@@ -34,7 +34,7 @@ export function IntelligenceCore() {
     element.style.setProperty("--core-tilt-y", `${x * 6}deg`);
   }
 
-  function resetPointer(event: React.PointerEvent<HTMLDivElement>) {
+  function resetPointer(event: PointerEvent<HTMLDivElement>) {
     event.currentTarget.style.setProperty("--core-tilt-x", "0deg");
     event.currentTarget.style.setProperty("--core-tilt-y", "0deg");
   }

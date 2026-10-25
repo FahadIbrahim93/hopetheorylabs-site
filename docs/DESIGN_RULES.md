@@ -6,7 +6,7 @@ Feel references: linear.app, vercel.com, stripe.com, rauno.me. Calm, elegant, en
 
 - Purple/blue gradients.
 - Glassmorphism (anywhere as a style).
-- Stock 3D blobs; any 3D library.
+- Stock 3D blobs or external 3D libraries. A bespoke inline-SVG wireframe intelligence core is allowed because it is the supplied brand visual.
 - Emoji in the UI.
 - Generic 3-feature icon grids; identical rounded cards in rows.
 - Centered-everything layouts.
@@ -27,7 +27,7 @@ Feel references: linear.app, vercel.com, stripe.com, rauno.me. Calm, elegant, en
 ## Motion
 
 - Few, purposeful animations. Easing `cubic-bezier(0.16, 1, 0.3, 1)` (`[0.16, 1, 0.3, 1]`), durations 400–700ms.
-- ONE signature interaction: the cursor-reactive teal grid in the hero. Everything else stays quiet.
+- ONE signature interaction: the custom intelligence core's slow radar/orbit motion and subtle pointer response. The particle field remains low-contrast and non-interactive.
 - Magnetic CTA (max 4px) and card tilt (max 3°, no glow) are optional, desktop-only; drop them if they look showy.
 - Scroll reveals: fade + 12px rise, once per element.
 - Framer Motion only via `LazyMotion` + `domAnimation` + `m` components.

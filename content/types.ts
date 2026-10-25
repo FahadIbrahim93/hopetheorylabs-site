@@ -8,12 +8,13 @@ export interface SiteContent {
   hero: {
     eyebrow: string; heading: string; subheading: string; primaryCta: string;
     whatsappLink: string; secondaryCta: string; secondaryHref: string;
-    coreDescription: string; coreNodes: string[]; coreCaption: string;
+    coreDescription: string; coreNodes: string[]; coreNodeDetails: string[]; coreCaption: string;
   };
   story: {
     methodEyebrow: string; methodHeading: string; methodText: string;
     shiftEyebrow: string; shiftHeading: string; shiftText: string; shiftCta: string;
-    flowEyebrow: string; flowHeading: string; flowItems: { title: string; text: string }[];
+    flowEyebrow: string; flowHeading: string; flowText: string; flowHint: string;
+    flowItems: { title: string; text: string }[];
   };
   howItWorks: { eyebrow: string; heading: string; steps: { label: string; description: string }[] };
   services: {

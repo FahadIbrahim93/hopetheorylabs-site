@@ -2,58 +2,67 @@
 
 import { useEffect, useRef } from "react";
 
+import { NODE_COLORS, nodeSide } from "./nodes";
 import { useContent } from "../LanguageProvider";
-import { activeNode, experienceActions, getDiscrete, onSceneFrame } from "./store";
+import { experienceActions, getDiscrete, onSceneFrame } from "./store";
 
 /*
-  HTML labels that ride on the projected 3D source nodes. Real text (crisp,
-  zoomable, translatable) rather than textures, updated by direct DOM writes
-  from the scene's frame bridge, so no React render happens per frame. They
-  are pointer targets for mouse and touch; keyboard users get the same
-  selection through the accessible legend in the living-platform section, so
-  this overlay is hidden from assistive technology.
+  Flow-section node labels (.flow-node), monogram and caption — ported from
+  the supplied concept page. Updated via the scene frame bridge (no per-frame
+  React renders).
 */
 
 export function NodeLabels() {
   const content = useContent();
   const rootRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const monoRef = useRef<HTMLDivElement>(null);
+  const capRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    let shown = true;
-    return onSceneFrame(({ nodes, labelOpacity }) => {
-      const visible = labelOpacity > 0.04;
-      if (visible !== shown) {
-        shown = visible;
-        root.style.visibility = visible ? "visible" : "hidden";
+    return onSceneFrame(({ nodes, labelOpacity, flowActive: active, monogram, caption }) => {
+      root.style.visibility = labelOpacity > 0.02 || active ? "visible" : "hidden";
+      root.removeAttribute("aria-hidden");
+      if (!active) root.setAttribute("aria-hidden", "true");
+
+      const mono = monoRef.current;
+      if (mono) {
+        mono.style.opacity = monogram.opacity.toFixed(3);
+        mono.style.transform = `translate(${monogram.x.toFixed(1)}px, ${monogram.y.toFixed(1)}px) translate(-50%, -50%)`;
       }
-      if (!visible) return;
-      const focused = activeNode();
-      const { selectedNode: selected, focusSource } = getDiscrete();
+
+      const cap = capRef.current;
+      if (cap) {
+        const show = caption >= 0 && active;
+        cap.style.opacity = show ? "1" : "0";
+        if (show) {
+          cap.textContent = content.hero.coreNodeDetails[caption] ?? "";
+          cap.style.transform = `translate(${monogram.x.toFixed(1)}px, ${(monogram.y + window.innerHeight * 0.2).toFixed(1)}px) translate(-50%, 0)`;
+        }
+      }
+
+      const focused = getDiscrete().focusNode;
       for (let i = 0; i < nodes.length; i++) {
         const el = itemRefs.current[i];
         const node = nodes[i];
         if (!el) continue;
-        const scale = 0.82 + node.depth * 0.3;
-        el.style.transform = `translate3d(${node.x.toFixed(1)}px, ${(node.y + 16 + node.labelShift).toFixed(1)}px, 0) translate(-50%, 0) scale(${scale.toFixed(3)})`;
-        const occlusion = node.behindCore ? 0.25 : 1;
-        const alpha = node.visible ? labelOpacity * (0.3 + 0.7 * node.depth) * occlusion : 0;
-        el.style.opacity = (focused === i ? Math.max(alpha, labelOpacity) : alpha).toFixed(3);
-        el.style.pointerEvents = alpha > 0.15 ? "auto" : "none";
-        // The tooltip only appears for scene-originated focus; legend focus
-        // already shows the same detail text next to the legend.
-        const state = focused === i ? (focusSource === "legend" ? "focus-quiet" : "focus") : selected === i ? "selected" : "";
-        if (el.dataset.state !== state) el.dataset.state = state;
-        const side = node.x > window.innerWidth * 0.6 ? "left" : node.x < window.innerWidth * 0.4 ? "right" : "center";
-        if (el.dataset.side !== side) el.dataset.side = side;
+        const side = nodeSide(i);
+        const offset = side < 0 ? "calc(-100% + 25px)" : "-25px";
+        el.style.transform = `translate(${node.x.toFixed(1)}px, ${node.y.toFixed(1)}px) translate(${offset}, -50%)`;
+        el.style.opacity = (node.visible ? labelOpacity : 0).toFixed(3);
+        const interactive = active && labelOpacity > 0.5;
+        el.tabIndex = interactive ? 0 : -1;
+        el.style.pointerEvents = interactive ? "auto" : "none";
+        el.classList.toggle("is-on", focused === i);
+        if (!interactive && focused === i) experienceActions.setFocusNode(-1);
       }
     });
-  }, []);
+  }, [content.hero.coreNodeDetails]);
 
   return (
-    <div ref={rootRef} className="node-labels" aria-hidden="true">
+    <div ref={rootRef} className="flow-label-layer" aria-hidden="true">
       {content.hero.coreNodes.map((name, i) => (
         <button
           key={name}
@@ -61,25 +70,35 @@ export function NodeLabels() {
             itemRefs.current[i] = el;
           }}
           type="button"
-          tabIndex={-1}
-          className="node-label"
-          onPointerEnter={(event) => {
-            if (event.pointerType === "touch") return;
-            experienceActions.setFocusNode(i);
+          className={`flow-node${nodeSide(i) < 0 ? " flow-node-left" : " flow-node-right"}`}
+          style={{ "--node-color": NODE_COLORS[i] } as React.CSSProperties}
+          onPointerEnter={() => experienceActions.setFocusNode(i)}
+          onPointerLeave={(e) => {
+            if (e.pointerType === "mouse" && getDiscrete().focusNode === i) experienceActions.setFocusNode(-1);
           }}
-          onPointerLeave={(event) => {
-            if (event.pointerType === "touch") return;
+          onFocus={() => experienceActions.setFocusNode(i)}
+          onBlur={() => {
             if (getDiscrete().focusNode === i) experienceActions.setFocusNode(-1);
           }}
-          onClick={() => {
-            const next = getDiscrete().selectedNode === i ? -1 : i;
-            experienceActions.setSelectedNode(next);
-          }}
+          onClick={() => experienceActions.setFocusNode(i)}
         >
-          <span className="node-label-name">{name}</span>
-          <span className="node-label-tip">{content.hero.coreNodeDetails[i]}</span>
+          {nodeSide(i) < 0 ? (
+            <>
+              {name}
+              <i aria-hidden="true" />
+            </>
+          ) : (
+            <>
+              <i aria-hidden="true" />
+              {name}
+            </>
+          )}
         </button>
       ))}
+      <div ref={monoRef} className="flow-monogram" aria-hidden="true">
+        H
+      </div>
+      <p ref={capRef} className="flow-caption" aria-live="polite" />
     </div>
   );
 }

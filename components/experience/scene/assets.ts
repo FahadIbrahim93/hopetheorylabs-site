@@ -2,262 +2,248 @@ import {
   AdditiveBlending,
   BufferAttribute,
   BufferGeometry,
+  CanvasTexture,
   Color,
-  DynamicDrawUsage,
-  EllipseCurve,
   Float32BufferAttribute,
-  IcosahedronGeometry,
+  Group,
+  Line,
   LineBasicMaterial,
-  LineDashedMaterial,
-  MeshBasicMaterial,
-  MeshStandardMaterial,
-  PlaneGeometry,
+  Points,
+  PointsMaterial,
+  QuadraticBezierCurve3,
   ShaderMaterial,
   SphereGeometry,
-  DoubleSide,
   Vector3,
-  WireframeGeometry,
 } from "three";
 
 import type { QualityProfile } from "../quality";
-import { buildLinks, buildParticles, EDGE_SAMPLES, NODE_COUNT } from "./layout";
+import { NODE_COLORS, NODE_COUNT, NODE_X, NODE_Y, nodeSide } from "../nodes";
 import {
-  COLORS,
-  edgeFragment,
-  edgeVertex,
-  linkFragment,
-  linkVertex,
-  packetFragment,
-  packetVertex,
-  particleFragment,
-  particleVertex,
-  radarFragment,
-  radarVertex,
-} from "./shaders";
+  buildParticles,
+  buildStars,
+  FLOW_CURVE_POINTS,
+  FLOW_DOTS_PER_EDGE,
+  RING_DOTS,
+  RING_RADII,
+  RING_SEGMENTS,
+  STAR_COUNT,
+} from "./layout";
+import { coreFragment, coreVertex, particleFragment, particleVertex } from "./shaders";
 
 /*
-  All GPU resources for the scene, created once per mount at the high-water
-  quality mark. Quality changes shrink draw ranges and pixel ratio; nothing is
-  reallocated at runtime. `dispose()` releases everything.
+  GPU resources for the HTML-port scene. Buffers are allocated at the
+  high-water particle count; quality tiers only shrink draw ranges.
 */
 
-const gold = new Color(...COLORS.gold);
-const amber = new Color(...COLORS.amber);
-const teal = new Color(...COLORS.teal);
+export function createGlowTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("2d context unavailable");
+  const gr = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gr.addColorStop(0, "rgba(255,255,255,1)");
+  gr.addColorStop(0.35, "rgba(255,255,255,.5)");
+  gr.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = gr;
+  ctx.fillRect(0, 0, 64, 64);
+  return new CanvasTexture(canvas);
+}
 
-export function createSceneAssets(profile: QualityProfile) {
-  /* particles */
+export interface FlowEdge {
+  curve: QuadraticBezierCurve3;
+  line: Line;
+  nodeIndex: number;
+}
+
+export interface RingHandle {
+  group: Group;
+  line: Line;
+  dots: Points;
+  speed: number;
+}
+
+export function createSceneAssets(profile: QualityProfile, glowTexture: CanvasTexture) {
   const particles = buildParticles(profile.particles);
   const particleGeometry = new BufferGeometry();
-  particleGeometry.setAttribute("position", new BufferAttribute(particles.target, 3));
-  particleGeometry.setAttribute("aScattered", new BufferAttribute(particles.scattered, 3));
-  particleGeometry.setAttribute("aSeed", new BufferAttribute(particles.seed, 1));
-  particleGeometry.setAttribute("aTone", new BufferAttribute(particles.tone, 1));
-  particleGeometry.setAttribute("aSize", new BufferAttribute(particles.size, 1));
-  particleGeometry.setAttribute("aKind", new BufferAttribute(particles.kind, 1));
-  particleGeometry.computeBoundingSphere();
+  particleGeometry.setAttribute("position", new BufferAttribute(particles.scattered, 3));
+  particleGeometry.setAttribute("aB", new BufferAttribute(particles.globe, 3));
+  particleGeometry.setAttribute("aC", new BufferAttribute(particles.galaxy, 3));
+  particleGeometry.setAttribute("aR", new BufferAttribute(particles.seed, 1));
+  particleGeometry.setDrawRange(0, profile.particles);
+
   const particleMaterial = new ShaderMaterial({
     vertexShader: particleVertex,
     fragmentShader: particleFragment,
     uniforms: {
-      uTime: { value: 0 },
-      uAssembly: { value: 0 },
-      uPixelScale: { value: 1000 },
-      uMotion: { value: 1 },
-      uPointer: { value: new Vector3() },
-      uPointerStrength: { value: 0 },
-      uCamDist: { value: 8 },
-      uGold: { value: gold },
-      uTeal: { value: teal },
-      uDim: { value: 1 },
+      uP: { value: 0 },
+      uT: { value: 0 },
+      uD: { value: 1 },
+      uK: { value: -99 },
+      uC: { value: new Vector3() },
+      uPR: { value: 1 },
+      uM: { value: new Vector3(99, 99, 99) },
     },
     transparent: true,
     depthWrite: false,
     blending: AdditiveBlending,
   });
 
-  /* neighbour links */
-  const links = buildLinks(particles, profile.links);
-  const linkGeometry = new BufferGeometry();
-  linkGeometry.setAttribute("position", new BufferAttribute(links.target, 3));
-  linkGeometry.setAttribute("aScattered", new BufferAttribute(links.scattered, 3));
-  linkGeometry.setAttribute("aSeed", new BufferAttribute(links.seed, 1));
-  const linkMaterial = new ShaderMaterial({
-    vertexShader: linkVertex,
-    fragmentShader: linkFragment,
-    uniforms: {
-      uTime: { value: 0 },
-      uAssembly: { value: 0 },
-      uMotion: { value: 1 },
-      uColor: { value: gold },
-      uStrength: { value: 1 },
-      uDim: { value: 1 },
-      uCamDist: { value: 8 },
-    },
+  const coreGeometry = new SphereGeometry(1, 48, 48);
+  const coreMaterial = new ShaderMaterial({
+    vertexShader: coreVertex,
+    fragmentShader: coreFragment,
+    uniforms: { uI: { value: 0.3 }, uS: { value: 0 } },
     transparent: true,
     depthWrite: false,
     blending: AdditiveBlending,
   });
 
-  /* wireframe shell + centre */
-  const shellGeometry = new WireframeGeometry(new IcosahedronGeometry(1.0, 2));
-  const shellMaterial = new LineBasicMaterial({
-    color: gold,
-    transparent: true,
-    opacity: 0.1,
-    depthWrite: false,
-    blending: AdditiveBlending,
-  });
-  const centreGeometry = new SphereGeometry(0.11, 24, 18);
-  const centreMaterial = new MeshBasicMaterial({ color: gold, transparent: true, opacity: 1 });
-
-  /* orbit rings */
-  const ringCurve = new EllipseCurve(0, 0, 1, 1, 0, Math.PI * 2, false, 0);
-  const ringPoints = ringCurve.getPoints(96);
-  const ringGeometry = new BufferGeometry().setFromPoints(ringPoints);
-  const ringMaterial = new LineBasicMaterial({
-    color: gold,
-    transparent: true,
-    opacity: 0.22,
-    depthWrite: false,
-    blending: AdditiveBlending,
-  });
-  const dashedRingGeometry = new BufferGeometry().setFromPoints(ringPoints);
-  const dashedRingMaterial = new LineDashedMaterial({
-    color: teal,
-    transparent: true,
-    opacity: 0.35,
-    dashSize: 0.06,
-    gapSize: 0.16,
-    depthWrite: false,
-    blending: AdditiveBlending,
-  });
-
-  /* radar sweep */
-  const radarGeometry = new PlaneGeometry(2, 2, 1, 1);
-  const radarMaterial = new ShaderMaterial({
-    vertexShader: radarVertex,
-    fragmentShader: radarFragment,
-    uniforms: {
-      uSweep: { value: 0 },
-      uStrength: { value: 1 },
-      uDim: { value: 1 },
-      uCamDist: { value: 8 },
-      uGold: { value: gold },
-      uTeal: { value: teal },
-    },
-    transparent: true,
-    depthWrite: false,
-    side: DoubleSide,
-    blending: AdditiveBlending,
-  });
-
-  /* source nodes */
-  const nodeGeometry = new SphereGeometry(0.075, 24, 18);
-  const nodeMaterials = Array.from({ length: NODE_COUNT }, () =>
-    new MeshStandardMaterial({
-      color: new Color(0.11, 0.14, 0.18),
-      emissive: teal.clone(),
-      emissiveIntensity: 0.35,
-      roughness: 0.35,
-      metalness: 0.6,
-      transparent: true,
-    }),
-  );
-  const haloGeometry = new PlaneGeometry(1, 1);
-  const haloMaterials = Array.from({ length: NODE_COUNT }, () => createGlowMaterial(teal));
-
-  /* core aura (billboard) */
-  const auraGeometry = new PlaneGeometry(1, 1);
-  const auraMaterial = createGlowMaterial(amber);
-
-  /* edges */
-  const edgeVertexCount = NODE_COUNT * EDGE_SAMPLES * 2;
-  const edgePositions = new Float32Array(edgeVertexCount * 3);
-  const edgeT = new Float32Array(edgeVertexCount);
-  const edgeIndex = new Float32Array(edgeVertexCount);
-  for (let e = 0; e < NODE_COUNT; e++) {
-    for (let s = 0; s < EDGE_SAMPLES; s++) {
-      const v = (e * EDGE_SAMPLES + s) * 2;
-      edgeT[v] = s / EDGE_SAMPLES;
-      edgeT[v + 1] = (s + 1) / EDGE_SAMPLES;
-      edgeIndex[v] = e;
-      edgeIndex[v + 1] = e;
+  const rings: RingHandle[] = RING_RADII.map((r, n) => {
+    const group = new Group();
+    const pts: Vector3[] = [];
+    for (let j = 0; j <= RING_SEGMENTS; j++) {
+      const a = (j / RING_SEGMENTS) * Math.PI * 2;
+      pts.push(new Vector3(Math.cos(a) * r, 0, Math.sin(a) * r));
     }
+    const line = new Line(
+      new BufferGeometry().setFromPoints(pts),
+      new LineBasicMaterial({ color: 0x6c8dc4, transparent: true, opacity: 0 }),
+    );
+    group.add(line);
+
+    const dotPositions: number[] = [];
+    for (let j = 0; j < RING_DOTS; j++) {
+      const b = (j / RING_DOTS) * Math.PI * 2 + n;
+      dotPositions.push(Math.cos(b) * r, 0, Math.sin(b) * r);
+    }
+    const dots = new Points(
+      new BufferGeometry().setAttribute("position", new Float32BufferAttribute(dotPositions, 3)),
+      new PointsMaterial({
+        color: 0xcfe0ff,
+        size: 0.28,
+        map: glowTexture,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        blending: AdditiveBlending,
+      }),
+    );
+    group.add(dots);
+    return { group, line, dots, speed: (0.35 / (r * 0.4 + 1)) * (n % 2 ? -1 : 1) };
+  });
+
+  const flowEdges: FlowEdge[] = [];
+  const flowNodePositions: Vector3[] = [];
+  for (let i = 0; i < NODE_COUNT; i++) {
+    const sd = nodeSide(i);
+    const ny = NODE_Y[i % 4];
+    const nv = new Vector3(sd * NODE_X, ny, 0);
+    const curve = new QuadraticBezierCurve3(
+      new Vector3(0, 0, 0),
+      new Vector3(sd * NODE_X * 0.45, ny * 0.5 + (i % 2 ? -1 : 1) * 1.4, 0.8),
+      nv,
+    );
+    const color = new Color(NODE_COLORS[i]);
+    const line = new Line(
+      new BufferGeometry().setFromPoints(curve.getPoints(FLOW_CURVE_POINTS)),
+      new LineBasicMaterial({ color, transparent: true, opacity: 0, blending: AdditiveBlending }),
+    );
+    flowEdges.push({ curve, line, nodeIndex: i });
+    flowNodePositions.push(nv);
   }
-  const edgeGeometry = new BufferGeometry();
-  const edgePositionAttr = new BufferAttribute(edgePositions, 3);
-  edgePositionAttr.setUsage(DynamicDrawUsage);
-  edgeGeometry.setAttribute("position", edgePositionAttr);
-  edgeGeometry.setAttribute("aT", new BufferAttribute(edgeT, 1));
-  edgeGeometry.setAttribute("aEdge", new BufferAttribute(edgeIndex, 1));
-  const edgeMaterial = new ShaderMaterial({
-    vertexShader: edgeVertex,
-    fragmentShader: edgeFragment,
-    uniforms: {
-      uTime: { value: 0 },
-      uConnection: { value: 0 },
-      uMotion: { value: 1 },
-      uOutbound: { value: 0 },
-      uWeights: { value: new Array(NODE_COUNT).fill(0) },
-      uGold: { value: gold },
-      uTeal: { value: teal },
-      uDim: { value: 1 },
-      uFocusActive: { value: 0 },
-      uCamDist: { value: 8 },
-    },
+
+  const flowDotCount = NODE_COUNT * FLOW_DOTS_PER_EDGE;
+  const flowDotPositions = new Float32Array(flowDotCount * 3);
+  const flowDotColors = new Float32Array(flowDotCount * 3);
+  for (let i = 0; i < flowDotCount; i++) {
+    const c = new Color(NODE_COLORS[(i / FLOW_DOTS_PER_EDGE) | 0]);
+    flowDotColors[i * 3] = c.r;
+    flowDotColors[i * 3 + 1] = c.g;
+    flowDotColors[i * 3 + 2] = c.b;
+  }
+  const flowDotGeometry = new BufferGeometry();
+  flowDotGeometry.setAttribute("position", new BufferAttribute(flowDotPositions, 3));
+  flowDotGeometry.setAttribute("color", new BufferAttribute(flowDotColors, 3));
+  const flowDotMaterial = new PointsMaterial({
+    size: 0.24,
+    map: glowTexture,
+    vertexColors: true,
     transparent: true,
+    opacity: 0,
     depthWrite: false,
     blending: AdditiveBlending,
   });
 
-  /* packets */
-  const packetCount = NODE_COUNT * profile.packetsPerEdge;
-  const packetGeometry = new BufferGeometry();
-  const packetPositionAttr = new Float32BufferAttribute(new Float32Array(packetCount * 3), 3);
-  packetPositionAttr.setUsage(DynamicDrawUsage);
-  const packetAlphaAttr = new Float32BufferAttribute(new Float32Array(packetCount), 1);
-  packetAlphaAttr.setUsage(DynamicDrawUsage);
-  const packetTone = new Float32Array(packetCount);
-  for (let i = 0; i < packetCount; i++) packetTone[i] = i % 3 === 0 ? 1 : 0;
-  packetGeometry.setAttribute("position", packetPositionAttr);
-  packetGeometry.setAttribute("aAlpha", packetAlphaAttr);
-  packetGeometry.setAttribute("aTone", new BufferAttribute(packetTone, 1));
-  const packetMaterial = new ShaderMaterial({
-    vertexShader: packetVertex,
-    fragmentShader: packetFragment,
-    uniforms: {
-      uPixelScale: { value: 1000 },
-      uTeal: { value: teal },
-      uGold: { value: gold },
-      uDim: { value: 1 },
-      uCamDist: { value: 8 },
-    },
+  const haloGeometry = new BufferGeometry();
+  haloGeometry.setAttribute("position", new Float32BufferAttribute([0, 0, 0], 3));
+  const haloMaterial = new PointsMaterial({
+    color: 0xff9a3c,
+    size: 5,
+    map: glowTexture,
     transparent: true,
+    opacity: 0,
     depthWrite: false,
     blending: AdditiveBlending,
   });
 
-  const disposables = [
-    particleGeometry, particleMaterial, linkGeometry, linkMaterial,
-    shellGeometry, shellMaterial, centreGeometry, centreMaterial,
-    ringGeometry, ringMaterial, dashedRingGeometry, dashedRingMaterial,
-    radarGeometry, radarMaterial, nodeGeometry, ...nodeMaterials,
-    haloGeometry, ...haloMaterials, auraGeometry, auraMaterial,
-    edgeGeometry, edgeMaterial, packetGeometry, packetMaterial,
+  const starPositions = buildStars();
+  const starGeometry = new BufferGeometry();
+  starGeometry.setAttribute("position", new BufferAttribute(starPositions, 3));
+  const starMaterial = new PointsMaterial({
+    color: 0xb8c7e6,
+    size: 0.35,
+    map: glowTexture,
+    transparent: true,
+    opacity: 0.55,
+    depthWrite: false,
+    blending: AdditiveBlending,
+  });
+
+  const disposables: { dispose(): void }[] = [
+    particleGeometry,
+    particleMaterial,
+    coreGeometry,
+    coreMaterial,
+    flowDotGeometry,
+    flowDotMaterial,
+    haloGeometry,
+    haloMaterial,
+    starGeometry,
+    starMaterial,
   ];
+  const pushMaterial = (material: import("three").Material | import("three").Material[]) => {
+    if (Array.isArray(material)) disposables.push(...material);
+    else disposables.push(material);
+  };
+  for (const r of rings) {
+    disposables.push(r.line.geometry, r.dots.geometry);
+    pushMaterial(r.line.material);
+    pushMaterial(r.dots.material);
+  }
+  for (const e of flowEdges) {
+    disposables.push(e.line.geometry);
+    pushMaterial(e.line.material);
+  }
 
   return {
-    particleGeometry, particleMaterial, particleCount: particles.count,
-    linkGeometry, linkMaterial, linkCount: links.count,
-    shellGeometry, shellMaterial, centreGeometry, centreMaterial,
-    ringGeometry, ringMaterial, dashedRingGeometry, dashedRingMaterial,
-    radarGeometry, radarMaterial,
-    nodeGeometry, nodeMaterials, haloGeometry, haloMaterials,
-    auraGeometry, auraMaterial,
-    edgeGeometry, edgeMaterial, edgePositionAttr,
-    packetGeometry, packetMaterial, packetPositionAttr, packetAlphaAttr, packetCount,
-    packetsPerEdge: profile.packetsPerEdge,
+    particleGeometry,
+    particleMaterial,
+    particleCount: particles.count,
+    coreGeometry,
+    coreMaterial,
+    rings,
+    flowEdges,
+    flowNodePositions,
+    flowDotGeometry,
+    flowDotMaterial,
+    flowDotPositionAttr: flowDotGeometry.getAttribute("position") as BufferAttribute,
+    flowDotCount,
+    haloGeometry,
+    haloMaterial,
+    starGeometry,
+    starMaterial,
+    starCount: STAR_COUNT,
     dispose() {
       for (const item of disposables) item.dispose();
     },
@@ -265,31 +251,3 @@ export function createSceneAssets(profile: QualityProfile) {
 }
 
 export type SceneAssets = ReturnType<typeof createSceneAssets>;
-
-function createGlowMaterial(color: Color) {
-  return new ShaderMaterial({
-    vertexShader: /* glsl */ `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: /* glsl */ `
-      uniform vec3 uColor;
-      uniform float uAlpha;
-      varying vec2 vUv;
-      void main() {
-        float d = length(vUv - 0.5) * 2.0;
-        float a = pow(max(0.0, 1.0 - d), 2.8) * uAlpha;
-        if (a < 0.003) discard;
-        gl_FragColor = vec4(uColor * a, a);
-      }
-    `,
-    uniforms: { uColor: { value: color }, uAlpha: { value: 0.5 } },
-    transparent: true,
-    depthWrite: false,
-    depthTest: false,
-    blending: AdditiveBlending,
-  });
-}

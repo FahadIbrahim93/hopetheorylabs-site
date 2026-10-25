@@ -1,23 +1,11 @@
 /*
-  Shared, render-loop-friendly state for the WebGL experience.
-
-  High-frequency values (scroll progress, pointer, anchor rects) live on a
-  plain mutable object that the scene reads inside its frame loop, so no React
-  re-render happens per frame. Low-frequency discrete state (experience mode,
-  focused node, active step) goes through a tiny pub/sub so React components
-  can subscribe with useSyncExternalStore.
+  Shared state for the WebGL experience. High-frequency values live on a
+  plain mutable object read inside the frame loop; discrete UI state uses a
+  tiny pub/sub for useSyncExternalStore.
 */
 
 export type ExperienceMode = "pending" | "webgl" | "fallback";
 export type QualityTier = "high" | "mid" | "low";
-
-export interface AnchorRect {
-  /** Document-relative top (px). */
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-}
 
 export interface SectionMetrics {
   id: string;
@@ -26,17 +14,25 @@ export interface SectionMetrics {
 }
 
 export interface FrameNode {
-  x: number; // viewport px
-  y: number; // viewport px
-  depth: number; // 0 (far) .. 1 (near)
+  x: number;
+  y: number;
+  depth: number;
   visible: boolean;
-  labelShift: number; // vertical px nudge so neighbouring labels never overlap
-  behindCore: boolean; // node sits behind the core from the camera's point of view
+  labelShift: number;
+  behindCore: boolean;
 }
 
 export interface FrameSnapshot {
   nodes: FrameNode[];
   labelOpacity: number;
+  flowActive: boolean;
+  monogram: { x: number; y: number; opacity: number };
+  caption: number;
+}
+
+export interface HudSnapshot {
+  label: string;
+  barWidth: number;
 }
 
 type Listener = () => void;
@@ -54,23 +50,18 @@ class Emitter {
   }
 }
 
-/* ---------- discrete state ---------- */
-
 const discreteEmitter = new Emitter();
 
 const discrete = {
   mode: "pending" as ExperienceMode,
-  focusNode: -1, // transient hover/focus
-  focusSource: "scene" as FocusSource, // where the current focus came from
-  selectedNode: -1, // sticky click/tap selection
-  step: 0, // "How it works" active step
-  serviceFocus: -1, // hovered/focused service row
+  focusNode: -1,
+  focusSource: "scene" as "scene" | "legend",
+  selectedNode: -1,
+  step: 0,
+  serviceFocus: -1,
   tier: "mid" as QualityTier,
   reducedMotion: false,
 };
-
-/** "legend" = the accessible legend already shows the detail text; "scene" = pointer on the 3D node/label. */
-export type FocusSource = "scene" | "legend";
 
 export type DiscreteState = typeof discrete;
 
@@ -89,7 +80,7 @@ function setDiscrete<K extends keyof DiscreteState>(key: K, value: DiscreteState
 
 export const experienceActions = {
   setMode: (mode: ExperienceMode) => setDiscrete("mode", mode),
-  setFocusNode: (index: number, source: FocusSource = "scene") => {
+  setFocusNode: (index: number, source: "scene" | "legend" = "scene") => {
     if (index >= 0) setDiscrete("focusSource", source);
     setDiscrete("focusNode", index);
   },
@@ -98,31 +89,38 @@ export const experienceActions = {
   setServiceFocus: (index: number) => setDiscrete("serviceFocus", index),
   setTier: (tier: QualityTier) => setDiscrete("tier", tier),
   setReducedMotion: (value: boolean) => setDiscrete("reducedMotion", value),
+  requestBurst: () => {
+    frameState.burstCenter = true;
+    invalidateFrame();
+  },
 };
 
-/** The node the scene should treat as active: sticky selection wins over hover. */
 export function activeNode(): number {
   return discrete.focusNode >= 0 ? discrete.focusNode : discrete.selectedNode;
 }
 
-/* ---------- continuous state ---------- */
-
 export const frameState = {
-  /** Narrative progress: section index + fraction (0 = hero). */
+  /** Damped narrative progress 0..1 (written by scene). */
+  pp: 0,
+  /** Target from scroll (written by tracking). */
+  ppTarget: 0,
   t: 0,
   scrollY: 0,
   vw: 1,
   vh: 1,
+  /** Normalized pointer −0.5..0.5 (HTML mx/my). */
   pointer: { x: 0, y: 0, active: false },
-  anchors: new Map<string, AnchorRect>(),
   sections: [] as SectionMetrics[],
-  /** Monotonic clock for ambient motion; frozen under reduced motion. */
   time: 0,
+  /** Burst at group origin (step button / programmatic). */
+  burstCenter: false,
+  /** Screen position for tap burst (scene raycasts on the next frame). */
+  burstScreen: null as { x: number; y: number } | null,
+  dragDx: 0,
 };
 
-/* ---------- frame bridge (scene -> DOM overlays, single loop) ---------- */
-
 const frameEmitter = new Set<(snapshot: FrameSnapshot) => void>();
+const hudEmitter = new Set<(snapshot: HudSnapshot) => void>();
 
 export function onSceneFrame(fn: (snapshot: FrameSnapshot) => void) {
   frameEmitter.add(fn);
@@ -135,7 +133,16 @@ export function publishSceneFrame(snapshot: FrameSnapshot) {
   for (const fn of frameEmitter) fn(snapshot);
 }
 
-/* ---------- demand rendering hook (reduced motion) ---------- */
+export function onSceneHud(fn: (snapshot: HudSnapshot) => void) {
+  hudEmitter.add(fn);
+  return () => {
+    hudEmitter.delete(fn);
+  };
+}
+
+export function publishSceneHud(snapshot: HudSnapshot) {
+  for (const fn of hudEmitter) fn(snapshot);
+}
 
 let invalidator: (() => void) | null = null;
 
@@ -143,7 +150,6 @@ export function registerInvalidator(fn: (() => void) | null) {
   invalidator = fn;
 }
 
-/** Ask the scene to render one more frame (no-op in continuous mode). */
 export function invalidateFrame() {
   invalidator?.();
 }

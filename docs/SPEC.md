@@ -12,8 +12,8 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
 - Keep all user-facing copy in `content/en.ts` and `content/bn.ts`. Bangla copy remains a TODO for Fahad/Tamim review; the schema must match.
 - Use `next/font/google` for Instrument Sans (body), Newsreader (editorial section headings), JetBrains Mono (eyebrows/HUD), and Hind Siliguri (Bangla).
 - No analytics, cookies, tracking, invented testimonials, fake metrics, or unapproved client claims.
-- The pasted source ends partway through its Three.js shader and the complete shader was never stored in this repository. The 3D scene is a deliberate reconstruction of the described behavior; do not claim the missing shader was recovered or copied verbatim.
-- The intelligence core is a real WebGL scene (Three.js + React Three Fiber, custom GLSL, no other 3D/animation runtimes, no CDN scripts). One persistent canvas sits behind the page; the scene is a pure function of scroll progress and composes itself into a reserved slot (`data-scene-anchor`) in each section. No scroll hijacking or pinned sections.
+- The WebGL scene ports the complete particle-morph, fresnel core, orbit rings, flow constellation, burst, drag-rotate and HUD behaviour from Fahad's supplied standalone HTML (Three.js r128 shaders inlined in that file). It is integrated via npm `three` + React Three Fiber, not a CDN script.
+- One persistent canvas sits behind the page; copy sits in a single column while the scene shifts composition (desktop offset / mobile above). No scroll hijacking or pinned sections.
 - Progressive enhancement is mandatory: the inline-SVG core renders in static HTML and stays as the fallback when WebGL is unavailable, fails to compile, or loses its context. The WebGL chunk loads only after `load`, never blocks first paint, and must dispose GPU resources on unmount.
 - Under `prefers-reduced-motion` the scene renders on demand only (scroll, resize, focus), with no autonomous motion.
 - Quality adapts to the device (particle counts, pixel ratio, packets) and downgrades at runtime when frames run slow. `?experience=fallback|low|mid|high` is a QA-only override.

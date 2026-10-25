@@ -8,6 +8,7 @@ import { Experience } from "./experience/Experience";
 import { FeatureGrid } from "./FeatureGrid";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { HeaderScroll } from "./HeaderScroll";
 import { Hero } from "./Hero";
 import { HowItWorksTimeline } from "./HowItWorksTimeline";
 import { LivingFlow } from "./LivingFlow";
@@ -24,6 +25,7 @@ function Shell() {
   return <div data-lang={lang} className="site-shell">
     <a href="#main" className="skip-link">{content.header.skip}</a>
     <Header />
+    <HeaderScroll />
     <StateHud />
     <Experience />
     <main id="main" tabIndex={-1}>

@@ -1,63 +1,31 @@
 import {
-  Line,
-  MathUtils,
-  QuadraticBezierCurve3,
+  Group,
+  LineBasicMaterial,
+  Mesh,
+  Plane,
+  Points,
+  PointsMaterial,
+  Raycaster,
+  Vector2,
   Vector3,
-  type Mesh,
   type PerspectiveCamera,
 } from "three";
 
-import { blendNarrative, createBlendedState } from "../narrative";
+import { flowMix, hudIndex, HUD_NAMES, sceneDim, smoothstep } from "../narrative";
 import { QUALITY } from "../quality";
 import {
-  activeNode,
-  experienceActions,
   frameState,
   getDiscrete,
   publishSceneFrame,
-  type AnchorRect,
-  type FrameNode,
+  publishSceneHud,
   type QualityTier,
 } from "../store";
-import { createSceneAssets, type SceneAssets } from "./assets";
-import {
-  EDGE_SAMPLES,
-  NODE_COUNT,
-  nodeRingPosition,
-  nodeScatteredPosition,
-  writeEdgeCurve,
-} from "./layout";
+import { NODE_COUNT } from "../nodes";
+import { createGlowTexture, createSceneAssets, type SceneAssets } from "./assets";
+import { FLOW_DOTS_PER_EDGE } from "./layout";
 
-/*
-  The scene rig owns every mutable thing the frame loop touches: GPU assets,
-  scratch vectors, damped values and the object handles. The React component
-  is a thin shell that mounts the objects and calls `update()` once per frame.
-
-  Composition model: the core always sits at the world origin. Each section
-  reserves a slot (data-scene-anchor); the rig shifts the camera's view
-  offset so the origin lands on that slot and fits the camera distance to the
-  slot size. The orbit stays centred, and layout drives composition.
-*/
-
-const FOV = 38;
-const SCENE_RADIUS = 2.3; // ring radius + a small label margin, fitted into the anchor
-const RING_TILT = 0.42;
-const FLOW_SECTION = 3;
-const HOW_SECTION = 4;
-const SERVICES_SECTION = 5;
-const FIXED_TIME = 11.3; // ambient clock under reduced motion
-
-// Service rows -> source node groups (Websites / AI integrations / AI transformation).
-const SERVICE_GROUPS = [
-  [0],
-  [1, 4, 5, 6],
-  [0, 1, 2, 3, 4, 5, 6, 7],
-];
-
-/** A slot hidden by CSS measures as a zero rect; treat it as absent. */
-function laidOut(rect: AnchorRect | undefined) {
-  return rect && rect.width > 0 && rect.height > 0 ? rect : undefined;
-}
+const FOV = 50;
+const FIXED_TIME = 0;
 
 export interface FrameContext {
   camera: PerspectiveCamera;
@@ -66,392 +34,248 @@ export interface FrameContext {
   pixelRatio: number;
   dt: number;
   reduced: boolean;
+  introStart: number;
 }
 
 export class SceneRig {
   readonly assets: SceneAssets;
-  readonly rings: Line[];
-  readonly nodeMeshes: (Mesh | null)[] = [];
-  readonly haloMeshes: (Mesh | null)[] = [];
-  private aura: Mesh | null = null;
-  private radar: Mesh | null = null;
+  readonly coreGroup: Group;
+  readonly flowGroup: Group;
+  readonly stars: Points;
 
-  private blended = createBlendedState();
-  private ringPos = Array.from({ length: NODE_COUNT }, (_, i) => nodeRingPosition(i, new Vector3()));
-  private scatterPos = Array.from({ length: NODE_COUNT }, (_, i) => nodeScatteredPosition(i, new Vector3()));
-  private nodePos = Array.from({ length: NODE_COUNT }, () => new Vector3());
-  private weights = new Float32Array(NODE_COUNT);
-  private curves = Array.from({ length: NODE_COUNT }, () => new QuadraticBezierCurve3());
-  private tmp = new Vector3();
-  private tmp2 = new Vector3();
-  private pointer = { x: 0, y: 0, strength: 0 };
-  private pointerWorld = new Vector3();
-  private frameNodes = Array.from(
-    { length: NODE_COUNT },
-    (): FrameNode => ({ x: 0, y: 0, depth: 0, visible: false, labelShift: 0, behindCore: false }),
-  );
-  private stepMix = [1, 0, 0, 0];
-  private coreBoost = 0;
-  private hoverCandidate = -1;
-  private sceneOwnsFocus = false;
+  private coreMesh: Mesh | null = null;
+  private halo: Points | null = null;
   private elapsed = 0;
+  private pp = 0;
+  private mxs = 0;
+  private mys = 0;
+  private dr = 0;
+  private dv = 0;
+  private gx0 = 0;
+  private gy0 = 0;
+  private fsx = 1;
+  private ray = new Raycaster();
+  private plane = new Plane(new Vector3(0, 0, 1), 0);
+  private ndc = new Vector2();
+  private hit = new Vector3();
+  private tmp = new Vector3();
+  private frameNodes = Array.from({ length: NODE_COUNT }, () => ({
+    x: 0,
+    y: 0,
+    depth: 1,
+    visible: false,
+    labelShift: 0,
+    behindCore: false,
+  }));
+  private glowTexture = createGlowTexture();
+  private monitorFrames = 0;
+  private monitorMs = 0;
+  private monitorDone = false;
   private cameraConfigured = false;
 
   constructor() {
-    this.assets = createSceneAssets(QUALITY.high);
+    this.coreGroup = new Group();
+    this.flowGroup = new Group();
+    this.assets = createSceneAssets(QUALITY.high, this.glowTexture);
     const a = this.assets;
-    this.rings = [
-      new Line(a.ringGeometry, a.ringMaterial),
-      new Line(a.ringGeometry, a.ringMaterial),
-      new Line(a.dashedRingGeometry, a.dashedRingMaterial),
-    ];
-    this.rings[0].scale.setScalar(1.55);
-    this.rings[1].scale.setScalar(1.85);
-    this.rings[2].scale.setScalar(1.28);
-    this.rings[2].computeLineDistances();
+
+    this.coreGroup.add(new Points(a.particleGeometry, a.particleMaterial));
+    this.coreMesh = new Mesh(a.coreGeometry, a.coreMaterial);
+    this.coreGroup.add(this.coreMesh);
+    this.halo = new Points(a.haloGeometry, a.haloMaterial);
+    this.coreGroup.add(this.halo);
+    for (const ring of a.rings) this.coreGroup.add(ring.group);
+
+    for (const edge of a.flowEdges) this.flowGroup.add(edge.line);
+    this.flowGroup.add(new Points(a.flowDotGeometry, a.flowDotMaterial));
+
+    this.stars = new Points(a.starGeometry, a.starMaterial);
   }
 
-  /** Draw ranges follow the active tier; buffers stay allocated at "high". */
   setTier(tier: QualityTier) {
     const profile = QUALITY[tier];
-    const a = this.assets;
-    a.particleGeometry.setDrawRange(0, Math.min(profile.particles, a.particleCount));
-    a.linkGeometry.setDrawRange(0, Math.min(profile.links * 2, a.linkCount));
-    a.packetGeometry.setDrawRange(0, Math.min(NODE_COUNT * profile.packetsPerEdge, a.packetCount));
+    this.assets.particleGeometry.setDrawRange(0, Math.min(profile.particles, this.assets.particleCount));
   }
 
-  setNodeMesh(i: number, mesh: Mesh | null) {
-    this.nodeMeshes[i] = mesh;
+  /** Pointer burst at world point (already in coreGroup local space). */
+  burstAt(local: Vector3) {
+    const u = this.assets.particleMaterial.uniforms;
+    (u.uC.value as Vector3).copy(local);
+    u.uK.value = u.uT.value as number;
   }
 
-  setHaloMesh(i: number, mesh: Mesh | null) {
-    this.haloMeshes[i] = mesh;
-  }
-
-  setAura(mesh: Mesh | null) {
-    this.aura = mesh;
-  }
-
-  setRadar(mesh: Mesh | null) {
-    this.radar = mesh;
+  applyDragDelta(dxPx: number) {
+    this.dv = dxPx * 0.0035;
   }
 
   dispose() {
     this.assets.dispose();
+    this.glowTexture.dispose();
   }
 
-  /*
-    Labels are ~80px wide and ~16px tall, hung 16px under their node. When two
-    hang too close, the one further from the camera drops below the nearer one.
-    Two passes settle the small chains that eight labels can form.
-  */
-  private separateLabels() {
-    const nodes = this.frameNodes;
-    for (let pass = 0; pass < 2; pass++) {
-      for (let i = 0; i < NODE_COUNT; i++) {
-        const a = nodes[i];
-        if (!a.visible) continue;
-        for (let j = i + 1; j < NODE_COUNT; j++) {
-          const b = nodes[j];
-          if (!b.visible) continue;
-          const dx = Math.abs(a.x - b.x);
-          if (dx > 84) continue;
-          const ay = a.y + a.labelShift;
-          const by = b.y + b.labelShift;
-          const dy = by - ay;
-          if (Math.abs(dy) >= 18) continue;
-          const mover = a.depth < b.depth ? a : b;
-          const other = mover === a ? b : a;
-          const overlap = 18 - Math.abs(dy);
-          const direction = mover.y + mover.labelShift >= other.y + other.labelShift ? 1 : -1;
-          mover.labelShift += direction * overlap;
-        }
+  private maybeDowngrade(pixelRatio: number, onDowngrade: () => void) {
+    if (this.monitorDone) return;
+    this.monitorFrames += 1;
+    if (this.monitorFrames === 90) {
+      this.monitorDone = true;
+      const avg = this.monitorMs / 90;
+      if (avg > 32) {
+        const draw = Math.floor(this.assets.particleCount * 0.45);
+        this.assets.particleGeometry.setDrawRange(0, draw);
+        onDowngrade();
       }
     }
   }
 
-  update({ camera, width, height, pixelRatio, dt: rawDt, reduced }: FrameContext) {
-    const dt = Math.min(rawDt, 0.05);
-    const a = this.assets;
-    const discrete = getDiscrete();
-    const motion = reduced ? 0 : 1;
+  update(ctx: FrameContext & { onSlowGpu?: () => void }) {
+    const { camera, width, height, pixelRatio, dt, reduced, introStart } = ctx;
+    const now = performance.now();
 
     if (!this.cameraConfigured) {
       camera.fov = FOV;
-      camera.near = 0.5;
-      camera.far = 60;
+      camera.near = 0.1;
+      camera.far = 100;
       this.cameraConfigured = true;
     }
 
-    if (!reduced) this.elapsed += dt;
+    if (!reduced) this.elapsed += Math.min(dt, 0.05);
     const time = reduced ? FIXED_TIME : this.elapsed;
     frameState.time = time;
 
-    /* 1. narrative blend */
-    const b = blendNarrative(frameState.t, this.blended);
+    const w = width;
+    const h = height;
+    const ar = w / h;
+    this.gx0 = w > 800 ? Math.min(3.4, 1.9 * ar) : 0;
+    this.gy0 = w > 800 ? 0 : 2.4;
+    this.fsx = Math.min(1, 0.85 * ar);
 
-    /* 2. discrete overrides: how-it-works steps and service hover */
-    const howInfluence = 1 - Math.min(1, Math.abs(frameState.t - HOW_SECTION));
-    const servicesInfluence = 1 - Math.min(1, Math.abs(frameState.t - SERVICES_SECTION));
-    const k = reduced ? 1 : 1 - Math.exp(-dt * 5);
-    for (let i = 0; i < 4; i++) {
-      const target = discrete.step === i ? 1 : 0;
-      this.stepMix[i] += (target - this.stepMix[i]) * k;
-    }
-    const mapMix = this.stepMix[0] * howInfluence;
-    const selfMix = this.stepMix[1] * howInfluence;
-    const connectMix = this.stepMix[2] * howInfluence;
-    const actMix = this.stepMix[3] * howInfluence;
+    const ik = reduced ? 1 : Math.min(1, (now - introStart) / 3200);
+    const tp = frameState.ppTarget;
+    const pk = reduced ? 1 : 0.06;
+    this.pp += (tp - this.pp) * pk;
+    frameState.pp = this.pp;
 
-    const assembly = MathUtils.lerp(b.assembly, 1, selfMix);
-    let connection = MathUtils.lerp(b.connection, 1, Math.min(1, connectMix + actMix));
-    connection = MathUtils.lerp(connection, 0.15, mapMix);
-    let signals = MathUtils.lerp(b.signals, 1, Math.min(1, connectMix + actMix));
-    signals = MathUtils.lerp(signals, 0.1, Math.min(1, mapMix + selfMix));
-    const outbound = MathUtils.lerp(b.outbound, 1, actMix);
-    const radar = Math.min(1, b.radar + mapMix);
-    this.coreBoost += (selfMix - this.coreBoost) * k;
+    const up = Math.min(this.pp * 5, 2);
+    const uF = flowMix(this.pp);
+    const uD = sceneDim(this.pp, ik);
 
-    /* 3. composition: anchors -> camera view offset + fitted distance */
-    const { vw, vh, scrollY } = frameState;
-    const anchorA = laidOut(frameState.anchors.get(b.anchorA));
-    const anchorB = laidOut(frameState.anchors.get(b.anchorB));
-    const ax = anchorA ? anchorA.left + anchorA.width / 2 : vw / 2;
-    const ay = anchorA ? anchorA.top - scrollY + anchorA.height / 2 : vh / 2;
-    const ar = anchorA ? Math.min(anchorA.width, anchorA.height) / 2 : Math.min(vw, vh) * 0.35;
-    const cx = anchorB ? anchorB.left + anchorB.width / 2 : vw / 2;
-    const cy = anchorB ? anchorB.top - scrollY + anchorB.height / 2 : vh / 2;
-    const cr = anchorB ? Math.min(anchorB.width, anchorB.height) / 2 : Math.min(vw, vh) * 0.35;
-    const mix = b.anchorMix;
-    const px = MathUtils.lerp(ax, cx, mix);
-    const py = MathUtils.lerp(ay, cy, mix);
-    const pr = Math.max(40, MathUtils.lerp(ar, cr, mix));
+    this.mxs += (frameState.pointer.x - this.mxs) * 0.05;
+    this.mys += (frameState.pointer.y - this.mys) * 0.05;
 
-    const tanHalf = Math.tan(MathUtils.degToRad(FOV / 2));
-    const fitted = (SCENE_RADIUS * height) / (2 * pr * tanHalf);
-    const dist = MathUtils.clamp(fitted * b.zoom, 3.6, 22);
+    this.coreGroup.position.set(this.gx0 * (1 - uF), this.gy0 * (1 - uF * 0.5), 0);
+    this.flowGroup.position.copy(this.coreGroup.position);
+    this.flowGroup.scale.set(this.fsx, this.fsx > 0.7 ? 1 : 0.75, 1);
 
-    /* 4. pointer (damped) + camera */
-    const pointerTargetX = frameState.pointer.active ? frameState.pointer.x : 0;
-    const pointerTargetY = frameState.pointer.active ? frameState.pointer.y : 0;
-    const pk = reduced ? 1 : 1 - Math.exp(-dt * 3.5);
-    this.pointer.x += (pointerTargetX - this.pointer.x) * pk;
-    this.pointer.y += (pointerTargetY - this.pointer.y) * pk;
-
-    const az = b.orbit + time * 0.045 + this.pointer.x * 0.14 * motion;
-    const el = b.elevation + this.pointer.y * 0.1 * motion;
     camera.position.set(
-      dist * Math.cos(el) * Math.sin(az),
-      dist * Math.sin(el),
-      dist * Math.cos(el) * Math.cos(az),
+      this.mxs * 2.5 * (1 - uF * 0.7),
+      -this.mys * 1.8 * (1 - uF * 0.7) + 1.2 * (1 - uF),
+      11 + 5 * (1 - smoothstep(up, 0, 2)) + 2.5 * uF + 7 * (1 - smoothstep(ik, 0, 1)),
     );
     camera.lookAt(0, 0, 0);
-    camera.setViewOffset(width, height, width / 2 - px, height / 2 - py, width, height);
     camera.updateProjectionMatrix();
-    camera.updateMatrixWorld();
 
-    // Pointer in world space on the screen-parallel plane through the origin.
-    const originNdcZ = this.tmp.set(0, 0, 0).project(camera).z;
-    this.pointerWorld.set(frameState.pointer.x, frameState.pointer.y, originNdcZ).unproject(camera);
-    const pointerStrengthTarget = frameState.pointer.active && b.dim > 0.5 ? 1 : 0;
-    this.pointer.strength += (pointerStrengthTarget - this.pointer.strength) * pk;
+    this.dr += this.dv;
+    this.dv *= 0.93;
+    this.coreGroup.rotation.y = time * 0.05 + this.pp * 1.2 + this.dr;
+    this.coreGroup.rotation.x = 0.12 + 0.45 * smoothstep(up, 1, 2);
+    this.stars.rotation.y = time * 0.01 + this.mxs * 0.15 + this.pp * 0.3;
+    this.stars.rotation.x = this.mys * 0.1;
 
-    const pixelScale = (height * pixelRatio) / (2 * tanHalf);
+    const a = this.assets;
+    const pu = a.particleMaterial.uniforms;
+    pu.uP.value = up;
+    pu.uT.value = time;
+    pu.uD.value = uD;
+    pu.uPR.value = pixelRatio;
 
-    /* 5. node positions, weights, meshes */
-    // A source selected in the constellation legend stays selected while that
-    // section is in view; once the reader has moved on, the selection clears.
-    if (discrete.selectedNode >= 0 && Math.abs(frameState.t - FLOW_SECTION) > 0.85) {
-      experienceActions.setSelectedNode(-1);
+    this.ndc.set(frameState.pointer.x * 2, -frameState.pointer.y * 2);
+    this.ray.setFromCamera(this.ndc, camera);
+    if (this.ray.ray.intersectPlane(this.plane, this.hit)) {
+      this.coreGroup.worldToLocal(this.hit);
+      (pu.uM.value as Vector3).copy(this.hit);
     }
-    const focused = activeNode();
-    const focusActive = focused >= 0 ? 1 : 0;
-    const serviceGroup = discrete.serviceFocus >= 0 ? SERVICE_GROUPS[discrete.serviceFocus] : null;
-    const scanPos = (time * 0.9) % NODE_COUNT;
-    const wk = reduced ? 1 : 1 - Math.exp(-dt * 7);
-    const edgeWeights = a.edgeMaterial.uniforms.uWeights.value as number[];
-    for (let i = 0; i < NODE_COUNT; i++) {
-      const p = this.nodePos[i].lerpVectors(this.ringPos[i], this.scatterPos[i], b.spread);
-      let w = 0;
-      if (focused === i) w = 1;
-      if (serviceGroup && serviceGroup.includes(i)) w = Math.max(w, 0.85 * servicesInfluence);
-      if (mapMix > 0.01) {
-        const d = Math.min(Math.abs(scanPos - i), NODE_COUNT - Math.abs(scanPos - i));
-        w = Math.max(w, Math.max(0, 1 - d) * mapMix);
-      }
-      if (actMix > 0.01) w = Math.max(w, (0.35 + 0.25 * Math.sin(time * 2 + i)) * actMix);
-      this.weights[i] += (w - this.weights[i]) * wk;
-      const weight = this.weights[i];
-      edgeWeights[i] = weight;
 
-      const mesh = this.nodeMeshes[i];
-      if (mesh) {
-        mesh.position.copy(p);
-        mesh.scale.setScalar(1 + weight * 0.5);
-        a.nodeMaterials[i].emissiveIntensity = (0.3 + weight * 1.6) * b.dim;
-        // Dimmed sections keep the soft halos but let the solid spheres fade
-        // quickly; a half-lit sphere behind text reads as a stray marble.
-        a.nodeMaterials[i].opacity = 0.05 + 0.95 * b.dim * b.dim;
+    if (frameState.burstScreen) {
+      const { x, y } = frameState.burstScreen;
+      this.ndc.set((x / w) * 2 - 1, -(y / h) * 2 + 1);
+      this.ray.setFromCamera(this.ndc, camera);
+      if (this.ray.ray.intersectPlane(this.plane, this.hit)) {
+        this.coreGroup.worldToLocal(this.hit);
+        this.burstAt(this.hit.clone());
       }
-      const halo = this.haloMeshes[i];
-      if (halo) {
-        halo.position.copy(p);
-        halo.quaternion.copy(camera.quaternion);
-        halo.scale.setScalar(0.55 + weight * 0.55);
-        a.haloMaterials[i].uniforms.uAlpha.value = (0.5 + weight * 0.6) * b.dim * b.dim * (1 - b.spread * 0.35);
-      }
+      frameState.burstScreen = null;
+    }
+    if (frameState.burstCenter) {
+      this.burstAt(new Vector3(0, 0, 0));
+      frameState.burstCenter = false;
+    }
 
-      // Projection for HTML labels + pointer proximity.
-      this.tmp2.copy(p).project(camera);
-      const sx = (this.tmp2.x * 0.5 + 0.5) * width;
-      const sy = (-this.tmp2.y * 0.5 + 0.5) * height;
-      const fn = this.frameNodes[i];
-      fn.x = sx;
-      fn.y = sy;
-      const camDist = camera.position.distanceTo(p);
-      fn.depth = MathUtils.clamp(1 - (camDist - (dist - 2.6)) / 5.2, 0, 1);
-      fn.visible = this.tmp2.z < 1 && sx > -40 && sx < width + 40 && sy > -40 && sy < height + 40;
-      // Behind the core and projected inside its disc: the label would read as
-      // if it belonged to the core, so the overlay fades it.
-      const coreRadiusPx = (pixelScale / pixelRatio) / dist;
-      fn.behindCore = camDist > dist && Math.hypot(sx - px, sy - py) < coreRadiusPx * 1.1;
+    const cu = a.coreMaterial.uniforms;
+    const coreScale = 0.12 + 0.95 * smoothstep(up, 0.6, 2) + Math.sin(time * 2) * 0.03 * smoothstep(up, 0.6, 2);
+    if (this.coreMesh) this.coreMesh.scale.setScalar(coreScale);
+    cu.uI.value = 0.3 + 0.7 * smoothstep(up, 0.4, 1.4);
+    cu.uS.value = smoothstep(up, 1.2, 2);
+
+    const ro = smoothstep(up, 1.4, 2) * (1 - uF * 0.5);
+    for (const ring of a.rings) {
+      ring.group.rotation.y = time * ring.speed;
+      (ring.line.material as LineBasicMaterial).opacity = 0.4 * ro;
+      (ring.dots.material as PointsMaterial).opacity = 0.95 * ro;
+    }
+
+    if (this.halo) {
+      const hm = this.halo.material as PointsMaterial;
+      hm.opacity = (0.35 + 0.25 * Math.sin(time * 1.6)) * smoothstep(up, 0.9, 2) * (1 + 0.6 * uF) * 0.9;
+      hm.size = 4 + 3 * smoothstep(up, 0.9, 2);
+    }
+
+    const discrete = getDiscrete();
+    const hv = discrete.focusNode;
+    a.flowDotMaterial.opacity = 0.95 * uF;
+    const fdp = a.flowDotPositionAttr.array as Float32Array;
+    for (let n = 0; n < NODE_COUNT; n++) {
+      const edge = a.flowEdges[n];
+      const lineMat = edge.line.material as LineBasicMaterial;
+      lineMat.opacity = (hv < 0 ? 0.55 : n === hv ? 1 : 0.15) * uF;
+      for (let j = 0; j < FLOW_DOTS_PER_EDGE; j++) {
+        const u = (time * 0.35 + j / FLOW_DOTS_PER_EDGE + n * 0.13) % 1;
+        edge.curve.getPoint(u, this.tmp);
+        const q = (n * FLOW_DOTS_PER_EDGE + j) * 3;
+        fdp[q] = this.tmp.x;
+        fdp[q + 1] = this.tmp.y;
+        fdp[q + 2] = this.tmp.z;
+      }
+    }
+    a.flowDotPositionAttr.needsUpdate = true;
+
+    for (let n = 0; n < NODE_COUNT; n++) {
+      this.tmp.copy(a.flowNodePositions[n]).multiply(this.flowGroup.scale).add(this.flowGroup.position).project(camera);
+      const fn = this.frameNodes[n];
+      fn.x = (this.tmp.x * 0.5 + 0.5) * w;
+      fn.y = (-this.tmp.y * 0.5 + 0.5) * h;
+      fn.visible = this.tmp.z < 1;
+      fn.depth = 1;
+      fn.behindCore = false;
       fn.labelShift = 0;
     }
-    this.separateLabels();
 
-    // Pointer proximity hover (mouse/pen only; touch uses the HTML labels).
-    let best = -1;
-    if (frameState.pointer.active && b.labels > 0.2 && !reduced) {
-      const mx = (frameState.pointer.x * 0.5 + 0.5) * width;
-      const my = (-frameState.pointer.y * 0.5 + 0.5) * height;
-      let bestDist = 34;
-      for (let i = 0; i < NODE_COUNT; i++) {
-        const fn = this.frameNodes[i];
-        if (!fn.visible) continue;
-        const d = Math.hypot(fn.x - mx, fn.y - my);
-        if (d < bestDist) {
-          bestDist = d;
-          best = i;
-        }
-      }
+    this.tmp.copy(this.coreGroup.position).project(camera);
+    const mx = (this.tmp.x * 0.5 + 0.5) * w;
+    const my = (-this.tmp.y * 0.5 + 0.5) * h;
+
+    const idx = hudIndex(up);
+    publishSceneHud({ label: HUD_NAMES[idx], barWidth: up / 2 });
+    publishSceneFrame({
+      nodes: this.frameNodes,
+      labelOpacity: uF,
+      flowActive: uF > 0.6,
+      monogram: { x: mx, y: my, opacity: uF },
+      caption: discrete.focusNode >= 0 ? discrete.focusNode : -1,
+    });
+
+    if (!reduced && ctx.onSlowGpu) {
+      this.monitorMs += Math.min(dt, 0.1) * 1000;
+      this.maybeDowngrade(pixelRatio, ctx.onSlowGpu);
     }
-    if (best !== this.hoverCandidate) {
-      const previous = this.hoverCandidate;
-      this.hoverCandidate = best;
-      if (best >= 0) {
-        experienceActions.setFocusNode(best);
-        this.sceneOwnsFocus = true;
-      } else if (this.sceneOwnsFocus && discrete.focusNode === previous) {
-        experienceActions.setFocusNode(-1);
-        this.sceneOwnsFocus = false;
-      }
-    }
-
-    /* 6. edges + packets */
-    const ep = a.edgePositionAttr.array as Float32Array;
-    const pp = a.packetPositionAttr.array as Float32Array;
-    const pa = a.packetAlphaAttr.array as Float32Array;
-    const perEdge = a.packetsPerEdge;
-    const bothWays = outbound > 0.3 && outbound < 0.7;
-    for (let e = 0; e < NODE_COUNT; e++) {
-      const curve = this.curves[e];
-      writeEdgeCurve(e, this.nodePos[e], curve);
-      for (let i = 0; i <= EDGE_SAMPLES; i++) {
-        curve.getPoint(i / EDGE_SAMPLES, this.tmp);
-        if (i < EDGE_SAMPLES) {
-          const v = (e * EDGE_SAMPLES + i) * 6;
-          ep[v] = this.tmp.x;
-          ep[v + 1] = this.tmp.y;
-          ep[v + 2] = this.tmp.z;
-        }
-        if (i > 0) {
-          const v = (e * EDGE_SAMPLES + i - 1) * 6 + 3;
-          ep[v] = this.tmp.x;
-          ep[v + 1] = this.tmp.y;
-          ep[v + 2] = this.tmp.z;
-        }
-      }
-      const edgeWeight = this.weights[e];
-      for (let j = 0; j < perEdge; j++) {
-        const idx = e * perEdge + j;
-        const phase = (time * (0.16 + e * 0.011) + j / perEdge + e * 0.13) % 1;
-        // 0 = source, 1 = core. Outbound flips direction; mid values alternate per packet.
-        const inward = bothWays ? j % 2 === 0 : outbound < 0.5;
-        const along = inward ? phase : 1 - phase;
-        curve.getPoint(along, this.tmp);
-        pp[idx * 3] = this.tmp.x;
-        pp[idx * 3 + 1] = this.tmp.y;
-        pp[idx * 3 + 2] = this.tmp.z;
-        const drawn = connection * 1.5 - e * 0.07 > along ? 1 : 0;
-        const active = signals >= (j + 1) / perEdge - 0.001 ? 1 : 0;
-        const recede = focusActive && focused !== e ? 0.35 : 1;
-        pa[idx] = drawn * active * (0.55 + edgeWeight * 0.45) * recede;
-      }
-    }
-    a.edgePositionAttr.needsUpdate = true;
-    a.packetPositionAttr.needsUpdate = true;
-    a.packetAlphaAttr.needsUpdate = true;
-
-    /* 7. uniforms + simple materials */
-    const pu = a.particleMaterial.uniforms;
-    pu.uTime.value = time;
-    pu.uAssembly.value = assembly;
-    pu.uPixelScale.value = pixelScale;
-    pu.uMotion.value = motion;
-    pu.uDim.value = b.dim;
-    (pu.uPointer.value as Vector3).copy(this.pointerWorld);
-    pu.uPointerStrength.value = this.pointer.strength * motion;
-    pu.uCamDist.value = dist;
-
-    const lu = a.linkMaterial.uniforms;
-    lu.uTime.value = time;
-    lu.uAssembly.value = assembly;
-    lu.uMotion.value = motion;
-    lu.uStrength.value = b.links * (0.8 + this.coreBoost * 0.6);
-    lu.uDim.value = b.dim;
-    lu.uCamDist.value = dist;
-
-    const eu = a.edgeMaterial.uniforms;
-    eu.uTime.value = time;
-    eu.uConnection.value = connection;
-    eu.uMotion.value = motion;
-    eu.uOutbound.value = outbound;
-    eu.uDim.value = b.dim;
-    eu.uFocusActive.value = focusActive;
-    eu.uCamDist.value = dist;
-
-    a.packetMaterial.uniforms.uPixelScale.value = pixelScale;
-    a.packetMaterial.uniforms.uDim.value = b.dim;
-    a.packetMaterial.uniforms.uCamDist.value = dist;
-
-    const ru = a.radarMaterial.uniforms;
-    ru.uSweep.value = (time * (0.11 + mapMix * 0.18)) % 1;
-    ru.uStrength.value = radar;
-    ru.uDim.value = b.dim;
-    ru.uCamDist.value = dist;
-
-    a.shellMaterial.opacity = (0.1 + 0.16 * assembly + this.coreBoost * 0.16) * b.dim;
-    a.centreMaterial.opacity = (0.85 + this.coreBoost * 0.15) * b.dim * (0.4 + 0.6 * assembly);
-    a.ringMaterial.opacity = 0.3 * assembly * b.dim;
-    a.dashedRingMaterial.opacity = 0.45 * assembly * b.dim;
-    a.auraMaterial.uniforms.uAlpha.value =
-      (0.62 + this.coreBoost * 0.3 + 0.14 * Math.sin(time * 0.7) * motion) * b.dim * (0.3 + 0.7 * assembly);
-
-    if (this.aura) {
-      this.aura.quaternion.copy(camera.quaternion);
-      this.aura.scale.setScalar(4.6 + 0.3 * Math.sin(time * 0.5) * motion);
-    }
-    if (this.radar) {
-      this.radar.rotation.set(-Math.PI / 2 + RING_TILT, 0, 0);
-      this.radar.scale.setScalar(1.95);
-    }
-    this.rings[0].rotation.set(1.15, time * 0.05 * motion, 0.3);
-    this.rings[1].rotation.set(0.55, -time * 0.035 * motion, -1.1);
-    this.rings[2].rotation.set(-Math.PI / 2 + RING_TILT, 0, 0);
-
-    /* 8. publish to DOM overlays */
-    // Labels fade out when the composed scene is too small for eight captions.
-    const roomForLabels = MathUtils.clamp((pr - 140) / 70, 0, 1);
-    publishSceneFrame({ nodes: this.frameNodes, labelOpacity: b.labels * b.dim * roomForLabels });
   }
 }

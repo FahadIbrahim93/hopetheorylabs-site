@@ -1,197 +1,94 @@
-import { QuadraticBezierCurve3, Vector3 } from "three";
-
 /*
-  Deterministic geometry for the intelligence core. A seeded PRNG keeps the
-  composition identical across reloads and between the scattered and
-  assembled states, so the assembly animation always resolves to the same
-  picture.
+  Geometry data for the particle field: three target layouts per particle
+  (scattered cloud, globe lattice, spiral galaxy) plus a random seed. Built
+  once at the high-water particle count; lower tiers shrink the draw range.
 */
-
-export const NODE_COUNT = 8;
-export const CORE_RADIUS = 1;
-export const RING_RADIUS = 2.1;
-export const EDGE_SAMPLES = 36;
-
-export function mulberry32(seed: number) {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
 
 export interface ParticleBuffers {
   count: number;
   scattered: Float32Array;
-  target: Float32Array;
-  seed: Float32Array; // per-particle random 0..1
-  tone: Float32Array; // 0 = gold, 1 = teal
-  size: Float32Array;
-  kind: Float32Array; // 0 surface, 1 inner, 2 dust
+  globe: Float32Array;
+  galaxy: Float32Array;
+  seed: Float32Array;
 }
 
-/**
- * Particles: ~62% on the sphere surface (Fibonacci lattice, so the assembled
- * core reads as a precise shell), ~23% inner shells, ~15% ambient dust that
- * never fully settles. Scattered positions fill a wide, shallow volume so the
- * opening state reads as fragments rather than a smaller ball.
- */
-export function buildParticles(count: number): ParticleBuffers {
-  const rand = mulberry32(1337);
-  const scattered = new Float32Array(count * 3);
-  const target = new Float32Array(count * 3);
-  const seed = new Float32Array(count);
-  const tone = new Float32Array(count);
-  const size = new Float32Array(count);
-  const kind = new Float32Array(count);
+/** Gaussian-ish random in [-1, 1]. */
+function g() {
+  return (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
+}
 
-  const surfaceCount = Math.floor(count * 0.62);
-  const innerCount = Math.floor(count * 0.23);
-  const golden = Math.PI * (3 - Math.sqrt(5));
+const TAU = Math.PI * 2;
+
+export function buildParticles(count: number): ParticleBuffers {
+  const scattered = new Float32Array(count * 3);
+  const globe = new Float32Array(count * 3);
+  const galaxy = new Float32Array(count * 3);
+  const seed = new Float32Array(count);
 
   for (let i = 0; i < count; i++) {
-    const i3 = i * 3;
-    let x: number, y: number, z: number;
-    if (i < surfaceCount) {
-      const k = i + 0.5;
-      const phi = Math.acos(1 - (2 * k) / surfaceCount);
-      const theta = golden * k;
-      const r = CORE_RADIUS * (0.985 + rand() * 0.03);
-      x = r * Math.cos(theta) * Math.sin(phi);
-      y = r * Math.cos(phi);
-      z = r * Math.sin(theta) * Math.sin(phi);
-      kind[i] = 0;
-      tone[i] = rand() < 0.3 ? 1 : 0;
-      size[i] = 0.026 + rand() * 0.018;
-    } else if (i < surfaceCount + innerCount) {
-      const dir = randomDirection(rand);
-      const r = CORE_RADIUS * (0.35 + Math.pow(rand(), 0.6) * 0.55);
-      x = dir.x * r;
-      y = dir.y * r;
-      z = dir.z * r;
-      kind[i] = 1;
-      tone[i] = rand() < 0.5 ? 1 : 0;
-      size[i] = 0.016 + rand() * 0.016;
+    const k = i * 3;
+    seed[i] = Math.random();
+
+    // Scattered: a loose, flattened shell pushed slightly back.
+    const rad = 4 + Math.random() * 10;
+    const th = Math.random() * TAU;
+    const ph = Math.acos(2 * Math.random() - 1);
+    scattered[k] = rad * Math.sin(ph) * Math.cos(th);
+    scattered[k + 1] = rad * Math.sin(ph) * Math.sin(th) * 0.7;
+    scattered[k + 2] = rad * Math.cos(ph) - 2;
+
+    // Globe lattice: odd particles on 14 latitude bands, even on 18 meridians.
+    let la: number;
+    let lo: number;
+    if (i % 2) {
+      la = ((Math.floor(Math.random() * 14) + 0.5) / 14) * Math.PI;
+      lo = Math.random() * TAU;
     } else {
-      const dir = randomDirection(rand);
-      const r = CORE_RADIUS * (1.4 + Math.pow(rand(), 1.4) * 2.4);
-      x = dir.x * r;
-      y = dir.y * r * 0.6;
-      z = dir.z * r;
-      kind[i] = 2;
-      tone[i] = rand() < 0.65 ? 1 : 0;
-      size[i] = 0.014 + rand() * 0.02;
+      lo = (Math.floor(Math.random() * 18) / 18) * TAU;
+      la = Math.random() * Math.PI;
     }
-    target[i3] = x;
-    target[i3 + 1] = y;
-    target[i3 + 2] = z;
+    globe[k] = 3.1 * Math.sin(la) * Math.cos(lo);
+    globe[k + 1] = 3.1 * Math.cos(la);
+    globe[k + 2] = 3.1 * Math.sin(la) * Math.sin(lo);
 
-    scattered[i3] = (rand() * 2 - 1) * 5.2;
-    scattered[i3 + 1] = (rand() * 2 - 1) * 3.4;
-    scattered[i3 + 2] = (rand() * 2 - 1) * 3.6;
-    seed[i] = rand();
-  }
-  return { count, scattered, target, seed, tone, size, kind };
-}
-
-function randomDirection(rand: () => number) {
-  const u = rand() * 2 - 1;
-  const theta = rand() * Math.PI * 2;
-  const s = Math.sqrt(1 - u * u);
-  return { x: s * Math.cos(theta), y: u, z: s * Math.sin(theta) };
-}
-
-/**
- * Neighbour links between surface particles: the short filaments that flicker
- * inside the core. Pairs are chosen by distance on the assembled lattice, and
- * both endpoints carry the scattered/target pair so the links follow the
- * particles through assembly.
- */
-export function buildLinks(p: ParticleBuffers, maxLinks: number) {
-  const surfaceCount = Math.floor(p.count * 0.62);
-  const rand = mulberry32(4242);
-  const threshold = Math.sqrt((4 * Math.PI) / surfaceCount) * 1.55; // mean lattice spacing * 1.55
-  const pairs: number[] = [];
-  const stride = Math.max(1, Math.floor(surfaceCount / 900));
-  for (let i = 0; i < surfaceCount && pairs.length / 2 < maxLinks; i += stride) {
-    const ax = p.target[i * 3], ay = p.target[i * 3 + 1], az = p.target[i * 3 + 2];
-    let found = 0;
-    for (let tries = 0; tries < 40 && found < 2; tries++) {
-      const j = Math.floor(rand() * surfaceCount);
-      if (j === i) continue;
-      const dx = p.target[j * 3] - ax, dy = p.target[j * 3 + 1] - ay, dz = p.target[j * 3 + 2] - az;
-      if (dx * dx + dy * dy + dz * dz < threshold * threshold) {
-        pairs.push(i, j);
-        found++;
-      }
+    // Galaxy: 6% dense core, the rest on five arms.
+    if (Math.random() < 0.06) {
+      const cr = 0.9 * Math.cbrt(Math.random());
+      const cp = Math.acos(2 * Math.random() - 1);
+      const ct = Math.random() * TAU;
+      galaxy[k] = cr * Math.sin(cp) * Math.cos(ct);
+      galaxy[k + 1] = cr * Math.cos(cp);
+      galaxy[k + 2] = cr * Math.sin(cp) * Math.sin(ct);
+    } else {
+      const arm = i % 5;
+      const rr = Math.pow(Math.random(), 0.65) * 7 + 0.5;
+      const an = (arm / 5) * TAU + rr * 0.85 + g() * (0.12 + rr * 0.04);
+      galaxy[k] = rr * Math.cos(an);
+      galaxy[k + 1] = g() * 0.35 * (1 + rr * 0.1);
+      galaxy[k + 2] = rr * Math.sin(an);
     }
   }
-  const n = pairs.length;
-  const scattered = new Float32Array(n * 3);
-  const target = new Float32Array(n * 3);
-  const seed = new Float32Array(n);
-  for (let k = 0; k < n; k++) {
-    const idx = pairs[k];
-    scattered.set(p.scattered.subarray(idx * 3, idx * 3 + 3), k * 3);
-    target.set(p.target.subarray(idx * 3, idx * 3 + 3), k * 3);
-    seed[k] = p.seed[pairs[k - (k % 2)]]; // both ends of a segment share a seed
+
+  return { count, scattered, globe, galaxy, seed };
+}
+
+export const STAR_COUNT = 300;
+
+export function buildStars(): Float32Array {
+  const stars = new Float32Array(STAR_COUNT * 3);
+  for (let i = 0; i < STAR_COUNT; i++) {
+    const sr = 24 + Math.random() * 22;
+    const sa = Math.random() * TAU;
+    const s2 = Math.acos(2 * Math.random() - 1);
+    stars[i * 3] = sr * Math.sin(s2) * Math.cos(sa);
+    stars[i * 3 + 1] = sr * Math.cos(s2);
+    stars[i * 3 + 2] = sr * Math.sin(s2) * Math.sin(sa) - 10;
   }
-  return { count: n, scattered, target, seed };
+  return stars;
 }
 
-/* ---------- source nodes ---------- */
-
-const RING_TILT = 0.42; // radians around X so the ring reads as an orbit, not a flat circle
-
-/** Orderly position of node i on the tilted ring, with a little per-node lift. */
-export function nodeRingPosition(i: number, out: Vector3) {
-  const angle = (i / NODE_COUNT) * Math.PI * 2 - Math.PI / 2;
-  const lift = [0.35, -0.2, 0.15, -0.35, 0.25, -0.15, 0.3, -0.25][i];
-  out.set(Math.cos(angle) * RING_RADIUS, lift, Math.sin(angle) * RING_RADIUS);
-  out.applyAxisAngle(X_AXIS, RING_TILT);
-  return out;
-}
-
-const X_AXIS = new Vector3(1, 0, 0);
-
-/**
- * Scattered position of node i: a little further out than the ring, at
- * clearly different depths and heights. Kept inside ~1.35x the ring radius so
- * the disconnected state still fits the section's reserved slot.
- */
-export function nodeScatteredPosition(i: number, out: Vector3) {
-  const rand = mulberry32(900 + i * 17);
-  const angle = (i / NODE_COUNT) * Math.PI * 2 - Math.PI / 2 + (rand() - 0.5) * 0.9;
-  const r = 2.25 + rand() * 0.65;
-  out.set(Math.cos(angle) * r, (rand() - 0.5) * 1.7, Math.sin(angle) * r * 0.7 + (rand() - 0.5) * 2.2);
-  return out;
-}
-
-/* ---------- edges ---------- */
-
-const tmpA = new Vector3();
-const tmpB = new Vector3();
-const tmpC = new Vector3();
-const tmpN = new Vector3();
-
-/**
- * A gently bowed curve from a node to the point where it meets the core shell.
- * The bow bends sideways and slightly up so eight edges never read as spokes.
- */
-export function writeEdgeCurve(index: number, node: Vector3, curve: QuadraticBezierCurve3) {
-  tmpA.copy(node);
-  tmpB.copy(node).normalize().multiplyScalar(CORE_RADIUS * 1.02);
-  tmpC.copy(tmpA).add(tmpB).multiplyScalar(0.5);
-  tmpN.crossVectors(tmpA, Y_AXIS).normalize();
-  const side = index % 2 === 0 ? 1 : -1;
-  tmpC.addScaledVector(tmpN, side * 0.45).add(Y_LIFT);
-  curve.v0.copy(tmpA);
-  curve.v1.copy(tmpC);
-  curve.v2.copy(tmpB);
-}
-
-const Y_AXIS = new Vector3(0, 1, 0);
-const Y_LIFT = new Vector3(0, 0.22, 0);
+export const RING_RADII = [2.2, 3.6, 5.2, 7] as const;
+export const RING_SEGMENTS = 96;
+export const RING_DOTS = 3;
+export const FLOW_CURVE_POINTS = 48;
+export const FLOW_DOTS_PER_EDGE = 3;

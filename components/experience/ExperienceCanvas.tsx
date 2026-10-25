@@ -19,6 +19,7 @@ import { experienceActions, frameState, registerInvalidator, type QualityTier } 
 interface Props {
   initialTier: QualityTier;
   reduced: boolean;
+  introStart: number;
   onReady: () => void;
   onFailure: (reason: string) => void;
 }
@@ -32,14 +33,14 @@ declare global {
       downgrades: number;
       renderer: string;
       /** Read-only snapshot of the scroll narrative for QA tooling. */
-      readonly progress: { t: number; scrollY: number; anchors: Record<string, { top: number; height: number }> };
+      readonly progress: { t: number; pp: number; scrollY: number };
       /** Frames rendered so far (lets QA confirm demand rendering under reduced motion). */
       readonly frames: number;
     };
   }
 }
 
-export default function ExperienceCanvas({ initialTier, reduced, onReady, onFailure }: Props) {
+export default function ExperienceCanvas({ initialTier, reduced, introStart, onReady, onFailure }: Props) {
   const [tier, setTier] = useState<QualityTier>(initialTier);
   const failed = useRef(false);
   const glRef = useRef<WebGLRenderer | null>(null);
@@ -92,13 +93,13 @@ export default function ExperienceCanvas({ initialTier, reduced, onReady, onFail
       dpr={[1, maxDpr]}
       flat
       gl={{
-        antialias: true,
+        antialias: false,
         alpha: true,
         powerPreference: "high-performance",
         failIfMajorPerformanceCaveat: false,
         toneMapping: NoToneMapping,
       }}
-      camera={{ fov: 38, near: 0.5, far: 60, position: [0, 0, 7] }}
+      camera={{ fov: 50, near: 0.1, far: 100, position: [0, 0, 11] }}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
       onCreated={({ gl }) => {
         glRef.current = gl;
@@ -124,18 +125,27 @@ export default function ExperienceCanvas({ initialTier, reduced, onReady, onFail
             return gl.info.render.frame;
           },
           get progress() {
-            const anchors: Record<string, { top: number; height: number }> = {};
-            frameState.anchors.forEach((rect, id) => {
-              anchors[id] = { top: rect.top, height: rect.height };
-            });
-            return { t: frameState.t, scrollY: frameState.scrollY, anchors };
+            return { t: frameState.t, pp: frameState.pp, scrollY: frameState.scrollY };
           },
         };
       }}
     >
       <DemandBridge reduced={reduced} />
       <ReadySignal onReady={onReady} failed={failed} />
-      <IntelligenceScene tier={tier} reduced={reduced} onFrameSample={reduced ? undefined : monitor.sample} />
+      <IntelligenceScene
+        tier={tier}
+        reduced={reduced}
+        introStart={introStart}
+        onFrameSample={reduced ? undefined : monitor.sample}
+        onSlowGpu={() => {
+          setTier((current) => lowerTier(current));
+          const gl = glRef.current;
+          if (gl) {
+            gl.setPixelRatio(1);
+            if (window.__htlExperience) window.__htlExperience.dpr = 1;
+          }
+        }}
+      />
     </Canvas>
   );
 }

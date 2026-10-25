@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 
 import { useContent } from "./LanguageProvider";
 
-import { PhoneMockup } from "./PhoneMockup";
+import { IntelligenceCore } from "./IntelligenceCore";
 import { WhatsAppCta } from "./WhatsAppCta";
 import { WordReveal } from "./WordReveal";
 
@@ -53,9 +53,9 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="col-span-12 flex md:col-span-5 md:col-start-8 md:justify-end">
-          <span className="sr-only">{content.hero.mockupDescription}</span>
-          <PhoneMockup />
+        <div className="col-span-12 flex items-center md:col-span-5 md:col-start-8 md:justify-end">
+          <span className="sr-only">{content.hero.coreDescription}</span>
+          <IntelligenceCore />
         </div>
       </div>
     </section>

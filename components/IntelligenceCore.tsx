@@ -1,5 +1,7 @@
 "use client";
 
+import type { PointerEvent } from "react";
+
 import { useContent } from "./LanguageProvider";
 
 /*
@@ -22,7 +24,7 @@ const nodes = [
 export function IntelligenceCore() {
   const content = useContent();
 
-  function respondToPointer(event: React.PointerEvent<HTMLDivElement>) {
+  function respondToPointer(event: PointerEvent<HTMLDivElement>) {
     if (event.pointerType !== "mouse") return;
     const element = event.currentTarget;
     const rect = element.getBoundingClientRect();

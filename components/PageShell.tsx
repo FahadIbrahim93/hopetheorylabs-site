@@ -9,7 +9,6 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { Hero } from "./Hero";
 import { HowItWorksTimeline } from "./HowItWorksTimeline";
-import { IntelligenceCore } from "./IntelligenceCore";
 import { LivingFlow } from "./LivingFlow";
 import { MethodSection } from "./MethodSection";
 import { Reveal } from "./Reveal";

@@ -1,29 +1,41 @@
-# Final QA results — 25 Oct 2026
+# QA results — supplied HTML port
 
-This record separates source-level checks from browser/CI checks. Do not treat unmeasured items as passing.
+This checklist records source review separately from automated and browser QA. Do not mark a gate as passed without evidence from the current branch or preview.
 
 ## Source-level review
 
-- [x] One H1 in the home hero is present in `components/Hero.tsx`; 404 has its own H1 in `app/not-found.tsx`.
-- [x] Skip link is present in `components/PageShell.tsx`.
-- [x] Global 2px `:focus-visible` outline is defined in `app/globals.css`.
-- [x] Header menu summary and shared WhatsApp CTA use a minimum 44px height/width target.
-- [x] Reduced-motion rules disable CSS reveal/CTA/timeline motion; the canvas checks `prefers-reduced-motion`.
-- [x] Rollers Republic copy and the speed slider's illustrative-only label are maintained in the content/components; do not add numeric claims.
-- [x] SEO metadata, Open Graph image, robots.txt and sitemap.xml are included by Step 6.
-- [x] Branded 404 and HT icon are included by Step 8.
-- [x] No analytics, tracking scripts or cookie banner were introduced in these steps.
+- [x] The home page has one H1 with the supplied two-line “Your data. Connected. / Your business. Smarter.” message.
+- [x] The supplied section sequence is represented: hero, Stage I, Stage II, living flow, four-step process, services, Rollers Republic concept, about, contact and footer.
+- [x] Copy and labels are held in `content/en.ts` and `content/bn.ts`; Bangla remains explicitly pending review.
+- [x] Hero visual uses the reusable inline-SVG intelligence core, including wireframe sphere, orbit/radar motion, signal routes and eight source nodes.
+- [x] The particle field remains a lightweight canvas; no Three.js or external CDN scripts were added.
+- [x] Rollers Republic remains labelled “Concept”; the phone mockup is illustrative and does not claim a live integration.
+- [x] Contact form builds a WhatsApp message from the name and need fields; WhatsApp and email contact options are present.
+- [x] The fixed status HUD and floating WhatsApp control are implemented; the floating action hides while Contact is in view.
+- [x] Reduced-motion CSS covers scroll reveals, the core, phone mockup and ticker; keyboard focus styling and a skip link remain.
+- [x] Metadata reflects the supplied concept, including the dark theme color and current business description.
+- [x] No analytics, tracking, cookie banners, fake metrics or testimonials were introduced.
 
-## Still requires CI / preview access — not claimed as passed
+## Automated checks — pending current branch
 
-- [ ] `npm run lint`, `npm run typecheck`, `npm run build` on the final merged chain.
-- [ ] Lighthouse mobile scores of 90+ in Performance, Accessibility, Best Practices and SEO on the Vercel preview.
-- [ ] First-load JavaScript gzip size under 120 KB and total first-load page weight under 500 KB, measured from a production build.
-- [ ] CLS below 0.1 and confirmation that the H1 is the LCP element.
-- [ ] Visual inspection at 360px, 768px, 1280px and 1920px; keyboard-only and screen-reader spot checks; browser console review.
-- [ ] Verify EN/Bangla toggle persistence and review the Bangla translation with Fahad/Tamim before launch.
-- [ ] Confirm the Vercel preview is green for the final merged chain.
+- [ ] `npm run lint`
+- [ ] `npm run typecheck`
+- [ ] `npm run build`
+- [ ] Confirm the Vercel preview succeeds.
 
-## Status
+## Browser / release gates — not yet verified
 
-This is a source-level checklist, not a claim of complete release QA. The repository connector can edit and inspect source files but did not provide a browser session or local Node build in this workflow. Run the unchecked items on the final preview before approving production promotion.
+- [ ] Inspect at 360px, 768px, 1280px and 1920px widths.
+- [ ] Check keyboard navigation, form submission, mobile menu, language persistence and browser console.
+- [ ] Check reduced-motion behavior and that all copy remains visible.
+- [ ] Run mobile Lighthouse for Performance, Accessibility, Best Practices and SEO; target 90+ in each.
+- [ ] Measure first-load JavaScript, page weight and CLS from a production build.
+- [ ] Review Bangla copy with Fahad/Tamim before launch.
+
+## Source limitation
+
+The HTML supplied on 25 October 2026 ended in the middle of its Three.js shader. The visual behavior was reconstructed in the existing Next.js stack using SVG/CSS and the lightweight canvas rather than copying the missing shader verbatim.
+
+## Release status
+
+Not production-ready until the automated checks and browser/release gates above are verified. Production promotion remains on hold until Fahad explicitly approves.

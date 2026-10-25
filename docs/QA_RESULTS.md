@@ -1,23 +1,48 @@
-# QA results — WebGL intelligence experience (HTML port)
+# QA results — WebGL experience (HTML port)
 
-Recorded on branch `cursor/webgl-intelligence-experience-d142` after porting the supplied standalone HTML Three.js scene into `components/experience/`.
+Branch: `cursor/webgl-intelligence-experience-d142` (merged with `main` at commit after `4324472`). Architecture: `PageShell` + `components/experience/` (replaces the locked `HomeMotion` homepage on `main` when this PR merges).
 
-## Automated checks
+## Automated checks — 26 Oct 2026 (Asia/Dhaka)
 
-- [x] `npm run lint` — passed.
-- [x] `npm run typecheck` — passed.
-- [x] `npm run build` — passed (static export).
+- [x] `npm run lint`
+- [x] `npm run typecheck`
+- [x] `npm run build` (static export → `out/`)
+- [x] `vercel.json` security headers retained from `main`
 
-## Headless browser (puppeteer-core, SwiftShader GL, static `out/` on port 4173)
+## Lighthouse — mobile, static `out/` (gzip via local serve)
 
-- [x] Desktop 1440×900: mode `webgl`, zero console errors.
-- [x] Mobile 390×844: mode `webgl`, zero console errors.
-- [x] `?experience=fallback`: mode `fallback`, zero console errors.
+Tool: Lighthouse 13.x, mobile emulation, simulated throttling, headless Chrome + SwiftShader WebGL.
 
-## Not verified in this pass
+| Category | Score |
+| --- | --- |
+| Performance | **82** |
+| Accessibility | **96** |
+| Best Practices | **100** |
+| SEO | **100** |
 
-- [ ] Real-GPU fps and runtime tier downgrade on hardware.
-- [ ] Vercel preview Lighthouse mobile scores.
-- [ ] Safari / Firefox manual pass.
+Metrics: LCP **2.7 s** · CLS **0.276** (WebGL layer crossfade and late canvas attach; investigate reserving space or delaying opacity if this blocks release) · TBT ~110 ms on an earlier run.
 
-Diagnostics: `window.__htlExperience` exposes `tier`, `dpr`, `avgFrameMs`, `downgrades`, `frames`, `progress` (includes `pp` scroll narrative).
+Note: `main`'s locked homepage reached Performance **97** with a smaller JS surface (no Three/R3F chunk). This branch trades some Lighthouse performance for the full HTML shader port; the Three/R3F bundle loads after `load`.
+
+## Interaction gauntlet — headless Chrome, `out/` @ :4173
+
+Script: `/tmp/htl-test/gauntlet.mjs` (not in repo). All checks passed, zero console errors:
+
+- [x] Flow section: labels `tabIndex=0`, narrative `pp ≥ 0.55`
+- [x] Tap burst on canvas (empty area)
+- [x] How-it-works step click (centre burst)
+- [x] Drag rotate on canvas (no errors)
+- [x] `prefers-reduced-motion: reduce` — ≤2 frames over 1.5 s idle after toggle
+
+Also run: `node run.mjs desktop|mobile` in `/tmp/htl-test/` (SwiftShader).
+
+## Not verified
+
+- [ ] Real-GPU fps and runtime tier downgrade
+- [ ] Safari / Firefox / physical devices
+- [ ] Vercel preview Lighthouse (may differ from local; previews may be deployment-protected)
+- [ ] Bangla copy review
+
+## Diagnostics
+
+`window.__htlExperience`: `{ tier, dpr, avgFrameMs, downgrades, frames, progress: { t, pp, scrollY } }`

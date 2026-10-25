@@ -54,6 +54,24 @@ export const en: SiteContent = {
     founding: "Founding clients pay ৳15,000, in exchange for a short review and permission to show the site. AI work is by conversation: ask us if you’re curious.",
     earlyAccessTag: "Early access",
   },
+  whatYouGet: {
+    heading: "What you get",
+    items: ["Fast on mobile", "Orders straight to your WhatsApp", "Cash on delivery", "Easy to update"],
+  },
+  speedSlider: {
+    label: "Illustrative only", before: "Before", after: "After",
+    aria: "Compare page load speed — before and after",
+  },
+  pricing: {
+    heading: "Pricing", base: "Websites from ৳25,000.",
+    founding: "Founding clients: ৳15,000, in exchange for a short review and permission to show your site.",
+    cta: "Ask about a free concept",
+  },
+  earlyAccess: {
+    heading: "Coming soon", tag: "Early access",
+    items: ["AI audits", "Forward-deployed AI engineering"],
+    text: "Ask us if you’re curious.",
+  },
   work: {
     eyebrow: "Work", heading: "We build a free concept first.",
     title: "Rollers Republic", tag: "Concept",

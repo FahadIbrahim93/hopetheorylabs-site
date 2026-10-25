@@ -8,7 +8,7 @@ export function Header() {
     <nav className="desktop-nav" aria-label="Primary">
       {content.header.nav.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
       <LanguageToggle />
-      <a href="#contact" className="nav-contact">Contact</a>
+      <a href="#contact" className="nav-contact">{content.header.nav.find((item) => item.href === "#contact")?.label ?? "Contact"}</a>
     </nav>
     <details className="mobile-menu">
       <summary aria-label={content.header.menu}><span></span><span></span></summary>

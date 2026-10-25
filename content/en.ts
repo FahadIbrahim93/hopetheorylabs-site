@@ -14,7 +14,7 @@ export const en: SiteContent = {
   },
   hero: {
     eyebrow: "The intelligent business platform",
-    heading: "Your data. Connected. Your business. Smarter.",
+    heading: "Your data. Connected. / Your business. Smarter.",
     subheading: "We bring together your data, tools and workflows — and turn them into a living, breathing intelligence.",
     primaryCta: "Message us on WhatsApp", whatsappLink: whatsappOrderLink,
     secondaryCta: "Watch it assemble", secondaryHref: "#method",

@@ -1,8 +1,0 @@
-import { useContent } from "./LanguageProvider";
-export function LivingFlow() {
-  const { story } = useContent();
-  return <section id="flow" className="flow-section border-b border-paper/10" aria-labelledby="flow-heading">
-    <div className="flow-heading"><p className="eyebrow">{story.flowEyebrow}</p><h2 id="flow-heading">{story.flowHeading}</h2></div>
-    <div className="flow-pills">{story.flowItems.map((item, i) => <div className="flow-pill" key={item.title}><span className="flow-index">0{i + 1}</span><b>{item.title}</b><span>{item.text}</span></div>)}</div>
-  </section>;
-}

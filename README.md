@@ -2,8 +2,8 @@
 
 A one-page, mobile-first website for **Hope Theory Labs**, a web studio in Dhaka. The primary conversion is a shop owner starting a WhatsApp conversation.
 
-**Preview target:** https://hopetheorylabs.vercel.app  
-**Production:** on hold until Fahad explicitly approves promotion.
+**Production URL:** https://hopetheorylabs.vercel.app (Vercel project `hopetheorylabs`, deployed automatically from `main`)  
+**Previews:** every pull request gets its own Vercel preview URL. Previews are behind Vercel Deployment Protection, so they ask for a Vercel login.
 
 ## Stack
 
@@ -39,17 +39,19 @@ Read these before changing the site. If documents conflict, `docs/SPEC.md` wins.
 
 - The page is composed from reusable components under `components/`.
 - All visible site copy belongs in `content/en.ts` and `content/bn.ts`; review Bangla translations with Fahad/Tamim before launch.
-- The supplied concept is ported into reusable Next.js components: editorial two-line hero, SVG/CSS intelligence core, 2D particle field, stage-based story sections, interactive four-step process, services, animated Rollers Republic phone mockup, contact-to-WhatsApp form, state HUD, and ticker. Motion respects reduced-motion preferences. The original pasted shader was truncated, so the core visual is reconstructed without a Three.js runtime.
+- The homepage follows the locked HTML design: editorial two-line hero, scroll-linked particle field, stage sections, interactive four-step process, services, animated Rollers Republic phone mockup, contact-to-WhatsApp form, state HUD, and ticker. Motion respects reduced-motion preferences. The pasted shader was truncated at `vec3`, so the field is completed in `components/home/HomeMotion.tsx` without a CDN.
 - The Rollers Republic work item is a concept, not client work. Do not add Sthappo until delivered and approved.
 - No invented metrics, testimonials, logos, credentials, analytics, tracking or cookies.
 
 ## Vercel setup and deployment
 
-1. Connect this GitHub repository to the Vercel project named `hopetheorylabs`.
-2. Use the **Next.js** framework preset and default build settings; `next.config.ts` configures static export and the build emits `out/`.
-3. Keep preview deployments enabled for pull requests so changes can be reviewed before merge.
-4. Run `npm run lint`, `npm run typecheck` and `npm run build` and complete the browser/Lighthouse checklist in `docs/QA.md` against the final preview.
-5. **Do not promote to production until Fahad approves.** No production deployment is performed by this repository workflow.
+The GitHub repository is connected to the Vercel project `hopetheorylabs` (framework preset **Next.js**, Node 24). `next.config.ts` configures static export, so the build emits `out/` and Vercel serves it as static files.
+
+- **Preview:** pushing a branch or opening a pull request creates a preview deployment. Nobody deploys by hand.
+- **Production:** merging to `main` deploys `https://hopetheorylabs.vercel.app`. Merging is the production approval step and belongs to Fahad.
+- `vercel.json` sets the security headers (CSP without external scripts, HSTS, frame denial, referrer and permissions policies) and long-lived caching for hashed assets. There are no environment variables, serverless functions or databases.
+- Before merging: `npm run lint`, `npm run typecheck`, `npm run build`, then the browser and Lighthouse checklist in `docs/QA.md`. Current results are in `docs/QA_RESULTS.md`.
+- To make previews public, turn off Deployment Protection in the Vercel project settings. Agents must not change Vercel settings.
 
 ## Contribution flow
 

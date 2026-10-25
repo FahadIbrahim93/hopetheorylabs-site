@@ -19,7 +19,7 @@ export const en: SiteContent = {
     primaryCta: "Message us on WhatsApp", whatsappLink: whatsappOrderLink,
     secondaryCta: "Watch it assemble", secondaryHref: "#method",
     coreDescription: "An animated intelligence core connects websites, CRM, databases, files, apps, APIs, systems and people.",
-    coreNodes: ["Websites", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],
+    coreNodes: ["Productivity", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],
     coreCaption: "Connected intelligence · Hope Theory Labs",
   },
   story: {

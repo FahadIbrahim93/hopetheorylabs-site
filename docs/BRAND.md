@@ -1,3 +1,5 @@
+The locked homepage in `docs/SPEC.md` overrides this file where they disagree. That page uses background `#07090C`, Instrument Sans, Newsreader, and JetBrains Mono, with accents `#7FD6C2` and `#FFBD61`.
+
 ## Architecture terms (neutral, reviewable)
 
 - "retro" — housing and facade style that includes vintage, wholesale, old Dhaka, and aged/used surfaces. Applied to buildings and surroundings only. Never people, clothing, or products.

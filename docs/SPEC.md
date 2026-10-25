@@ -8,12 +8,11 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
 
 ## Stack and implementation constraints
 
-- Next.js App Router, TypeScript, Tailwind CSS, Framer Motion's existing LazyMotion setup, static export, Vercel.
-- Keep all user-facing copy in `content/en.ts` and `content/bn.ts`. Bangla copy remains a TODO for Fahad/Tamim review; the schema must match.
-- Use `next/font/google` for Instrument Sans (body), Newsreader (editorial section headings), JetBrains Mono (eyebrows/HUD), and Hind Siliguri (Bangla).
+- Next.js App Router, TypeScript, Tailwind CSS, static export, Vercel.
+- Keep all user-facing copy in `content/en.ts` and `content/bn.ts`. Bangla copy remains a TODO for Fahad/Tamim review; the schema must match. The locked homepage is English only and does not show a language toggle.
+- Use `next/font/google` for Instrument Sans (body), Newsreader (editorial section headings), and JetBrains Mono (eyebrows/HUD). Do not load fonts or WebGL from a CDN.
 - No analytics, cookies, tracking, invented testimonials, fake metrics, or unapproved client claims.
-- The pasted source ends partway through its Three.js shader. Reconstruct the visual behavior from the supplied code and surrounding design, but do not claim the missing shader was copied verbatim.
-- No Three.js or other 3D runtime in the port. Keep the intelligence-core visual as inline SVG + CSS; keep the ambient particle canvas lightweight and limited to the hero. This follows the repository's performance and dependency constraints while preserving the original visual intent.
+- The homepage is the HTML locked on 26 October 2026. Match its structure, copy, colors, type, and motion. The pasted vertex shader ends mid-line at `vec3`. Complete that particle morph in `components/home/HomeMotion.tsx` from the uniforms and attributes that were present. Do not claim the missing shader lines were copied verbatim, and do not load Three.js from a CDN.
 
 ## Visual system
 
@@ -21,13 +20,13 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
 - Use Instrument Sans for the body and UI, Newsreader for large editorial section headings, JetBrains Mono for small uppercase labels and status text.
 - Oversized tight-tracked two-line hero headline, asymmetrical layouts, generous whitespace, hairline dividers, no generic rounded-card grid.
 - Fixed transparent-to-black header with wordmark and compact navigation. Respect mobile safe-area insets.
-- The hero visual is an intelligence core: wireframe sphere, slow orbit rings, radar sweep, signal paths, and eight source nodes (Websites, CRM, Databases, Files, Apps, APIs, Systems, People).
-- A small fixed HUD displays a changing system state and progress line. A floating WhatsApp button remains visible except while the contact section is in view.
+- The hero visual is the full-viewport particle field from the locked page. Points begin scattered, gather into a sphere, then settle into slow orbits as the page scrolls. Eight source labels sit in that field: Productivity, CRM, Databases, Files, Apps, APIs, Systems, and People, plus the H mark.
+- A small fixed HUD displays a changing system state and progress line. A floating WhatsApp button remains visible except while the contact section is in view. On screens 800px and below, the header keeps only Contact, and the flow pills and ticker hide, as in the locked CSS.
 - Keep the site calm and cinematic, not flashy. Honor `prefers-reduced-motion` throughout.
 
 ## Page sequence and approved copy
 
-1. **Header** — “Hope Theory Labs”; Approach, Services, Work, Contact; language toggle; accessible mobile menu.
+1. **Header** — “Hope Theory Labs”; Approach, Services, Work, Contact. Below 800px only Contact stays visible, matching the locked CSS. There is no language toggle.
 2. **Hero** — eyebrow “The intelligent business platform”; headline “Your data. Connected. / Your business. Smarter.”; subheading “We bring together your data, tools and workflows — and turn them into a living, breathing intelligence.” Main CTA “Message us on WhatsApp” to the existing WhatsApp concept link. Secondary CTA “Watch it assemble” scrolls to Stage I.
 3. **Stage I / The digital self** — “Before a company can think, it has to be legible. We rebuild your site, brand, systems and records into one clean, professional presence.”
 4. **Stage II / The shift to intelligence** — “It’s not just about tools. It’s about creating a unified intelligence from your data, systems and people.” Link to Services.
@@ -69,4 +68,4 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
 
 ## Release gates
 
-Before merge: run `npm run lint`, `npm run typecheck`, and `npm run build`; inspect the Vercel preview; check keyboard and reduced-motion behavior; verify WhatsApp links, email, language toggle, phone mockup, mobile menu, and responsive layout; run mobile Lighthouse. Production deployment remains on hold until Fahad explicitly approves.
+Before merge: run `npm run lint`, `npm run typecheck`, and `npm run build`; inspect the Vercel preview; check keyboard and reduced-motion behavior; verify WhatsApp links, email, the phone mockup, and the responsive layout; run mobile Lighthouse. The locked page has no language toggle. Production deployment remains on hold until Fahad explicitly approves.

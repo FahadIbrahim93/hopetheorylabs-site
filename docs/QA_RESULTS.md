@@ -50,7 +50,7 @@ Weight on first load (gzip): JavaScript 178 KB across nine chunks (about 174 KB 
 
 ## Headers
 
-`vercel.json` adds `Content-Security-Policy` (self only, no external scripts, WhatsApp allowed as a form action), `Strict-Transport-Security`, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` and `Permissions-Policy`, plus one-year immutable caching for `/_next/static/*`. These apply on Vercel only; they were reviewed in source and have not yet been confirmed on a public deployment because previews are login-protected.
+`vercel.json` adds `Content-Security-Policy` (self only, no external scripts, WhatsApp allowed as a form action), `Strict-Transport-Security`, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` and `Permissions-Policy`, plus one-year immutable caching for `/_next/static/*`. Confirmed on the Vercel preview deployment for commit `6eadfe7`: the response carries all six headers and is served brotli-compressed. Previews also carry Vercel's own `x-robots-tag: noindex`, which production does not.
 
 ## Source limitation
 

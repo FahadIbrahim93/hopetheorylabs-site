@@ -1,53 +1,30 @@
+"use client";
+import type { FormEvent } from "react";
 import { useContent } from "./LanguageProvider";
-
 import { SectionLabel } from "./SectionLabel";
-
-/*
-  Contact (#contact). Large, 44px+ tap targets, descriptive link text.
-  The StickyWhatsApp button hides while this section is on screen.
-*/
 export function Contact() {
   const content = useContent();
-  return (
-    <section id="contact" className="border-b border-paper/10" aria-labelledby="contact-heading">
-      <div className="mx-auto grid max-w-6xl grid-cols-12 gap-8 px-6 py-20 md:px-8 md:py-24">
-        <div className="col-span-12 md:col-span-4">
-          <SectionLabel index="07" label={content.contact.heading} className="text-teal" />
-          <h2
-            id="contact-heading"
-            className="mt-6 font-heading text-4xl tracking-[-0.03em] text-paper md:text-5xl"
-          >
-            {content.contact.heading}
-          </h2>
-          <p className="mt-6 text-paper/60">{content.contact.note}</p>
-        </div>
-        <div className="col-span-12 md:col-span-7 md:col-start-6">
-          <ul className="border-y border-paper/10 divide-y divide-paper/10">
-            <li>
-              <a
-                href={content.contact.phoneHref}
-                className="flex min-h-14 items-center justify-between gap-4 text-xl text-paper hover:text-teal md:text-2xl"
-              >
-                <span className="font-heading tracking-[-0.03em]">{content.contact.phone}</span>
-                <span aria-hidden="true" className="font-mono text-xs text-paper/40">
-                  wa.me
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href={`mailto:${content.contact.email}`}
-                className="flex min-h-14 items-center justify-between gap-4 text-xl text-paper hover:text-teal md:text-2xl"
-              >
-                <span className="font-heading tracking-[-0.03em]">{content.contact.email}</span>
-                <span aria-hidden="true" className="font-mono text-xs text-paper/40">
-                  email
-                </span>
-              </a>
-            </li>
-          </ul>
-        </div>
+  function sendMessage(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const name = String(form.get("name") ?? "").trim();
+    const need = String(form.get("need") ?? "").trim();
+    const message = "Hi Hope Theory Labs, I’m " + (name || "a visitor") + ". " + need;
+    window.open("https://wa.me/8801718463471?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
+  }
+  return <section id="contact" className="contact-section border-b border-paper/10" aria-labelledby="contact-heading">
+    <div className="contact-grid">
+      <div className="contact-intro"><SectionLabel index="08" label={content.contact.eyebrow} className="text-teal"/><h2 id="contact-heading">{content.contact.heading}</h2><p>{content.contact.note}</p></div>
+      <div className="contact-main">
+        <form className="contact-form" onSubmit={sendMessage}>
+          <label>{content.contact.nameLabel}<input name="name" autoComplete="name" /></label>
+          <label>{content.contact.needLabel}<textarea name="need" rows={3} /></label>
+          <button className="primary-cta" type="submit">{content.contact.submit}</button>
+        </form>
+        <div className="contact-links"><a className="primary-cta" href={content.contact.phoneHref} target="_blank" rel="noopener noreferrer">{content.contact.whatsappCta}</a><a className="text-link" href={"mailto:" + content.contact.email}>{content.contact.email}</a></div>
+        <p className="contact-phone">{content.contact.phone}</p>
       </div>
-    </section>
-  );
+    </div>
+    <div className="ticker" aria-hidden="true"><div className="ticker-track">{[...content.footer.ticker, ...content.footer.ticker].map((item, i) => <span key={item + "-" + i}>{item}</span>)}</div></div>
+  </section>;
 }

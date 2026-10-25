@@ -7,6 +7,6 @@ export function ShiftSection() {
       <h2 id="shift-heading">{story.shiftHeading}</h2>
       <p>{story.shiftText}</p>
       <a className="text-link" href="#services">{story.shiftCta} <span aria-hidden="true">›</span></a>
-    </div></div>
+    </div><div className="scene-slot story-visual" data-scene-anchor="shift" aria-hidden="true" /></div>
   </section>;
 }

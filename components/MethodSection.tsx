@@ -6,6 +6,6 @@ export function MethodSection() {
       <p className="eyebrow">{story.methodEyebrow}</p>
       <h2 id="method-heading">{story.methodHeading}</h2>
       <p>{story.methodText}</p>
-    </div></div>
+    </div><div className="scene-slot story-visual" data-scene-anchor="method" aria-hidden="true" /></div>
   </section>;
 }

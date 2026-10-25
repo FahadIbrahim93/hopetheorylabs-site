@@ -5,10 +5,11 @@ import type { PointerEvent } from "react";
 import { useContent } from "./LanguageProvider";
 
 /*
-  Hope Theory Labs intelligence core.
-  Built from inline SVG + CSS (no 3D runtime or external assets) to preserve
-  the supplied concept's orbiting wireframe, radar sweep, signal paths and
-  eight connected source nodes while respecting the site's performance budget.
+  Hope Theory Labs intelligence core — static layer.
+  Inline SVG + CSS version of the orbiting wireframe, radar sweep, signal
+  paths and eight source nodes. It paints with the static HTML before any
+  JavaScript runs, hands over to the WebGL scene with a crossfade when that
+  is ready, and remains the complete fallback when WebGL is unavailable.
 */
 const nodes = [
   { x: 320, y: 62, lx: 320, ly: 34, anchor: "middle" as const },
@@ -21,7 +22,7 @@ const nodes = [
   { x: 140, y: 132, lx: 122, ly: 126, anchor: "end" as const },
 ];
 
-export function IntelligenceCore() {
+export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
   const content = useContent();
 
   function respondToPointer(event: PointerEvent<HTMLDivElement>) {
@@ -41,7 +42,7 @@ export function IntelligenceCore() {
 
   return (
     <div
-      className="intelligence-core relative mx-auto w-full max-w-[570px]"
+      className={`intelligence-core relative mx-auto w-full max-w-[570px]${retired ? " is-retired" : ""}`}
       onPointerMove={respondToPointer}
       onPointerLeave={resetPointer}
       aria-hidden="true"

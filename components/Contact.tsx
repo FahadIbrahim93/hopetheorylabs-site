@@ -13,7 +13,7 @@ export function Contact() {
   }
   return <section id="contact" className="contact-section border-b border-paper/10" aria-labelledby="contact-heading">
     <div className="contact-grid">
-      <div className="contact-intro"><p className="eyebrow">{content.contact.eyebrow}</p><h2 id="contact-heading">{content.contact.heading}</h2><p>{content.contact.note}</p></div>
+      <div className="contact-intro"><p className="eyebrow">{content.contact.eyebrow}</p><h2 id="contact-heading">{content.contact.heading}</h2><p>{content.contact.note}</p><div className="scene-slot contact-visual" data-scene-anchor="contact" aria-hidden="true" /></div>
       <div className="contact-main">
         <form className="contact-form" onSubmit={sendMessage}>
           <label>{content.contact.nameLabel}<input name="name" autoComplete="name" /></label>

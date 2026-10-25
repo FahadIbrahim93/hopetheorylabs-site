@@ -4,6 +4,7 @@ import { LazyMotion, domAnimation } from "framer-motion";
 import { LanguageProvider, useContent, useLang } from "./LanguageProvider";
 import { About } from "./About";
 import { Contact } from "./Contact";
+import { Experience } from "./experience/Experience";
 import { FeatureGrid } from "./FeatureGrid";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
@@ -24,6 +25,7 @@ function Shell() {
     <a href="#main" className="skip-link">{content.header.skip}</a>
     <Header />
     <StateHud />
+    <Experience />
     <main id="main" tabIndex={-1}>
       <Hero />
       <Reveal><MethodSection /></Reveal>

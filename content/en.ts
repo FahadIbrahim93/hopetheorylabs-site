@@ -20,6 +20,16 @@ export const en: SiteContent = {
     secondaryCta: "Watch it assemble", secondaryHref: "#method",
     coreDescription: "An animated intelligence core connects websites, CRM, databases, files, apps, APIs, systems and people.",
     coreNodes: ["Websites", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],
+    coreNodeDetails: [
+      "Your site and storefront: the orders, enquiries and forms that arrive through it.",
+      "Customer records and conversations, so every contact has one history.",
+      "Inventory, prices and transactions that the rest of the business reads from.",
+      "Spreadsheets, documents and invoices that usually live on one laptop.",
+      "The tools your team already uses: accounting, email, chat, delivery.",
+      "Payment, logistics and messaging services connected programmatically.",
+      "Point of sale, booking and older software that still runs the day.",
+      "Your team: the people who ask the questions and approve what matters.",
+    ],
     coreCaption: "Connected intelligence · Hope Theory Labs",
   },
   story: {
@@ -29,6 +39,8 @@ export const en: SiteContent = {
     shiftText: "It’s not just about tools. It’s about creating a unified intelligence from your data, systems and people.",
     shiftCta: "Learn more",
     flowEyebrow: "The living platform", flowHeading: "Everything you run, in one living flow.",
+    flowText: "Eight kinds of source feed one connected record. Signals travel from each source into the core, and answers travel back out to the people and tools that need them.",
+    flowHint: "Select a source to trace its connection.",
     flowItems: [
       { title: "Connect", text: "Your data sources" },
       { title: "Automate", text: "Your workflows" },

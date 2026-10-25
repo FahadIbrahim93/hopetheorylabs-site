@@ -26,6 +26,9 @@ export interface SiteContent {
     secondaryCta: string;
     pricingHref: string;
     mockupDescription: string;
+    coreDescription: string;
+    coreNodes: string[];
+    coreCaption: string;
   };
   howItWorks: {
     heading: string;

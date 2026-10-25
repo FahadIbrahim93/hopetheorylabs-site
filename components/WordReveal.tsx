@@ -8,7 +8,7 @@
 */
 export function WordReveal({ text }: { text: string }) {
   return (
-    <span aria-hidden="true">
+    <span className="word-reveal" aria-hidden="true">
       {text.split(" ").map((word, index, words) => (
         <span
           key={index}

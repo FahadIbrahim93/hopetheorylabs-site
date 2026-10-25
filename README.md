@@ -39,7 +39,7 @@ Read these before changing the site. If documents conflict, `docs/SPEC.md` wins.
 
 - The page is composed from reusable components under `components/`.
 - All visible site copy belongs in `content/en.ts` and `content/bn.ts`; review Bangla translations with Fahad/Tamim before launch.
-- The animated hero field is a lightweight 2D canvas with a static fallback. Respect reduced-motion preferences.
+- The supplied concept is ported into reusable Next.js components: editorial two-line hero, SVG/CSS intelligence core, 2D particle field, stage-based story sections, interactive four-step process, services, animated Rollers Republic phone mockup, contact-to-WhatsApp form, state HUD, and ticker. Motion respects reduced-motion preferences. The original pasted shader was truncated, so the core visual is reconstructed without a Three.js runtime.
 - The Rollers Republic work item is a concept, not client work. Do not add Sthappo until delivered and approved.
 - No invented metrics, testimonials, logos, credentials, analytics, tracking or cookies.
 

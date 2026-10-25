@@ -26,6 +26,8 @@ export function WhatsAppCta({
   return (
     <a
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className={`cta group inline-flex min-h-11 items-center gap-2 rounded-md bg-teal font-semibold text-ink hover:opacity-90 ${sizes[size]} ${className}`}
     >
       <span className="relative">

@@ -1,17 +1,37 @@
-# QA results — WebGL experience (HTML port)
+# QA results
 
-Branch: `cursor/webgl-intelligence-experience-d142` (merged with `main` at commit after `4324472`). Architecture: `PageShell` + `components/experience/` (replaces the locked `HomeMotion` homepage on `main` when this PR merges).
+**Production URL:** https://hopetheorylabs.vercel.app  
+**Main branch commit (WebGL release):** `f47ab2f` — merge of PR #27 (26 Oct 2025, 05:24 AM Dhaka).  
+**Architecture:** `PageShell` + lazy `components/experience/` (Three.js / R3F HTML concept port).
 
 ## Automated checks — 26 Oct 2026 (Asia/Dhaka)
 
-- [x] `npm run lint`
-- [x] `npm run typecheck`
+- [x] `npm run lint` on `main`
+- [x] `npm run typecheck` on `main`
 - [x] `npm run build` (static export → `out/`)
-- [x] `vercel.json` security headers retained from `main`
+- [x] `vercel.json` security headers on live site (CSP, HSTS, `X-Frame-Options`, etc.)
 
-## Lighthouse — mobile, static `out/` (gzip via local serve)
+## Production smoke — 26 Oct 2026 (Asia/Dhaka)
 
-Tool: Lighthouse 13.x, mobile emulation, simulated throttling, headless Chrome + SwiftShader WebGL.
+- [x] `GET https://hopetheorylabs.vercel.app` → **200**, HTML title and meta present
+- [x] Theme color `#07090C`, canonical URL set
+
+## Lighthouse — mobile, **production** URL
+
+Tool: Lighthouse (CLI), mobile emulation, headless Chrome, 26 Oct 2026 (Asia/Dhaka).
+
+| Category | Score |
+| --- | --- |
+| Performance | **81** |
+| Accessibility | **96** |
+| Best Practices | **100** |
+| SEO | **100** |
+
+Metrics: LCP **2.3 s** · CLS **0** (production CDN run).
+
+**Note:** Local static serve of `out/` previously reported Performance **82** and CLS **0.276** (WebGL layer fade-in on cold local serve). Production measurement did not reproduce CLS; Performance remains below the original **90+** goal because of the Three/R3F bundle loaded after `load`.
+
+## Lighthouse — mobile, local `out/` (reference)
 
 | Category | Score |
 | --- | --- |
@@ -20,29 +40,38 @@ Tool: Lighthouse 13.x, mobile emulation, simulated throttling, headless Chrome +
 | Best Practices | **100** |
 | SEO | **100** |
 
-Metrics: LCP **2.7 s** · CLS **0.276** (WebGL layer crossfade and late canvas attach; investigate reserving space or delaying opacity if this blocks release) · TBT ~110 ms on an earlier run.
+CLS **0.276** on that run — see note above.
 
-Note: `main`'s locked homepage reached Performance **97** with a smaller JS surface (no Three/R3F chunk). This branch trades some Lighthouse performance for the full HTML shader port; the Three/R3F bundle loads after `load`.
+## Interaction gauntlet — headless Chrome, local `out/` @ :4173
 
-## Interaction gauntlet — headless Chrome, `out/` @ :4173
+Script: ad-hoc `/tmp/htl-test/gauntlet.mjs` (not in repo). All checks passed, zero console errors:
 
-Script: `/tmp/htl-test/gauntlet.mjs` (not in repo). All checks passed, zero console errors:
-
-- [x] Flow section: labels `tabIndex=0`, narrative `pp ≥ 0.55`
-- [x] Tap burst on canvas (empty area)
+- [x] Flow section: labels focusable, narrative `pp ≥ 0.55`
+- [x] Tap burst on canvas
 - [x] How-it-works step click (centre burst)
-- [x] Drag rotate on canvas (no errors)
-- [x] `prefers-reduced-motion: reduce` — ≤2 frames over 1.5 s idle after toggle
+- [x] Drag rotate on canvas
+- [x] `prefers-reduced-motion: reduce` — idle frame budget respected
 
-Also run: `node run.mjs desktop|mobile` in `/tmp/htl-test/` (SwiftShader).
+## Release gates — status
 
-## Not verified
-
-- [ ] Real-GPU fps and runtime tier downgrade
-- [ ] Safari / Firefox / physical devices
-- [ ] Vercel preview Lighthouse (may differ from local; previews may be deployment-protected)
-- [ ] Bangla copy review
+| Gate | Status |
+| --- | --- |
+| WebGL experience on `main` | **Shipped** (PR #27) |
+| SEO / 404 / favicon | **Present** on `main` |
+| Lighthouse Perf 90+ mobile | **Not met** (81 prod / 82 local) — track under perf follow-up |
+| Bangla copy review | **Outstanding** (`content/bn.ts` TODO) |
+| Real-device Safari/Firefox | **Not verified** in automation |
+| Custom domain beyond `*.vercel.app` | **Not configured** in this repo |
 
 ## Diagnostics
 
-`window.__htlExperience`: `{ tier, dpr, avgFrameMs, downgrades, frames, progress: { t, pp, scrollY } }`
+In browser console (WebGL mode): `window.__htlExperience` — `{ tier, dpr, avgFrameMs, downgrades, frames, progress: { t, pp, scrollY } }`.
+
+QA overrides: `?experience=fallback|low|mid|high`.
+
+## Sign-off
+
+| Role | Name | Date | Notes |
+| --- | --- | --- | --- |
+| Engineering (automated + smoke) | Cloud agent | 26 Oct 2026 | Production link verified |
+| Product / Fahad | — | — | Approve custom domain and Bangla before broad marketing |

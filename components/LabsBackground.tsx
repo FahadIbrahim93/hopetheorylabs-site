@@ -4,13 +4,13 @@ import { useEffect, useRef } from "react";
 
 /*
   The one signature interaction (docs/SPEC.md): a faint teal dot/particle
-  field behind the hero that drifts slowly and reacts gently to the pointer.
+  field behind the hero that drifts slowly as a quiet supporting layer.
 
   Budget (docs/SPEC.md): under 8 KB, no libraries, 2D canvas only.
   - Starts only after first paint, and only while the hero is visible
     (IntersectionObserver) and the tab is visible (visibilitychange).
   - Max 60 particles on mobile, 140 on desktop; devicePixelRatio capped at 2.
-  - Dot opacity 0.15–0.4; near the pointer dots brighten and gently move away.
+  - Dot opacity 0.15–0.4; no pointer interaction, keeping the intelligence core as the signature.
   - prefers-reduced-motion: exactly one static frame, no drift.
   Canvas is aria-hidden; the static CSS fallback beneath it carries the look.
 
@@ -48,7 +48,6 @@ export default function LabsBackground() {
 
     const reduced = window.matchMedia(REDUCED_QUERY);
     const mobile = window.matchMedia(MOBILE_QUERY);
-    const pointer = { x: -9999, y: -9999, inside: false };
 
     let particles: Particle[] = [];
     let width = 0;
@@ -82,16 +81,7 @@ export default function LabsBackground() {
     }
 
     function opacityFor(p: Particle): number {
-      let opacity = p.base;
-      if (pointer.inside) {
-        const dx = p.x - pointer.x;
-        const dy = p.y - pointer.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < POINTER_RADIUS) {
-          opacity += (1 - dist / POINTER_RADIUS) * 0.15;
-        }
-      }
-      return Math.min(opacity, MAX_OPACITY);
+      return Math.min(p.base, MAX_OPACITY);
     }
 
     /** Advance one step (dt seconds) and paint. dt = 0 paints without moving. */
@@ -102,18 +92,6 @@ export default function LabsBackground() {
           // Slow random drift.
           p.x += p.vx * dt;
           p.y += p.vy * dt;
-
-          // Gentle push away from the pointer.
-          if (pointer.inside) {
-            const dx = p.x - pointer.x;
-            const dy = p.y - pointer.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < POINTER_RADIUS && dist > 0.01) {
-              const push = (1 - dist / POINTER_RADIUS) * 24 * dt;
-              p.x += (dx / dist) * push;
-              p.y += (dy / dist) * push;
-            }
-          }
 
           // Wrap around the edges.
           if (p.x < -4) p.x = width + 4;
@@ -185,25 +163,6 @@ export default function LabsBackground() {
     };
     window.addEventListener("resize", onResize);
 
-    const onPointerMove = (e: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      pointer.x = e.clientX - rect.left;
-      pointer.y = e.clientY - rect.top;
-      pointer.inside = true;
-    };
-    const onPointerLeave = () => {
-      pointer.inside = false;
-    };
-    canvas.addEventListener("pointermove", onPointerMove, { passive: true });
-    canvas.addEventListener("pointerleave", onPointerLeave);
-
-    return () => {
-      stop();
-      io.disconnect();
-      document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("resize", onResize);
-      canvas.removeEventListener("pointermove", onPointerMove);
-      canvas.removeEventListener("pointerleave", onPointerLeave);
     };
   }, []);
 

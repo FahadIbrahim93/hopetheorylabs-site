@@ -36,5 +36,5 @@ Feel references: linear.app, vercel.com, stripe.com, rauno.me. Calm, elegant, en
 ## Performance budget
 
 - First-load JS < 120 KB gzipped; particle field < 8 KB, no libraries; total first load < 500 KB.
-- LCP is the H1 text; CLS < 0.1 (reserve space for the phone mockup).
+- LCP is the H1 text; CLS < 0.1 (reserve space for the intelligence core).
 - No tracking, analytics, cookies or external scripts.

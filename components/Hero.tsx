@@ -7,16 +7,16 @@ import { WordReveal } from "./WordReveal";
 const LabsBackground = dynamic(() => import("./LabsBackground"), { ssr: false });
 export function Hero() {
   const content = useContent();
-  const words = content.hero.heading.split(". ");
+  const words = content.hero.heading.split(" / ");
   return <section id="top" className="hero-section" aria-labelledby="hero-heading">
     <div aria-hidden="true" className="hero-fallback" />
     <LabsBackground />
     <div className="hero-grid">
       <div className="hero-copy">
         <p className="eyebrow">{content.hero.eyebrow}</p>
-        <h1 id="hero-heading" aria-label={content.hero.heading}>
-          <span><WordReveal text={words[0] + "."} /></span>
-          <span className="accent-line"><WordReveal text={words.slice(1).join(". ")} /></span>
+        <h1 id="hero-heading" aria-label={content.hero.heading.replace(" / ", " ")}>
+          <span><WordReveal text={words[0]} /></span>
+          <span className="accent-line"><WordReveal text={words[1]} /></span>
         </h1>
         <p className="hero-subheading">{content.hero.subheading}</p>
         <div className="hero-actions">

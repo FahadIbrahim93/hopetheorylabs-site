@@ -1,93 +1,19 @@
 import type { SiteContent } from "./types";
-import { whatsappLink, whatsappOrderLink } from "./types";
+import { en } from "./en";
 
-// TODO: Bangla to be reviewed by Fahad/Tamim
-// Values are the English copy for now; they will be translated and reviewed
-// before the language toggle goes live (docs/SPEC.md, "Made for Bangladesh").
+/*
+ * TODO: Bangla copy must be reviewed by Fahad/Tamim before the language toggle
+ * goes live. Keep the schema in sync with English; values temporarily mirror it.
+ */
 export const bn: SiteContent = {
-  header: {
-    wordmark: "hope theory labs",
-    nav: [
-      { label: "How it works", href: "#how" },
-      { label: "Work", href: "#work" },
-      { label: "Pricing", href: "#pricing" },
-      { label: "Contact", href: "#contact" },
-    ],
-    whatsapp: "WhatsApp",
-    menu: "Menu",
-    skip: "Skip to content",
-    language: "Site language",
-  },
-  hero: {
-    heading: "Fast websites for Bangladeshi businesses.",
-    subheading:
-      "Mobile-first sites with WhatsApp ordering built in. We'll build a free concept of yours first.",
-    primaryCta: "Message us on WhatsApp",
-    whatsappLink: whatsappOrderLink,
-    secondaryCta: "See pricing",
-    pricingHref: "#pricing",
-    coreDescription:
-      "An animated intelligence core connects eight business information sources: websites, CRM, databases, files, apps, APIs, systems and people. A radar sweep moves through a wireframe sphere.",
-    coreNodes: ["Websites", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],
-    coreCaption: "Connected intelligence · Hope Theory Labs",
-  },
-  howItWorks: {
-    heading: "How it works",
-    steps: [
-      "We build a free working concept with your products.",
-      "You try it on your phone.",
-      "If you like it, we set it up on your domain.",
-    ],
-  },
-  whatYouGet: {
-    heading: "What you get",
-    items: [
-      "Fast on mobile",
-      "Orders straight to your WhatsApp",
-      "Cash on delivery",
-      "Easy to update",
-    ],
-  },
-  speedSlider: {
-    label: "Illustrative only",
-    before: "Before",
-    after: "After",
-    aria: "Compare page load speed — before and after",
-  },
-  work: {
-    heading: "Work",
-    title: "Rollers Republic",
-    tag: "Concept",
-    description: "A free concept built on the shop's real catalog.",
-    link: "https://rollers-republic-pitch.vercel.app",
-  },
-  pricing: {
-    heading: "Pricing",
-    base: "Websites from ৳25,000.",
-    founding:
-      "Founding clients: ৳15,000, in exchange for a short review and permission to show your site.",
-    cta: "Ask about a free concept",
-  },
-  earlyAccess: {
-    heading: "Coming soon",
-    tag: "Early access",
-    items: ["AI audits", "Forward-deployed AI engineering"],
-    text: "Ask us if you're curious.",
-  },
-  about: {
-    heading: "About",
-    text: "We're a small team in Dhaka: Fahad Ibrahim and Tamim Abir. We keep things simple and honest.",
-  },
-  contact: {
-    heading: "Contact",
-    phone: "WhatsApp 01718463471",
-    phoneHref: whatsappLink,
-    email: "hopetheorybd@gmail.com",
-    note: "Reply whenever suits you.",
-  },
-  footer: {
-    text: "© 2026 Hope Theory Labs · Dhaka, Bangladesh · from the Hope Theory family.",
-  },
+  ...en,
+  header: { ...en.header, nav: en.header.nav.map((item) => ({ ...item })) },
+  hero: { ...en.hero, coreNodes: [...en.hero.coreNodes] },
+  story: { ...en.story, flowItems: en.story.flowItems.map((item) => ({ ...item })) },
+  howItWorks: { ...en.howItWorks, steps: en.howItWorks.steps.map((item) => ({ ...item })) },
+  services: { ...en.services, items: en.services.items.map((item) => ({ ...item })) },
+  work: { ...en.work, phoneItems: [...en.work.phoneItems] },
+  contact: { ...en.contact },
+  footer: { ...en.footer, ticker: [...en.footer.ticker] },
 };
-
 export default bn;

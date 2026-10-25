@@ -14,9 +14,15 @@ export const COLORS = {
   ink: [0.027, 0.035, 0.047],
 } as const;
 
+/*
+  Depth cue relative to the camera's distance from the origin: things in
+  front of the core stay bright, things behind it sink toward the background.
+  The camera distance changes with the composition, so the fade must follow it.
+*/
 const DEPTH_FADE = /* glsl */ `
-  float depthFade(float viewZ, float near, float far) {
-    return smoothstep(far, near, viewZ);
+  uniform float uCamDist;
+  float depthFade(float viewZ) {
+    return smoothstep(uCamDist + 2.8, uCamDist - 1.6, viewZ);
   }
 `;
 
@@ -86,9 +92,9 @@ export const particleVertex = /* glsl */ `
     gl_Position = projectionMatrix * mv;
     gl_PointSize = aSize * uPixelScale / dist;
 
-    float fade = depthFade(dist, 3.5, 13.0);
-    float kindAlpha = aKind < 0.5 ? 0.85 : (aKind < 1.5 ? 0.6 : 0.5);
-    vAlpha = fade * kindAlpha * (0.55 + 0.45 * ease);
+    float fade = depthFade(dist);
+    float kindAlpha = aKind < 0.5 ? 1.0 : (aKind < 1.5 ? 0.75 : 0.6);
+    vAlpha = fade * kindAlpha * (0.6 + 0.4 * ease);
     vTone = aTone;
     vKind = aKind;
   }
@@ -132,7 +138,7 @@ export const linkVertex = /* glsl */ `
     float cycle = sin(uTime * 0.35 * uMotion + aSeed * 40.0);
     float flicker = smoothstep(0.1, 0.75, cycle);
     if (uMotion < 0.5) flicker = step(0.45, aSeed);
-    vAlpha = flicker * ease * depthFade(-mv.z, 3.5, 12.0);
+    vAlpha = flicker * ease * depthFade(-mv.z);
   }
 `;
 
@@ -179,7 +185,7 @@ export const edgeVertex = /* glsl */ `
     vPulse = pow(1.0 - travel, 7.0);
     vT = aT;
     vWeight = w;
-    vAlpha = drawn * depthFade(-mv.z, 3.5, 13.0);
+    vAlpha = drawn * depthFade(-mv.z);
   }
 `;
 
@@ -193,10 +199,10 @@ export const edgeFragment = /* glsl */ `
   varying float vWeight;
   varying float vPulse;
   void main() {
-    float base = 0.16 + vWeight * 0.5;
+    float base = 0.38 + vWeight * 0.5;
     // When something is focused, unrelated edges recede.
     base *= mix(1.0, 0.35, uFocusActive * (1.0 - vWeight));
-    float a = (base + vPulse * (0.55 + vWeight * 0.6)) * vAlpha * uDim;
+    float a = (base + vPulse * (0.85 + vWeight * 0.6)) * vAlpha * uDim;
     if (a < 0.003) discard;
     vec3 color = mix(uGold, uTeal, clamp(vPulse * 1.6 + vWeight, 0.0, 1.0));
     gl_FragColor = vec4(color * a, a);
@@ -216,7 +222,7 @@ export const packetVertex = /* glsl */ `
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
     gl_Position = projectionMatrix * mv;
     gl_PointSize = (0.06 + aTone * 0.03) * uPixelScale / -mv.z;
-    vAlpha = aAlpha * depthFade(-mv.z, 3.0, 13.0);
+    vAlpha = aAlpha * depthFade(-mv.z);
     vTone = aTone;
   }
 `;
@@ -232,7 +238,7 @@ export const packetFragment = /* glsl */ `
     float a = softDisc(gl_PointCoord, 0.1) * vAlpha * uDim;
     if (a < 0.004) discard;
     vec3 color = mix(uTeal, uGold, vTone * 0.5);
-    gl_FragColor = vec4((color + vec3(0.25)) * a, a);
+    gl_FragColor = vec4((color + vec3(0.08)) * a, a);
   }
 `;
 
@@ -255,6 +261,7 @@ export const radarFragment = /* glsl */ `
   uniform float uDim;
   uniform vec3 uGold;
   uniform vec3 uTeal;
+  uniform float uCamDist;
   varying vec2 vUv;
   varying float vDepth;
   void main() {
@@ -267,8 +274,8 @@ export const radarFragment = /* glsl */ `
     // Faint calibration rings and a thin edge.
     float rings = (1.0 - smoothstep(0.0, 0.015, abs(fract(r * 4.0) - 0.5) - 0.48)) * 0.05;
     float rim = (1.0 - smoothstep(0.0, 0.03, abs(r - 0.985))) * 0.18;
-    float fade = smoothstep(14.0, 4.0, vDepth);
-    float a = (sweep * 0.38 + rings + rim) * uStrength * uDim * fade;
+    float fade = smoothstep(uCamDist + 3.0, uCamDist - 2.0, vDepth);
+    float a = (sweep * 0.7 + rings + rim) * uStrength * uDim * fade;
     if (a < 0.003) discard;
     vec3 color = mix(uGold, uTeal, smoothstep(0.3, 0.9, r));
     gl_FragColor = vec4(color * a, a);

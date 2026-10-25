@@ -48,9 +48,9 @@ export const NARRATIVE: NarrativeSection[] = [
   {
     id: "top",
     key: {
-      assembly: 0.82, connection: 0.3, signals: 0.25, outbound: 0, spread: 0.12,
+      assembly: 0.82, connection: 0.45, signals: 0.35, outbound: 0, spread: 0.12,
       dim: 1, labels: 1, radar: 1, links: 1,
-      orbit: 0.15, elevation: 0.22, zoom: 1, anchor: "hero",
+      orbit: 0.15, elevation: 0.22, zoom: 0.92, anchor: "hero",
     },
   },
   {
@@ -58,7 +58,7 @@ export const NARRATIVE: NarrativeSection[] = [
     key: {
       assembly: 1, connection: 0, signals: 0, outbound: 0, spread: 1,
       dim: 1, labels: 0.35, radar: 0.4, links: 1,
-      orbit: 0.7, elevation: 0.32, zoom: 0.78, anchor: "method",
+      orbit: 0.7, elevation: 0.32, zoom: 0.98, anchor: "method",
     },
   },
   {
@@ -114,7 +114,7 @@ export const NARRATIVE: NarrativeSection[] = [
     key: {
       assembly: 1, connection: 1, signals: 1, outbound: 0.5, spread: 0,
       dim: 0.95, labels: 0.55, radar: 1, links: 1,
-      orbit: 5.1, elevation: 0.55, zoom: 1.2, anchor: "contact",
+      orbit: 5.1, elevation: 0.55, zoom: 1.0, anchor: "contact",
     },
   },
 ];

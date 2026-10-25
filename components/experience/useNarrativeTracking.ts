@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { SECTION_IDS } from "./narrative";
+import { NARRATIVE, SECTION_IDS } from "./narrative";
 import { experienceActions, frameState, invalidateFrame } from "./store";
 
 /*
@@ -47,7 +47,7 @@ function measure() {
 }
 
 /*
-  Scroll position at which section i is "in focus": vertically centred when
+  Scroll position at which a block is "in focus": vertically centred when
   shorter than the viewport, otherwise aligned to the top. Progress is linear
   between consecutive focus positions.
 */
@@ -55,15 +55,38 @@ function focusScroll(top: number, height: number, vh: number) {
   return top - Math.max(0, vh - Math.min(height, vh)) / 2;
 }
 
+/*
+  Each section's focus point is its scene slot when one is laid out (so the
+  keyframe lands exactly when the visual is centred, however tall the section
+  is on a narrow screen), otherwise the section itself. Focus points are kept
+  monotonic so progress never runs backwards while scrolling forwards.
+*/
+function focusPoints() {
+  const { sections, anchors, vh } = frameState;
+  const focus: number[] = [];
+  let previous = -Infinity;
+  sections.forEach((section, i) => {
+    const anchorId = NARRATIVE[i]?.key.anchor;
+    const anchor = anchorId ? anchors.get(anchorId) : undefined;
+    const point =
+      anchor && anchor.height > 0
+        ? focusScroll(anchor.top, anchor.height, vh)
+        : focusScroll(section.top, section.height, vh);
+    previous = Math.max(previous, point);
+    focus.push(previous);
+  });
+  return focus;
+}
+
 function updateProgress() {
-  const { sections, vh } = frameState;
+  const { sections } = frameState;
   const scrollY = window.scrollY;
   frameState.scrollY = scrollY;
   if (sections.length < 2) {
     frameState.t = 0;
     return;
   }
-  const focus = sections.map((s) => focusScroll(s.top, s.height, vh));
+  const focus = focusPoints();
   let t = 0;
   if (scrollY <= focus[0]) t = 0;
   else if (scrollY >= focus[focus.length - 1]) t = focus.length - 1;

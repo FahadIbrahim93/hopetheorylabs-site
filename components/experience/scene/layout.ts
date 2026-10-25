@@ -65,7 +65,7 @@ export function buildParticles(count: number): ParticleBuffers {
       z = r * Math.sin(theta) * Math.sin(phi);
       kind[i] = 0;
       tone[i] = rand() < 0.3 ? 1 : 0;
-      size[i] = 0.017 + rand() * 0.014;
+      size[i] = 0.026 + rand() * 0.018;
     } else if (i < surfaceCount + innerCount) {
       const dir = randomDirection(rand);
       const r = CORE_RADIUS * (0.35 + Math.pow(rand(), 0.6) * 0.55);
@@ -74,7 +74,7 @@ export function buildParticles(count: number): ParticleBuffers {
       z = dir.z * r;
       kind[i] = 1;
       tone[i] = rand() < 0.5 ? 1 : 0;
-      size[i] = 0.012 + rand() * 0.014;
+      size[i] = 0.016 + rand() * 0.016;
     } else {
       const dir = randomDirection(rand);
       const r = CORE_RADIUS * (1.4 + Math.pow(rand(), 1.4) * 2.4);
@@ -83,7 +83,7 @@ export function buildParticles(count: number): ParticleBuffers {
       z = dir.z * r;
       kind[i] = 2;
       tone[i] = rand() < 0.65 ? 1 : 0;
-      size[i] = 0.01 + rand() * 0.017;
+      size[i] = 0.014 + rand() * 0.02;
     }
     target[i3] = x;
     target[i3 + 1] = y;
@@ -157,12 +157,16 @@ export function nodeRingPosition(i: number, out: Vector3) {
 
 const X_AXIS = new Vector3(1, 0, 0);
 
-/** Scattered position of node i: further out, at clearly different depths. */
+/**
+ * Scattered position of node i: a little further out than the ring, at
+ * clearly different depths and heights. Kept inside ~1.35x the ring radius so
+ * the disconnected state still fits the section's reserved slot.
+ */
 export function nodeScatteredPosition(i: number, out: Vector3) {
   const rand = mulberry32(900 + i * 17);
   const angle = (i / NODE_COUNT) * Math.PI * 2 - Math.PI / 2 + (rand() - 0.5) * 0.9;
-  const r = 3.1 + rand() * 1.6;
-  out.set(Math.cos(angle) * r, (rand() - 0.5) * 2.6, Math.sin(angle) * r * 0.7 + (rand() - 0.5) * 2.2);
+  const r = 2.5 + rand() * 0.7;
+  out.set(Math.cos(angle) * r, (rand() - 0.5) * 1.7, Math.sin(angle) * r * 0.7 + (rand() - 0.5) * 2.2);
   return out;
 }
 

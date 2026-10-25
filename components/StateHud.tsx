@@ -7,6 +7,11 @@ const stages = [
   { id: "flow", label: "Flowing", progress: "64%" },
   { id: "how", label: "Integrating", progress: "80%" },
   { id: "services", label: "Intelligent", progress: "100%" },
+  // Later sections hold the final state, so jumping straight to them never
+  // leaves the readout on "Scattered".
+  { id: "work", label: "Intelligent", progress: "100%" },
+  { id: "about", label: "Intelligent", progress: "100%" },
+  { id: "contact", label: "Intelligent", progress: "100%" },
 ];
 export function StateHud() {
   const [stage, setStage] = useState(stages[0]);

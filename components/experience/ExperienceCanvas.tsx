@@ -6,7 +6,7 @@ import { NoToneMapping, type WebGLRenderer } from "three";
 
 import { createFrameMonitor, lowerTier, QUALITY } from "./quality";
 import { IntelligenceScene } from "./scene/IntelligenceScene";
-import { experienceActions, registerInvalidator, type QualityTier } from "./store";
+import { experienceActions, frameState, registerInvalidator, type QualityTier } from "./store";
 
 /*
   Hosts the single WebGL renderer. Responsibilities: pixel-ratio cap per
@@ -31,6 +31,8 @@ declare global {
       avgFrameMs: number | null;
       downgrades: number;
       renderer: string;
+      /** Read-only snapshot of the scroll narrative for QA tooling. */
+      readonly progress: { t: number; scrollY: number; anchors: Record<string, { top: number; height: number }> };
     };
   }
 }
@@ -116,6 +118,13 @@ export default function ExperienceCanvas({ initialTier, reduced, onReady, onFail
           avgFrameMs: null,
           downgrades: 0,
           renderer: typeof info === "string" ? info : "webgl",
+          get progress() {
+            const anchors: Record<string, { top: number; height: number }> = {};
+            frameState.anchors.forEach((rect, id) => {
+              anchors[id] = { top: rect.top, height: rect.height };
+            });
+            return { t: frameState.t, scrollY: frameState.scrollY, anchors };
+          },
         };
       }}
     >

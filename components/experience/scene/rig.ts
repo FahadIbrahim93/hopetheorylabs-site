@@ -39,7 +39,7 @@ import {
 */
 
 const FOV = 38;
-const SCENE_RADIUS = 3.05; // ring radius + node/label margin, fitted into the anchor
+const SCENE_RADIUS = 2.55; // ring radius + a small label margin, fitted into the anchor
 const RING_TILT = 0.42;
 const HOW_SECTION = 4;
 const SERVICES_SECTION = 5;
@@ -247,8 +247,8 @@ export class SceneRig {
       if (halo) {
         halo.position.copy(p);
         halo.quaternion.copy(camera.quaternion);
-        halo.scale.setScalar(0.42 + weight * 0.5);
-        a.haloMaterials[i].uniforms.uAlpha.value = (0.28 + weight * 0.55) * b.dim * (1 - b.spread * 0.35);
+        halo.scale.setScalar(0.55 + weight * 0.55);
+        a.haloMaterials[i].uniforms.uAlpha.value = (0.5 + weight * 0.6) * b.dim * (1 - b.spread * 0.35);
       }
 
       // Projection for HTML labels + pointer proximity.
@@ -346,6 +346,7 @@ export class SceneRig {
     pu.uDim.value = b.dim;
     (pu.uPointer.value as Vector3).copy(this.pointerWorld);
     pu.uPointerStrength.value = this.pointer.strength * motion;
+    pu.uCamDist.value = dist;
 
     const lu = a.linkMaterial.uniforms;
     lu.uTime.value = time;
@@ -353,6 +354,7 @@ export class SceneRig {
     lu.uMotion.value = motion;
     lu.uStrength.value = b.links * (0.8 + this.coreBoost * 0.6);
     lu.uDim.value = b.dim;
+    lu.uCamDist.value = dist;
 
     const eu = a.edgeMaterial.uniforms;
     eu.uTime.value = time;
@@ -361,25 +363,28 @@ export class SceneRig {
     eu.uOutbound.value = outbound;
     eu.uDim.value = b.dim;
     eu.uFocusActive.value = focusActive;
+    eu.uCamDist.value = dist;
 
     a.packetMaterial.uniforms.uPixelScale.value = pixelScale;
     a.packetMaterial.uniforms.uDim.value = b.dim;
+    a.packetMaterial.uniforms.uCamDist.value = dist;
 
     const ru = a.radarMaterial.uniforms;
     ru.uSweep.value = (time * (0.11 + mapMix * 0.18)) % 1;
     ru.uStrength.value = radar;
     ru.uDim.value = b.dim;
+    ru.uCamDist.value = dist;
 
-    a.shellMaterial.opacity = (0.06 + 0.1 * assembly + this.coreBoost * 0.14) * b.dim;
-    a.centreMaterial.opacity = (0.75 + this.coreBoost * 0.25) * b.dim * (0.4 + 0.6 * assembly);
-    a.ringMaterial.opacity = 0.2 * assembly * b.dim;
-    a.dashedRingMaterial.opacity = 0.32 * assembly * b.dim;
+    a.shellMaterial.opacity = (0.1 + 0.16 * assembly + this.coreBoost * 0.16) * b.dim;
+    a.centreMaterial.opacity = (0.85 + this.coreBoost * 0.15) * b.dim * (0.4 + 0.6 * assembly);
+    a.ringMaterial.opacity = 0.3 * assembly * b.dim;
+    a.dashedRingMaterial.opacity = 0.45 * assembly * b.dim;
     a.auraMaterial.uniforms.uAlpha.value =
-      (0.34 + this.coreBoost * 0.3 + 0.12 * Math.sin(time * 0.7) * motion) * b.dim * (0.3 + 0.7 * assembly);
+      (0.62 + this.coreBoost * 0.3 + 0.14 * Math.sin(time * 0.7) * motion) * b.dim * (0.3 + 0.7 * assembly);
 
     if (this.aura) {
       this.aura.quaternion.copy(camera.quaternion);
-      this.aura.scale.setScalar(4.2 + 0.3 * Math.sin(time * 0.5) * motion);
+      this.aura.scale.setScalar(4.6 + 0.3 * Math.sin(time * 0.5) * motion);
     }
     if (this.radar) {
       this.radar.rotation.set(-Math.PI / 2 + RING_TILT, 0, 0);
@@ -390,6 +395,8 @@ export class SceneRig {
     this.rings[2].rotation.set(-Math.PI / 2 + RING_TILT, 0, 0);
 
     /* 8. publish to DOM overlays */
-    publishSceneFrame({ nodes: this.frameNodes, labelOpacity: b.labels * b.dim });
+    // Labels fade out when the composed scene is too small for eight captions.
+    const roomForLabels = MathUtils.clamp((pr - 170) / 80, 0, 1);
+    publishSceneFrame({ nodes: this.frameNodes, labelOpacity: b.labels * b.dim * roomForLabels });
   }
 }

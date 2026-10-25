@@ -82,15 +82,19 @@ const STAGES: Record<string, [string, string]> = {
   contact: ["Intelligent", "100%"],
 };
 
-const NODE_LAYOUT: { desktop: [number, number]; mobile: [number, number]; scatter: [number, number] }[] = [
-  { desktop: [84, 12], mobile: [36, 10], scatter: [-14, -10] },
-  { desktop: [80, 26], mobile: [58, 10], scatter: [-8, -16] },
-  { desktop: [92, 44], mobile: [84, 10], scatter: [8, -6] },
-  { desktop: [78, 66], mobile: [99, 10], scatter: [-12, 10] },
-  { desktop: [91, 84], mobile: [36, 15.5], scatter: [6, 14] },
-  { desktop: [90, 16], mobile: [58, 15.5], scatter: [16, -12] },
-  { desktop: [86, 58], mobile: [80, 15.5], scatter: [12, 2] },
-  { desktop: [88, 74], mobile: [99, 15.5], scatter: [14, 12] },
+const NODE_LAYOUT: {
+  desktop: [number, number];
+  mobile: [number, number];
+  scatter: [number, number];
+}[] = [
+  { desktop: [84, 12], mobile: [31, 10], scatter: [-14, -10] },
+  { desktop: [80, 26], mobile: [50, 10], scatter: [-8, -16] },
+  { desktop: [92, 44], mobile: [79, 10], scatter: [8, -6] },
+  { desktop: [78, 66], mobile: [97, 10], scatter: [-12, 10] },
+  { desktop: [91, 84], mobile: [31, 15.5], scatter: [6, 14] },
+  { desktop: [90, 16], mobile: [50, 15.5], scatter: [16, -12] },
+  { desktop: [86, 58], mobile: [79, 15.5], scatter: [12, 2] },
+  { desktop: [88, 74], mobile: [97, 15.5], scatter: [14, 12] },
 ];
 
 function perspective(fov: number, aspect: number, near: number, far: number) {
@@ -167,7 +171,9 @@ export function HomeMotion() {
     const mobileQuery = window.matchMedia("(max-width: 800px)");
     let alive = true;
 
-    const sections = Array.from(document.querySelectorAll<HTMLElement>(".lock section"));
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>(".lock section"),
+    );
     const reveal = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -179,7 +185,9 @@ export function HomeMotion() {
     for (const section of sections) reveal.observe(section);
 
     const go = (id: string) => {
-      document.getElementById(id)?.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth" });
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth" });
     };
     const onGo = (event: Event) => {
       const target = (event.currentTarget as HTMLElement | null)?.dataset.go;
@@ -187,7 +195,9 @@ export function HomeMotion() {
       event.preventDefault();
       go(target);
     };
-    const jumpers = Array.from(document.querySelectorAll<HTMLElement>("[data-go]"));
+    const jumpers = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-go]"),
+    );
     for (const jumper of jumpers) jumper.addEventListener("click", onGo);
 
     const skip = document.getElementById("sk");
@@ -199,7 +209,9 @@ export function HomeMotion() {
     };
     skip?.addEventListener("click", onSkip);
 
-    const stepButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".stp button"));
+    const stepButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".stp button"),
+    );
     const stepText = document.getElementById("stx");
     const onStep = (event: Event) => {
       const button = event.currentTarget as HTMLButtonElement;
@@ -214,10 +226,21 @@ export function HomeMotion() {
     const form = document.getElementById("fm");
     const onSubmit = (event: Event) => {
       event.preventDefault();
-      const name = (document.getElementById("fn") as HTMLInputElement | null)?.value.trim() ?? "";
-      const need = (document.getElementById("ft") as HTMLTextAreaElement | null)?.value.trim() ?? "";
-      const message = `Hi Hope Theory Labs, I’m ${name || "a visitor"}. ${need}`.trim();
-      window.open(`https://wa.me/8801718463471?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+      const name =
+        (
+          document.getElementById("fn") as HTMLInputElement | null
+        )?.value.trim() ?? "";
+      const need =
+        (
+          document.getElementById("ft") as HTMLTextAreaElement | null
+        )?.value.trim() ?? "";
+      const message =
+        `Hi Hope Theory Labs, I’m ${name || "a visitor"}. ${need}`.trim();
+      window.open(
+        `https://wa.me/8801718463471?text=${encodeURIComponent(message)}`,
+        "_blank",
+        "noopener,noreferrer",
+      );
     };
     form?.addEventListener("submit", onSubmit);
 
@@ -266,165 +289,230 @@ export function HomeMotion() {
     );
     for (const section of sections) stageWatch.observe(section);
 
-    const canvas = document.getElementById("c");
-    const nodes = Array.from(document.querySelectorAll<HTMLElement>("#nds .nd"));
-    const mono = document.getElementById("mn");
-    const gl = canvas instanceof HTMLCanvasElement ? canvas.getContext("webgl2", { alpha: true, antialias: false }) : null;
-
     let frame = 0;
     const listeners: Array<() => void> = [];
     const stopGl = () => {
       cancelAnimationFrame(frame);
     };
 
-    if (!gl || !(canvas instanceof HTMLCanvasElement)) {
-      root.classList.add("nogl");
-    } else {
-      root.classList.remove("nogl");
-      const vertex = compile(gl, gl.VERTEX_SHADER, VERT);
-      const fragment = compile(gl, gl.FRAGMENT_SHADER, FRAG);
-      const program = gl.createProgram();
-      if (!vertex || !fragment || !program) {
+    // The field starts after load, on an idle slot, so the copy paints first
+    // and the GL work never competes with the first render.
+    const startField = () => {
+      if (!alive) return;
+      const canvas = document.getElementById("c");
+      const nodes = Array.from(
+        document.querySelectorAll<HTMLElement>("#nds .nd"),
+      );
+      const mono = document.getElementById("mn");
+      const gl =
+        canvas instanceof HTMLCanvasElement
+          ? canvas.getContext("webgl2", { alpha: true, antialias: false })
+          : null;
+
+      if (!gl || !(canvas instanceof HTMLCanvasElement)) {
         root.classList.add("nogl");
       } else {
-        gl.attachShader(program, vertex);
-        gl.attachShader(program, fragment);
-        gl.bindAttribLocation(program, 0, "position");
-        gl.bindAttribLocation(program, 1, "aB");
-        gl.bindAttribLocation(program, 2, "aC");
-        gl.bindAttribLocation(program, 3, "aR");
-        gl.linkProgram(program);
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        root.classList.remove("nogl");
+        const vertex = compile(gl, gl.VERTEX_SHADER, VERT);
+        const fragment = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+        const program = gl.createProgram();
+        if (!vertex || !fragment || !program) {
           root.classList.add("nogl");
         } else {
-          const count = mobileQuery.matches ? 900 : 2400;
-          const field = makeField(count);
-          const buffers = [field.position, field.aB, field.aC, field.aR].map((data) => {
-            const buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
-            return buffer;
-          });
-          const sizes = [3, 3, 3, 1];
-          gl.useProgram(program);
-          buffers.forEach((buffer, index) => {
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            gl.enableVertexAttribArray(index);
-            gl.vertexAttribPointer(index, sizes[index] ?? 1, gl.FLOAT, false, 0, 0);
-          });
-          gl.enable(gl.BLEND);
-          gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-          gl.disable(gl.DEPTH_TEST);
-
-          const loc = {
-            uP: gl.getUniformLocation(program, "uP"),
-            uT: gl.getUniformLocation(program, "uT"),
-            uPR: gl.getUniformLocation(program, "uPR"),
-            uD: gl.getUniformLocation(program, "uD"),
-            uM: gl.getUniformLocation(program, "uM"),
-            model: gl.getUniformLocation(program, "modelViewMatrix"),
-            proj: gl.getUniformLocation(program, "projectionMatrix"),
-          };
-          const view = viewMatrix();
-          let shown = reduced.matches ? 2 : 0;
-          let clock = 0;
-          const pointer = [0, 0, 40];
-
-          const resize = () => {
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            const width = canvas.clientWidth || window.innerWidth;
-            const height = canvas.clientHeight || window.innerHeight;
-            canvas.width = Math.max(1, Math.round(width * dpr));
-            canvas.height = Math.max(1, Math.round(height * dpr));
-            gl.viewport(0, 0, canvas.width, canvas.height);
-            gl.uniformMatrix4fv(loc.proj, false, perspective(0.72, width / Math.max(1, height), 0.1, 40));
-            gl.uniform1f(loc.uPR, dpr);
-          };
-
-          const place = () => {
-            const narrow = window.innerWidth <= 800;
-            const scatter = narrow || reduced.matches ? 0 : Math.max(0, 1 - shown / 1.35);
-            const fade = reduced.matches ? 1 : Math.min(1, Math.max(0, (shown - 0.15) / 0.7));
-            nodes.forEach((node, index) => {
-              const spec = NODE_LAYOUT[index];
-              if (!spec) return;
-              const base = narrow ? spec.mobile : spec.desktop;
-              const bob = reduced.matches ? 0 : Math.sin(clock * 0.7 + index * 0.8) * 5 * (1 - scatter);
-              node.style.left = `${base[0] + spec.scatter[0] * scatter}%`;
-              node.style.top = `calc(${base[1] + spec.scatter[1] * scatter}% + ${bob}px)`;
-              node.style.opacity = String(fade);
-              const growLeft = narrow || node.dataset.side !== "mark";
-              node.style.transform = growLeft ? "translate(-100%, -50%)" : "translate(0, -50%)";
-            });
-            if (mono) {
-              const markFade = reduced.matches ? 1 : Math.min(1, Math.max(0, (shown - 0.35) / 0.65));
-              const x = (narrow ? 50 : 78) + (narrow ? 0 : 6) * scatter;
-              const y = (narrow ? 22 : 44) - (narrow ? 0 : 6) * scatter;
-              mono.style.left = `${x}%`;
-              mono.style.top = `${y}%`;
-              mono.style.opacity = String(markFade);
-              mono.style.transform = "translate(-50%, -50%)";
-            }
-          };
-
-          const draw = () => {
-            const target = Math.max(0, Math.min(2, window.scrollY / Math.max(1, window.innerHeight)));
-            if (reduced.matches) shown = target === 0 ? 1.15 : target;
-            else shown += (target - shown) * 0.08;
-            gl.uniform1f(loc.uP, shown);
-            gl.uniform1f(loc.uT, reduced.matches ? 0.4 : clock);
-            gl.uniform1f(loc.uD, 1);
-            gl.uniform3f(loc.uM, pointer[0] ?? 0, pointer[1] ?? 0, pointer[2] ?? 40);
-            gl.uniformMatrix4fv(loc.model, false, view);
-            gl.clearColor(0, 0, 0, 0);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-            gl.drawArrays(gl.POINTS, 0, field.count);
-            place();
-          };
-
-          const onPointer = (event: PointerEvent) => {
-            const width = window.innerWidth || 1;
-            const height = window.innerHeight || 1;
-            pointer[0] = ((event.clientX / width) * 2 - 1) * 4.8;
-            pointer[1] = -((event.clientY / height) * 2 - 1) * 2.8;
-            pointer[2] = 0.2;
-          };
-          const onPointerOut = (event: PointerEvent) => {
-            if (event.relatedTarget) return;
-            pointer[0] = 0;
-            pointer[1] = 0;
-            pointer[2] = 40;
-          };
-
-          resize();
-          draw();
-          window.addEventListener("resize", resize);
-          window.addEventListener("pointermove", onPointer);
-          window.addEventListener("pointerout", onPointerOut);
-          listeners.push(() => {
-            window.removeEventListener("resize", resize);
-            window.removeEventListener("pointermove", onPointer);
-            window.removeEventListener("pointerout", onPointerOut);
-          });
-
-          if (!reduced.matches) {
-            let last = performance.now();
-            const loop = (now: number) => {
-              if (!alive) return;
-              clock += Math.min(0.05, (now - last) / 1000);
-              last = now;
-              if (!document.hidden) draw();
-              frame = requestAnimationFrame(loop);
-            };
-            frame = requestAnimationFrame(loop);
+          gl.attachShader(program, vertex);
+          gl.attachShader(program, fragment);
+          gl.bindAttribLocation(program, 0, "position");
+          gl.bindAttribLocation(program, 1, "aB");
+          gl.bindAttribLocation(program, 2, "aC");
+          gl.bindAttribLocation(program, 3, "aR");
+          gl.linkProgram(program);
+          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            root.classList.add("nogl");
           } else {
-            const onScroll = () => draw();
-            window.addEventListener("scroll", onScroll, { passive: true });
-            listeners.push(() => window.removeEventListener("scroll", onScroll));
+            const count = mobileQuery.matches ? 900 : 2400;
+            const field = makeField(count);
+            const buffers = [field.position, field.aB, field.aC, field.aR].map(
+              (data) => {
+                const buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+                return buffer;
+              },
+            );
+            const sizes = [3, 3, 3, 1];
+            gl.useProgram(program);
+            buffers.forEach((buffer, index) => {
+              gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+              gl.enableVertexAttribArray(index);
+              gl.vertexAttribPointer(
+                index,
+                sizes[index] ?? 1,
+                gl.FLOAT,
+                false,
+                0,
+                0,
+              );
+            });
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.disable(gl.DEPTH_TEST);
+
+            const loc = {
+              uP: gl.getUniformLocation(program, "uP"),
+              uT: gl.getUniformLocation(program, "uT"),
+              uPR: gl.getUniformLocation(program, "uPR"),
+              uD: gl.getUniformLocation(program, "uD"),
+              uM: gl.getUniformLocation(program, "uM"),
+              model: gl.getUniformLocation(program, "modelViewMatrix"),
+              proj: gl.getUniformLocation(program, "projectionMatrix"),
+            };
+            const view = viewMatrix();
+            let shown = reduced.matches ? 2 : 0;
+            let clock = 0;
+            const pointer = [0, 0, 40];
+
+            const resize = () => {
+              const dpr = Math.min(
+                window.devicePixelRatio || 1,
+                mobileQuery.matches ? 1.5 : 2,
+              );
+              const width = canvas.clientWidth || window.innerWidth;
+              const height = canvas.clientHeight || window.innerHeight;
+              canvas.width = Math.max(1, Math.round(width * dpr));
+              canvas.height = Math.max(1, Math.round(height * dpr));
+              gl.viewport(0, 0, canvas.width, canvas.height);
+              gl.uniformMatrix4fv(
+                loc.proj,
+                false,
+                perspective(0.72, width / Math.max(1, height), 0.1, 40),
+              );
+              gl.uniform1f(loc.uPR, dpr);
+            };
+
+            const place = () => {
+              const narrow = window.innerWidth <= 800;
+              const scatter =
+                narrow || reduced.matches ? 0 : Math.max(0, 1 - shown / 1.35);
+              const fade = reduced.matches
+                ? 1
+                : Math.min(1, Math.max(0, (shown - 0.15) / 0.7));
+              nodes.forEach((node, index) => {
+                const spec = NODE_LAYOUT[index];
+                if (!spec) return;
+                const base = narrow ? spec.mobile : spec.desktop;
+                const bob = reduced.matches
+                  ? 0
+                  : Math.sin(clock * 0.7 + index * 0.8) * 5 * (1 - scatter);
+                node.style.left = `${base[0] + spec.scatter[0] * scatter}%`;
+                node.style.top = `calc(${base[1] + spec.scatter[1] * scatter}% + ${bob}px)`;
+                node.style.opacity = String(fade);
+                const growLeft = narrow || node.dataset.side !== "mark";
+                node.style.transform = growLeft
+                  ? "translate(-100%, -50%)"
+                  : "translate(0, -50%)";
+              });
+              if (mono) {
+                const markFade = reduced.matches
+                  ? 1
+                  : Math.min(1, Math.max(0, (shown - 0.35) / 0.65));
+                const x = (narrow ? 50 : 78) + (narrow ? 0 : 6) * scatter;
+                const y = (narrow ? 22 : 44) - (narrow ? 0 : 6) * scatter;
+                mono.style.left = `${x}%`;
+                mono.style.top = `${y}%`;
+                mono.style.opacity = String(markFade);
+                mono.style.transform = "translate(-50%, -50%)";
+              }
+            };
+
+            const draw = () => {
+              const target = Math.max(
+                0,
+                Math.min(2, window.scrollY / Math.max(1, window.innerHeight)),
+              );
+              if (reduced.matches) shown = target === 0 ? 1.15 : target;
+              else shown += (target - shown) * 0.08;
+              gl.uniform1f(loc.uP, shown);
+              gl.uniform1f(loc.uT, reduced.matches ? 0.4 : clock);
+              gl.uniform1f(loc.uD, 1);
+              gl.uniform3f(
+                loc.uM,
+                pointer[0] ?? 0,
+                pointer[1] ?? 0,
+                pointer[2] ?? 40,
+              );
+              gl.uniformMatrix4fv(loc.model, false, view);
+              gl.clearColor(0, 0, 0, 0);
+              gl.clear(gl.COLOR_BUFFER_BIT);
+              gl.drawArrays(gl.POINTS, 0, field.count);
+              place();
+            };
+
+            const onPointer = (event: PointerEvent) => {
+              const width = window.innerWidth || 1;
+              const height = window.innerHeight || 1;
+              pointer[0] = ((event.clientX / width) * 2 - 1) * 4.8;
+              pointer[1] = -((event.clientY / height) * 2 - 1) * 2.8;
+              pointer[2] = 0.2;
+            };
+            const onPointerOut = (event: PointerEvent) => {
+              if (event.relatedTarget) return;
+              pointer[0] = 0;
+              pointer[1] = 0;
+              pointer[2] = 40;
+            };
+
+            resize();
+            draw();
+            window.addEventListener("resize", resize);
+            window.addEventListener("pointermove", onPointer);
+            window.addEventListener("pointerout", onPointerOut);
+            listeners.push(() => {
+              window.removeEventListener("resize", resize);
+              window.removeEventListener("pointermove", onPointer);
+              window.removeEventListener("pointerout", onPointerOut);
+            });
+
+            if (!reduced.matches) {
+              let last = performance.now();
+              let lastDraw = 0;
+              const interval = mobileQuery.matches ? 1000 / 30 : 0;
+              const loop = (now: number) => {
+                if (!alive) return;
+                frame = requestAnimationFrame(loop);
+                if (interval && now - lastDraw < interval) return;
+                lastDraw = now;
+                clock += Math.min(0.05, (now - last) / 1000);
+                last = now;
+                if (!document.hidden) draw();
+              };
+              frame = requestAnimationFrame(loop);
+            } else {
+              const onScroll = () => draw();
+              window.addEventListener("scroll", onScroll, { passive: true });
+              listeners.push(() =>
+                window.removeEventListener("scroll", onScroll),
+              );
+            }
           }
         }
       }
-    }
+    };
+
+    let idleHandle = 0;
+    const scheduleField = () => {
+      if (!alive) return;
+      const idle = typeof window.requestIdleCallback === "function";
+      idleHandle = idle
+        ? window.requestIdleCallback(startField, { timeout: 800 })
+        : window.setTimeout(startField, 120);
+    };
+    if (document.readyState === "complete") scheduleField();
+    else window.addEventListener("load", scheduleField, { once: true });
+    listeners.push(() => {
+      window.removeEventListener("load", scheduleField);
+      if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idleHandle);
+      window.clearTimeout(idleHandle);
+    });
 
     return () => {
       alive = false;
@@ -434,7 +522,8 @@ export function HomeMotion() {
       stageWatch.disconnect();
       for (const jumper of jumpers) jumper.removeEventListener("click", onGo);
       skip?.removeEventListener("click", onSkip);
-      for (const button of stepButtons) button.removeEventListener("click", onStep);
+      for (const button of stepButtons)
+        button.removeEventListener("click", onStep);
       form?.removeEventListener("submit", onSubmit);
       heroCta?.removeEventListener("pointermove", onTilt);
       heroCta?.removeEventListener("pointerleave", onTiltEnd);

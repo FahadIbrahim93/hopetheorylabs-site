@@ -216,6 +216,7 @@ body::before {
   color: var(--mut);
   width: 150px;
   pointer-events: none;
+  text-shadow: 0 0 10px var(--bg), 0 0 20px var(--bg);
 }
 
 .lock .hud b { font-weight: 400; color: var(--fg); }
@@ -456,16 +457,19 @@ body::before {
   animation: bb 9s infinite;
 }
 
+/* Opacity snaps rather than fades so the bubbles never sit in a low-contrast half-blended state. */
 @keyframes cr {
   0%, 28% { opacity: 0; transform: translateY(12px); }
+  29% { opacity: 1; transform: translateY(10px); }
   34%, 60% { opacity: 1; transform: none; }
-  66%, 100% { opacity: 0; }
+  61%, 100% { opacity: 0; }
 }
 
 @keyframes bb {
   0%, 64% { opacity: 0; transform: translateY(8px); }
+  65% { opacity: 1; transform: translateY(7px); }
   72%, 94% { opacity: 1; transform: none; }
-  100% { opacity: 0; }
+  95%, 100% { opacity: 0; }
 }
 
 .lock .fm { display: grid; gap: 14px; max-width: 460px; margin-top: 26px; }
@@ -606,6 +610,12 @@ body::before {
   .lock .cols { grid-template-columns: 1fr; gap: 20px; }
   .lock nav a { padding: 12px 8px; }
   .lock .mq { display: none; }
+}
+
+@media (max-width: 400px) {
+  .lock .nd { font-size: 10px; gap: 6px; }
+  .lock .nd i { width: 18px; height: 18px; }
+  .lock .nd i::after { width: 6px; height: 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

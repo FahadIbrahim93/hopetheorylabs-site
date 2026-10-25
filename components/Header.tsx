@@ -78,7 +78,7 @@ export function Header() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="block py-2 text-sm text-paper/80 hover:text-paper"
+                    className="flex min-h-11 items-center py-2 text-sm text-paper/80 hover:text-paper"
                   >
                     {link.label}
                   </a>

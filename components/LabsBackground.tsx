@@ -162,6 +162,11 @@ export default function LabsBackground() {
     };
     window.addEventListener("resize", onResize);
 
+    return () => {
+      stop();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 

@@ -28,6 +28,10 @@ export const bn: SiteContent = {
     pricingHref: "#pricing",
     mockupDescription:
       "Animated preview of the WhatsApp ordering flow: browse sample products, add one to the cart, order on WhatsApp and see the WhatsApp message. Generic sample products only.",
+    coreDescription:
+      "An animated intelligence core connects eight business information sources: websites, CRM, databases, files, apps, APIs, systems and people. A radar sweep moves through a wireframe sphere.",
+    coreNodes: ["Websites", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],
+    coreCaption: "Connected intelligence · Hope Theory Labs",
   },
   howItWorks: {
     heading: "How it works",

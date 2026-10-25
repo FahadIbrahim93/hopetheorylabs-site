@@ -37,8 +37,9 @@ export function NodeLabels() {
         const node = nodes[i];
         if (!el) continue;
         const scale = 0.82 + node.depth * 0.3;
-        el.style.transform = `translate3d(${node.x.toFixed(1)}px, ${(node.y + 16).toFixed(1)}px, 0) translate(-50%, 0) scale(${scale.toFixed(3)})`;
-        const alpha = node.visible ? labelOpacity * (0.3 + 0.7 * node.depth) : 0;
+        el.style.transform = `translate3d(${node.x.toFixed(1)}px, ${(node.y + 16 + node.labelShift).toFixed(1)}px, 0) translate(-50%, 0) scale(${scale.toFixed(3)})`;
+        const occlusion = node.behindCore ? 0.25 : 1;
+        const alpha = node.visible ? labelOpacity * (0.3 + 0.7 * node.depth) * occlusion : 0;
         el.style.opacity = (focused === i ? Math.max(alpha, labelOpacity) : alpha).toFixed(3);
         el.style.pointerEvents = alpha > 0.15 ? "auto" : "none";
         const state = focused === i ? "focus" : selected === i ? "selected" : "";

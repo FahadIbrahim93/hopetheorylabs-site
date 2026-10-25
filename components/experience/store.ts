@@ -30,6 +30,8 @@ export interface FrameNode {
   y: number; // viewport px
   depth: number; // 0 (far) .. 1 (near)
   visible: boolean;
+  labelShift: number; // vertical px nudge so neighbouring labels never overlap
+  behindCore: boolean; // node sits behind the core from the camera's point of view
 }
 
 export interface FrameSnapshot {

@@ -7,7 +7,7 @@ A one-page, mobile-first website for **Hope Theory Labs**, a web studio in Dhaka
 
 ## Stack
 
-Next.js App Router · TypeScript · Tailwind CSS · CSS-first motion · static export.
+Next.js App Router · TypeScript · Tailwind CSS · Three.js + React Three Fiber (custom GLSL) for the intelligence core · CSS-first motion elsewhere · static export.
 
 ## Run locally
 
@@ -39,7 +39,9 @@ Read these before changing the site. If documents conflict, `docs/SPEC.md` wins.
 
 - The page is composed from reusable components under `components/`.
 - All visible site copy belongs in `content/en.ts` and `content/bn.ts`; review Bangla translations with Fahad/Tamim before launch.
-- The supplied concept is ported into reusable Next.js components: editorial two-line hero, SVG/CSS intelligence core, 2D particle field, stage-based story sections, interactive four-step process, services, animated Rollers Republic phone mockup, contact-to-WhatsApp form, state HUD, and ticker. Motion respects reduced-motion preferences. The original pasted shader was truncated, so the core visual is reconstructed without a Three.js runtime.
+- The supplied concept is ported into reusable Next.js components: editorial two-line hero, intelligence core, stage-based story sections, living-platform constellation with an accessible source legend, interactive four-step process, services, animated Rollers Republic phone mockup, contact-to-WhatsApp form, state HUD, and ticker. Motion respects reduced-motion preferences.
+- The intelligence core is one persistent WebGL scene (`components/experience/`): a fixed, full-viewport React Three Fiber canvas behind the page. `useNarrativeTracking` turns scroll position into a continuous progress value; `narrative.ts` holds one keyframe per section; `scene/rig.ts` blends keyframes, composes the core into each section's `data-scene-anchor` slot via the camera view offset, and drives custom GLSL materials (particle lattice, filaments, draw-on edges, signal packets, radar sweep). The inline-SVG `IntelligenceCore` renders in the static HTML and remains the fallback when WebGL is unavailable or fails. Quality tiers adapt to the device and downgrade at runtime; `?experience=fallback|low|mid|high` is a QA override.
+- The original pasted Three.js shader was truncated and never stored in the repository; the scene is a deliberate reconstruction, not recovered source.
 - The Rollers Republic work item is a concept, not client work. Do not add Sthappo until delivered and approved.
 - No invented metrics, testimonials, logos, credentials, analytics, tracking or cookies.
 

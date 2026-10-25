@@ -15,6 +15,7 @@ import {
   frameState,
   getDiscrete,
   publishSceneFrame,
+  type AnchorRect,
   type FrameNode,
   type QualityTier,
 } from "../store";
@@ -41,6 +42,7 @@ import {
 const FOV = 38;
 const SCENE_RADIUS = 2.55; // ring radius + a small label margin, fitted into the anchor
 const RING_TILT = 0.42;
+const FLOW_SECTION = 3;
 const HOW_SECTION = 4;
 const SERVICES_SECTION = 5;
 const FIXED_TIME = 11.3; // ambient clock under reduced motion
@@ -51,6 +53,11 @@ const SERVICE_GROUPS = [
   [1, 4, 5, 6],
   [0, 1, 2, 3, 4, 5, 6, 7],
 ];
+
+/** A slot hidden by CSS measures as a zero rect; treat it as absent. */
+function laidOut(rect: AnchorRect | undefined) {
+  return rect && rect.width > 0 && rect.height > 0 ? rect : undefined;
+}
 
 export interface FrameContext {
   camera: PerspectiveCamera;
@@ -79,7 +86,10 @@ export class SceneRig {
   private tmp2 = new Vector3();
   private pointer = { x: 0, y: 0, strength: 0 };
   private pointerWorld = new Vector3();
-  private frameNodes = Array.from({ length: NODE_COUNT }, (): FrameNode => ({ x: 0, y: 0, depth: 0, visible: false }));
+  private frameNodes = Array.from(
+    { length: NODE_COUNT },
+    (): FrameNode => ({ x: 0, y: 0, depth: 0, visible: false, labelShift: 0, behindCore: false }),
+  );
   private stepMix = [1, 0, 0, 0];
   private coreBoost = 0;
   private hoverCandidate = -1;
@@ -130,6 +140,36 @@ export class SceneRig {
     this.assets.dispose();
   }
 
+  /*
+    Labels are ~80px wide and ~16px tall, hung 16px under their node. When two
+    hang too close, the one further from the camera drops below the nearer one.
+    Two passes settle the small chains that eight labels can form.
+  */
+  private separateLabels() {
+    const nodes = this.frameNodes;
+    for (let pass = 0; pass < 2; pass++) {
+      for (let i = 0; i < NODE_COUNT; i++) {
+        const a = nodes[i];
+        if (!a.visible) continue;
+        for (let j = i + 1; j < NODE_COUNT; j++) {
+          const b = nodes[j];
+          if (!b.visible) continue;
+          const dx = Math.abs(a.x - b.x);
+          if (dx > 84) continue;
+          const ay = a.y + a.labelShift;
+          const by = b.y + b.labelShift;
+          const dy = by - ay;
+          if (Math.abs(dy) >= 18) continue;
+          const mover = a.depth < b.depth ? a : b;
+          const other = mover === a ? b : a;
+          const overlap = 18 - Math.abs(dy);
+          const direction = mover.y + mover.labelShift >= other.y + other.labelShift ? 1 : -1;
+          mover.labelShift += direction * overlap;
+        }
+      }
+    }
+  }
+
   update({ camera, width, height, pixelRatio, dt: rawDt, reduced }: FrameContext) {
     const dt = Math.min(rawDt, 0.05);
     const a = this.assets;
@@ -174,8 +214,8 @@ export class SceneRig {
 
     /* 3. composition: anchors -> camera view offset + fitted distance */
     const { vw, vh, scrollY } = frameState;
-    const anchorA = frameState.anchors.get(b.anchorA);
-    const anchorB = frameState.anchors.get(b.anchorB);
+    const anchorA = laidOut(frameState.anchors.get(b.anchorA));
+    const anchorB = laidOut(frameState.anchors.get(b.anchorB));
     const ax = anchorA ? anchorA.left + anchorA.width / 2 : vw / 2;
     const ay = anchorA ? anchorA.top - scrollY + anchorA.height / 2 : vh / 2;
     const ar = anchorA ? Math.min(anchorA.width, anchorA.height) / 2 : Math.min(vw, vh) * 0.35;
@@ -216,7 +256,14 @@ export class SceneRig {
     const pointerStrengthTarget = frameState.pointer.active && b.dim > 0.5 ? 1 : 0;
     this.pointer.strength += (pointerStrengthTarget - this.pointer.strength) * pk;
 
+    const pixelScale = (height * pixelRatio) / (2 * tanHalf);
+
     /* 5. node positions, weights, meshes */
+    // A source selected in the constellation legend stays selected while that
+    // section is in view; once the reader has moved on, the selection clears.
+    if (discrete.selectedNode >= 0 && Math.abs(frameState.t - FLOW_SECTION) > 0.85) {
+      experienceActions.setSelectedNode(-1);
+    }
     const focused = activeNode();
     const focusActive = focused >= 0 ? 1 : 0;
     const serviceGroup = discrete.serviceFocus >= 0 ? SERVICE_GROUPS[discrete.serviceFocus] : null;
@@ -241,14 +288,17 @@ export class SceneRig {
       if (mesh) {
         mesh.position.copy(p);
         mesh.scale.setScalar(1 + weight * 0.5);
-        a.nodeMaterials[i].emissiveIntensity = 0.3 + weight * 1.6;
+        a.nodeMaterials[i].emissiveIntensity = (0.3 + weight * 1.6) * b.dim;
+        // Dimmed sections keep the soft halos but let the solid spheres fade
+        // quickly; a half-lit sphere behind text reads as a stray marble.
+        a.nodeMaterials[i].opacity = 0.05 + 0.95 * b.dim * b.dim;
       }
       const halo = this.haloMeshes[i];
       if (halo) {
         halo.position.copy(p);
         halo.quaternion.copy(camera.quaternion);
         halo.scale.setScalar(0.55 + weight * 0.55);
-        a.haloMaterials[i].uniforms.uAlpha.value = (0.5 + weight * 0.6) * b.dim * (1 - b.spread * 0.35);
+        a.haloMaterials[i].uniforms.uAlpha.value = (0.5 + weight * 0.6) * b.dim * b.dim * (1 - b.spread * 0.35);
       }
 
       // Projection for HTML labels + pointer proximity.
@@ -261,7 +311,13 @@ export class SceneRig {
       const camDist = camera.position.distanceTo(p);
       fn.depth = MathUtils.clamp(1 - (camDist - (dist - 2.6)) / 5.2, 0, 1);
       fn.visible = this.tmp2.z < 1 && sx > -40 && sx < width + 40 && sy > -40 && sy < height + 40;
+      // Behind the core and projected inside its disc: the label would read as
+      // if it belonged to the core, so the overlay fades it.
+      const coreRadiusPx = (pixelScale / pixelRatio) / dist;
+      fn.behindCore = camDist > dist && Math.hypot(sx - px, sy - py) < coreRadiusPx * 1.1;
+      fn.labelShift = 0;
     }
+    this.separateLabels();
 
     // Pointer proximity hover (mouse/pen only; touch uses the HTML labels).
     let best = -1;
@@ -337,7 +393,6 @@ export class SceneRig {
     a.packetAlphaAttr.needsUpdate = true;
 
     /* 7. uniforms + simple materials */
-    const pixelScale = (height * pixelRatio) / (2 * tanHalf);
     const pu = a.particleMaterial.uniforms;
     pu.uTime.value = time;
     pu.uAssembly.value = assembly;

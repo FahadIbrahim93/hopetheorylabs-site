@@ -12,8 +12,11 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
 - Keep all user-facing copy in `content/en.ts` and `content/bn.ts`. Bangla copy remains a TODO for Fahad/Tamim review; the schema must match.
 - Use `next/font/google` for Instrument Sans (body), Newsreader (editorial section headings), JetBrains Mono (eyebrows/HUD), and Hind Siliguri (Bangla).
 - No analytics, cookies, tracking, invented testimonials, fake metrics, or unapproved client claims.
-- The pasted source ends partway through its Three.js shader. Reconstruct the visual behavior from the supplied code and surrounding design, but do not claim the missing shader was copied verbatim.
-- No Three.js or other 3D runtime in the port. Keep the intelligence-core visual as inline SVG + CSS; keep the ambient particle canvas lightweight and limited to the hero. This follows the repository's performance and dependency constraints while preserving the original visual intent.
+- The pasted source ends partway through its Three.js shader and the complete shader was never stored in this repository. The 3D scene is a deliberate reconstruction of the described behavior; do not claim the missing shader was recovered or copied verbatim.
+- The intelligence core is a real WebGL scene (Three.js + React Three Fiber, custom GLSL, no other 3D/animation runtimes, no CDN scripts). One persistent canvas sits behind the page; the scene is a pure function of scroll progress and composes itself into a reserved slot (`data-scene-anchor`) in each section. No scroll hijacking or pinned sections.
+- Progressive enhancement is mandatory: the inline-SVG core renders in static HTML and stays as the fallback when WebGL is unavailable, fails to compile, or loses its context. The WebGL chunk loads only after `load`, never blocks first paint, and must dispose GPU resources on unmount.
+- Under `prefers-reduced-motion` the scene renders on demand only (scroll, resize, focus), with no autonomous motion.
+- Quality adapts to the device (particle counts, pixel ratio, packets) and downgrades at runtime when frames run slow. `?experience=fallback|low|mid|high` is a QA-only override.
 
 ## Visual system
 
@@ -21,7 +24,8 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
 - Use Instrument Sans for the body and UI, Newsreader for large editorial section headings, JetBrains Mono for small uppercase labels and status text.
 - Oversized tight-tracked two-line hero headline, asymmetrical layouts, generous whitespace, hairline dividers, no generic rounded-card grid.
 - Fixed transparent-to-black header with wordmark and compact navigation. Respect mobile safe-area insets.
-- The hero visual is an intelligence core: wireframe sphere, slow orbit rings, radar sweep, signal paths, and eight source nodes (Websites, CRM, Databases, Files, Apps, APIs, Systems, People).
+- The hero visual is an intelligence core: particle lattice and wireframe sphere, slow orbit rings, radar sweep, signal paths, and eight source nodes (Websites, CRM, Databases, Files, Apps, APIs, Systems, People). Pointer movement adds gentle parallax and a soft particle displacement; the idle state keeps breathing.
+- Scroll narrative across the sections (all reversible, progress-based): hero (partly assembled core), Stage I (core complete, sources scattered at different depths, disconnected), Stage II (sources pull onto the ring and connect, edges draw on), the living platform (full constellation with travelling signals, labels and an accessible source legend), How it works (each step changes the scene: scan sweep, core focus, connection, two-way signals), Services (hovering a service highlights its source group), Work and About (scene recedes behind the content), Contact (scene returns at full strength).
 - A small fixed HUD displays a changing system state and progress line. A floating WhatsApp button remains visible except while the contact section is in view.
 - Keep the site calm and cinematic, not flashy. Honor `prefers-reduced-motion` throughout.
 
@@ -31,7 +35,7 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
 2. **Hero** — eyebrow “The intelligent business platform”; headline “Your data. Connected. / Your business. Smarter.”; subheading “We bring together your data, tools and workflows — and turn them into a living, breathing intelligence.” Main CTA “Message us on WhatsApp” to the existing WhatsApp concept link. Secondary CTA “Watch it assemble” scrolls to Stage I.
 3. **Stage I / The digital self** — “Before a company can think, it has to be legible. We rebuild your site, brand, systems and records into one clean, professional presence.”
 4. **Stage II / The shift to intelligence** — “It’s not just about tools. It’s about creating a unified intelligence from your data, systems and people.” Link to Services.
-5. **The living platform** — “Everything you run, in one living flow.” Three labels: Connect / Your data sources; Automate / Your workflows; Scale / Your growth.
+5. **The living platform** — “Everything you run, in one living flow.” Supporting text: “Eight kinds of source feed one connected record. Signals travel from each source into the core, and answers travel back out to the people and tools that need them.” Three labels: Connect / Your data sources; Automate / Your workflows; Scale / Your growth. Source legend hint: “Select a source to trace its connection.” Each of the eight sources has a one-line description (`hero.coreNodeDetails`) shown on hover/focus/tap; these describe kinds of data, never a client's actual integration.
 6. **How it works** — four interactive, accessible steps:
    - Map: “We list every place your business keeps information: email, chat, spreadsheets, accounting, your storefront.”
    - Digital self: “We build the website and clean records that represent you properly, online and inside your own systems.”
@@ -61,10 +65,10 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
 ## Accessibility and performance
 
 - Semantic landmarks, one H1, skip link, visible focus ring, descriptive links, keyboard-operable controls and minimum 44px targets.
-- Decorative canvas and SVG visual are hidden from assistive technology, with an adjacent accessible description.
+- Decorative canvas and SVG visual are hidden from assistive technology, with an adjacent accessible description. The projected 3D node labels are decorative; the keyboard-operable source legend in the living-platform section is the accessible way to explore the eight sources.
 - Honor safe-area insets and test 360, 768, 1280 and 1920px viewports.
 - No external script CDNs. Fonts use `next/font`.
-- Keep the first-load budget conservative; preserve the canvas pause-on-offscreen behavior and reduced-motion static frame.
+- Keep the first-load budget conservative: the Three.js chunk is lazy-loaded after `load` and is not part of the initial HTML. Preserve the reduced-motion static frame and the WebGL fallback path.
 - Do not state build, Lighthouse, visual, or browser QA passes until actually run and observed.
 
 ## Release gates

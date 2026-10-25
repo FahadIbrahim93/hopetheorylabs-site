@@ -97,16 +97,16 @@ export const NARRATIVE: NarrativeSection[] = [
     id: "work",
     key: {
       assembly: 1, connection: 1, signals: 0.5, outbound: 0.5, spread: 0,
-      dim: 0.32, labels: 0, radar: 0.2, links: 0.4,
-      orbit: 3.9, elevation: 0.1, zoom: 1.75, anchor: "work",
+      dim: 0.4, labels: 0, radar: 0.3, links: 0.4,
+      orbit: 3.9, elevation: 0.55, zoom: 0.8, anchor: "work",
     },
   },
   {
     id: "about",
     key: {
       assembly: 1, connection: 1, signals: 0.5, outbound: 0.5, spread: 0,
-      dim: 0.35, labels: 0, radar: 0.2, links: 0.4,
-      orbit: 4.35, elevation: 0.2, zoom: 1.6, anchor: "about",
+      dim: 0.5, labels: 0, radar: 0.3, links: 0.5,
+      orbit: 4.35, elevation: 0.2, zoom: 1.1, anchor: "about",
     },
   },
   {

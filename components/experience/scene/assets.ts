@@ -161,6 +161,7 @@ export function createSceneAssets(profile: QualityProfile) {
       emissiveIntensity: 0.35,
       roughness: 0.35,
       metalness: 0.6,
+      transparent: true,
     }),
   );
   const haloGeometry = new PlaneGeometry(1, 1);

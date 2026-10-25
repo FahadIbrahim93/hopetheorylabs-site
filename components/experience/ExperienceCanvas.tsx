@@ -33,6 +33,8 @@ declare global {
       renderer: string;
       /** Read-only snapshot of the scroll narrative for QA tooling. */
       readonly progress: { t: number; scrollY: number; anchors: Record<string, { top: number; height: number }> };
+      /** Frames rendered so far (lets QA confirm demand rendering under reduced motion). */
+      readonly frames: number;
     };
   }
 }
@@ -118,6 +120,9 @@ export default function ExperienceCanvas({ initialTier, reduced, onReady, onFail
           avgFrameMs: null,
           downgrades: 0,
           renderer: typeof info === "string" ? info : "webgl",
+          get frames() {
+            return gl.info.render.frame;
+          },
           get progress() {
             const anchors: Record<string, { top: number; height: number }> = {};
             frameState.anchors.forEach((rect, id) => {

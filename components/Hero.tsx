@@ -1,44 +1,34 @@
-import { en as content } from "@/content/en";
-
-import { PhoneMockup } from "./PhoneMockup";
+import dynamic from "next/dynamic";
+import { useContent } from "./LanguageProvider";
+import { IntelligenceCore } from "./IntelligenceCore";
 import { WhatsAppCta } from "./WhatsAppCta";
+import { WordReveal } from "./WordReveal";
 
-/*
-  Hero: heading spans ~7 of 12 columns, mockup sits at column 8.
-  No animation yet — word-reveal comes with Step 5.
-*/
+const LabsBackground = dynamic(() => import("./LabsBackground"), { ssr: false });
 export function Hero() {
-  return (
-    <section className="border-b border-paper/10" aria-labelledby="hero-heading">
-      <div className="mx-auto grid max-w-6xl grid-cols-12 gap-8 px-6 pb-20 pt-16 md:px-8 md:pb-28 md:pt-24">
-        <div className="col-span-12 md:col-span-7">
-          <h1
-            id="hero-heading"
-            className="font-heading text-5xl leading-[1.05] tracking-[-0.03em] text-paper md:text-7xl"
-          >
-            {content.hero.heading}
-          </h1>
-          <p className="mt-8 max-w-md text-lg leading-relaxed text-paper/70">
-            {content.hero.subheading}
-          </p>
-          <div className="mt-10 flex flex-wrap items-center gap-6">
-            <WhatsAppCta href={content.hero.whatsappLink}>
-              {content.hero.primaryCta}
-            </WhatsAppCta>
-            <a
-              href={content.hero.pricingHref}
-              className="text-sm font-semibold text-teal underline-offset-4 hover:underline"
-            >
-              {content.hero.secondaryCta}
-            </a>
-          </div>
-        </div>
-
-        <div className="col-span-12 flex md:col-span-5 md:col-start-8 md:justify-end">
-          <span className="sr-only">{content.hero.mockupDescription}</span>
-          <PhoneMockup />
+  const content = useContent();
+  const words = content.hero.heading.split(" / ");
+  return <section id="top" className="hero-section" aria-labelledby="hero-heading">
+    <div aria-hidden="true" className="hero-fallback" />
+    <LabsBackground />
+    <div className="hero-grid">
+      <div className="hero-copy">
+        <p className="eyebrow">{content.hero.eyebrow}</p>
+        <h1 id="hero-heading" aria-label={content.hero.heading.replace(" / ", " ")}>
+          <span><WordReveal text={words[0]} /></span>
+          <span className="accent-line"><WordReveal text={words[1]} /></span>
+        </h1>
+        <p className="hero-subheading">{content.hero.subheading}</p>
+        <div className="hero-actions">
+          <WhatsAppCta href={content.hero.whatsappLink}>{content.hero.primaryCta}</WhatsAppCta>
+          <a className="text-link" href={content.hero.secondaryHref}>{content.hero.secondaryCta} <span aria-hidden="true">›</span></a>
         </div>
       </div>
-    </section>
-  );
+      <div className="hero-visual">
+        <span className="sr-only">{content.hero.coreDescription}</span>
+        <IntelligenceCore />
+      </div>
+    </div>
+    <div className="hero-index" aria-hidden="true"><span>HTL / 001</span><span>Dhaka · Bangladesh</span></div>
+  </section>;
 }

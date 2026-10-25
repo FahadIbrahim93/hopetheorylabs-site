@@ -1,4 +1,4 @@
-import { en as content } from "@/content/en";
+import { useContent } from "./LanguageProvider";
 
 import { SectionLabel } from "./SectionLabel";
 import { WhatsAppCta } from "./WhatsAppCta";
@@ -9,6 +9,7 @@ import { WhatsAppCta } from "./WhatsAppCta";
   before the founding offer; no countdowns, no deadlines (SPEC rules).
 */
 export function Pricing() {
+  const content = useContent();
   return (
     <section id="pricing" className="bg-paper text-ink" aria-labelledby="pricing-heading">
       <div className="mx-auto grid max-w-6xl grid-cols-12 gap-8 px-6 py-20 md:px-8 md:py-24">

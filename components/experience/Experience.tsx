@@ -27,10 +27,16 @@ export function useExperienceMode() {
   return useSyncExternalStore(subscribeDiscrete, () => getDiscrete().mode, () => "pending" as const);
 }
 
+/* Live `prefers-reduced-motion`; `useNarrativeTracking` keeps the store current when the preference changes. */
+function useReducedMotion() {
+  return useSyncExternalStore(subscribeDiscrete, () => getDiscrete().reducedMotion, () => false);
+}
+
 export function Experience() {
   useNarrativeTracking();
   const mode = useExperienceMode();
-  const [plan, setPlan] = useState<{ tier: QualityTier; reduced: boolean } | null>(null);
+  const reduced = useReducedMotion();
+  const [plan, setPlan] = useState<{ tier: QualityTier } | null>(null);
   const [live, setLive] = useState(false);
 
   useEffect(() => {
@@ -42,9 +48,7 @@ export function Experience() {
         experienceActions.setMode("fallback");
         return;
       }
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const tier = override ?? detectTier();
-      setPlan({ tier, reduced });
+      setPlan({ tier: override ?? detectTier() });
     };
     if (document.readyState === "complete") {
       // Yield once so hydration work finishes before the 3D chunk is fetched.
@@ -82,7 +86,7 @@ export function Experience() {
   return (
     <div className={`experience-layer${live ? " is-live" : ""}`} aria-hidden="true">
       <ExperienceBoundary onError={handleFailure}>
-        <ExperienceCanvas initialTier={plan.tier} reduced={plan.reduced} onReady={handleReady} onFailure={handleFailure} />
+        <ExperienceCanvas initialTier={plan.tier} reduced={reduced} onReady={handleReady} onFailure={handleFailure} />
       </ExperienceBoundary>
       <NodeLabels />
     </div>

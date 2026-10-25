@@ -145,6 +145,8 @@ function DemandBridge({ reduced }: { reduced: boolean }) {
   const invalidate = useThree((s) => s.invalidate);
   useEffect(() => {
     registerInvalidator(reduced ? () => invalidate() : null);
+    // Draw one settled frame when the preference flips mid-session.
+    invalidate();
     return () => registerInvalidator(null);
   }, [invalidate, reduced]);
   return null;

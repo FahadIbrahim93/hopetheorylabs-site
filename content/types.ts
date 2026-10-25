@@ -21,6 +21,10 @@ export interface SiteContent {
     items: { title: string; description: string }[];
     founding: string; earlyAccessTag: string;
   };
+  whatYouGet: { heading: string; items: string[] };
+  speedSlider: { label: string; before: string; after: string; aria: string };
+  pricing: { heading: string; base: string; founding: string; cta: string };
+  earlyAccess: { heading: string; tag: string; items: string[]; text: string };
   work: {
     eyebrow: string; heading: string; title: string; tag: string; description: string;
     link: string; linkLabel: string; phoneItems: string[]; phoneCta: string; phoneMessage: string;

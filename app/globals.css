@@ -231,6 +231,8 @@ summary {
   --color-teal: #7fd6c2;
   --color-teal-dark: #7fd6c2;
   --color-slate: #a3acb8;
+  --font-sans: var(--font-instrument-sans), system-ui, sans-serif;
+  --font-heading: var(--font-newsreader), Georgia, serif;
   --site-line: #2a323d;
   --site-gold: #ffbd61;
   color-scheme: dark;
@@ -408,4 +410,8 @@ html.js .reveal.reveal-in { opacity:1; transform:none; }
   html { scroll-behavior:auto; }
   *, *::before, *::after { animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
   html.js .reveal { opacity:1; transform:none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-order, .phone-message { opacity: 1; animation: none; transform: none; }
 }

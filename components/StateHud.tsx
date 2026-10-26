@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { useExperienceMode } from "./experience/Experience";
+import { useExperienceMode } from "./experience/mode";
 import { onSceneHud } from "./experience/store";
 
 const fallback = { label: "Scattered", barWidth: 0 };

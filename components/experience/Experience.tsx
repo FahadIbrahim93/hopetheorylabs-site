@@ -6,7 +6,8 @@ import { CursorRing } from "./CursorRing";
 import { IntroOverlay } from "./IntroOverlay";
 import { NodeLabels } from "./NodeLabels";
 import { detectTier, detectWebGL, isConstrainedDevice, readOverride } from "./quality";
-import { experienceActions, getDiscrete, subscribeDiscrete, type QualityTier } from "./store";
+import { useExperienceMode, useReducedMotion } from "./mode";
+import { experienceActions, type QualityTier } from "./store";
 import { useNarrativeTracking } from "./useNarrativeTracking";
 
 type CanvasModule = typeof import("./ExperienceCanvas");
@@ -15,7 +16,7 @@ type CanvasComponent = CanvasModule["default"];
 /*
   The WebGL module (three + r3f) is only ever requested on the allowed path:
   never on small screens, low-core CPUs, save-data or reduced motion, and on
-  desktop only once the browser is idle (2.5s timeout) or the visitor first
+  desktop only once the browser is idle (4s timeout) or the visitor first
   scrolls / moves the pointer / presses a key.
 */
 function whenIdleOrInteraction(run: () => void) {
@@ -31,8 +32,8 @@ function whenIdleOrInteraction(run: () => void) {
     requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
     cancelIdleCallback?: (id: number) => void;
   };
-  const idleId = w.requestIdleCallback ? w.requestIdleCallback(fire, { timeout: 2500 }) : null;
-  const timeoutId = idleId === null ? window.setTimeout(fire, 2000) : null;
+  const idleId = w.requestIdleCallback ? w.requestIdleCallback(fire, { timeout: 4000 }) : null;
+  const timeoutId = idleId === null ? window.setTimeout(fire, 3500) : null;
   for (const e of events) window.addEventListener(e, fire, { once: true, passive: true });
   function cleanup() {
     if (idleId !== null) w.cancelIdleCallback?.(idleId);
@@ -53,14 +54,6 @@ function subscribeFinePointer(cb: () => void) {
 }
 function getFinePointer() {
   return window.matchMedia(FINE_POINTER).matches;
-}
-
-export function useExperienceMode() {
-  return useSyncExternalStore(subscribeDiscrete, () => getDiscrete().mode, () => "pending" as const);
-}
-
-function useReducedMotion() {
-  return useSyncExternalStore(subscribeDiscrete, () => getDiscrete().reducedMotion, () => false);
 }
 
 export function Experience() {

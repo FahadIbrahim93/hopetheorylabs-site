@@ -9,7 +9,7 @@ export function ShiftSection() {
           <p className="eyebrow">{story.shiftEyebrow}</p>
           <h2 id="shift-heading">{story.shiftHeading}</h2>
           <p>{story.shiftText}</p>
-          <a className="text-link" href="#services">
+          <a className="text-link" href="#services-website">
             {story.shiftCta} <span aria-hidden="true">›</span>
           </a>
         </div>

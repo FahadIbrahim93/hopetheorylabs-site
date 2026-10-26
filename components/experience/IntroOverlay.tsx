@@ -1,6 +1,6 @@
 "use client";
 
-import { useExperienceMode } from "./Experience";
+import { useExperienceMode } from "./mode";
 import { getDiscrete, subscribeDiscrete } from "./store";
 import { useSyncExternalStore } from "react";
 

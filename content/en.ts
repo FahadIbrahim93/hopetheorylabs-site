@@ -1,5 +1,5 @@
 import type { SiteContent } from "./types";
-import { whatsappLink, whatsappOrderLink } from "./types";
+import { whatsappAiLink, whatsappLink, whatsappOrderLink } from "./types";
 
 export const en: SiteContent = {
   header: {
@@ -13,9 +13,10 @@ export const en: SiteContent = {
     whatsapp: "WhatsApp", menu: "Menu", skip: "Skip to content", language: "Site language",
   },
   hero: {
-    eyebrow: "The intelligent business platform",
+    eyebrow: "Websites you can ship · Intelligence you can grow into",
     heading: "Your data. Connected. / Your business. Smarter.",
-    subheading: "We bring together your data, tools and workflows — and turn them into a living, breathing intelligence.",
+    subheading:
+      "We build fast, mobile-first sites with WhatsApp ordering for Dhaka businesses today. The connected intelligence in this experience is where we take you next — AI transformation is early access, by conversation.",
     primaryCta: "Message us on WhatsApp", whatsappLink: whatsappOrderLink,
     secondaryCta: "Watch it assemble", secondaryHref: "#method",
     coreDescription: "An animated intelligence core connects websites, CRM, databases, files, apps, APIs, systems and people.",
@@ -36,8 +37,9 @@ export const en: SiteContent = {
     methodEyebrow: "Stage I", methodHeading: "The digital self.",
     methodText: "Before a company can think, it has to be legible. We rebuild your site, brand, systems and records into one clean, professional presence.",
     shiftEyebrow: "Stage II", shiftHeading: "The shift to intelligence.",
-    shiftText: "It’s not just about tools. It’s about creating a unified intelligence from your data, systems and people.",
-    shiftCta: "Learn more",
+    shiftText:
+      "Stage II is the long game: one record across email, chat, spreadsheets and your storefront, with an assistant on top. Most clients start with Stage I; we only open Stage II with businesses that already have a clear digital self.",
+    shiftCta: "Compare both paths",
     flowEyebrow: "The living platform", flowHeading: "Everything you run, in one living flow.",
     flowText: "Eight kinds of source feed one connected record. Signals travel from each source into the core, and answers travel back out to the people and tools that need them.",
     flowHint: "Select a source to trace its connection.",
@@ -57,14 +59,38 @@ export const en: SiteContent = {
     ],
   },
   services: {
-    eyebrow: "What we build", heading: "Three disciplines, one outcome.",
-    items: [
-      { title: "Websites", description: "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳25,000." },
-      { title: "AI integrations", description: "Agents and automations wired into the tools you already run." },
-      { title: "AI transformation", description: "A digital self first, then one living intelligence across every data source." },
-    ],
-    founding: "Founding clients pay ৳15,000, in exchange for a short review and permission to show the site. AI work is by conversation: ask us if you’re curious.",
-    earlyAccessTag: "Early access",
+    eyebrow: "What we build",
+    heading: "Two paths. Start where you are.",
+    intro:
+      "Need orders on WhatsApp this month? Start with a website. Curious about agents and connected data? That’s a separate conversation — we’ll tell you honestly if we’re the right fit.",
+    websiteLane: {
+      label: "Start here · Available now",
+      items: [
+        {
+          title: "Websites",
+          description:
+            "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳25,000 — founding clients ৳15,000 with a short review and permission to show the site.",
+        },
+      ],
+      note: "We build a free concept first. You try it on your phone; if you like it, we set it up on your domain.",
+    },
+    aiLane: {
+      label: "Roadmap · Early access",
+      tag: "Early access",
+      items: [
+        {
+          title: "AI integrations",
+          description: "Agents and automations wired into the tools you already run — scoped after we understand your stack.",
+        },
+        {
+          title: "AI transformation",
+          description: "Digital self first, then one living intelligence across your data sources. Founding partners only while we refine the offer.",
+        },
+      ],
+      note: "No public pricing yet. We don’t sell AI retainers from this page — message us with the workflow you want to fix.",
+      whatsappCta: "Ask about AI on WhatsApp",
+      whatsappLink: whatsappAiLink,
+    },
   },
   whatYouGet: {
     heading: "What you get",

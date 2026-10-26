@@ -18,9 +18,22 @@ export interface SiteContent {
   };
   howItWorks: { eyebrow: string; heading: string; steps: { label: string; description: string }[] };
   services: {
-    eyebrow: string; heading: string;
-    items: { title: string; description: string }[];
-    founding: string; earlyAccessTag: string;
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    websiteLane: {
+      label: string;
+      items: { title: string; description: string }[];
+      note: string;
+    };
+    aiLane: {
+      label: string;
+      tag: string;
+      items: { title: string; description: string }[];
+      note: string;
+      whatsappCta: string;
+      whatsappLink: string;
+    };
   };
   whatYouGet: { heading: string; items: string[] };
   speedSlider: { label: string; before: string; after: string; aria: string };
@@ -38,4 +51,6 @@ export interface SiteContent {
   footer: { text: string; ticker: string[] };
 }
 export const whatsappOrderLink = "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20a%20free%20website%20concept";
+export const whatsappAiLink =
+  "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20to%20talk%20about%20AI%20integrations%20or%20transformation.";
 export const whatsappLink = "https://wa.me/8801718463471";

@@ -423,14 +423,19 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
 .how-step.is-active, .how-step[aria-current="step"] { color:#eef0f2; border-top-color:var(--color-gold); }
 .how-step.is-active b { color:var(--color-gold); }
 .how-step-text { max-width:560px; min-height:90px; margin-top:22px; font-size:18px; line-height:1.55; color:#a3acb8; }
-.services-cols { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-top:42px; max-width:900px; }
-.services-cols div { border-top:1px solid var(--site-line); padding-top:16px; color:#a3acb8; font-size:16px; line-height:1.5; }
-.services-cols b { display:block; font-weight:500; font-size:21px; color:#eef0f2; margin-bottom:8px; }
-.services-cols .tag { margin-top:12px; font-style:normal; }
+.services-intro-text { max-width:640px; margin:20px 0 0; color:#a3acb8; font-size:16px; line-height:1.6; }
+.services-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(28px,5vw,56px); margin-top:42px; max-width:980px; }
+.services-lane { border-top:1px solid var(--site-line); padding-top:18px; }
+.services-lane-label { font-family:var(--font-jetbrains-mono),monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#a3acb8; margin:0 0 20px; }
+.services-lane-label .tag { margin-left:8px; font-style:normal; vertical-align:middle; }
+.services-lane-item { margin-bottom:22px; color:#a3acb8; font-size:16px; line-height:1.5; }
+.services-lane-item b { display:block; font-weight:500; font-size:21px; color:#eef0f2; margin-bottom:8px; }
+.services-lane-note { margin:8px 0 0; color:#a3acb8; font-size:15px; line-height:1.6; }
+.services-ai-cta { margin-top:20px; }
 @media (max-width: 900px) {
   section:not(.contact-section) { justify-content:flex-end; padding-bottom:16vh; }
   .how-steps { grid-template-columns:1fr 1fr; }
-  .services-cols { grid-template-columns:1fr; gap:20px; }
+  .services-lanes { grid-template-columns:1fr; gap:32px; }
   .flow-node { font-size:11px; }
   .flow-node i { width:22px; height:22px; }
   .flow-monogram { font-size:30px; }

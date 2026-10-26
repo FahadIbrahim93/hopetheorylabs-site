@@ -11,7 +11,17 @@ export const bn: SiteContent = {
   hero: { ...en.hero, coreNodes: [...en.hero.coreNodes], coreNodeDetails: [...en.hero.coreNodeDetails] },
   story: { ...en.story, flowItems: en.story.flowItems.map((item) => ({ ...item })) },
   howItWorks: { ...en.howItWorks, steps: en.howItWorks.steps.map((item) => ({ ...item })) },
-  services: { ...en.services, items: en.services.items.map((item) => ({ ...item })) },
+  services: {
+    ...en.services,
+    websiteLane: {
+      ...en.services.websiteLane,
+      items: en.services.websiteLane.items.map((item) => ({ ...item })),
+    },
+    aiLane: {
+      ...en.services.aiLane,
+      items: en.services.aiLane.items.map((item) => ({ ...item })),
+    },
+  },
   work: { ...en.work, phoneItems: [...en.work.phoneItems] },
   contact: { ...en.contact },
   footer: { ...en.footer, ticker: [...en.footer.ticker] },

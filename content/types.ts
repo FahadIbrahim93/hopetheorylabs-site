@@ -3,8 +3,37 @@
  * Keep all user-facing copy in content/en.ts and content/bn.ts.
  */
 export interface NavLink { label: string; href: string }
+
+export type WorkCaseTag = "Concept" | "Shipped" | "In progress";
+
+export interface WorkCaseStudy {
+  slug: string;
+  title: string;
+  tag: WorkCaseTag;
+  discipline: "Website" | "AI integration" | "AI transformation";
+  summary: string;
+  /** Factual deliverables only — no invented metrics or client logos. */
+  deliverables: string[];
+  link?: { href: string; label: string };
+  phoneDemo?: {
+    storeName: string;
+    items: string[];
+    cta: string;
+    message: string;
+  };
+}
+
 export interface SiteContent {
-  header: { wordmark: string; nav: NavLink[]; whatsapp: string; menu: string; skip: string; language: string };
+  header: {
+    wordmark: string;
+    nav: NavLink[];
+    whatsapp: string;
+    menu: string;
+    skip: string;
+    language: string;
+    /** When false, the Bangla toggle is hidden until copy is reviewed (docs/QA.md). */
+    banglaEnabled: boolean;
+  };
   hero: {
     eyebrow: string; heading: string; subheading: string; primaryCta: string;
     whatsappLink: string; secondaryCta: string; secondaryHref: string;
@@ -40,8 +69,11 @@ export interface SiteContent {
   pricing: { heading: string; base: string; founding: string; cta: string };
   earlyAccess: { heading: string; tag: string; items: string[]; text: string };
   work: {
-    eyebrow: string; heading: string; title: string; tag: string; description: string;
-    link: string; linkLabel: string; phoneItems: string[]; phoneCta: string; phoneMessage: string;
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    honestyNote: string;
+    cases: WorkCaseStudy[];
   };
   about: { eyebrow: string; heading: string; text: string };
   contact: {

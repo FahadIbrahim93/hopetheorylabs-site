@@ -1,9 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { LanguageProvider, useContent, useLang } from "./LanguageProvider";
 import { About } from "./About";
 import { Contact } from "./Contact";
-import { Experience } from "./experience/Experience";
 import { FeatureGrid } from "./FeatureGrid";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
@@ -16,7 +17,11 @@ import { Reveal } from "./Reveal";
 import { ShiftSection } from "./ShiftSection";
 import { StateHud } from "./StateHud";
 import { StickyWhatsApp } from "./StickyWhatsApp";
-import { WorkCard } from "./WorkCard";
+import { WorkSection } from "./WorkSection";
+
+const Experience = dynamic(() => import("./experience/Experience").then((m) => m.Experience), {
+  ssr: false,
+});
 
 function Shell() {
   const content = useContent();
@@ -34,7 +39,7 @@ function Shell() {
       <Reveal><LivingFlow /></Reveal>
       <Reveal><HowItWorksTimeline /></Reveal>
       <Reveal><FeatureGrid /></Reveal>
-      <Reveal><WorkCard /></Reveal>
+      <Reveal><WorkSection /></Reveal>
       <Reveal><About /></Reveal>
       <Reveal><Contact /></Reveal>
     </main>

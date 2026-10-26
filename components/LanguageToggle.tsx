@@ -12,6 +12,10 @@ export function LanguageToggle() {
   const { lang, setLang } = useLang();
   const content = useContent();
 
+  if (!content.header.banglaEnabled) {
+    return null;
+  }
+
   return (
     <span
       role="group"

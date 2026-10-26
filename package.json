@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "perf:first-load": "node scripts/measure-first-load.mjs",
+    "perf:lighthouse": "npm run build && node scripts/run-lighthouse-mobile.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.2",

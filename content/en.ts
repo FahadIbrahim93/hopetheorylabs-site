@@ -10,7 +10,11 @@ export const en: SiteContent = {
       { label: "Work", href: "#work" },
       { label: "Contact", href: "#contact" },
     ],
-    whatsapp: "WhatsApp", menu: "Menu", skip: "Skip to content", language: "Site language",
+    whatsapp: "WhatsApp",
+    menu: "Menu",
+    skip: "Skip to content",
+    language: "Site language",
+    banglaEnabled: false,
   },
   hero: {
     eyebrow: "Websites you can ship · Intelligence you can grow into",
@@ -111,12 +115,46 @@ export const en: SiteContent = {
     text: "Ask us if you’re curious.",
   },
   work: {
-    eyebrow: "Work", heading: "We build a free concept first.",
-    title: "Rollers Republic", tag: "Concept",
-    description: "Rollers Republic is a concept we built on the shop’s real catalog. You try it on your phone. If you like it, we set it up on your domain.",
-    link: "https://rollers-republic-pitch.vercel.app", linkLabel: "View the concept",
-    phoneItems: ["Cold coffee", "Club sandwich", "Brownie"], phoneCta: "Order on WhatsApp",
-    phoneMessage: "Hi! I’d like to order: 1 × Cold coffee. Cash on delivery.",
+    eyebrow: "Work",
+    heading: "Proof, labelled honestly.",
+    intro:
+      "We build a free website concept before you pay. Case studies below say whether work is a concept pitch, in progress, or shipped — we do not use client logos, reviews, or made-up numbers.",
+    honestyNote: "Ask us on WhatsApp if you want permission details for a concept built from a real catalog.",
+    cases: [
+      {
+        slug: "rollers-republic",
+        title: "Rollers Republic",
+        tag: "Concept",
+        discipline: "Website",
+        summary:
+          "Concept storefront built from the shop’s real menu. Try ordering on your phone; if it fits, we deploy on your domain with WhatsApp and cash on delivery.",
+        deliverables: [
+          "Mobile menu and add-to-cart flow",
+          "Prefilled WhatsApp order message",
+          "Cash on delivery checkout path",
+        ],
+        link: { href: "https://rollers-republic-pitch.vercel.app", label: "View the concept" },
+        phoneDemo: {
+          storeName: "Rollers Republic",
+          items: ["Cold coffee", "Club sandwich", "Brownie"],
+          cta: "Order on WhatsApp",
+          message: "Hi! I’d like to order: 1 × Cold coffee. Cash on delivery.",
+        },
+      },
+      {
+        slug: "hope-theory-labs-site",
+        title: "Hope Theory Labs",
+        tag: "Shipped",
+        discipline: "Website",
+        summary:
+          "This marketing site — static export, accessible fallbacks, WebGL intelligence scene on capable desktops only.",
+        deliverables: [
+          "Static Next.js export on Vercel",
+          "WhatsApp-first contact and founding pricing in copy",
+          "WebGL experience with SVG fallback and reduced-motion support",
+        ],
+      },
+    ],
   },
   about: {
     eyebrow: "About", heading: "A solo studio in Dhaka.",

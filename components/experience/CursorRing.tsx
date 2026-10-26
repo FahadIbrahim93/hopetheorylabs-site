@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { useExperienceMode } from "./Experience";
+import { useExperienceMode } from "./mode";
 
 /** Desktop custom cursor ring (mouse only). */
 export function CursorRing() {

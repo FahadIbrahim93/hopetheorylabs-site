@@ -7,13 +7,16 @@ const newsreader = Newsreader({
   weight: ["400"],
   display: "swap",
   variable: "--font-newsreader",
+  adjustFontFallback: true,
+  preload: true,
 });
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400"],
   display: "swap",
   variable: "--font-instrument-sans",
+  adjustFontFallback: true,
 });
 
 const siteUrl = "https://hopetheorylabs.vercel.app";

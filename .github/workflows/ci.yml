@@ -26,3 +26,6 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run build
+      - name: Report first-load JS (informational)
+        run: npm run perf:first-load
+        continue-on-error: true

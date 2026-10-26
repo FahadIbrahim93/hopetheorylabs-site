@@ -339,8 +339,21 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
 .service-row .tag { grid-column:3; margin-top:-8px; }
 .founding-note { grid-column:2; max-width:640px; margin:28px 0 0; color:#a3acb8; font-size:15px; line-height:1.6; }
 .work-section { min-height:100svh; padding:120px clamp(24px,6vw,96px); display:flex; align-items:center; justify-content:center; gap:clamp(40px,8vw,120px); flex-wrap:wrap; }
+.work-section-proof { flex-direction:column; align-items:stretch; justify-content:flex-start; gap:clamp(48px,6vw,72px); }
+.work-proof-intro { width:100%; max-width:720px; }
+.work-honesty-note { margin-top:16px; color:#8b95a3; font-size:14px; line-height:1.55; }
+.work-case-list { list-style:none; margin:0; padding:0; width:100%; max-width:1100px; display:grid; gap:clamp(56px,8vw,88px); }
+.work-case { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:clamp(32px,6vw,80px); padding-top:clamp(24px,4vw,40px); border-top:1px solid var(--site-line); content-visibility:auto; contain-intrinsic-size:auto 520px; }
+.work-case-copy { max-width:530px; flex:1 1 320px; }
+.work-case-meta { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-bottom:12px; }
+.work-case-meta .tag { margin:0; }
+.work-case-discipline { color:#a3acb8; font:400 10px var(--font-jetbrains-mono),monospace; letter-spacing:2px; text-transform:uppercase; }
+.work-case-title { margin:0 0 12px; color:#eef0f2; font-family:var(--font-newsreader),serif; font-size:clamp(28px,4vw,36px); font-weight:400; line-height:1.1; }
+.work-deliverables { margin:16px 0 0; padding-left:1.1em; color:#a3acb8; font-size:15px; line-height:1.55; }
+.work-deliverables li { margin-bottom:6px; }
 .work-copy { max-width:530px; flex:1 1 360px; }
 .work-copy .text-link { margin-top:4px; }
+.story-section, .flow-section, .how-section, .services-section, .work-section, .about-section, .contact-section { content-visibility:auto; contain-intrinsic-size:auto 480px; }
 .work-visual { position:relative; flex:none; }
 .scene-slot.work-visual-slot { position:absolute; inset:-120px -140px; width:auto; }
 .phone-mockup { position:relative; width:250px; height:470px; flex:none; overflow:hidden; padding:22px 14px 20px; border:1px solid #394352; border-radius:34px; background:#0b0f14; box-shadow:0 20px 80px rgb(0 0 0 / 20%); }

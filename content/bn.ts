@@ -22,7 +22,17 @@ export const bn: SiteContent = {
       items: en.services.aiLane.items.map((item) => ({ ...item })),
     },
   },
-  work: { ...en.work, phoneItems: [...en.work.phoneItems] },
+  work: {
+    ...en.work,
+    cases: en.work.cases.map((c) => ({
+      ...c,
+      deliverables: [...c.deliverables],
+      link: c.link ? { ...c.link } : undefined,
+      phoneDemo: c.phoneDemo
+        ? { ...c.phoneDemo, items: [...c.phoneDemo.items] }
+        : undefined,
+    })),
+  },
   contact: { ...en.contact },
   footer: { ...en.footer, ticker: [...en.footer.ticker] },
 };

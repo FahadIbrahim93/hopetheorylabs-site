@@ -34,8 +34,9 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 
 ## i18n
 
-- [ ] EN / বাংলা toggle switches copy, sets `html lang`, persists in `localStorage`
-- [ ] Bangla copy flagged for Fahad Ibrahim review before marketing launch
+- [ ] When `header.banglaEnabled` is **true** in `content/en.ts`: EN / বাংলা toggle switches copy, sets `html lang`, persists in `localStorage`
+- [ ] When `banglaEnabled` is **false** (default until review): toggle is **hidden** on the live site
+- [ ] Bangla copy reviewed by Fahad before enabling the toggle
 
 ## SEO and meta
 
@@ -46,8 +47,9 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 
 ## Performance (mobile Lighthouse)
 
-Target from original step issues: **90+** in all four categories when feasible.
+Target: **90+** in all four categories when feasible. Record via `npm run perf:lighthouse` (build + local static serve + Lighthouse mobile).
 
+- [ ] `npm run perf:first-load` recorded (critical-path + total script gzip); **Lighthouse 90+** is the release gate — legacy **120 KB** target is tracked for regression only on Next 16 static export
 - [ ] Performance, Accessibility, Best Practices, SEO scores recorded
 - [ ] CLS ideally **< 0.1** (fixed WebGL layer should not shift document flow)
 - [ ] LCP is hero text or other above-the-fold copy

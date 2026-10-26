@@ -171,5 +171,10 @@ export const en: SiteContent = {
     text: "© 2026 Hope Theory Labs · Dhaka, Bangladesh · from the Hope Theory family. No cookies, no analytics.",
     ticker: ["Email", "CRM", "Billing", "Docs", "Chat", "Storefront", "Support"],
   },
+  studio: {
+    introWordmark: "Hope Theory Labs",
+    introCue: "Calibrating intelligence core",
+    railLabel: "Signal",
+  },
 };
 export default en;

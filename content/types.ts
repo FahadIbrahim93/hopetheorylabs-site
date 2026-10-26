@@ -81,6 +81,11 @@ export interface SiteContent {
     submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
   };
   footer: { text: string; ticker: string[] };
+  studio: {
+    introWordmark: string;
+    introCue: string;
+    railLabel: string;
+  };
 }
 export const whatsappOrderLink = "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20a%20free%20website%20concept";
 export const whatsappAiLink =

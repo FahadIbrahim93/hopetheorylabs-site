@@ -1,5 +1,6 @@
 import type { WorkCaseStudy } from "@/content/types";
 
+import { SectionMarker } from "./SectionMarker";
 import { useContent } from "./LanguageProvider";
 
 function PhoneDemo({
@@ -39,6 +40,7 @@ export function WorkSection() {
 
   return (
     <section id="work" className="work-section work-section-proof border-b border-paper/10" aria-labelledby="work-heading">
+      <SectionMarker index="007" />
       <div className="work-proof-intro scene-copy">
         <p className="eyebrow">{work.eyebrow}</p>
         <h2 id="work-heading">{work.heading}</h2>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { experienceActions } from "./experience/store";
+import { SectionMarker } from "./SectionMarker";
 import { useContent } from "./LanguageProvider";
 
 export function HowItWorksTimeline() {
@@ -15,6 +16,7 @@ export function HowItWorksTimeline() {
 
   return (
     <section id="how" className="how-section how-section-html border-b border-paper/10" aria-labelledby="how-heading">
+      <SectionMarker index="005" />
       <div className="how-head scene-copy">
         <p className="eyebrow">{content.howItWorks.eyebrow}</p>
         <h2 id="how-heading">{content.howItWorks.heading}</h2>

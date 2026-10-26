@@ -16,7 +16,9 @@ import { MethodSection } from "./MethodSection";
 import { Reveal } from "./Reveal";
 import { ShiftSection } from "./ShiftSection";
 import { StateHud } from "./StateHud";
+import { NarrativeRail } from "./NarrativeRail";
 import { StickyWhatsApp } from "./StickyWhatsApp";
+import { StudioAtmosphere } from "./StudioAtmosphere";
 import { WorkSection } from "./WorkSection";
 
 const Experience = dynamic(() => import("./experience/Experience").then((m) => m.Experience), {
@@ -30,6 +32,8 @@ function Shell() {
     <a href="#main" className="skip-link">{content.header.skip}</a>
     <Header />
     <HeaderScroll />
+    <StudioAtmosphere />
+    <NarrativeRail />
     <StateHud />
     <Experience />
     <main id="main" tabIndex={-1}>

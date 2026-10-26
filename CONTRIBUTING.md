@@ -9,7 +9,9 @@ Humans and coding agents follow the same flow. Agents: also read [AGENTS.md](AGE
 5. Check locally: `npm run lint && npm run typecheck && npm run build`.
 6. Open a PR to `main` with `Closes #<n>` and the template checklist filled in. Move the issue to **Review**.
 7. CI (lint, typecheck, build) must pass. Vercel posts a preview URL; run Lighthouse (mobile) on it for UI changes.
-8. Fahad reviews and merges. Nobody pushes to `main` directly. Production deploys are on hold until Fahad approves.
+8. Fahad reviews and merges. Nobody pushes to `main` directly without review.
+
+**Production:** Merges to `main` deploy to https://hopetheorylabs.vercel.app via Vercel. Custom domain or promotion settings are changed only in the Vercel dashboard with Fahad's approval. See [docs/QA_RESULTS.md](docs/QA_RESULTS.md) for the latest verified release.
 
 ## Board statuses
 

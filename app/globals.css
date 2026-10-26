@@ -507,3 +507,10 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
 @media (hover: none) {
   .experience-cursor { display:none; }
 }
+
+/* Static hero core: always in the HTML; visible on phones and whenever WebGL is not live. */
+.hero-visual-static { display:none; }
+html.nogl .hero-visual-static { display:flex; }
+@media (max-width: 800px) {
+  html:not([data-experience="webgl"]) .hero-visual-static { display:flex; }
+}

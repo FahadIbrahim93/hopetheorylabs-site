@@ -1,16 +1,59 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { Component, useCallback, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 
 import { CursorRing } from "./CursorRing";
 import { IntroOverlay } from "./IntroOverlay";
 import { NodeLabels } from "./NodeLabels";
-import { detectTier, detectWebGL, readOverride } from "./quality";
+import { detectTier, detectWebGL, isConstrainedDevice, readOverride } from "./quality";
 import { experienceActions, getDiscrete, subscribeDiscrete, type QualityTier } from "./store";
 import { useNarrativeTracking } from "./useNarrativeTracking";
 
-const ExperienceCanvas = dynamic(() => import("./ExperienceCanvas"), { ssr: false });
+type CanvasModule = typeof import("./ExperienceCanvas");
+type CanvasComponent = CanvasModule["default"];
+
+/*
+  The WebGL module (three + r3f) is only ever requested on the allowed path:
+  never on small screens, low-core CPUs, save-data or reduced motion, and on
+  desktop only once the browser is idle (2.5s timeout) or the visitor first
+  scrolls / moves the pointer / presses a key.
+*/
+function whenIdleOrInteraction(run: () => void) {
+  let done = false;
+  const events = ["scroll", "pointermove", "pointerdown", "keydown", "touchstart"] as const;
+  const fire = () => {
+    if (done) return;
+    done = true;
+    cleanup();
+    run();
+  };
+  const w = window as Window & {
+    requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+    cancelIdleCallback?: (id: number) => void;
+  };
+  const idleId = w.requestIdleCallback ? w.requestIdleCallback(fire, { timeout: 2500 }) : null;
+  const timeoutId = idleId === null ? window.setTimeout(fire, 2000) : null;
+  for (const e of events) window.addEventListener(e, fire, { once: true, passive: true });
+  function cleanup() {
+    if (idleId !== null) w.cancelIdleCallback?.(idleId);
+    if (timeoutId !== null) window.clearTimeout(timeoutId);
+    for (const e of events) window.removeEventListener(e, fire);
+  }
+  return () => {
+    done = true;
+    cleanup();
+  };
+}
+
+const FINE_POINTER = "(pointer: fine)";
+function subscribeFinePointer(cb: () => void) {
+  const mq = window.matchMedia(FINE_POINTER);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+}
+function getFinePointer() {
+  return window.matchMedia(FINE_POINTER).matches;
+}
 
 export function useExperienceMode() {
   return useSyncExternalStore(subscribeDiscrete, () => getDiscrete().mode, () => "pending" as const);
@@ -26,29 +69,43 @@ export function Experience() {
   const reduced = useReducedMotion();
   const [plan, setPlan] = useState<{ tier: QualityTier; introStart: number } | null>(null);
   const [live, setLive] = useState(false);
+  const finePointer = useSyncExternalStore(subscribeFinePointer, getFinePointer, () => false);
+  const [Canvas, setCanvas] = useState<CanvasComponent | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    const decide = () => {
+    let cancelWait: (() => void) | null = null;
+    const override = readOverride();
+    // Constrained devices get the static fallback immediately; the WebGL module is never fetched.
+    if (override === "fallback" || (!override && isConstrainedDevice())) {
+      experienceActions.setMode("fallback");
+      return;
+    }
+    const start = () => {
       if (cancelled) return;
-      const override = readOverride();
-      if (override === "fallback" || !detectWebGL()) {
+      if (!detectWebGL()) {
         experienceActions.setMode("fallback");
         return;
       }
-      setPlan({ tier: override ?? detectTier(), introStart: performance.now() });
+      import("./ExperienceCanvas")
+        .then((mod: CanvasModule) => {
+          if (cancelled) return;
+          setCanvas(() => mod.default);
+          setPlan({ tier: override ?? detectTier(), introStart: performance.now() });
+        })
+        .catch(() => {
+          if (!cancelled) experienceActions.setMode("fallback");
+        });
     };
-    if (document.readyState === "complete") {
-      const id = window.setTimeout(decide, 50);
-      return () => {
-        cancelled = true;
-        window.clearTimeout(id);
-      };
-    }
-    window.addEventListener("load", decide, { once: true });
+    const afterLoad = () => {
+      if (!cancelled) cancelWait = whenIdleOrInteraction(start);
+    };
+    if (document.readyState === "complete") afterLoad();
+    else window.addEventListener("load", afterLoad, { once: true });
     return () => {
       cancelled = true;
-      window.removeEventListener("load", decide);
+      cancelWait?.();
+      window.removeEventListener("load", afterLoad);
     };
   }, []);
 
@@ -69,15 +126,15 @@ export function Experience() {
     document.documentElement.classList.toggle("nogl", mode === "fallback");
   }, [mode]);
 
-  if (!plan || mode === "fallback") return null;
+  if (!plan || !Canvas || mode === "fallback") return null;
 
   return (
     <>
       <IntroOverlay />
-      <CursorRing />
+      {finePointer && <CursorRing />}
       <div className={`experience-layer${live ? " is-live" : ""}`} aria-hidden="true">
         <ExperienceBoundary onError={handleFailure}>
-          <ExperienceCanvas
+          <Canvas
             initialTier={plan.tier}
             reduced={reduced}
             introStart={plan.introStart}

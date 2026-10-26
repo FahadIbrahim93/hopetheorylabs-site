@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 /*
-  The one signature interaction (docs/SPEC.md): a faint teal dot/particle
+  The one signature interaction (docs/SPEC.md): a faint gold dot/particle
   field behind the hero that drifts slowly as a quiet supporting layer.
 
   Budget (docs/SPEC.md): under 8 KB, no libraries, 2D canvas only.
@@ -99,7 +99,7 @@ export default function LabsBackground() {
           else if (p.y > height + 4) p.y = -4;
         }
 
-        ctx!.fillStyle = `rgba(20, 184, 166, ${opacityFor(p).toFixed(3)})`;
+        ctx!.fillStyle = `rgba(184, 137, 47, ${opacityFor(p).toFixed(3)})`;
         ctx!.beginPath();
         ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx!.fill();

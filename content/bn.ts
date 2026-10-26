@@ -2,7 +2,7 @@ import type { SiteContent } from "./types";
 import { en } from "./en";
 
 /*
- * TODO: Bangla copy must be reviewed by Fahad/Tamim before the language toggle
+ * TODO: Bangla copy must be reviewed by Fahad Ibrahim before the language toggle
  * goes live. Keep the schema in sync with English; values temporarily mirror it.
  */
 export const bn: SiteContent = {

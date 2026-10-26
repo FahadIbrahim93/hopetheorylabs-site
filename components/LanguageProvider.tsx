@@ -5,18 +5,20 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
 
-import { bn } from "@/content/bn";
 import { en } from "@/content/en";
 import type { SiteContent } from "@/content/types";
 
 export type Lang = "en" | "bn";
 
 const LANG_STORAGE_KEY = "htl-lang";
-const CONTENT: Record<Lang, SiteContent> = { en, bn };
+/* Only the active language ships: Bangla copy is a separate chunk fetched on demand. */
+let bnCache: SiteContent | null = null;
+const loadBn = () => import("@/content/bn").then((m) => (bnCache = m.bn));
 
 /*
   Tiny external store over localStorage (issue #3). useSyncExternalStore is
@@ -75,10 +77,25 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = lang;
   }, [lang]);
 
+  const [bn, setBn] = useState<SiteContent | null>(bnCache);
+  useEffect(() => {
+    if (lang !== "bn" || bn) return;
+    let cancelled = false;
+    loadBn().then((content) => {
+      if (!cancelled) setBn(content);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [lang, bn]);
+
   const setLang = useCallback((next: Lang) => setLangEverywhere(next), []);
+  // Until the Bangla chunk arrives, keep showing English (and lang stays "en" for data-lang).
+  const activeLang: Lang = lang === "bn" && bn ? "bn" : "en";
+  const content = activeLang === "bn" && bn ? bn : en;
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, content: CONTENT[lang] }}>
+    <LanguageContext.Provider value={{ lang: activeLang, setLang, content }}>
       {children}
     </LanguageContext.Provider>
   );

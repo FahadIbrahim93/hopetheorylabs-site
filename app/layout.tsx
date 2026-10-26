@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, JetBrains_Mono, Newsreader } from "next/font/google";
+import { Instrument_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -16,24 +16,17 @@ const instrumentSans = Instrument_Sans({
   variable: "--font-instrument-sans",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-  variable: "--font-jetbrains-mono",
-});
-
 const siteUrl = "https://hopetheorylabs.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Hope Theory Labs — AI transformation and websites for businesses",
+  title: "Hope Theory Labs — Fast websites for businesses, AI services in early access",
   description:
-    "Hope Theory Labs builds fast websites and AI integrations, and turns your data into one living intelligence. Based in Dhaka, Bangladesh.",
+    "Hope Theory Labs builds fast, mobile-first websites for businesses, with AI services available in early access. Based in Dhaka, Bangladesh.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Hope Theory Labs",
-    description: "Websites, AI integrations and AI transformation. Every source, one mind.",
+    description: "Fast websites for businesses. AI services in early access.",
     type: "website",
     url: "/",
     siteName: "Hope Theory Labs",
@@ -43,14 +36,14 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Hope Theory Labs",
-    description: "Websites, AI integrations and AI transformation. Every source, one mind.",
+    description: "Fast websites for businesses. AI services in early access.",
     images: ["/og.png"],
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07090C",
+  themeColor: "#0F1B2D",
   viewportFit: "cover",
 };
 
@@ -74,7 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={[newsreader.variable, instrumentSans.variable, jetbrainsMono.variable].join(" ")}
+      className={[newsreader.variable, instrumentSans.variable].join(" ")}
       suppressHydrationWarning
     >
       <head>

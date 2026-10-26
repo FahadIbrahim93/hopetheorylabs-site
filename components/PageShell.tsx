@@ -1,6 +1,5 @@
 "use client";
 
-import { LazyMotion, domAnimation } from "framer-motion";
 import { LanguageProvider, useContent, useLang } from "./LanguageProvider";
 import { About } from "./About";
 import { Contact } from "./Contact";
@@ -48,5 +47,5 @@ function Shell() {
   </div>;
 }
 export function PageShell() {
-  return <LanguageProvider><LazyMotion features={domAnimation} strict><Shell /></LazyMotion></LanguageProvider>;
+  return <LanguageProvider><Shell /></LanguageProvider>;
 }

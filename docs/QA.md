@@ -4,8 +4,9 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 
 ## Visual and brand (docs/DESIGN_RULES.md)
 
-- [ ] Background `#07090C`, off-white `#EEF0F2`, muted `#A3ACB8`, hairline `#2A323D`, teal `#7FD6C2`, amber `#FFBD61`
-- [ ] Instrument Sans (UI/body), Newsreader (headings), JetBrains Mono (labels); Hind Siliguri when Bangla is active
+- [ ] Background `#07090C`, off-white `#EEF0F2`, muted `#A3ACB8`, hairline `#2A323D`, gold accent `#B8892F` (dark gold `#8A6420` for text on light), navy `#0F1B2D`, paper `#F8F6F1`, slate `#475569`, amber `#FFBD61`. **No teal anywhere** (see docs/BRAND.md)
+- [ ] `rg -i "teal|14b8a6|2dd4bf|7fd6c2|0f766e" app components content` returns nothing; Lighthouse color-contrast passes
+- [ ] Instrument Sans (UI/body), Newsreader (headings), system monospace (labels); Hind Siliguri when Bangla is active
 - [ ] Editorial type, asymmetric layout, hairline rules, small uppercase labels — no centered-everything sections
 - [ ] One persistent full-viewport WebGL scene (or SVG/canvas fallback); copy in a single legible column
 - [ ] Rollers Republic labelled **Concept**; speed slider **Illustrative only** with no numbers
@@ -34,7 +35,7 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 ## i18n
 
 - [ ] EN / বাংলা toggle switches copy, sets `html lang`, persists in `localStorage`
-- [ ] Bangla copy flagged for Fahad/Tamim review before marketing launch
+- [ ] Bangla copy flagged for Fahad Ibrahim review before marketing launch
 
 ## SEO and meta
 

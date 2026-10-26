@@ -1,7 +1,7 @@
 /*
   Geometry data for the particle field: three target layouts per particle
   (scattered cloud, globe lattice, spiral galaxy) plus a random seed. Built
-  once at the high-water particle count; lower tiers shrink the draw range.
+  once at the starting tier's particle count; downgrades shrink the draw range.
 */
 
 export interface ParticleBuffers {

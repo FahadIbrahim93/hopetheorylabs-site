@@ -35,5 +35,6 @@ export const bn: SiteContent = {
   },
   contact: { ...en.contact },
   footer: { ...en.footer, ticker: [...en.footer.ticker] },
+  studio: { ...en.studio },
 };
 export default bn;

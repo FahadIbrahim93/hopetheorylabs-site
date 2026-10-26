@@ -136,6 +136,8 @@ html.js .reveal.reveal-in {
 
 /* Reduced motion: everything above becomes instant (docs/DESIGN_RULES.md). */
 @media (prefers-reduced-motion: reduce) {
+  body::after { animation: none; }
+  .narrative-rail-fill { transition: none; }
   .word-reveal .word {
     animation: none;
     opacity: 1;
@@ -260,8 +262,112 @@ body { background: #07090c; color: #eef0f2; font-family: var(--font-sans); }
 .scene-copy { text-shadow: 0 0 28px var(--color-ink), 0 0 10px var(--color-ink); }
 html.nogl body { background: radial-gradient(ellipse at 70% 40%, #0f1b2d 0, #07090c 60%); }
 html.nogl .flow-label-layer, html.nogl .state-hud { display: none; }
-body::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:9; opacity:.07; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"); }
+/*
+  Film grain + vignette — procedural SVG turbulence (no external CDN/assets).
+  See docs/ASSETS.md for licensing notes.
+*/
+body::after {
+  content:"";
+  position:fixed;
+  inset:-20%;
+  pointer-events:none;
+  z-index:9;
+  opacity:.08;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:studio-grain-drift 9s steps(8) infinite;
+}
 html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:8; background:radial-gradient(ellipse at center, transparent 58%, rgb(0 0 0 / 50%)); }
+.studio-grid {
+  position:fixed;
+  inset:0;
+  z-index:7;
+  pointer-events:none;
+  opacity:.045;
+  background-image:
+    linear-gradient(rgb(184 137 47 / 14%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(184 137 47 / 14%) 1px, transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse at 72% 38%, black 0%, transparent 72%);
+}
+@keyframes studio-grain-drift {
+  0% { transform:translate(0,0); }
+  25% { transform:translate(-2%,1%); }
+  50% { transform:translate(1%,-2%); }
+  75% { transform:translate(-1%,2%); }
+  100% { transform:translate(0,0); }
+}
+.section-marker {
+  position:absolute;
+  top:clamp(28px,4vw,48px);
+  right:clamp(24px,6vw,96px);
+  margin:0;
+  color:#6b7280;
+  font:400 10px var(--font-jetbrains-mono),monospace;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+.story-section, .flow-section, .how-section, .services-section, .work-section, .about-section, .contact-section { position:relative; }
+.narrative-rail {
+  position:fixed;
+  z-index:28;
+  top:50%;
+  right:clamp(16px,2.5vw,32px);
+  transform:translateY(-50%);
+  display:none;
+  width:132px;
+  color:#8b95a3;
+  font:400 9px var(--font-jetbrains-mono),monospace;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+.narrative-rail-label { display:block; margin-bottom:10px; color:#6b7280; }
+.narrative-rail-track { position:relative; padding-left:14px; border-left:1px solid #2a323d; min-height:200px; }
+.narrative-rail-fill {
+  position:absolute;
+  left:-1px;
+  top:0;
+  width:1px;
+  display:block;
+  background:var(--color-gold);
+  transition:height 400ms var(--ease-signature);
+}
+.narrative-rail-stops { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+.narrative-rail-stops a {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:32px;
+  color:inherit;
+  text-decoration:none;
+  opacity:.55;
+  transition:opacity 400ms var(--ease-signature), color 400ms var(--ease-signature);
+}
+.narrative-rail-stops a:hover,
+.narrative-rail-stops a:focus-visible,
+.narrative-rail-stops a.is-active { opacity:1; color:#eef0f2; }
+.narrative-rail-dot {
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  border:1px solid #4b5563;
+  background:#07090c;
+  flex:none;
+  transition:border-color 400ms var(--ease-signature), background 400ms var(--ease-signature);
+}
+.narrative-rail-stops a.is-active .narrative-rail-dot {
+  border-color:var(--color-gold);
+  background:var(--color-gold);
+}
+.narrative-rail-name { font-size:8px; letter-spacing:1.2px; line-height:1.3; }
+@media (min-width: 1200px) {
+  .narrative-rail { display:block; }
+}
+.work-case { transition:border-color 600ms var(--ease-signature); }
+.work-case:hover .work-case-copy,
+.work-case:focus-within .work-case-copy { color:#eef0f2; }
+.work-case:hover .work-case-title,
+.work-case:focus-within .work-case-title { color:var(--color-gold); }
 .site-wordmark { color:#eef0f2; font-size:16px; font-weight:500; text-decoration:none; white-space:nowrap; }
 .site-wordmark::after { content:""; display:inline-block; width:5px; height:5px; border-radius:50%; margin:0 0 2px 6px; background:var(--color-gold); }
 .desktop-nav { display:flex; align-items:center; gap:6px; }
@@ -408,7 +514,8 @@ html.js .reveal.reveal-in { opacity:1; transform:none; }
 .experience-layer { position:fixed; inset:0; z-index:0; opacity:0; pointer-events:none; transition:opacity 1.4s ease; }
 .experience-layer.is-live { opacity:1; }
 .experience-canvas { display:block; }
-.experience-intro { position:fixed; inset:0; z-index:50; background:#07090c; display:grid; place-content:center; justify-items:center; gap:18px; font:400 12px var(--font-jetbrains-mono),monospace; letter-spacing:6px; text-transform:uppercase; color:#a3acb8; animation:experience-intro-out .9s ease 1.6s forwards; pointer-events:none; }
+.experience-intro { position:fixed; inset:0; z-index:50; background:#07090c; display:grid; place-content:center; justify-items:center; gap:12px; font:400 12px var(--font-jetbrains-mono),monospace; letter-spacing:6px; text-transform:uppercase; color:#a3acb8; animation:experience-intro-out .9s ease 1.6s forwards; pointer-events:none; }
+.experience-intro-cue { margin:0; font-size:9px; letter-spacing:3px; color:#6b7280; text-transform:uppercase; }
 .experience-intro i { display:block; height:1px; width:0; background:var(--color-gold); animation:experience-intro-line 1.4s cubic-bezier(.7,0,.2,1) .1s forwards; }
 @keyframes experience-intro-out { to { opacity:0; visibility:hidden; } }
 @keyframes experience-intro-line { to { width:180px; } }

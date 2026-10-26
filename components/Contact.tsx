@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 
+import { SectionMarker } from "./SectionMarker";
 import { useContent } from "./LanguageProvider";
 
 export function Contact() {
@@ -16,6 +17,7 @@ export function Contact() {
   }
   return (
     <section id="contact" className="contact-section border-b border-paper/10" aria-labelledby="contact-heading">
+      <SectionMarker index="009" />
       <div className="contact-grid contact-grid-html">
         <div className="contact-intro scene-copy">
           <p className="eyebrow">{content.contact.eyebrow}</p>

@@ -1,3 +1,4 @@
+import { SectionMarker } from "./SectionMarker";
 import { WhatsAppCta } from "./WhatsAppCta";
 import { useContent } from "./LanguageProvider";
 
@@ -11,6 +12,7 @@ export function FeatureGrid() {
       className="services-section services-section-html border-b border-paper/10"
       aria-labelledby="services-heading"
     >
+      <SectionMarker index="006" />
       <div className="services-inner services-inner-html">
         <div className="services-intro scene-copy">
           <p className="eyebrow">{services.eyebrow}</p>

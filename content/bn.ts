@@ -28,6 +28,8 @@ export const bn: SiteContent = {
       ...c,
       deliverables: [...c.deliverables],
       link: c.link ? { ...c.link } : undefined,
+      secondaryLink: c.secondaryLink ? { ...c.secondaryLink } : undefined,
+      gamePreview: c.gamePreview ? { ...c.gamePreview } : undefined,
       phoneDemo: c.phoneDemo
         ? { ...c.phoneDemo, items: [...c.phoneDemo.items] }
         : undefined,

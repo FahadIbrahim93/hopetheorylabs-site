@@ -27,20 +27,60 @@ Tooling: `npm run perf:first-load`, `node scripts/run-lighthouse-mobile.mjs` (Li
 
 **Notes:** Mobile Lighthouse uses constrained-device rules (no WebGL fetch on ≤800px). Intelligence core SVG is server-rendered in static HTML for stable LCP/CLS. Re-run on **Vercel preview** after merge for production-parity scores.
 
+## Manual checklist (docs/QA.md) — 26 Oct 2026
+
+### Visual and brand
+
+- [x] Gold/navy/paper palette; studio grid atmosphere (no teal particle field — superseded by gold `StudioAtmosphere`)
+- [x] `rg -i "teal|14b8a6|2dd4bf|7fd6c2|0f766e" app components content` — no matches on release branch
+- [x] Rollers Republic **Concept**; speed slider **Illustrative only**
+- [x] EMBERFALL case study **Shipped** with self-hosted preview image (`public/work/emberfall-hero.png`); play link opens external game (no iframe — CSP)
+
+### Copy and conversion
+
+- [x] Visible strings from `content/en.ts` / `content/bn.ts`
+- [x] WhatsApp `https://wa.me/8801718463471`; email `hopetheorybd@gmail.com`
+
+### Motion and WebGL
+
+- [x] `?experience=fallback` documented in QA.md
+- [x] Reduced-motion path in experience code
+- [ ] Full manual pass: flow burst, HUD scroll narrative (automated agent — spot-check on preview)
+
+### Accessibility
+
+- [x] Lighthouse Accessibility **100** (local mobile)
+- [ ] Keyboard pass on all eight flow nodes (manual)
+
+### i18n
+
+- [x] `header.banglaEnabled: false` — toggle hidden
+- [ ] Bangla review by Fahad before enable
+
+### SEO and meta
+
+- [x] Present in repo (`robots.txt`, `sitemap.xml`, `og.png`, JSON-LD, `not-found`, `icon.svg`) — verify on preview after deploy
+
+### Performance breakpoints
+
+- [ ] Spot-check **360 / 768 / 1280 / 1920** px on Vercel preview (Chromium automated partial only)
+- [ ] Safari / Firefox real devices — **not verified**
+
 ## Launch gates — status
 
 | Gate | Status |
 | --- | --- |
-| Lighthouse mobile 90+ (all four) | **Met** locally (97 / 100 / 100 / 100) — confirm on preview |
+| Lighthouse mobile 90+ (all four) | **Met** locally (97 / 100 / 100 / 100) — confirm on preview after Emberfall merge |
 | CLS &lt; 0.1 | **Met** (0) |
-| Bangla toggle | **Hidden** (`header.banglaEnabled: false`) until copy review |
-| Case studies | **Structured** in `content/en.ts` → `work.cases[]` (Concept / Shipped labels) |
-| Real-device Safari/Firefox | **Not verified** in automation |
-| Custom domain | **Not configured** in repo |
+| Bangla toggle | **Hidden** until copy review |
+| Case studies | Rollers (Concept), **EMBERFALL (Shipped)**, HTL site (Shipped) |
+| Studio atmosphere | **On main** (`StudioAtmosphere`, narrative rail, section markers) |
+| Stale step issues #4–#10 | **Closed** as shipped/superseded (see issue comments) |
+| Custom domain | **Held** — not configured in repo |
 
 ## Sign-off
 
 | Role | Name | Date | Notes |
 | --- | --- | --- | --- |
-| Engineering (automated) | Cloud agent | 26 Oct 2026 | Perf + proof structure on `cursor/positioning-copy-split-0b4e` |
-| Product / Fahad | — | — | Enable `banglaEnabled` after Bangla review; approve custom domain |
+| Engineering (automated) | Cloud agent | 26 Oct 2026 | Emberfall showcase + QA doc expansion |
+| Product / Fahad | — | — | Enable `banglaEnabled` after Bangla review; custom domain when ready |

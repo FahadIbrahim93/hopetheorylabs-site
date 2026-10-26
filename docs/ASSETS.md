@@ -12,6 +12,7 @@ Hope Theory Labs does **not** load third-party scripts, CDNs, or stock “AI” 
 | WebGL scene | `components/experience/` (Three.js via npm) | Custom GLSL port |
 | Fonts | Google Fonts via `next/font` | [OFL](https://scripts.sil.org/OFL) (Instrument Sans, Newsreader, Hind Siliguri) |
 | OG image | `public/og.png` | Project-owned |
+| EMBERFALL work preview | `public/work/emberfall-hero.png` | From [emberfall press kit](https://github.com/FahadIbrahim93/emberfall) (MIT game); copied for CSP-safe showcase |
 
 ## Adding new assets
 

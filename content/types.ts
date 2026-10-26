@@ -10,11 +10,18 @@ export interface WorkCaseStudy {
   slug: string;
   title: string;
   tag: WorkCaseTag;
-  discipline: "Website" | "AI integration" | "AI transformation";
+  discipline: "Website" | "Browser game" | "AI integration" | "AI transformation";
   summary: string;
   /** Factual deliverables only — no invented metrics or client logos. */
   deliverables: string[];
   link?: { href: string; label: string };
+  secondaryLink?: { href: string; label: string };
+  gamePreview?: {
+    imageSrc: string;
+    imageAlt: string;
+    playHref: string;
+    playLabel: string;
+  };
   phoneDemo?: {
     storeName: string;
     items: string[];

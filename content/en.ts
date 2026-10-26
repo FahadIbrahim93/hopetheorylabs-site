@@ -118,7 +118,7 @@ export const en: SiteContent = {
     eyebrow: "Work",
     heading: "Proof, labelled honestly.",
     intro:
-      "We build a free website concept before you pay. Case studies below say whether work is a concept pitch, in progress, or shipped — we do not use client logos, reviews, or made-up numbers.",
+      "We build a free website concept before you pay. Case studies below say whether work is a concept pitch, in progress, or shipped — including studio games and sites we ship ourselves. No client logos, reviews, or made-up numbers.",
     honestyNote: "Ask us on WhatsApp if you want permission details for a concept built from a real catalog.",
     cases: [
       {
@@ -139,6 +139,27 @@ export const en: SiteContent = {
           items: ["Cold coffee", "Club sandwich", "Brownie"],
           cta: "Order on WhatsApp",
           message: "Hi! I’d like to order: 1 × Cold coffee. Cash on delivery.",
+        },
+      },
+      {
+        slug: "emberfall",
+        title: "EMBERFALL",
+        tag: "Shipped",
+        discipline: "Browser game",
+        summary:
+          "Free arcade space shooter in the browser — canvas, procedural art and audio, installable PWA with offline play after the first visit.",
+        deliverables: [
+          "Vanilla JavaScript on HTML5 canvas (no framework or bundler)",
+          "Multiple modes, ships, and accessibility options (touch, gamepad, reduced motion)",
+          "Optional pilot accounts and leaderboards; guest scores stay on device",
+        ],
+        link: { href: "https://emberfall-game-two.vercel.app/", label: "Play EMBERFALL" },
+        secondaryLink: { href: "https://github.com/FahadIbrahim93/emberfall", label: "View source on GitHub" },
+        gamePreview: {
+          imageSrc: "/work/emberfall-hero.png",
+          imageAlt: "EMBERFALL — arcade space shooter title screen and ship in a starfield",
+          playHref: "https://emberfall-game-two.vercel.app/",
+          playLabel: "Play EMBERFALL",
         },
       },
       {

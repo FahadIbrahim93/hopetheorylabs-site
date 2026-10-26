@@ -12,7 +12,8 @@ import { experienceActions, frameState, registerInvalidator, type QualityTier } 
   Hosts the single WebGL renderer. Responsibilities: pixel-ratio cap per
   tier, runtime frame monitoring (steps the tier down, never up), shader
   link-failure detection via renderer.debug.onShaderError, context-loss
-  handling, and demand-only rendering when the visitor prefers reduced motion.
+  handling, demand-only rendering when the visitor prefers reduced motion,
+  and a paused ("never") frameloop while offscreen or the tab is hidden.
   The parent decides what to do on failure (swap to the SVG fallback).
 */
 
@@ -85,11 +86,12 @@ export default function ExperienceCanvas({ initialTier, reduced, introStart, onR
   }, [tier]);
 
   const maxDpr = QUALITY[initialTier].maxDpr;
+  const active = useActive(glRef);
 
   return (
     <Canvas
       className="experience-canvas"
-      frameloop={reduced ? "demand" : "always"}
+      frameloop={!active ? "never" : reduced ? "demand" : "always"}
       dpr={[1, maxDpr]}
       flat
       gl={{
@@ -148,6 +150,40 @@ export default function ExperienceCanvas({ initialTier, reduced, introStart, onR
       />
     </Canvas>
   );
+}
+
+/**
+ * True while the canvas is on screen and the tab is visible. Drives the
+ * frameloop to "never" otherwise so no GPU/CPU time is spent offscreen.
+ */
+function useActive(glRef: React.RefObject<WebGLRenderer | null>) {
+  const [visible, setVisible] = useState(() => typeof document === "undefined" || !document.hidden);
+  const [onscreen, setOnscreen] = useState(true);
+  useEffect(() => {
+    const onVis = () => setVisible(!document.hidden);
+    document.addEventListener("visibilitychange", onVis);
+    let io: IntersectionObserver | null = null;
+    let raf = 0;
+    const attach = () => {
+      const el = glRef.current?.domElement;
+      if (!el) {
+        raf = window.requestAnimationFrame(attach);
+        return;
+      }
+      if (typeof IntersectionObserver === "undefined") return;
+      io = new IntersectionObserver((entries) => {
+        for (const entry of entries) setOnscreen(entry.isIntersecting);
+      });
+      io.observe(el);
+    };
+    attach();
+    return () => {
+      document.removeEventListener("visibilitychange", onVis);
+      window.cancelAnimationFrame(raf);
+      io?.disconnect();
+    };
+  }, [glRef]);
+  return visible && onscreen;
 }
 
 /** Lets scroll/pointer/focus changes request a frame when the loop is demand-only. */

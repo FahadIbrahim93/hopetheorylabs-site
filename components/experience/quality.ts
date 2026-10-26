@@ -1,9 +1,9 @@
 import type { QualityTier } from "./store";
 
 /*
-  Adaptive quality. Particle buffers are allocated at the high tier; lower
-  tiers shrink draw range only. Counts match the supplied concept page:
-  18000 desktop, 9000 tablet-width, 6000 save-data / low cores.
+  Adaptive quality. Particle buffers are sized to the tier the scene starts
+  on; runtime downgrades shrink the draw range only. WebGL only runs on
+  desktop-class devices (see isConstrainedDevice), so budgets are modest.
 */
 
 export interface QualityProfile {
@@ -12,9 +12,9 @@ export interface QualityProfile {
 }
 
 export const QUALITY: Record<QualityTier, QualityProfile> = {
-  high: { particles: 18000, maxDpr: 2 },
-  mid: { particles: 9000, maxDpr: 1.5 },
-  low: { particles: 6000, maxDpr: 1 },
+  high: { particles: 12000, maxDpr: 1.5 },
+  mid: { particles: 4000, maxDpr: 1.25 },
+  low: { particles: 2500, maxDpr: 1 },
 };
 
 const ORDER: QualityTier[] = ["high", "mid", "low"];
@@ -44,6 +44,23 @@ export function readOverride(): "fallback" | QualityTier | null {
   return null;
 }
 
+/**
+ * Devices that always get the static SVG fallback: small screens, fewer
+ * than 6 logical cores, save-data, or prefers-reduced-motion.
+ */
+export function isConstrainedDevice(): boolean {
+  try {
+    const nav = navigator as Navigator & { connection?: { saveData?: boolean } };
+    if (window.matchMedia("(max-width: 800px)").matches) return true;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
+    if ((nav.hardwareConcurrency ?? 4) < 6) return true;
+    if (nav.connection?.saveData) return true;
+  } catch {
+    return true;
+  }
+  return false;
+}
+
 export function detectTier(): QualityTier {
   const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
   const cores = nav.hardwareConcurrency ?? 4;
@@ -57,7 +74,7 @@ export function detectTier(): QualityTier {
 }
 
 export function createFrameMonitor(onSlow: (avgMs: number) => void) {
-  const WARMUP = 1.5;
+  const WARMUP = 0.5;
   const WINDOW = 2.5;
   const BUDGET_MS = 24;
   let elapsed = 0;

@@ -40,8 +40,13 @@ export function Hero() {
             </a>
           </div>
         </div>
-        {mode === "fallback" && (
-          <div className="hero-visual">
+        {/*
+          Server-rendered so the static core reserves its space up front (no CLS on
+          phones, which always get the fallback). CSS shows it on <=800px unless
+          WebGL is live, and on larger screens only once the page falls back.
+        */}
+        {mode !== "webgl" && (
+          <div className="hero-visual hero-visual-static">
             <span className="sr-only">{content.hero.coreDescription}</span>
             <IntelligenceCore />
           </div>

@@ -4,13 +4,13 @@ The supplied Hope Theory Labs HTML concept is the primary visual reference. Pres
 
 ## Visual language
 
-- Near-black `#07090C`, off-white `#EEF0F2`, muted `#A3ACB8`, hairline `#2A323D`, teal `#7FD6C2`, amber `#FFBD61`.
-- Instrument Sans for body/UI; Newsreader for editorial headings; JetBrains Mono for technical labels; Hind Siliguri for Bangla.
+- Near-black `#07090C`, off-white `#EEF0F2`, muted `#A3ACB8`, hairline `#2A323D`, gold accent `#B8892F` (dark gold `#8A6420` for text on light), navy `#0F1B2D`, paper `#F8F6F1`, slate `#475569`, amber `#FFBD61`. **No teal anywhere** (see docs/BRAND.md).
+- Instrument Sans for body/UI; Newsreader for editorial headings; system monospace for technical labels; Hind Siliguri for Bangla.
 - Oversized editorial type, asymmetric grids, wide whitespace, fine rules and small uppercase labels.
 - Narrative: digital self → intelligence shift → living flow → how it works → services → work concept → about → contact.
 - The central visual is one **persistent full-viewport WebGL scene** behind the page (particle morph scatter → globe → galaxy, fresnel core, orbit rings, flow constellation). Copy sits in a single column with text-shadow for legibility; the scene shifts composition on desktop (offset right) and mobile (raised). Nothing else should compete with the core for motion.
 - Scroll drives damped progress `pp` (HUD: Scattered / Structured / Alive). No scroll hijacking, pinning or snapping.
-- Depth must be real (WebGL geometry, shaders, perspective, parallax), not fake with CSS blur alone. Flow nodes use the HTML colour set (orange, blues, purples, greens); core uses teal/gold fresnel, not rainbow neon.
+- Depth must be real (WebGL geometry, shaders, perspective, parallax), not fake with CSS blur alone. Flow nodes use the HTML colour set (orange, blues, purples, greens); core uses gold fresnel, not rainbow neon.
 - Retain the phone mockup animation and the fixed system-state HUD. Floating WhatsApp hides over Contact.
 - Rollers Republic must always be labelled “Concept”. Never invent performance claims, reviews, client logos, credentials or deployed integrations.
 
@@ -22,4 +22,4 @@ The supplied Hope Theory Labs HTML concept is the primary visual reference. Pres
 - **Three.js + React Three Fiber** with hand-written GLSL from the supplied HTML port. No CDN Three.js, no GSAP/Lottie, no post-processing stacks. Inline-SVG `IntelligenceCore` + optional 2D particles remain the **fallback** when WebGL fails (`?experience=fallback`).
 - WebGL loads after `window` `load`, never blocks first paint; dispose GPU resources on unmount; one frame loop; runtime tier downgrade (particle draw range + DPR) before dropping frames.
 - No analytics, tracking, cookies, fake metrics, purple/blue gradients, stock 3D blobs, glassmorphism, emoji, generic card grids or urgency copy.
-- All visible text in `content/en.ts` and `content/bn.ts`. Bangla requires Fahad/Tamim review before launch.
+- All visible text in `content/en.ts` and `content/bn.ts`. Bangla requires Fahad Ibrahim review before launch.

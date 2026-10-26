@@ -73,10 +73,10 @@ export class SceneRig {
   private monitorDone = false;
   private cameraConfigured = false;
 
-  constructor() {
+  constructor(initialTier: QualityTier = "mid") {
     this.coreGroup = new Group();
     this.flowGroup = new Group();
-    this.assets = createSceneAssets(QUALITY.high, this.glowTexture);
+    this.assets = createSceneAssets(QUALITY[initialTier], this.glowTexture);
     const a = this.assets;
 
     this.coreGroup.add(new Points(a.particleGeometry, a.particleMaterial));

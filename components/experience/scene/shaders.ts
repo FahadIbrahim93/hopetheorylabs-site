@@ -53,7 +53,7 @@ void main() {
   gl_Position = projectionMatrix * mv;
   gl_PointSize = (1.3 + aR * 2.) * uPR * (9. / -mv.z) * (1. + t2 * .4);
 
-  vec3 col = mix(vec3(.45, .52, .62), vec3(.5, .84, .76), t1);
+  vec3 col = mix(vec3(.45, .52, .62), vec3(.72, .54, .18), t1);
   col = mix(col, mix(vec3(1., .6, .25), vec3(.45, .65, 1.), smoothstep(0., 6., r)), t2);
   vC = col + rg * .5;
   vA = mix(.35, .9, t1) * (.6 + .4 * aR) * uD * (1. - .3 * t2) + rg * .5 * uD;
@@ -86,7 +86,7 @@ uniform float uI, uS;
 varying vec3 vN, vV;
 void main() {
   float f = pow(1. - abs(dot(vN, vV)), 2.2);
-  vec3 c = mix(vec3(.5, .84, .76), vec3(1., .62, .24), uS);
+  vec3 c = mix(vec3(.72, .54, .18), vec3(1., .62, .24), uS);
   gl_FragColor = vec4(c * (f * 1.8 + .25), (f * .9 + .25) * uI);
 }
 `;

@@ -93,11 +93,11 @@ export const en: SiteContent = {
     phoneMessage: "Hi! I’d like to order: 1 × Cold coffee. Cash on delivery.",
   },
   about: {
-    eyebrow: "About", heading: "A small team in Dhaka.",
-    text: "We’re Fahad Ibrahim and Tamim Abir. We keep things simple and honest.",
+    eyebrow: "About", heading: "A solo studio in Dhaka.",
+    text: "I’m Fahad Ibrahim, the founder of Hope Theory Labs. I keep things simple and honest, and I work with you directly.",
   },
   contact: {
-    eyebrow: "Contact", heading: "Begin the conversion.",
+    eyebrow: "Contact", heading: "Begin the conversation.",
     note: "Tell us about your business and we’ll reply on WhatsApp whenever suits you.",
     nameLabel: "Your name", needLabel: "What do you need?", submit: "Send on WhatsApp",
     phone: "WhatsApp 01718463471", phoneHref: whatsappLink, email: "hopetheorybd@gmail.com",

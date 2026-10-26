@@ -64,11 +64,11 @@ export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
           <linearGradient id="core-scan-gradient" x1="320" y1="170" x2="320" y2="430" gradientUnits="userSpaceOnUse">
             <stop stopColor="#D8C18A" stopOpacity="0" />
             <stop offset=".5" stopColor="#D8C18A" stopOpacity=".32" />
-            <stop offset="1" stopColor="#14B8A6" stopOpacity="0" />
+            <stop offset="1" stopColor="#B8892F" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="core-link-gradient" x1="100" y1="90" x2="540" y2="500" gradientUnits="userSpaceOnUse">
             <stop stopColor="#D8C18A" stopOpacity=".08" />
-            <stop offset=".5" stopColor="#14B8A6" stopOpacity=".8" />
+            <stop offset=".5" stopColor="#B8892F" stopOpacity=".8" />
             <stop offset="1" stopColor="#D8C18A" stopOpacity=".12" />
           </linearGradient>
           <clipPath id="core-sphere-clip">
@@ -81,7 +81,7 @@ export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
           <ellipse cx="320" cy="292" rx="210" ry="86" transform="rotate(-28 320 292)" />
           <ellipse cx="320" cy="292" rx="210" ry="86" transform="rotate(52 320 292)" />
           <ellipse cx="320" cy="292" rx="170" ry="226" transform="rotate(12 320 292)" strokeOpacity=".13" />
-          <circle cx="320" cy="292" r="148" stroke="#14B8A6" strokeOpacity=".28" strokeDasharray="2 9" />
+          <circle cx="320" cy="292" r="148" stroke="#B8892F" strokeOpacity=".28" strokeDasharray="2 9" />
         </g>
 
         {/* Eight signal routes converge on the central intelligence core. */}
@@ -90,7 +90,7 @@ export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
             <path key={index} d={`M ${node.x} ${node.y} Q ${(node.x + 320) / 2 + (index % 2 ? 22 : -22)} ${(node.y + 292) / 2} 320 292`} />
           ))}
         </g>
-        <g stroke="#14B8A6" strokeOpacity=".45" strokeWidth="1">
+        <g stroke="#B8892F" strokeOpacity=".45" strokeWidth="1">
           {nodes.map((node, index) => (
             <circle key={index} cx={(node.x + 320) / 2} cy={(node.y + 292) / 2} r="2" className="core-signal" style={{ animationDelay: `${index * 180}ms` }} />
           ))}
@@ -107,21 +107,21 @@ export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
           <ellipse cx="320" cy="292" rx="118" ry="50" transform="rotate(-58 320 292)" />
           <path d="M202 292H438M320 174V410" strokeOpacity=".7" />
         </g>
-        <circle cx="320" cy="292" r="128" stroke="#14B8A6" strokeOpacity=".38" strokeDasharray="1 7" />
+        <circle cx="320" cy="292" r="128" stroke="#B8892F" strokeOpacity=".38" strokeDasharray="1 7" />
         <g className="core-radar">
           <path d="M320 292 L320 170 A122 122 0 0 1 414 214 Z" fill="url(#core-scan-gradient)" />
           <path d="M320 292 L320 170" stroke="#D8C18A" strokeOpacity=".8" strokeWidth="1" />
         </g>
         <circle cx="320" cy="292" r="7" fill="#E8D5A5" />
         <circle cx="320" cy="292" r="15" stroke="#E8D5A5" strokeOpacity=".6" />
-        <circle cx="320" cy="292" r="23" stroke="#14B8A6" strokeOpacity=".45" strokeDasharray="2 5" />
+        <circle cx="320" cy="292" r="23" stroke="#B8892F" strokeOpacity=".45" strokeDasharray="2 5" />
 
         {/* Source nodes */}
         {nodes.map((node, index) => (
           <g key={content.hero.coreNodes[index]}>
             <circle cx={node.x} cy={node.y} r="15" fill="#0F1B2D" stroke="#D8C18A" strokeOpacity=".6" />
-            <circle cx={node.x} cy={node.y} r="5" fill="#14B8A6" />
-            <circle cx={node.x} cy={node.y} r="21" stroke="#14B8A6" strokeOpacity=".22" strokeDasharray="2 5" />
+            <circle cx={node.x} cy={node.y} r="5" fill="#B8892F" />
+            <circle cx={node.x} cy={node.y} r="21" stroke="#B8892F" strokeOpacity=".22" strokeDasharray="2 5" />
             <text
               x={node.lx}
               y={node.ly}
@@ -138,8 +138,8 @@ export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
         ))}
         <path d="M320 26V12M320 570V558M54 292H42M598 292H586" stroke="#D8C18A" strokeOpacity=".65" />
         <circle cx="320" cy="12" r="2" fill="#D8C18A" />
-        <circle cx="42" cy="292" r="2" fill="#14B8A6" />
-        <circle cx="598" cy="292" r="2" fill="#14B8A6" />
+        <circle cx="42" cy="292" r="2" fill="#B8892F" />
+        <circle cx="598" cy="292" r="2" fill="#B8892F" />
       </svg>
       <div className="core-caption relative z-[1] mx-auto mt-[-2px] flex max-w-[360px] items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-paper/50">
         <span className="h-px flex-1 bg-paper/15" />

@@ -32,7 +32,7 @@ import { coreFragment, coreVertex, particleFragment, particleVertex } from "./sh
 
 /*
   GPU resources for the HTML-port scene. Buffers are allocated at the
-  high-water particle count; quality tiers only shrink draw ranges.
+  starting tier's particle count; downgrades only shrink draw ranges.
 */
 
 export function createGlowTexture() {

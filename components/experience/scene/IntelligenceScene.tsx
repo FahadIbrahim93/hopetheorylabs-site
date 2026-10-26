@@ -17,7 +17,7 @@ interface Props {
 }
 
 export function IntelligenceScene({ tier, reduced, introStart, onFrameSample, onSlowGpu }: Props) {
-  const [rig] = useState(() => new SceneRig());
+  const [rig] = useState(() => new SceneRig(tier));
   const camera = useThree((s) => s.camera) as PerspectiveCamera;
   const size = useThree((s) => s.size);
   const gl = useThree((s) => s.gl);

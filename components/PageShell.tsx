@@ -16,7 +16,6 @@ import { MethodSection } from "./MethodSection";
 import { PricingSection } from "./PricingSection";
 import { Reveal } from "./Reveal";
 import { ShiftSection } from "./ShiftSection";
-import { StateHud } from "./StateHud";
 import { NarrativeRail } from "./NarrativeRail";
 import { StickyWhatsApp } from "./StickyWhatsApp";
 import { StudioAtmosphere } from "./StudioAtmosphere";
@@ -35,7 +34,6 @@ function Shell() {
     <HeaderScroll />
     <StudioAtmosphere />
     <NarrativeRail />
-    <StateHud />
     <Experience />
     <main id="main" tabIndex={-1}>
       <Hero />

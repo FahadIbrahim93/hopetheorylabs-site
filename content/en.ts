@@ -1,5 +1,5 @@
 import type { SiteContent } from "./types";
-import { whatsappAiLink, whatsappLink, whatsappOrderLink } from "./types";
+import { whatsappAiLink, whatsappFor, whatsappLink, whatsappOrderLink } from "./types";
 
 export const en: SiteContent = {
   header: {
@@ -7,6 +7,7 @@ export const en: SiteContent = {
     nav: [
       { label: "Approach", href: "#method" },
       { label: "Services", href: "#services" },
+      { label: "Pricing", href: "#pricing" },
       { label: "Work", href: "#work" },
       { label: "Contact", href: "#contact" },
     ],
@@ -73,7 +74,7 @@ export const en: SiteContent = {
         {
           title: "Websites",
           description:
-            "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳25,000 — founding clients ৳15,000 with a short review and permission to show the site.",
+            "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳10,000 — see pricing below. Founding clients get the Counter for ৳15,000 with a short review and permission to show the site.",
         },
       ],
       note: "We build a free concept first. You try it on your phone; if you like it, we set it up on your domain.",
@@ -105,9 +106,66 @@ export const en: SiteContent = {
     aria: "Compare page load speed — before and after",
   },
   pricing: {
-    heading: "Pricing", base: "Websites from ৳25,000.",
-    founding: "Founding clients: ৳15,000, in exchange for a short review and permission to show your site.",
-    cta: "Ask about a free concept",
+    eyebrow: "Services & Pricing",
+    heading: "Clear, fixed prices in taka.",
+    intro: "No monthly fee from us. Domain and hosting stay in your name.",
+    tiers: [
+      {
+        name: "Starter", subtitle: "One-page website", price: "৳10,000",
+        features: [
+          "One mobile-first page: your offer, photos, location, call and WhatsApp buttons",
+          "Simple build, set up on your domain",
+        ],
+        delivery: "About 5 days · 1 revision round · 15 days support",
+        forWho: "For a shop, clinic, or service business that just needs to be found online.",
+        cta: "Ask about Starter", whatsappLink: whatsappFor("the Starter website (৳10,000)"),
+      },
+      {
+        name: "Counter", subtitle: "Mobile shop", price: "৳25,000", badge: "Most popular",
+        features: [
+          "Mobile shop with your product catalog",
+          "Orders straight to your WhatsApp",
+          "Cash on delivery",
+          "Easy to update yourself",
+        ],
+        delivery: "About 2 weeks · 2 revision rounds · 30 days of fixes free",
+        forWho: "For Facebook and Instagram sellers ready for a real storefront.",
+        cta: "Ask about Counter", whatsappLink: whatsappFor("the Counter mobile shop (৳25,000)"),
+      },
+      {
+        name: "Showroom", subtitle: "Full store with admin", price: "৳45,000",
+        features: [
+          "Everything in Counter",
+          "WooCommerce admin: products, stock, orders, coupons",
+          "bKash/Nagad payments and courier setup (Pathao/Steadfast/RedX)",
+          "SEO setup (titles, sitemap, Search Console)",
+          "AI chat assistant that answers product questions",
+        ],
+        delivery: "About 3–4 weeks · 3 revision rounds · 60 days support",
+        forWho: "For growing shops with a large catalog and steady orders.",
+        cta: "Ask about Showroom", whatsappLink: whatsappFor("the Showroom store (৳45,000)"),
+      },
+    ],
+    founding: "Founding clients: ৳15,000 for the Counter, in exchange for a short review and permission to show your site.",
+    payment: "Payment: 50% deposit, 25% at design approval, 25% before launch.",
+    addOnsHeading: "Add-ons",
+    addOns: [
+      { label: "Domain and hosting, set up at cost, in your name", price: "At cost" },
+      { label: "Monthly care (updates, backups, fixes)", price: "Ask us" },
+    ],
+    aiHeading: "AI services",
+    aiCards: [
+      {
+        title: "AI Audit", tag: "Early access", price: "Ask us",
+        description: "A short paid review: 3 practical AI wins for your business plus a cost estimate.",
+        cta: "Ask about the AI Audit", whatsappLink: whatsappFor("the AI Audit"),
+      },
+      {
+        title: "AI Engineering", tag: "Custom quote", price: "Custom quote",
+        description: "Agents and automations wired into the tools you already run, scoped after we understand your stack.",
+        cta: "Ask about AI Engineering", whatsappLink: whatsappFor("AI Engineering"),
+      },
+    ],
   },
   earlyAccess: {
     heading: "Coming soon", tag: "Early access",

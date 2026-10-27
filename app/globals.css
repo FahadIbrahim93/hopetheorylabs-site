@@ -502,8 +502,10 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
 .ticker-track { display:flex; width:max-content; animation:ticker-run 50s linear infinite; }
 .ticker-track span { padding-right:.5em; color:transparent; -webkit-text-stroke:1px #394352; font-size:clamp(56px,9vw,132px); font-weight:500; letter-spacing:-.03em; }
 @keyframes ticker-run { to { transform:translateX(-50%); } }
-.site-footer { position:relative; z-index:2; display:flex; justify-content:space-between; align-items:center; gap:24px; padding:32px clamp(24px,6vw,96px) calc(env(safe-area-inset-bottom,0px) + 40px); border-top:1px solid var(--site-line); background:rgb(7 9 12 / 90%); color:#a3acb8; font-size:13px; }
-.site-footer p { margin:0; }
+.site-footer { position:relative; z-index:2; display:flex; justify-content:space-between; align-items:center; gap:24px; padding:32px clamp(24px,6vw,96px) calc(env(safe-area-inset-bottom,0px) + 132px); border-top:1px solid var(--site-line); background:rgb(7 9 12 / 90%); color:#a3acb8; font-size:13px; }
+.site-footer { flex-wrap:wrap; }
+/* Reserve room below the footer copy for the fixed .state-hud (bottom-left) so they never overlap. */
+.site-footer p { margin:0; max-width:62ch; }
 .site-footer span { color:#8b95a3; font:400 10px var(--font-jetbrains-mono),monospace; letter-spacing:1.5px; }
 .state-hud { position:fixed; z-index:30; left:clamp(24px,6vw,96px); bottom:calc(env(safe-area-inset-bottom,0px) + 22px); width:150px; color:#a3acb8; font:400 10px var(--font-jetbrains-mono),monospace; letter-spacing:2px; line-height:1.8; text-transform:uppercase; pointer-events:none; }
 .state-hud b { color:#eef0f2; font-weight:400; }
@@ -588,6 +590,7 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
   .how-section, .services-section { min-height:auto; }
   .founding-note { grid-column:1; }
   .state-hud { display:none; }
+  .site-footer { padding-bottom:calc(env(safe-area-inset-bottom,0px) + 40px); }
 }
 @media (max-width: 640px) {
   .site-header { min-height:68px; padding-left:20px; padding-right:20px; }

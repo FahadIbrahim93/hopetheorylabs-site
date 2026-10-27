@@ -13,6 +13,7 @@ import { Hero } from "./Hero";
 import { HowItWorksTimeline } from "./HowItWorksTimeline";
 import { LivingFlow } from "./LivingFlow";
 import { MethodSection } from "./MethodSection";
+import { PricingSection } from "./PricingSection";
 import { Reveal } from "./Reveal";
 import { ShiftSection } from "./ShiftSection";
 import { NarrativeRail } from "./NarrativeRail";
@@ -41,6 +42,7 @@ function Shell() {
       <Reveal><LivingFlow /></Reveal>
       <Reveal><HowItWorksTimeline /></Reveal>
       <Reveal><FeatureGrid /></Reveal>
+      <Reveal><PricingSection /></Reveal>
       <Reveal><WorkSection /></Reveal>
       <Reveal><About /></Reveal>
       <Reveal><Contact /></Reveal>

@@ -30,6 +30,18 @@ export interface WorkCaseStudy {
   };
 }
 
+export interface PricingTier {
+  name: string;
+  subtitle: string;
+  price: string;
+  badge?: string;
+  features: string[];
+  delivery: string;
+  forWho: string;
+  cta: string;
+  whatsappLink: string;
+}
+
 export interface SiteContent {
   header: {
     wordmark: string;
@@ -73,7 +85,18 @@ export interface SiteContent {
   };
   whatYouGet: { heading: string; items: string[] };
   speedSlider: { label: string; before: string; after: string; aria: string };
-  pricing: { heading: string; base: string; founding: string; cta: string };
+  pricing: {
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    tiers: PricingTier[];
+    founding: string;
+    payment: string;
+    addOnsHeading: string;
+    addOns: { label: string; price: string }[];
+    aiHeading: string;
+    aiCards: { title: string; tag: string; price: string; description: string; cta: string; whatsappLink: string }[];
+  };
   earlyAccess: { heading: string; tag: string; items: string[]; text: string };
   work: {
     eyebrow: string;
@@ -98,3 +121,6 @@ export const whatsappOrderLink = "https://wa.me/8801718463471?text=Hi%20Hope%20T
 export const whatsappAiLink =
   "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20to%20talk%20about%20AI%20integrations%20or%20transformation.";
 export const whatsappLink = "https://wa.me/8801718463471";
+/** WhatsApp link with prefilled text naming a pricing tier or service. */
+export const whatsappFor = (topic: string) =>
+  `https://wa.me/8801718463471?text=${encodeURIComponent(`Hi Hope Theory Labs, I'm interested in ${topic}.`)}`;

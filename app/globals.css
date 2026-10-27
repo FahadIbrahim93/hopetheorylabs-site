@@ -360,8 +360,11 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
   background:var(--color-gold);
 }
 .narrative-rail-name { font-size:8px; letter-spacing:1.2px; line-height:1.3; }
-@media (min-width: 1200px) {
+/* Only where the side gutter is wide enough that the rail never sits over content. */
+@media (min-width: 1600px) {
   .narrative-rail { display:block; }
+  /* Reserve a right gutter so the rail never sits on section content. */
+  #main section { padding-right:max(clamp(24px,6vw,96px), 200px); }
 }
 .work-case { transition:border-color 600ms var(--ease-signature); }
 .work-case:hover .work-case-copy,
@@ -500,14 +503,14 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
 .contact-phone { margin-top:18px; color:#a3acb8; font-size:14px; }
 .ticker { position:absolute; left:0; right:0; bottom:8px; overflow:hidden; white-space:nowrap; pointer-events:none; }
 .ticker-track { display:flex; width:max-content; animation:ticker-run 50s linear infinite; }
-.ticker-track span { padding-right:.5em; color:transparent; -webkit-text-stroke:1px #394352; font-size:clamp(56px,9vw,132px); font-weight:500; letter-spacing:-.03em; }
+.ticker { -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); opacity:.55; }
+.ticker-track span { padding-right:.6em; color:transparent; -webkit-text-stroke:1px #2a323d; font-size:clamp(44px,6.5vw,96px); font-weight:500; letter-spacing:-.03em; }
 @keyframes ticker-run { to { transform:translateX(-50%); } }
-.site-footer { position:relative; z-index:2; display:flex; justify-content:space-between; align-items:center; gap:24px; padding:32px clamp(24px,6vw,96px) calc(env(safe-area-inset-bottom,0px) + 132px); border-top:1px solid var(--site-line); background:rgb(7 9 12 / 90%); color:#a3acb8; font-size:13px; }
+.site-footer { position:relative; z-index:2; display:flex; justify-content:space-between; align-items:center; gap:24px; padding:32px clamp(24px,6vw,96px) calc(env(safe-area-inset-bottom,0px) + 32px); border-top:1px solid var(--site-line); background:rgb(7 9 12 / 90%); color:#a3acb8; font-size:13px; }
 .site-footer { flex-wrap:wrap; }
-/* Reserve room below the footer copy for the fixed .state-hud (bottom-left) so they never overlap. */
-.site-footer p { margin:0; max-width:62ch; }
+.site-footer p { margin:0; max-width:80ch; }
 .site-footer span { color:#8b95a3; font:400 10px var(--font-jetbrains-mono),monospace; letter-spacing:1.5px; }
-.state-hud { position:fixed; z-index:30; left:clamp(24px,6vw,96px); bottom:calc(env(safe-area-inset-bottom,0px) + 22px); width:150px; color:#a3acb8; font:400 10px var(--font-jetbrains-mono),monospace; letter-spacing:2px; line-height:1.8; text-transform:uppercase; pointer-events:none; }
+.state-hud { position:static; margin-top:18px; width:auto; color:#a3acb8; font:400 10px var(--font-jetbrains-mono),monospace; letter-spacing:2px; line-height:1.8; text-transform:uppercase; pointer-events:none; }
 .state-hud b { color:#eef0f2; font-weight:400; }
 .state-bar { height:1px; margin-top:8px; background:var(--site-line); }
 .state-bar i { display:block; height:1px; background:var(--color-gold); transition:width .6s cubic-bezier(.16,1,.3,1); }
@@ -590,7 +593,6 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
   .how-section, .services-section { min-height:auto; }
   .founding-note { grid-column:1; }
   .state-hud { display:none; }
-  .site-footer { padding-bottom:calc(env(safe-area-inset-bottom,0px) + 40px); }
 }
 @media (max-width: 640px) {
   .site-header { min-height:68px; padding-left:20px; padding-right:20px; }
@@ -651,3 +653,9 @@ html.nogl .hero-visual-static { display:flex; }
 @media (max-width: 800px) {
   html:not([data-experience="webgl"]) .hero-visual-static { display:flex; }
 }
+
+/* Fixed chrome (state HUD + narrative rail) steps aside once the footer enters view,
+   so nothing floats over the closing row and no dead band is needed below it. */
+/* State readout now lives inside the narrative rail (not floating over content). */
+.narrative-rail { transition:opacity 300ms var(--ease-signature), visibility 300ms; }
+html.footer-in-view .narrative-rail { opacity:0; visibility:hidden; pointer-events:none; }

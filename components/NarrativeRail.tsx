@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { useContent } from "./LanguageProvider";
+import { StateHud } from "./StateHud";
 
 const SECTIONS = [
   { id: "top", label: "Origin" },
@@ -76,6 +77,7 @@ export function NarrativeRail() {
           ))}
         </ol>
       </div>
+      <StateHud />
     </nav>
   );
 }

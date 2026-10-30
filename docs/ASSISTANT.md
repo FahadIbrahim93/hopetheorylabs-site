@@ -154,12 +154,16 @@ Against `out/` served with gzip at mobile emulation, Lighthouse 12:
 | Run | Performance | Accessibility | Best practices | SEO |
 | --- | --- | --- | --- | --- |
 | `main` without the widget | 97 | 100 | 100 | 100 |
-| Branch, widget mounted | 99 | 100 | 100 | 100 |
+| Branch, widget mounted — final copy, 2 runs | 97, 97 | 100 | 100 | 100 |
+| Branch, widget mounted — earlier run | 99 | 100 | 100 | 100 |
 
-FCP 0.8 s, LCP 2.0 s, TBT 110 ms, CLS 0. A first, cold-cache run scored 77 with
-780 ms of blocking time; that did not reproduce in two later runs on the same
-build, and the JavaScript transferred is 143 KB against 142 KB without the
-widget, which is the launcher only — the panel is not fetched until tapped.
+The final build measures FCP 0.8 s, LCP 2.5–2.6 s, TBT 80–90 ms, CLS 0, and
+the 99 came from a run whose LCP landed at 2.0 s, so the spread is machine
+noise rather than a code path. Both are above the brief's 95 floor and level
+with the site without the widget. A first, cold-cache run scored 77 with 780 ms
+of blocking time; that did not reproduce in four later runs on the same build.
+JavaScript transferred is 143 KB against 142 KB without the widget, which is the
+launcher only — the panel is not fetched until tapped.
 
 ## Deliberate differences from the build brief
 

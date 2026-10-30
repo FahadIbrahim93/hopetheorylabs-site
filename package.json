@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "node scripts/check-assistant-kb.mjs",
+    "test": "node scripts/check-assistant-kb.mjs && node scripts/check-api.mjs",
+    "check:api": "node scripts/check-api.mjs",
     "check:layout": "node scripts/check-layout.mjs"
   },
   "dependencies": {

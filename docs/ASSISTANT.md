@@ -127,6 +127,18 @@ TypeScript, then asserts:
 - the FAQ matcher answers pricing and care-plan questions, answers every chip the
   widget sends, and hands unknown ones to WhatsApp.
 
+It then runs `scripts/check-api.mjs`, which compiles `api/chat.ts` and
+`api/lead.ts` and calls them as plain `Request → Response` handlers — no server,
+no keys, no network. That covers the path a visitor gets with nothing
+configured (the scripted FAQ quoting the full ladder), the provider order with a
+stubbed transport (Groq first, Gemini when Groq has no key, the FAQ when both
+fail), markdown stripping, the price guard replacing an invented ৳7,500 with the
+WhatsApp handoff, the 1,000-character cap, empty and whitespace-only turns, Bangla
+detection, twenty messages and five enquiries per address
+per ten minutes, enquiry validation and the honeypot, the prefilled WhatsApp
+handoff, and that the structured log lines never carry a name, number or message
+body. 38 assertions, all offline.
+
 ### Layout check
 
 ```bash

@@ -18,12 +18,12 @@ export const en: SiteContent = {
     banglaEnabled: false,
   },
   hero: {
-    eyebrow: "Websites you can ship · Intelligence you can grow into",
+    eyebrow: "Dhaka · Websites from ৳10,000 · WhatsApp orders",
     heading: "Your data. Connected. / Your business. Smarter.",
     subheading:
-      "We build fast, mobile-first sites with WhatsApp ordering for Dhaka businesses today. The connected intelligence in this experience is where we take you next — AI transformation is early access, by conversation.",
+      "Fast, mobile-first sites for shops and service businesses — orders on WhatsApp, cash on delivery, fixed prices in taka. Start with a free concept on your phone. AI and connected data is a separate, early-access conversation when you are ready.",
     primaryCta: "Message us on WhatsApp", whatsappLink: whatsappOrderLink,
-    secondaryCta: "Watch it assemble", secondaryHref: "#method",
+    secondaryCta: "See packages", secondaryHref: "#pricing",
     coreDescription: "An animated intelligence core connects websites, CRM, databases, files, apps, APIs, systems and people.",
     coreNodes: ["Productivity", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],
     coreNodeDetails: [
@@ -250,7 +250,7 @@ export const en: SiteContent = {
     title: "Hope Theory assistant",
     open: "Open the Hope Theory assistant",
     close: "Close the assistant",
-    intro: "Hi — I'm the Hope Theory assistant. Ask about websites, AI work, or how the free concept works.",
+    intro: "Hi — I'm the Hope Theory assistant. Ask about websites, packages from ৳10,000, or how the free concept works.",
     inputLabel: "Your message",
     placeholder: "Type your question",
     send: "Send",

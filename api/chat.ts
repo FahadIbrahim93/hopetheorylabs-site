@@ -5,8 +5,7 @@
  * matcher in `lib/assistant/kb.ts`. The last step needs no key at all, so the
  * chat keeps answering with nothing configured.
  *
- * Web-standard (Request → Response) handler so the same file runs as a Vercel
- * Function without pulling in @vercel/node.
+ * Handlers never throw: cold-start and provider errors fall back to FAQ/handoff.
  */
 import { en } from "../content/en";
 import {
@@ -18,7 +17,7 @@ import {
 } from "../lib/assistant/kb";
 import { clientKey, jsonResponse, logEvent, overLimit, readJson } from "../lib/assistant/server";
 
-export const config = { maxDuration: 30 };
+export const maxDuration = 30;
 
 const MAX_CHARS = 1000;
 const MAX_TURNS = 12;
@@ -110,69 +109,88 @@ async function askGemini(turns: Turn[], system: string): Promise<string | null> 
 }
 
 export function GET(): Response {
-  return jsonResponse({ error: "method_not_allowed" }, 405);
+  return jsonResponse({ ok: true, service: "chat" }, 200);
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const body = await readJson(request);
-  if (!body || !Array.isArray(body.messages)) {
-    return jsonResponse({ error: "bad_request" }, 400);
-  }
-
-  const turns: Turn[] = [];
-  for (const item of body.messages.slice(-MAX_TURNS)) {
-    if (!item || typeof item !== "object") continue;
-    const role = (item as { role?: unknown }).role;
-    const content = text((item as { content?: unknown }).content);
-    if (role !== "user" && role !== "assistant") continue;
-    if (!content) continue;
-    if (role === "user" && content.length > MAX_CHARS) {
-      return jsonResponse({ error: "too_long", message: en.assistant.tooLong }, 400);
+  try {
+    const body = await readJson(request);
+    if (!body || !Array.isArray(body.messages)) {
+      return jsonResponse({ error: "bad_request" }, 400);
     }
-    turns.push({ role, content });
-  }
 
-  const last = turns[turns.length - 1];
-  if (!last || last.role !== "user") {
-    return jsonResponse({ error: "bad_request" }, 400);
-  }
+    const turns: Turn[] = [];
+    for (const item of body.messages.slice(-MAX_TURNS)) {
+      if (!item || typeof item !== "object") continue;
+      const role = (item as { role?: unknown }).role;
+      const content = text((item as { content?: unknown }).content);
+      if (role !== "user" && role !== "assistant") continue;
+      if (!content) continue;
+      if (role === "user" && content.length > MAX_CHARS) {
+        return jsonResponse({ error: "too_long", message: en.assistant.tooLong }, 400);
+      }
+      turns.push({ role, content });
+    }
 
-  const limited = await overLimit(clientKey(request), MESSAGE_LIMIT, WINDOW_MS);
-  if (limited) {
-    logEvent("chat.limited", { turns: turns.length });
-    return jsonResponse(
-      { error: "rate_limited", message: en.assistant.rateLimited, reply: en.assistant.rateLimited },
-      429,
-    );
-  }
+    const last = turns[turns.length - 1];
+    if (!last || last.role !== "user") {
+      return jsonResponse({ error: "bad_request" }, 400);
+    }
 
-  const system = buildSystemPrompt();
-  const lang = hasBangla(last.content) ? "bn" : "en";
+    let limited = false;
+    try {
+      limited = await overLimit(clientKey(request), MESSAGE_LIMIT, WINDOW_MS);
+    } catch {
+      limited = false;
+    }
+    if (limited) {
+      logEvent("chat.limited", { turns: turns.length });
+      return jsonResponse(
+        { error: "rate_limited", message: en.assistant.rateLimited, reply: en.assistant.rateLimited },
+        429,
+      );
+    }
 
-  let reply = await askGroq(turns, system);
-  let source = "groq";
-  if (!reply) {
-    reply = await askGemini(turns, system);
-    source = "gemini";
-  }
-  if (!reply) {
-    const fallback = matchFaq(last.content);
-    reply = fallback.reply;
-    source = `faq:${fallback.id}`;
-  }
+    const system = buildSystemPrompt();
+    const lang = hasBangla(last.content) ? "bn" : "en";
 
-  const invented = unknownPrice(reply);
-  if (invented) {
-    logEvent("chat.price_guard", { source });
-    reply = HANDOFF_REPLY;
-    source = "guard";
-  }
+    let reply = await askGroq(turns, system);
+    let source = "groq";
+    if (!reply) {
+      reply = await askGemini(turns, system);
+      source = "gemini";
+    }
+    if (!reply) {
+      const fallback = matchFaq(last.content);
+      reply = fallback.reply;
+      source = `faq:${fallback.id}`;
+    }
 
-  const clean = sanitize(reply);
-  if (!clean) {
-    return jsonResponse({ reply: HANDOFF_REPLY, source: "handoff", lang }, 200);
-  }
+    const invented = unknownPrice(reply);
+    if (invented) {
+      logEvent("chat.price_guard", { source });
+      reply = HANDOFF_REPLY;
+      source = "guard";
+    }
 
-  logEvent("chat.ok", { source, lang, turns: turns.length });
-  return jsonResponse({ reply: clean, source, lang }, 200);
+    const clean = sanitize(reply);
+    if (!clean) {
+      return jsonResponse({ reply: HANDOFF_REPLY, source: "handoff", lang }, 200);
+    }
+
+    logEvent("chat.ok", { source, lang, turns: turns.length });
+    return jsonResponse({ reply: clean, source, lang }, 200);
+  } catch (error) {
+    logEvent("chat.crash", { status: 1 });
+    try {
+      const body = await readJson(request).catch(() => null);
+      const messages = body && Array.isArray(body.messages) ? body.messages : [];
+      const last = messages[messages.length - 1] as { content?: unknown } | undefined;
+      const content = typeof last?.content === "string" ? last.content : "";
+      const fallback = matchFaq(content || "help");
+      return jsonResponse({ reply: fallback.reply, source: `faq:${fallback.id}` }, 200);
+    } catch {
+      return jsonResponse({ reply: HANDOFF_REPLY, source: "handoff" }, 200);
+    }
+  }
 }

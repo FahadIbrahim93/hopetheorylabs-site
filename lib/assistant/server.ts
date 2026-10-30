@@ -1,11 +1,9 @@
 /*
  * Server helpers for the two Vercel Functions in `api/`.
  *
- * No SDKs: Supabase and Resend are called over their REST APIs with `fetch`,
- * so the project keeps zero new runtime dependencies. Nothing here writes
- * message bodies, names, phone numbers or emails to the logs.
+ * No SDKs and no node: built-ins — Supabase/Resend via fetch only, so the
+ * function bootstraps on both Node and Edge-style runtimes.
  */
-import { createHash } from "node:crypto";
 import { en } from "../../content/en";
 
 export function jsonResponse(body: unknown, status = 200): Response {
@@ -28,10 +26,20 @@ export async function readJson(request: Request): Promise<Record<string, unknown
   }
 }
 
+/** Stable non-cryptographic fingerprint of the client IP (rate limit only). */
+function fingerprint(input: string): string {
+  let h = 2166136261;
+  for (let i = 0; i < input.length; i++) {
+    h ^= input.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0).toString(16).padStart(8, "0");
+}
+
 export function clientKey(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for") ?? "";
   const ip = forwarded.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
-  return createHash("sha256").update(`hope-theory-labs:${ip}`).digest("hex").slice(0, 32);
+  return fingerprint(`hope-theory-labs:${ip}`);
 }
 
 const LOCAL = new Map<string, number[]>();
@@ -99,13 +107,17 @@ async function insertRow(table: string, row: Record<string, unknown>): Promise<b
 
 /** Soft distributed limit: local bucket first; when Supabase is set, record then count. */
 export async function overLimit(key: string, limit: number, windowMs: number): Promise<boolean> {
-  if (recordLocal(key, windowMs) > limit) return true;
-  const client = supabase();
-  if (!client) return false;
-  await insertRow("rate_limit_hits", { key });
-  const since = new Date(Date.now() - windowMs).toISOString();
-  const shared = await countRows("rate_limit_hits", `key=eq.${key}&created_at=gte.${since}`);
-  return shared !== null && shared > limit;
+  try {
+    if (recordLocal(key, windowMs) > limit) return true;
+    const client = supabase();
+    if (!client) return false;
+    await insertRow("rate_limit_hits", { key });
+    const since = new Date(Date.now() - windowMs).toISOString();
+    const shared = await countRows("rate_limit_hits", `key=eq.${key}&created_at=gte.${since}`);
+    return shared !== null && shared > limit;
+  } catch {
+    return false;
+  }
 }
 
 export interface Lead {
@@ -117,13 +129,17 @@ export interface Lead {
 }
 
 export async function saveLead(lead: Lead): Promise<boolean> {
-  return insertRow("leads", {
-    name: lead.name,
-    contact: lead.contact,
-    need: lead.need,
-    package: lead.packageName ?? null,
-    lang: lead.lang ?? "en",
-  });
+  try {
+    return await insertRow("leads", {
+      name: lead.name,
+      contact: lead.contact,
+      need: lead.need,
+      package: lead.packageName ?? null,
+      lang: lead.lang ?? "en",
+    });
+  } catch {
+    return false;
+  }
 }
 
 export async function emailLead(lead: Lead): Promise<boolean> {
@@ -157,5 +173,9 @@ export async function emailLead(lead: Lead): Promise<boolean> {
 }
 
 export function logEvent(event: string, fields: Record<string, string | number | boolean | null>): void {
-  console.log(JSON.stringify({ event, ...fields }));
+  try {
+    console.log(JSON.stringify({ event, ...fields }));
+  } catch {
+    /* ignore */
+  }
 }

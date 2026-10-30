@@ -26,13 +26,13 @@ const siteUrl = "https://hopetheorylabs.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Hope Theory Labs — Fast websites for businesses, AI services in early access",
+  title: "Hope Theory Labs — Mobile websites with WhatsApp orders | Dhaka",
   description:
-    "Hope Theory Labs builds fast, mobile-first websites for businesses, with AI services available in early access. Based in Dhaka, Bangladesh.",
+    "Fast, mobile-first websites for Dhaka businesses from ৳10,000. WhatsApp ordering, cash on delivery, fixed prices. Free concept before you pay. AI services in early access.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Hope Theory Labs",
-    description: "Fast websites for businesses. AI services in early access.",
+    description: "Mobile websites with WhatsApp orders. From ৳10,000. Based in Dhaka.",
     type: "website",
     url: "/",
     siteName: "Hope Theory Labs",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Hope Theory Labs",
-    description: "Fast websites for businesses. AI services in early access.",
+    description: "Mobile websites with WhatsApp orders. From ৳10,000. Based in Dhaka.",
     images: ["/og.png"],
   },
   robots: { index: true, follow: true },

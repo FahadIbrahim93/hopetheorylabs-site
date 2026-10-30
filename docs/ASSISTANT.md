@@ -160,11 +160,11 @@ Against `out/` served with gzip at mobile emulation, Lighthouse 12:
 | --- | --- | --- | --- | --- |
 | `main` without the widget | 97 | 100 | 100 | 100 |
 | Branch, widget mounted — final copy, 2 runs | 97, 97 | 100 | 100 | 100 |
-| Branch, widget mounted — earlier run | 99 | 100 | 100 | 100 |
+| Branch, widget and Packages block — 3 runs | 96, 97, 99 | 100 | 100 | 100 |
 
-The final build measures FCP 0.8 s, LCP 2.5–2.6 s, TBT 80–90 ms, CLS 0, and
+The final build measures FCP 0.8 s, LCP 2.0–2.6 s, TBT 80–100 ms, CLS 0, and
 the 99 came from a run whose LCP landed at 2.0 s, so the spread is machine
-noise rather than a code path. Both are above the brief's 95 floor and level
+noise rather than a code path. All are above the brief's 95 floor and level
 with the site without the widget. A first, cold-cache run scored 77 with 780 ms
 of blocking time; that did not reproduce in four later runs on the same build.
 JavaScript transferred is 143 KB against 142 KB without the widget, which is the

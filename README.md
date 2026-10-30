@@ -40,6 +40,7 @@ Read these before changing the site. If documents conflict, `docs/SPEC.md` wins.
 - The page is composed from reusable components under `components/`.
 - All visible site copy belongs in `content/en.ts` and `content/bn.ts`; review Bangla translations with Fahad/Tamim before launch.
 - The homepage follows the locked HTML design: editorial two-line hero, scroll-linked particle field, stage sections, interactive four-step process, services, animated Rollers Republic phone mockup, contact-to-WhatsApp form, state HUD, and ticker. Motion respects reduced-motion preferences. The pasted shader was truncated at `vec3`, so the field is completed in `components/home/HomeMotion.tsx` without a CDN.
+- The floating assistant is documented in [docs/ASSISTANT.md](docs/ASSISTANT.md). Its server code is two Vercel Functions in `api/` (the static export cannot host route handlers), and every fact it may state comes from `content/en.ts`.
 - The Rollers Republic work item is a concept, not client work. Do not add Sthappo until delivered and approved.
 - No invented metrics, testimonials, logos, credentials, analytics, tracking or cookies.
 
@@ -49,7 +50,8 @@ The GitHub repository is connected to the Vercel project `hopetheorylabs` (frame
 
 - **Preview:** pushing a branch or opening a pull request creates a preview deployment. Nobody deploys by hand.
 - **Production:** merging to `main` deploys `https://hopetheorylabs.vercel.app`. Merging is the production approval step and belongs to Fahad.
-- `vercel.json` sets the security headers (CSP without external scripts, HSTS, frame denial, referrer and permissions policies) and long-lived caching for hashed assets. There are no environment variables, serverless functions or databases.
+- `vercel.json` sets the security headers (CSP without external scripts, HSTS, frame denial, referrer and permissions policies) and long-lived caching for hashed assets.
+- `api/chat.ts` and `api/lead.ts` are the only server code. Their environment variables are optional and free tier only; see [docs/ASSISTANT.md](docs/ASSISTANT.md) and `.env.example`. With none set, the assistant answers from the scripted knowledge base.
 - Before merging: `npm run lint`, `npm run typecheck`, `npm run build`, then the browser and Lighthouse checklist in `docs/QA.md`. Current results are in `docs/QA_RESULTS.md`.
 - To make previews public, turn off Deployment Protection in the Vercel project settings. Agents must not change Vercel settings.
 

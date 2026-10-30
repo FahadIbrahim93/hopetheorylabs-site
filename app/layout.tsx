@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Sans, JetBrains_Mono, Newsreader } from "next/font/google";
+import { AssistantLauncher } from "@/components/assistant/AssistantLauncher";
+import { en } from "@/content/en";
+import { whatsappLink } from "@/content/types";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -84,6 +87,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body>
         {children}
+        <AssistantLauncher
+          copy={en.assistant}
+          whatsapp={whatsappLink}
+          email={en.contact.email}
+          calcomUrl={process.env.NEXT_PUBLIC_CALCOM_URL}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -4,6 +4,18 @@
  */
 export interface NavLink { label: string; href: string }
 
+export interface AssistantCopy {
+  title: string; open: string; close: string; intro: string;
+  inputLabel: string; placeholder: string; send: string; sending: string;
+  privacy: string; handoff: string; handoffCta: string; error: string;
+  rateLimited: string; tooLong: string; chips: string[]; booking: string;
+  enquiry: {
+    name: string; contact: string; need: string; summary: string;
+    sendWhatsApp: string; email: string; save: string; saving: string;
+    saved: string; saveFailed: string; required: string; emailSubject: string; back: string;
+  };
+}
+
 export type WorkCaseTag = "Concept" | "Shipped" | "In progress";
 
 export interface WorkCaseStudy {
@@ -110,6 +122,7 @@ export interface SiteContent {
     eyebrow: string; heading: string; note: string; nameLabel: string; needLabel: string;
     submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
   };
+  assistant: AssistantCopy;
   footer: { text: string; ticker: string[] };
   studio: {
     introWordmark: string;

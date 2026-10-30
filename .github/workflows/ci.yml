@@ -29,3 +29,4 @@ jobs:
       - name: Report first-load JS (informational)
         run: npm run perf:first-load
         continue-on-error: true
+      - run: npm test

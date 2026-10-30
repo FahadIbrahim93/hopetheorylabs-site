@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import type { AssistantCopy } from "@/content/types";
+import "./assistant.css";
 
 // The panel is a separate chunk: it is only fetched when the bubble is used,
 // so the first paint and the Lighthouse budget stay as they are.

@@ -102,17 +102,18 @@ async function insertRow(table: string, row: Record<string, unknown>): Promise<b
 }
 
 /**
- * Returns true when the caller is over the limit. Uses the in-memory bucket
- * first (free, instant) and the shared Supabase counter when it is configured,
- * so a limit still holds across serverless instances.
+ * Returns true when the caller is over the limit. Local bucket is checked first.
+ * When Supabase is configured, a hit is recorded before the shared count so
+ * concurrent instances share a soft limit (not a hard distributed lock).
  */
 export async function overLimit(key: string, limit: number, windowMs: number): Promise<boolean> {
   if (recordLocal(key, windowMs) > limit) return true;
+  const client = supabase();
+  if (!client) return false;
+  await insertRow("rate_limit_hits", { key });
   const since = new Date(Date.now() - windowMs).toISOString();
   const shared = await countRows("rate_limit_hits", `key=eq.${key}&created_at=gte.${since}`);
-  if (shared !== null && shared >= limit) return true;
-  await insertRow("rate_limit_hits", { key });
-  return false;
+  return shared !== null && shared > limit;
 }
 
 export interface Lead {

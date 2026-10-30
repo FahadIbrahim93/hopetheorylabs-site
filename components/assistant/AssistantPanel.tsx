@@ -22,6 +22,12 @@ interface Bubble {
 type Step = "name" | "contact" | "need" | "summary";
 
 const MAX_CHARS = 1000;
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const PHONE = /^\+?[\d][\d\s()\-]{6,19}$/;
+
+function hasBangla(text: string): boolean {
+  return /[\u0980-\u09FF]/.test(text);
+}
 
 export default function AssistantPanel({ copy, whatsapp, email, calcomUrl, onClose }: AssistantPanelProps) {
   const [bubbles, setBubbles] = useState<Bubble[]>([{ id: 0, role: "assistant", content: copy.intro }]);
@@ -57,6 +63,14 @@ export default function AssistantPanel({ copy, whatsapp, email, calcomUrl, onClo
     const node = logRef.current;
     if (node) node.scrollTop = node.scrollHeight;
   }, [bubbles, busy, mode, step, note, warning]);
+
+  useEffect(() => {
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -147,6 +161,10 @@ export default function AssistantPanel({ copy, whatsapp, email, calcomUrl, onClo
       setWarning(copy.enquiry.required);
       return;
     }
+    if (step === "contact" && !EMAIL.test(value) && !PHONE.test(value)) {
+      setWarning(copy.enquiry.required);
+      return;
+    }
     setWarning(null);
     if (step === "name") {
       setForm((current) => ({ ...current, name: value }));
@@ -169,6 +187,7 @@ export default function AssistantPanel({ copy, whatsapp, email, calcomUrl, onClo
     if (saving) return;
     setSaving(true);
     setNote(null);
+    const lang = hasBangla(`${form.name} ${form.contact} ${form.need}`) ? "bn" : "en";
     try {
       const response = await fetch("/api/lead", {
         method: "POST",
@@ -177,7 +196,7 @@ export default function AssistantPanel({ copy, whatsapp, email, calcomUrl, onClo
           name: form.name,
           contact: form.contact,
           need: form.need,
-          lang: "en",
+          lang,
           website: honeypot,
         }),
       });
@@ -329,6 +348,7 @@ export default function AssistantPanel({ copy, whatsapp, email, calcomUrl, onClo
                 value={field}
                 onChange={(event) => setField(event.target.value)}
                 autoComplete={step === "name" ? "name" : step === "contact" ? "tel" : "off"}
+                inputMode={step === "contact" ? "email" : undefined}
                 maxLength={step === "need" ? 600 : 120}
               />
               <div className="asst-acts">

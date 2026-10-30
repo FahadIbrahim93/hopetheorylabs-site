@@ -164,6 +164,37 @@ for the PR. 149 assertions today.
 Run against the built site (`out/`) when checking performance: `next dev` in
 these cloud workspaces blocks its own HMR socket, so React hydrates late.
 
+## If the endpoints are missing on Vercel
+
+`output: "export"` plus server code in a root `api/` directory is the shape the
+brief asks for, but Vercel documents root-`api/` functions for projects *without*
+a framework, and its Next.js page only covers `pages/api` and `app/api/*/route.ts`.
+No Vercel document says what the Next.js builder does with a root `api/` folder
+when the config is a static export, and a 2021 staff answer to this exact
+question was "you can't use API routes with a completely static export"
+(https://github.com/vercel/vercel/discussions/6551). Community reports since then
+show root `api/` files in Next.js projects *are* deployed and do take the
+`/api/*` prefix (https://community.vercel.com/t/cant-host-serverless-functions-and-api-routes-at-the-same-time/3510),
+but that is anecdote, not a guarantee.
+
+So check it on the first preview deploy:
+
+```bash
+curl -sS -X POST https://<preview>/api/chat \
+  -H 'content-type: application/json' \
+  -d '{"messages":[{"role":"user","content":"how much is a website?"}]}'
+```
+
+A JSON answer means the functions deployed. A 404 means they did not, and the
+widget has already fallen back to the scripted FAQ inside the page, so nothing
+is broken for a visitor — only the model and the lead inbox are missing. The
+supported fix is to drop `output: "export"`, move the two handlers to
+`app/api/chat/route.ts` and `app/api/lead/route.ts` unchanged (they are already
+`Request → Response`), and remove `api/`; Vercel then serves the same static
+pages from its CDN and runs the handlers as Fluid functions. That change is a
+product decision, because it trades the export for a Next-managed deploy, so it
+is not taken here.
+
 ### Measured on this branch
 
 Against `out/` served with gzip at mobile emulation, Lighthouse 12:

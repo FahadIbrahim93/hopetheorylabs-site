@@ -157,9 +157,12 @@ closes and returns focus, and the console stays clean. It also walks the
 Packages block inside Services: three named tiers with ৳ prices sharing one
 right edge inside the block, no overlap between the ladder, the terms, the
 founding offer and the call to action, a WhatsApp link, no horizontal scroll,
-the hero source labels cleared, and the header scrim in place. It finishes with
-the enquiry flow end to end and writes screenshots to `artifacts/assistant-qa/`
-for the PR. 149 assertions today.
+the hero source labels cleared, and the header scrim in place. Three short
+viewports — 320x568, 768x500 and 844x390 — then confirm the card stays inside the
+viewport with every section inside the card, including the privacy note, which a
+landscape phone used to push past the card's overflow. It finishes with the
+enquiry flow end to end and writes screenshots to `artifacts/assistant-qa/`
+for the PR. 161 assertions today.
 
 Run against the built site (`out/`) when checking performance: `next dev` in
 these cloud workspaces blocks its own HMR socket, so React hydrates late.

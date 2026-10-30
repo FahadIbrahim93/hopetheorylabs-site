@@ -70,7 +70,6 @@ export const en: SiteContent = {
       { name: "Showroom", price: "৳45,000" },
     ],
     terms: "Half to begin, a quarter midway, a quarter at handover. The domain is billed at cost, and an optional care plan covers the site after launch.",
-    founding: "Founding clients: ৳15,000, in exchange for a short review and permission to show your site.",
     cta: "Ask about a free concept",
   },
   earlyAccess: {

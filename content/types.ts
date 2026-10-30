@@ -37,7 +37,7 @@ export interface SiteContent {
   pricing: {
     eyebrow: string; heading: string; base: string; terms: string;
     tiers: { name: string; price: string }[];
-    founding: string; cta: string;
+    cta: string;
   };
   earlyAccess: { heading: string; tag: string; items: string[]; text: string };
   work: {

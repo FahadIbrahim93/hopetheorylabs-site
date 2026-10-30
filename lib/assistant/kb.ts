@@ -31,7 +31,7 @@ export const FACTS = {
     : "",
   earlyAccess: `${en.earlyAccess.tag} — ${en.earlyAccess.items.join(", ")}. ${en.earlyAccess.text}`,
   founding: en.services.founding,
-  pricing: `${en.pricing.base} ${en.pricing.founding}`,
+  pricing: en.pricing.base,
   packages: PACKAGES,
   whatYouGet: en.whatYouGet.items.join(", "),
   steps: en.howItWorks.steps
@@ -116,7 +116,7 @@ const RULES: Rule[] = [
   {
     id: "price",
     test: /price|pricing|cost|budget|how much|৳|taka|price list|quote|charge|package|tier|starter|counter|showroom|care plan|দাম|খরচ|কত|টাকা|বাজেট|প্যাকেজ/i,
-    reply: `${en.pricing.base} ${PACKAGES} ${en.pricing.founding}`.trim(),
+    reply: `${en.pricing.base} ${PACKAGES} ${en.services.founding}`.trim(),
   },
   {
     id: "concept",

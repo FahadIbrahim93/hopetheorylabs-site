@@ -396,6 +396,12 @@ export function HomeMotion() {
               const fade = reduced.matches
                 ? 1
                 : Math.min(1, Math.max(0, (shown - 0.15) / 0.7));
+              // The labels belong to the hero field: clear them once the page has
+              // moved on, or they sit pinned over every section below.
+              const field = Math.min(
+                1,
+                Math.max(0, 1 - (window.scrollY - window.innerHeight * 0.8) / (window.innerHeight * 0.4)),
+              );
               nodes.forEach((node, index) => {
                 const spec = NODE_LAYOUT[index];
                 if (!spec) return;
@@ -405,7 +411,7 @@ export function HomeMotion() {
                   : Math.sin(clock * 0.7 + index * 0.8) * 5 * (1 - scatter);
                 node.style.left = `${base[0] + spec.scatter[0] * scatter}%`;
                 node.style.top = `calc(${base[1] + spec.scatter[1] * scatter}% + ${bob}px)`;
-                node.style.opacity = String(fade);
+                node.style.opacity = String(fade * field);
                 const growLeft = narrow || node.dataset.side !== "mark";
                 node.style.transform = growLeft
                   ? "translate(-100%, -50%)"
@@ -419,7 +425,7 @@ export function HomeMotion() {
                 const y = (narrow ? 22 : 44) - (narrow ? 0 : 6) * scatter;
                 mono.style.left = `${x}%`;
                 mono.style.top = `${y}%`;
-                mono.style.opacity = String(markFade);
+                mono.style.opacity = String(markFade * field);
                 mono.style.transform = "translate(-50%, -50%)";
               }
             };

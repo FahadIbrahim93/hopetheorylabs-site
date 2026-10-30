@@ -119,7 +119,8 @@ npm run lint && npm run typecheck && npm run build && npm test
 TypeScript, then asserts:
 
 - every ৳ figure the assistant can state exists in `content/en.ts`;
-- all three packages are in the copy and in the facts, with the payment split;
+- all three packages are in the copy and in the facts, with the payment split,
+  and the same `pricing.tiers` renders the Packages block in Services;
 - the WhatsApp number and email come from the site copy;
 - the price guard rejects an invented figure and accepts a real one, including
   the ৳10,000 and ৳45,000 ends of the ladder, and rejects a discount we do not offer;
@@ -140,9 +141,13 @@ no horizontal scroll, the bubble stays in the viewport at 44 px or more, it
 covers no text and clears the WhatsApp control, the panel fits the viewport
 (full-width sheet below 640 px, 380x600 card above), no panel section overlaps
 another, a question returns an answer, Tab stays inside the dialog, Escape
-closes and returns focus, and the console stays clean. It finishes with the
-enquiry flow end to end and writes screenshots to `artifacts/assistant-qa/`
-for the PR.
+closes and returns focus, and the console stays clean. It also walks the
+Packages block inside Services: three named tiers with ৳ prices sharing one
+right edge inside the block, no overlap between the ladder, the terms, the
+founding offer and the call to action, a WhatsApp link, no horizontal scroll,
+the hero source labels cleared, and the header scrim in place. It finishes with
+the enquiry flow end to end and writes screenshots to `artifacts/assistant-qa/`
+for the PR. 149 assertions today.
 
 Run against the built site (`out/`) when checking performance: `next dev` in
 these cloud workspaces blocks its own HMR socket, so React hydrates late.

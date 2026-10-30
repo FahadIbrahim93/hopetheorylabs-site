@@ -213,6 +213,97 @@ for (const width of WIDTHS) {
   await page.close();
 }
 
+/*
+ * The packages block in Services: the price ladder, and the two fixed overlays
+ * (header scrim, hero source labels) that used to sit on top of later sections.
+ */
+for (const width of WIDTHS) {
+  const page = await browser.newPage({ viewport: { width, height: 800 } });
+  await page.goto(`${BASE}/`, { waitUntil: "load" });
+  await page.locator("#pricing").waitFor({ state: "visible" });
+  await hydrated(page);
+
+  await page.evaluate(() => {
+    const el = document.querySelector("#pricing");
+    window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - 110, behavior: "instant" });
+  });
+  /* The section reveal fades its children in with a stagger; measure settled. */
+  await page.waitForTimeout(1100);
+
+  const pk = await page.evaluate(() => {
+    const box = (el) => {
+      const b = el.getBoundingClientRect();
+      return { left: b.left, top: b.top, right: b.right, bottom: b.bottom, width: b.width, height: b.height };
+    };
+    const block = document.querySelector("#pricing");
+    const rows = [...block.querySelectorAll(".pk-l li")];
+    const header = document.querySelector("header");
+    return {
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth,
+      block: box(block),
+      section: box(document.querySelector("#services")),
+      heading: block.querySelector("h3")?.textContent.trim() ?? "",
+      eyebrow: block.querySelector(".eyebrow")?.textContent.trim() ?? "",
+      base: block.querySelector(".pk-b")?.textContent.trim() ?? "",
+      rows: rows.map((row) => ({
+        name: row.querySelector(".pk-n")?.textContent.trim() ?? "",
+        price: row.querySelector(".pk-p")?.textContent.trim() ?? "",
+        rect: box(row),
+        priceRect: box(row.querySelector(".pk-p")),
+      })),
+      terms: box(block.querySelector(".pk-t")),
+      founding: box(block.nextElementSibling),
+      cta: (() => {
+        const a = block.parentElement.querySelector(".ct a");
+        return { text: a.textContent.trim(), href: a.getAttribute("href"), rect: box(a) };
+      })(),
+      labels: [...document.querySelectorAll("#nds .nd")].map((n) => Number(getComputedStyle(n).opacity)),
+      scrim: header ? getComputedStyle(header, "::after").backgroundImage : "none",
+    };
+  });
+
+  ok(`${width}px: packages block causes no horizontal scroll`, pk.scrollWidth <= pk.innerWidth + 1, `${pk.scrollWidth} > ${pk.innerWidth}`);
+  ok(
+    `${width}px: packages block sits inside Services`,
+    pk.block.left >= pk.section.left - 0.5 && pk.block.right <= pk.section.right + 0.5 && pk.block.top >= pk.section.top && pk.block.bottom <= pk.section.bottom,
+  );
+  ok(
+    `${width}px: packages heading is the third level`,
+    pk.eyebrow.toLowerCase() === "packages" && pk.heading.length > 0,
+    `${pk.eyebrow} / ${pk.heading}`,
+  );
+  ok(`${width}px: price ladder lists three named tiers`, pk.rows.length === 3 && pk.rows.every((row) => row.name), pk.rows.map((row) => row.name).join(", "));
+  ok(
+    `${width}px: every tier carries a taka price`,
+    pk.rows.every((row) => row.price.startsWith("৳") && /[0-9]/.test(row.price)),
+    pk.rows.map((row) => row.price).join(", "),
+  );
+  const rowClashes = [];
+  for (let i = 0; i < pk.rows.length; i++) {
+    for (let j = i + 1; j < pk.rows.length; j++) {
+      if (overlap(pk.rows[i].rect, pk.rows[j].rect)) rowClashes.push(`${i + 1}×${j + 1}`);
+    }
+  }
+  ok(`${width}px: price rows do not overlap`, rowClashes.length === 0, rowClashes.join(", "));
+  ok(
+    `${width}px: prices sit inside the block`,
+    pk.rows.every((row) => row.priceRect.right <= pk.block.right + 0.5 && row.priceRect.left >= pk.block.left - 0.5),
+  );
+  const priceEdges = pk.rows.map((row) => row.priceRect.right);
+  ok(`${width}px: prices share one right edge`, Math.max(...priceEdges) - Math.min(...priceEdges) <= 1);
+  ok(`${width}px: terms do not overlap the ladder`, overlap(pk.terms, pk.rows[pk.rows.length - 1].rect) === 0);
+  ok(`${width}px: founding offer clears the terms`, overlap(pk.founding, pk.terms) === 0);
+  ok(`${width}px: packages call to action clears the offer`, overlap(pk.cta.rect, pk.founding) === 0);
+  ok(`${width}px: call to action opens WhatsApp`, String(pk.cta.href).startsWith("https://wa.me/8801718463471"), String(pk.cta.href));
+  ok(`${width}px: call to action is a reachable target`, pk.cta.rect.height >= 32 && pk.cta.rect.width >= 44, `${Math.round(pk.cta.rect.width)}x${Math.round(pk.cta.rect.height)}`);
+  ok(`${width}px: hero labels have cleared the section`, pk.labels.every((opacity) => opacity <= 0.05), pk.labels.join(", "));
+  ok(`${width}px: header carries a scrim`, pk.scrim.includes("gradient"), pk.scrim.slice(0, 60));
+
+  await page.screenshot({ path: `${SHOTS}/${width}-pricing.png` });
+  await page.close();
+}
+
 /* The enquiry flow the brief describes, start to finish, on a phone. */
 {
   const page = await browser.newPage({ viewport: { width: 360, height: 800 } });

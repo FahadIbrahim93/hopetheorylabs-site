@@ -19,8 +19,8 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
 - Background: near-black `#07090C`; primary text `#EEF0F2`; muted text `#A3ACB8`; hairline `#2A323D`; accent teal `#7FD6C2`; accent amber `#FFBD61`.
 - Use Instrument Sans for the body and UI, Newsreader for large editorial section headings, JetBrains Mono for small uppercase labels and status text.
 - Oversized tight-tracked two-line hero headline, asymmetrical layouts, generous whitespace, hairline dividers, no generic rounded-card grid.
-- Fixed transparent-to-black header with wordmark and compact navigation. Respect mobile safe-area insets.
-- The hero visual is the full-viewport particle field from the locked page. Points begin scattered, gather into a sphere, then settle into slow orbits as the page scrolls. Eight source labels sit in that field: Productivity, CRM, Databases, Files, Apps, APIs, Systems, and People, plus the H mark.
+- Fixed transparent-to-black header with wordmark and compact navigation, with a scrim that keeps copy legible as it scrolls under the wordmark. Respect mobile safe-area insets.
+- The hero visual is the full-viewport particle field from the locked page. Points begin scattered, gather into a sphere, then settle into slow orbits as the page scrolls. Eight source labels sit in that field: Productivity, CRM, Databases, Files, Apps, APIs, Systems, and People, plus the H mark. The labels are fixed to the viewport while the hero is in view and clear as it leaves, so they never sit over later sections.
 - A small fixed HUD displays a changing system state and progress line. A floating WhatsApp button remains visible except while the contact section is in view. On screens 800px and below, the header keeps only Contact, and the flow pills and ticker hide, as in the locked CSS.
 - Keep the site calm and cinematic, not flashy. Honor `prefers-reduced-motion` throughout.
 

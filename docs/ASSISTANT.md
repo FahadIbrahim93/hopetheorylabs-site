@@ -120,9 +120,40 @@ TypeScript, then asserts:
 - the price guard rejects an invented figure and accepts a real one;
 - the FAQ matcher answers pricing questions and hands unknown ones to WhatsApp.
 
-Still to run by a human, because this environment has no browser: Playwright
-overlap checks at 360, 412, 768, 1280 and 1600 px, the keyboard pass, and
-Lighthouse mobile on the preview.
+### Layout check
+
+```bash
+npm i -D playwright && npx playwright install chromium   # once, not a dependency
+npm run check:layout                                     # needs a server on :3000
+QA_URL=http://localhost:4000 npm run check:layout        # or point it anywhere
+```
+
+Playwright is deliberately not a dependency: CI installs no browser. The check
+walks 360, 412, 768, 1280 and 1600 px and asserts, at each width, that there is
+no horizontal scroll, the bubble stays in the viewport at 44 px or more, it
+covers no text and clears the WhatsApp control, the panel fits the viewport
+(full-width sheet below 640 px, 380x600 card above), no panel section overlaps
+another, a question returns an answer, Tab stays inside the dialog, Escape
+closes and returns focus, and the console stays clean. It finishes with the
+enquiry flow end to end and writes screenshots to `artifacts/assistant-qa/`
+for the PR.
+
+Run against the built site (`out/`) when checking performance: `next dev` in
+these cloud workspaces blocks its own HMR socket, so React hydrates late.
+
+### Measured on this branch
+
+Against `out/` served with gzip at mobile emulation, Lighthouse 12:
+
+| Run | Performance | Accessibility | Best practices | SEO |
+| --- | --- | --- | --- | --- |
+| `main` without the widget | 97 | 100 | 100 | 100 |
+| Branch, widget mounted | 99 | 100 | 100 | 100 |
+
+FCP 0.8 s, LCP 2.0 s, TBT 110 ms, CLS 0. A first, cold-cache run scored 77 with
+780 ms of blocking time; that did not reproduce in two later runs on the same
+build, and the JavaScript transferred is 143 KB against 142 KB without the
+widget, which is the launcher only — the panel is not fetched until tapped.
 
 ## Deliberate differences from the build brief
 

@@ -67,7 +67,7 @@ export const en: SiteContent = {
     eyebrow: "What we build",
     heading: "Two paths. Start where you are.",
     intro:
-      "Need orders on WhatsApp this month? Start with a website. Curious about agents and connected data? That’s a separate conversation — we’ll tell you honestly if we’re the right fit.",
+      "Need orders on WhatsApp this month? Start with a website. Curious about agents and connected data? That's a separate conversation — we'll tell you honestly if we're the right fit.",
     websiteLane: {
       label: "Start here · Available now",
       items: [
@@ -92,7 +92,7 @@ export const en: SiteContent = {
           description: "Digital self first, then one living intelligence across your data sources. Founding partners only while we refine the offer.",
         },
       ],
-      note: "No public pricing yet. We don’t sell AI retainers from this page — message us with the workflow you want to fix.",
+      note: "No public pricing yet. We don't sell AI retainers from this page — message us with the workflow you want to fix.",
       whatsappCta: "Ask about AI on WhatsApp",
       whatsappLink: whatsappAiLink,
     },
@@ -170,7 +170,7 @@ export const en: SiteContent = {
   earlyAccess: {
     heading: "Coming soon", tag: "Early access",
     items: ["AI audits", "Forward-deployed AI engineering"],
-    text: "Ask us if you’re curious.",
+    text: "Ask us if you're curious.",
   },
   work: {
     eyebrow: "Work",
@@ -185,7 +185,7 @@ export const en: SiteContent = {
         tag: "Concept",
         discipline: "Website",
         summary:
-          "Concept storefront built from the shop’s real menu. Try ordering on your phone; if it fits, we deploy on your domain with WhatsApp and cash on delivery.",
+          "Concept storefront built from the shop's real menu. Try ordering on your phone; if it fits, we deploy on your domain with WhatsApp and cash on delivery.",
         deliverables: [
           "Mobile menu and add-to-cart flow",
           "Prefilled WhatsApp order message",
@@ -196,7 +196,7 @@ export const en: SiteContent = {
           storeName: "Rollers Republic",
           items: ["Cold coffee", "Club sandwich", "Brownie"],
           cta: "Order on WhatsApp",
-          message: "Hi! I’d like to order: 1 × Cold coffee. Cash on delivery.",
+          message: "Hi! I'd like to order: 1 × Cold coffee. Cash on delivery.",
         },
       },
       {
@@ -237,14 +237,52 @@ export const en: SiteContent = {
   },
   about: {
     eyebrow: "About", heading: "A solo studio in Dhaka.",
-    text: "I’m Fahad Ibrahim, the founder of Hope Theory Labs. I keep things simple and honest, and I work with you directly.",
+    text: "I'm Fahad Ibrahim, the founder of Hope Theory Labs. I keep things simple and honest, and I work with you directly.",
   },
   contact: {
     eyebrow: "Contact", heading: "Begin the conversation.",
-    note: "Tell us about your business and we’ll reply on WhatsApp whenever suits you.",
+    note: "Tell us about your business and we'll reply on WhatsApp whenever suits you.",
     nameLabel: "Your name", needLabel: "What do you need?", submit: "Send on WhatsApp",
     phone: "WhatsApp 01718463471", phoneHref: whatsappLink, email: "hopetheorybd@gmail.com",
     whatsappCta: "Message us on WhatsApp",
+  },
+  assistant: {
+    title: "Hope Theory assistant",
+    open: "Open the Hope Theory assistant",
+    close: "Close the assistant",
+    intro: "Hi — I'm the Hope Theory assistant. Ask about websites, AI work, or how the free concept works.",
+    inputLabel: "Your message",
+    placeholder: "Type your question",
+    send: "Send",
+    sending: "Sending…",
+    privacy: "Chats aren't stored. Details you submit are only used to reply to you.",
+    handoff: "I don't have that answer. Message us on WhatsApp and we'll reply there.",
+    handoffCta: "Message us on WhatsApp",
+    error: "That didn't go through. Try again, or message us on WhatsApp.",
+    rateLimited: "You've sent a few messages already. Give it a few minutes, or message us on WhatsApp.",
+    tooLong: "That message is too long. Keep it under 1,000 characters.",
+    chips: [
+      "Compare website packages",
+      "How does the free concept work?",
+      "Explore AI automation",
+      "Prepare an enquiry",
+    ],
+    booking: "Book a call",
+    enquiry: {
+      name: "What's your name?",
+      contact: "Best WhatsApp number or email?",
+      need: "What do you need help with?",
+      summary: "Your enquiry",
+      sendWhatsApp: "Send on WhatsApp",
+      email: "Email",
+      save: "Save my enquiry",
+      saving: "Saving…",
+      saved: "Saved. We'll reply on WhatsApp.",
+      saveFailed: "Couldn't save that just now. Send it on WhatsApp instead.",
+      required: "Please fill this in.",
+      emailSubject: "Website enquiry — Hope Theory Labs",
+      back: "Back to chat",
+    },
   },
   footer: {
     text: "© 2026 Hope Theory Labs · Dhaka, Bangladesh · from the Hope Theory family. No cookies, no analytics.",

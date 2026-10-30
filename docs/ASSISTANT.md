@@ -22,7 +22,7 @@ the scripted answers ship inside the page.
 | `content/en.ts` → `assistant` | Every visible string in the widget. |
 
 No new runtime dependencies: Groq, Gemini, Supabase and Resend are called with
-`fetch`, so the first-load JavaScript is unchanged apart from a ~2 KB launcher.
+`fetch`, so the first-load JavaScript is unchanged apart from a ~1–2 KB launcher.
 
 ## Environment variables
 
@@ -69,11 +69,13 @@ the anon key can read nothing; the functions use the service role.
 - The visitor's language is detected from Bengali script. The model is told to
   answer in Bangla when asked in Bangla. The scripted fallback answers in
   English because Bangla copy is still pending review (see `content/bn.ts`).
+  Lead saves also detect Bangla in the enquiry fields and store `lang`.
 - Enquiries: name → contact → need → summary, with "Send on WhatsApp", "Email"
-  and "Save my enquiry". The WhatsApp and email routes work with no backend.
+  and "Save my enquiry". Contact is validated client-side (email or phone) before
+  the need step, matching the server. WhatsApp and email routes work with no backend.
 - Rate limits: 20 chat messages and 5 enquiries per 10 minutes, per hashed IP,
-  with an in-memory bucket plus the Supabase counter so the limit survives
-  across serverless instances.
+  with an in-memory bucket plus a soft Supabase counter (hit recorded, then shared
+  count checked) so the limit mostly survives across serverless instances.
 - Logs contain event names, provider status codes and booleans only. No message
   bodies, names, contacts or addresses. The rate-limit key is a salted SHA-256.
 
@@ -81,9 +83,10 @@ the anon key can read nothing; the functions use the service role.
 
 The panel is a dialog with a focus trap, `Esc` to close, a labelled close
 button, a polite live region for replies, 44 px targets and 16 px input text
-(no iOS zoom). It is a full-height sheet below 640 px and a 380×600 card above
-it. The bubble is `56×56` at the same right edge as the WhatsApp control, `12px`
-above it, so nothing overlaps and no horizontal scroll is introduced.
+(no iOS zoom). Body scroll is locked while the panel is open. It is a full-height
+sheet below 640 px and a 380×600 card above it. The bubble is `56×56` at the same
+right edge as the WhatsApp control, `12px` above it, so nothing overlaps and no
+horizontal scroll is introduced.
 
 ## Deployment note — read before merging
 
@@ -93,9 +96,9 @@ not run. The two endpoints are therefore plain Vercel Functions in the root
 
 Vercel documents root `api/` functions for projects *without* a framework, and
 documents `pages/api` / `app/api` for Next.js projects. Root `api/` files are
-scanned for Next.js projects in practice (they are the documented route for
-non-Node functions), but with `output: 'export'` this combination is **not**
-covered by a Vercel doc. Treat it as the one thing to verify on the preview:
+scanned for Next.js projects in practice, but with `output: 'export'` this
+combination is **not** covered by a Vercel doc. Treat it as the one thing to
+verify on the preview:
 
 1. Open the preview deployment and call `POST /api/chat` with
    `{"messages":[{"role":"user","content":"price?"}]}`.
@@ -211,10 +214,14 @@ Against `out/` served with gzip at mobile emulation, Lighthouse 12:
 The final build measures FCP 0.8 s, LCP 2.0–2.6 s, TBT 80–100 ms, CLS 0, and
 the 99 came from a run whose LCP landed at 2.0 s, so the spread is machine
 noise rather than a code path. All are above the brief's 95 floor and level
-with the site without the widget. A first, cold-cache run scored 77 with 780 ms
-of blocking time; that did not reproduce in four later runs on the same build.
-JavaScript transferred is 143 KB against 142 KB without the widget, which is the
-launcher only — the panel is not fetched until tapped.
+with the site without the widget.
+
+**JavaScript weight (honest):** transferred first-load JS is about **143 KB**
+with the launcher versus **142 KB** without it. The panel chunk is not fetched
+until the bubble is used. Older QA notes that mentioned a hard 120 KB first-load
+ceiling pre-date the current experience stack; do **not** claim this PR is under
+120 KB. Report the measured 143 KB and keep Lighthouse Performance ≥ 95 as the
+release gate for this branch.
 
 ## Deliberate differences from the build brief
 

@@ -35,7 +35,7 @@ export interface SiteContent {
   whatYouGet: { heading: string; items: string[] };
   speedSlider: { label: string; before: string; after: string; aria: string };
   pricing: {
-    heading: string; base: string; terms: string;
+    eyebrow: string; heading: string; base: string; terms: string;
     tiers: { name: string; price: string }[];
     founding: string; cta: string;
   };

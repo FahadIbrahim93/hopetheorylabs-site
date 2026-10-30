@@ -81,6 +81,21 @@ body::before {
   padding: calc(env(safe-area-inset-top, 0px) + 18px) clamp(24px, 6vw, 96px) 18px;
 }
 
+/* Transparent-to-black scrim, so copy scrolling underneath stays legible. */
+.lock header::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 -26px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 9, 12, 0.94) 0%,
+    rgba(7, 9, 12, 0.82) 58%,
+    rgba(7, 9, 12, 0) 100%
+  );
+}
+
 .lock .brand { font-weight: 500; font-size: 16px; }
 
 .lock nav { display: flex; gap: 6px; }
@@ -204,6 +219,49 @@ body::before {
 .lock .cols div { border-top: 1px solid var(--line); padding-top: 16px; }
 .lock .cols b { display: block; font-weight: 500; font-size: 21px; color: var(--fg); }
 .lock .cols span { display: block; margin-top: 8px; font-size: 16px; line-height: 1.5; color: var(--mut); }
+
+/* Packages — a hairline price list inside Services, not a card grid. */
+.lock .pk { margin-top: 54px; max-width: 900px; }
+.lock .pk .eyebrow { margin-bottom: 12px; }
+
+.lock .pk-h {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.2vw, 34px);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.lock .pk-b { margin: 12px 0 0; font-size: 17px; line-height: 1.5; color: var(--mut); }
+
+.lock .pk-l {
+  list-style: none;
+  margin: 30px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.lock .pk-l li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.lock .pk-i { font: 400 11px var(--mono); letter-spacing: 2px; color: var(--mut); }
+.lock .pk-n { font-size: clamp(20px, 2.4vw, 27px); letter-spacing: -0.015em; }
+
+.lock .pk-p {
+  font: 400 clamp(18px, 2vw, 23px) var(--mono);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.lock .pk-t { margin: 18px 0 0; max-width: 620px; font-size: 16px; line-height: 1.55; color: var(--mut); }
 
 .lock .hud {
   position: fixed;
@@ -608,6 +666,8 @@ body::before {
   .lock #contact { justify-content: flex-end; padding-top: 210px; padding-bottom: 16vh; }
   .lock .ph { width: 220px; height: 414px; }
   .lock .cols { grid-template-columns: 1fr; gap: 20px; }
+  .lock .pk { margin-top: 40px; }
+  .lock .pk-l li { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px; padding: 16px 0; }
   .lock nav a { padding: 12px 8px; }
   .lock .mq { display: none; }
 }

@@ -133,7 +133,29 @@ export default function Home() {
                 </div>
               ))}
             </div>
+            <div className="pk" id="pricing">
+              <p className="eyebrow">{en.pricing.eyebrow}</p>
+              <h3 className="pk-h">{en.pricing.heading}</h3>
+              <p className="pk-b">{en.pricing.base}</p>
+              <ul className="pk-l">
+                {en.pricing.tiers.map((tier, index) => (
+                  <li key={tier.name}>
+                    <span className="pk-i" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="pk-n">{tier.name}</span>
+                    <span className="pk-p">{tier.price}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="pk-t">{en.pricing.terms}</p>
+            </div>
             <p style={{ maxWidth: 640 }}>{en.services.founding}</p>
+            <div className="ct" style={{ marginTop: 8 }}>
+              <a className="lm" style={{ margin: 0 }} href={whatsappOrderLink} target="_blank" rel="noopener noreferrer">
+                {en.pricing.cta} ›
+              </a>
+            </div>
           </div>
         </section>
 

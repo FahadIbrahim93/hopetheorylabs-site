@@ -47,7 +47,7 @@ export const en: SiteContent = {
   services: {
     eyebrow: "What we build", heading: "Three disciplines, one outcome.",
     items: [
-      { title: "Websites", description: "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳10,000." },
+      { title: "Websites", description: "Fast, mobile-first sites with WhatsApp ordering and cash on delivery." },
       { title: "AI integrations", description: "Agents and automations wired into the tools you already run." },
       { title: "AI transformation", description: "A digital self first, then one living intelligence across every data source." },
     ],
@@ -63,7 +63,7 @@ export const en: SiteContent = {
     aria: "Compare page load speed — before and after",
   },
   pricing: {
-    heading: "Pricing", base: "Websites from ৳10,000.",
+    eyebrow: "Packages", heading: "Three sizes of site.", base: "Websites from ৳10,000.",
     tiers: [
       { name: "Starter", price: "৳10,000" },
       { name: "Counter", price: "৳25,000" },

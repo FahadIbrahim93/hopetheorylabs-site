@@ -37,9 +37,10 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
    - Connect: “We pull those sources into one record, so there is one place to ask and one version of the truth.”
    - Act: “We add an assistant on top that answers questions across it and handles routine work, with your team approving what matters.”
 7. **Services** — “Three disciplines, one outcome.”
-   - Websites: “Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳10,000.”
+   - Websites: “Fast, mobile-first sites with WhatsApp ordering and cash on delivery.”
    - AI integrations: “Agents and automations wired into the tools you already run.”
    - AI transformation: “A digital self first, then one living intelligence across every data source.” Tag “Early access”.
+   - Packages, approved 30 October 2026, inside Services rather than as a new page beat: eyebrow “Packages”, heading “Three sizes of site.”, “Websites from ৳10,000.”, then a hairline price list — Starter ৳10,000, Counter ৳25,000, Showroom ৳45,000 — terms “Half to begin, a quarter midway, a quarter at handover. The domain is billed at cost, and an optional care plan covers the site after launch.”, the founding offer below it, and the link “Ask about a free concept” to WhatsApp. Prices live in `content/en.ts` and reach the assistant from the same block; no per-tier inclusions are claimed until Fahad supplies them.
    - Founding offer: “Founding clients pay ৳15,000, in exchange for a short review and permission to show the site. AI work is by conversation: ask us if you’re curious.”
 8. **Work** — “We build a free concept first.” Rollers Republic is explicitly a concept built on the shop's real catalog. Link to `https://rollers-republic-pitch.vercel.app`. Recreate the phone mockup with product rows, animated “Order on WhatsApp” button, and message bubble. Do not imply it is a live integration.
 9. **About** — “A small team in Dhaka.” “We’re Fahad Ibrahim and Tamim Abir. We keep things simple and honest.”

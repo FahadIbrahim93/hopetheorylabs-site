@@ -767,7 +767,8 @@ body::before {
 
 .asst-log {
   flex: 1 1 auto;
-  min-height: 0;
+  /* Keep a readable thread even when the card is short (landscape phones). */
+  min-height: 64px;
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 16px;
@@ -811,7 +812,11 @@ body::before {
   flex-wrap: wrap;
   gap: 8px;
   padding: 0 16px 12px;
-  flex: none;
+  /* The chips give way before the composer or the privacy note do. */
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .asst-chips button {

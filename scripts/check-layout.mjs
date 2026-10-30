@@ -304,6 +304,57 @@ for (const width of WIDTHS) {
   await page.close();
 }
 
+/*
+ * Short viewports: a phone in landscape, and the smallest phones still in use.
+ * The card is height-clamped here, so its sections have to give way in the right
+ * order — the privacy note used to be cut off by the card's own overflow.
+ */
+for (const [width, height] of [[320, 568], [768, 500], [844, 390]]) {
+  const page = await browser.newPage({ viewport: { width, height } });
+  await page.goto(`${BASE}/`, { waitUntil: "load" });
+  await page.locator(".asst-b").waitFor({ state: "visible" });
+  await hydrated(page);
+  await page.locator(".asst-b").click();
+  await page.locator(".asst-p").waitFor({ state: "visible" });
+  await page.waitForTimeout(350);
+
+  const short = await page.evaluate(() => {
+    const box = (el) => {
+      const b = el.getBoundingClientRect();
+      return { top: b.top, bottom: b.bottom, left: b.left, right: b.right };
+    };
+    const panel = document.querySelector(".asst-p");
+    const parts = {};
+    for (const selector of [".asst-h", ".asst-log", ".asst-chips", ".asst-compose", ".asst-note"]) {
+      const el = document.querySelector(selector);
+      if (el) parts[selector] = box(el);
+    }
+    return {
+      panel: box(panel),
+      parts,
+      note: parts[".asst-note"],
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth,
+      innerHeight,
+    };
+  });
+
+  const label = `${width}x${height}`;
+  ok(`${label}: no horizontal scroll`, short.scrollWidth <= short.innerWidth + 1, `${short.scrollWidth} > ${short.innerWidth}`);
+  ok(
+    `${label}: the card stays in the viewport`,
+    short.panel.left >= -0.5 && short.panel.right <= width + 0.5 && short.panel.top >= -0.5 && short.panel.bottom <= short.innerHeight + 0.5,
+  );
+  const spilled = Object.entries(short.parts).filter(([, part]) => part.top < short.panel.top - 0.5 || part.bottom > short.panel.bottom + 0.5);
+  ok(`${label}: every section stays inside the card`, spilled.length === 0, spilled.map(([selector]) => selector).join(", "));
+  ok(
+    `${label}: the privacy note is readable, not clipped`,
+    short.note.bottom <= short.panel.bottom + 0.5 && short.note.top >= short.panel.top && short.note.bottom - short.note.top >= 30,
+  );
+  await page.screenshot({ path: `${SHOTS}/asst-${label}.png` });
+  await page.close();
+}
+
 /* The enquiry flow the brief describes, start to finish, on a phone. */
 {
   const page = await browser.newPage({ viewport: { width: 360, height: 800 } });

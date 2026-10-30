@@ -63,6 +63,9 @@ the anon key can read nothing; the functions use the service role.
   request time, so site copy and assistant copy cannot diverge.
 - Any ৳ figure the model produces that is not in the site copy is replaced with
   the WhatsApp handoff before the visitor sees it.
+- Packages come from `pricing.tiers` and `pricing.terms`: Starter ৳10,000,
+  Counter ৳25,000, Showroom ৳45,000, half to begin / a quarter midway / a quarter
+  at handover, domain at cost, optional care plan. No other price is in reach.
 - The visitor's language is detected from Bengali script. The model is told to
   answer in Bangla when asked in Bangla. The scripted fallback answers in
   English because Bangla copy is still pending review (see `content/bn.ts`).
@@ -116,9 +119,12 @@ npm run lint && npm run typecheck && npm run build && npm test
 TypeScript, then asserts:
 
 - every ৳ figure the assistant can state exists in `content/en.ts`;
+- all three packages are in the copy and in the facts, with the payment split;
 - the WhatsApp number and email come from the site copy;
-- the price guard rejects an invented figure and accepts a real one;
-- the FAQ matcher answers pricing questions and hands unknown ones to WhatsApp.
+- the price guard rejects an invented figure and accepts a real one, including
+  the ৳10,000 and ৳45,000 ends of the ladder, and rejects a discount we do not offer;
+- the FAQ matcher answers pricing and care-plan questions, answers every chip the
+  widget sends, and hands unknown ones to WhatsApp.
 
 ### Layout check
 
@@ -160,7 +166,7 @@ widget, which is the launcher only — the panel is not fetched until tapped.
 | Brief said | Built | Why |
 | --- | --- | --- |
 | Navy `#0F1B2D` + gold `#B8892F`, no teal | The site's own tokens: `#07090C` ink, `#7FD6C2` teal, `#FFBD61` amber | `docs/SPEC.md` locks the palette and wins over any other design instruction. A navy/gold widget would not match the page. The bubble uses the amber token so it reads differently from the teal WhatsApp control. |
-| Starter ৳10,000 / Counter ৳25,000 / Showroom ৳45,000, 50/25/25 split, care plan, domain at cost | Only what `content/en.ts` says: websites from ৳25,000, founding ৳15,000, AI by conversation | Those tiers and terms are nowhere in the repository. Writing them into the assistant would put unapproved prices on a live site. Add them to `content/en.ts` first; the knowledge base picks them up automatically and `npm test` will guard them. |
+| Starter ৳10,000 / Counter ৳25,000 / Showroom ৳45,000, 50/25/25 split, care plan, domain at cost | All of it, from `content/en.ts` | Fahad confirmed these figures. They now live in `pricing.tiers` with `pricing.terms`, the assistant quotes them, and the price guard refuses any other figure. Adding the ৳10,000 floor made “Websites from ৳25,000” untrue, so the Services line and `docs/SPEC.md` now read “from ৳10,000”. The founding offer stays at ৳15,000 as approved copy. |
 | "Only Fahad as founder" | The team as the site states it: Fahad Ibrahim and Tamim Abir | `content/en.ts` names both. The prompt forbids titles, credentials and claims, which is enforced. |
 | Bubble hides while the WhatsApp button is visible | Bubble sits 12 px above the WhatsApp control, always visible, no overlap | Hiding it would hide the assistant on every section except Contact, which defeats a chat on every page. Flipping back is one CSS rule if the design review prefers the literal brief. |
 | Analytics with `@vercel/analytics` | Not added | `docs/SPEC.md`, `docs/DESIGN_RULES.md` and the PR checklist all forbid analytics and tracking. |

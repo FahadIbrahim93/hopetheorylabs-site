@@ -14,6 +14,11 @@ export const WHATSAPP = whatsappLink;
 export const WHATSAPP_DISPLAY = en.contact.phone.replace(/^WhatsApp\s+/, "");
 
 const website = en.services.items[0];
+
+/** The approved package ladder, read straight from the pricing block. */
+export const PACKAGES = `${en.pricing.tiers
+  .map((tier) => `${tier.name} ${tier.price}`)
+  .join(", ")}. ${en.pricing.terms}`;
 const aiIntegrations = en.services.items[1];
 const aiTransformation = en.services.items[2];
 
@@ -27,6 +32,7 @@ export const FACTS = {
   earlyAccess: `${en.earlyAccess.tag} — ${en.earlyAccess.items.join(", ")}. ${en.earlyAccess.text}`,
   founding: en.services.founding,
   pricing: `${en.pricing.base} ${en.pricing.founding}`,
+  packages: PACKAGES,
   whatYouGet: en.whatYouGet.items.join(", "),
   steps: en.howItWorks.steps
     .map((step, index) => `${index + 1}. ${step.label}: ${step.description}`)
@@ -42,6 +48,7 @@ export const FACTS_LINES: readonly string[] = [
   `Websites: ${FACTS.website}`,
   `What a website includes: ${FACTS.whatYouGet}`,
   `Price: ${FACTS.pricing}`,
+  `Packages: ${FACTS.packages}`,
   `Founding offer: ${FACTS.founding}`,
   `AI work: ${FACTS.aiIntegrations} ${FACTS.aiTransformation}`,
   `AI status: ${FACTS.earlyAccess}`,
@@ -108,8 +115,8 @@ const RULES: Rule[] = [
   },
   {
     id: "price",
-    test: /price|pricing|cost|budget|how much|৳|taka|price list|quote|charge|দাম|খরচ|কত|টাকা|বাজেট/i,
-    reply: `${en.pricing.base} ${en.pricing.founding} AI work is by conversation: ask us on WhatsApp and we will look at what you already run.`,
+    test: /price|pricing|cost|budget|how much|৳|taka|price list|quote|charge|package|tier|starter|counter|showroom|care plan|দাম|খরচ|কত|টাকা|বাজেট|প্যাকেজ/i,
+    reply: `${en.pricing.base} ${PACKAGES} ${en.pricing.founding}`.trim(),
   },
   {
     id: "concept",

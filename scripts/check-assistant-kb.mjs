@@ -30,7 +30,9 @@ function check(label, condition, detail) {
 }
 
 function pricesIn(text) {
-  return (text.match(/৳\s?[\d,]+/g) ?? []).map((price) => price.replace(/\s/g, ""));
+  // Must end on a digit, so a comma used as punctuation ("৳10,000, ৳25,000")
+  // is not read as part of the figure.
+  return (text.match(/৳\s?[\d,]*\d/g) ?? []).map((price) => price.replace(/\s/g, ""));
 }
 
 try {
@@ -70,6 +72,19 @@ try {
   );
   check("site copy still carries the website price", enPricingContains(en, "৳25,000"));
   check("site copy still carries the founding price", enPricingContains(en, "৳15,000"));
+  check(
+    "site copy carries every approved package",
+    ["৳10,000", "৳25,000", "৳45,000"].every((price) => enPricingContains(en, price)),
+    "one of Starter/Counter/Showroom is missing",
+  );
+  check(
+    "KB states every package",
+    ["Starter", "Counter", "Showroom"].every((name) => kbText.includes(name)),
+  );
+  check(
+    "KB states the payment split and terms",
+    /quarter midway/.test(kbText) && /at cost/.test(kbText) && /care plan/.test(kbText),
+  );
 
   check("WhatsApp number comes from the site copy", en.contact.phone.includes(kb.WHATSAPP_DISPLAY));
   check("email comes from the site copy", kb.EMAIL === en.contact.email);
@@ -83,11 +98,28 @@ try {
     kb.unknownPrice("We charge 40,000 taka") === "40,000 taka",
   );
   check("price guard accepts a real figure", kb.unknownPrice("Websites from ৳25,000") === null);
+  check("price guard accepts the cheapest package", kb.unknownPrice("Starter is ৳10,000") === null);
+  check("price guard accepts the largest package", kb.unknownPrice("Showroom costs 45,000 taka") === null);
+  check("price guard rejects a discount we do not offer", kb.unknownPrice("Showroom is ৳35,000") === "৳35,000");
   check("price guard accepts the founding price in words", kb.unknownPrice("Founding clients pay BDT 15000") === null);
   check("FAQ matcher answers pricing questions", /25,000/.test(kb.matchFaq("how much does a website cost").reply));
+  check(
+    "FAQ matcher answers the compare-packages chip with the ladder",
+    /Starter/.test(kb.matchFaq("Compare website packages").reply) &&
+      /45,000/.test(kb.matchFaq("Compare website packages").reply),
+  );
+  check(
+    "every chip the widget sends is answered, not handed off",
+    en.assistant.chips
+      .slice(0, 3)
+      .every((chip) => kb.matchFaq(chip).id !== "handoff"),
+    en.assistant.chips.slice(0, 3).filter((chip) => kb.matchFaq(chip).id === "handoff").join(", "),
+  );
+  check("FAQ matcher answers the care plan question", kb.matchFaq("is there a care plan?").id === "price");
   check("FAQ matcher hands unknown questions to WhatsApp", /wa\.me/.test(kb.matchFaq("do you offer SEO in Sylhet?").reply));
   check("Bangla detection", kb.hasBangla("ওয়েবসাইটের দাম কত?") && !kb.hasBangla("what is the price"));
   check("system prompt lists the facts", kb.buildSystemPrompt().includes("৳25,000"));
+  check("system prompt lists the packages", kb.buildSystemPrompt().includes("Showroom ৳45,000"));
 } finally {
   rmSync(out, { recursive: true, force: true });
 }

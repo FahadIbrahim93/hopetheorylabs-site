@@ -37,7 +37,7 @@ Build the supplied Hope Theory Labs website as a responsive, accessible one-page
    - Connect: “We pull those sources into one record, so there is one place to ask and one version of the truth.”
    - Act: “We add an assistant on top that answers questions across it and handles routine work, with your team approving what matters.”
 7. **Services** — “Three disciplines, one outcome.”
-   - Websites: “Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳25,000.”
+   - Websites: “Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳10,000.”
    - AI integrations: “Agents and automations wired into the tools you already run.”
    - AI transformation: “A digital self first, then one living intelligence across every data source.” Tag “Early access”.
    - Founding offer: “Founding clients pay ৳15,000, in exchange for a short review and permission to show the site. AI work is by conversation: ask us if you’re curious.”

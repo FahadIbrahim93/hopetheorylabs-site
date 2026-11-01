@@ -39,7 +39,7 @@ function PhoneDemo({
         <span>● ● ▰</span>
       </div>
       <div className="phone-store-name">
-        {storeName} <span>MENU</span>
+        {storeName} <span>SHOP</span>
       </div>
       {items.map((item) => (
         <div className="phone-product" key={item}>

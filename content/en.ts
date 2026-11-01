@@ -185,18 +185,18 @@ export const en: SiteContent = {
         tag: "Concept",
         discipline: "Website",
         summary:
-          "Concept storefront built from the shop's real menu. Try ordering on your phone; if it fits, we deploy on your domain with WhatsApp and cash on delivery.",
+          "Concept storefront for a Dhaka headshop, built from their catalog. Try ordering on your phone; if it fits, we deploy on your domain with WhatsApp and cash on delivery.",
         deliverables: [
-          "Mobile menu and add-to-cart flow",
+          "Mobile catalog and add-to-cart flow",
           "Prefilled WhatsApp order message",
           "Cash on delivery checkout path",
         ],
         link: { href: "https://rollers-republic-pitch.vercel.app", label: "View the concept" },
         phoneDemo: {
           storeName: "Rollers Republic",
-          items: ["Cold coffee", "Club sandwich", "Brownie"],
+          items: ["RAW Classic papers", "Juicy Jay's Melon", "Rizla filter tips"],
           cta: "Order on WhatsApp",
-          message: "Hi! I'd like to order: 1 × Cold coffee. Cash on delivery.",
+          message: "Hi! I'd like to order: 1 × RAW Classic papers. Cash on delivery.",
         },
       },
       {

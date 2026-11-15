@@ -6,10 +6,10 @@ export const en: SiteContent = {
     wordmark: "Hope Theory Labs",
     nav: [
       { label: "Approach", href: "#method" },
-      { label: "Services", href: "#services" },
-      { label: "Pricing", href: "#pricing" },
+      { label: "Services", href: "/services" },
+      { label: "Pricing", href: "/pricing" },
       { label: "Work", href: "#work" },
-      { label: "Contact", href: "#contact" },
+      { label: "Contact", href: "/contact" },
     ],
     whatsapp: "WhatsApp",
     menu: "Menu",

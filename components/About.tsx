@@ -1,3 +1,5 @@
+"use client";
+
 import { SectionMarker } from "./SectionMarker";
 import { useContent } from "./LanguageProvider";
 

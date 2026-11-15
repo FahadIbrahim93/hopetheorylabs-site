@@ -1,3 +1,5 @@
+"use client";
+
 import { SectionMarker } from "./SectionMarker";
 import { WhatsAppCta } from "./WhatsAppCta";
 import { useContent } from "./LanguageProvider";

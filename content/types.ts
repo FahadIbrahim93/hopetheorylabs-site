@@ -42,6 +42,22 @@ export interface WorkCaseStudy {
   };
 }
 
+/** One of the five service pillars (issue #44). Plain descriptions only: no fees, client names or metrics. */
+export interface ServicePillar {
+  slug: string;
+  title: string;
+  summary: string;
+  problem: string;
+  outputs: string[];
+  fit: string;
+  engagement: string;
+}
+
+export interface Founder {
+  name: string;
+  role: string;
+}
+
 export interface PricingTier {
   name: string;
   subtitle: string;
@@ -57,7 +73,10 @@ export interface PricingTier {
 export interface SiteContent {
   header: {
     wordmark: string;
+    /** Absolute or root-relative hrefs so links work from every route. */
+    homeHref: string;
     nav: NavLink[];
+    cta: NavLink;
     whatsapp: string;
     menu: string;
     skip: string;
@@ -66,7 +85,8 @@ export interface SiteContent {
     banglaEnabled: boolean;
   };
   hero: {
-    eyebrow: string; heading: string; subheading: string; primaryCta: string;
+    /** Split on " / " into two lines. */
+    eyebrow: string; heading: string; tagline: string; subheading: string; primaryCta: string;
     whatsappLink: string; secondaryCta: string; secondaryHref: string;
     coreDescription: string; coreNodes: string[]; coreNodeDetails: string[]; coreCaption: string;
   };
@@ -81,19 +101,15 @@ export interface SiteContent {
     eyebrow: string;
     heading: string;
     intro: string;
-    websiteLane: {
-      label: string;
-      items: { title: string; description: string }[];
-      note: string;
-    };
-    aiLane: {
-      label: string;
-      tag: string;
-      items: { title: string; description: string }[];
-      note: string;
-      whatsappCta: string;
-      whatsappLink: string;
-    };
+    pillars: ServicePillar[];
+    labels: { problem: string; outputs: string; fit: string; engagement: string };
+    detailsCta: NavLink;
+    /** How custom (non-package) work is priced. No figures. */
+    customNote: string;
+    whatsappCta: string;
+    whatsappLink: string;
+    /** Published website packages: a separate, secondary offer. */
+    packages: { label: string; title: string; description: string; note: string; cta: NavLink };
   };
   whatYouGet: { heading: string; items: string[] };
   speedSlider: { label: string; before: string; after: string; aria: string };
@@ -109,7 +125,6 @@ export interface SiteContent {
     aiHeading: string;
     aiCards: { title: string; tag: string; price: string; description: string; cta: string; whatsappLink: string }[];
   };
-  earlyAccess: { heading: string; tag: string; items: string[]; text: string };
   work: {
     eyebrow: string;
     heading: string;
@@ -117,23 +132,22 @@ export interface SiteContent {
     honestyNote: string;
     cases: WorkCaseStudy[];
   };
-  about: { eyebrow: string; heading: string; text: string };
+  about: { eyebrow: string; heading: string; text: string; founders: Founder[] };
   contact: {
     eyebrow: string; heading: string; note: string; nameLabel: string; needLabel: string;
     submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
   };
   assistant: AssistantCopy;
-  footer: { text: string; ticker: string[] };
+  footer: { text: string; ticker: string[]; nav: NavLink[]; navLabel: string };
   studio: {
     introWordmark: string;
     introCue: string;
     railLabel: string;
   };
 }
-export const whatsappOrderLink = "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20a%20free%20website%20concept";
-export const whatsappAiLink =
-  "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20to%20talk%20about%20AI%20integrations%20or%20transformation.";
 export const whatsappLink = "https://wa.me/8801718463471";
+export const whatsappProjectLink =
+  "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20to%20discuss%20a%20project.";
 /** WhatsApp link with prefilled text naming a pricing tier or service. */
 export const whatsappFor = (topic: string) =>
   `https://wa.me/8801718463471?text=${encodeURIComponent(`Hi Hope Theory Labs, I'm interested in ${topic}.`)}`;

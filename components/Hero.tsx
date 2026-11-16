@@ -30,6 +30,7 @@ export function Hero() {
               <WordReveal text={words[1]} />
             </span>
           </h1>
+          <p className="hero-tagline">{content.hero.tagline}</p>
           <p className="hero-subheading">{content.hero.subheading}</p>
           <div className="hero-actions">
             <WhatsAppCta href={content.hero.whatsappLink} className="magnetic-cta">

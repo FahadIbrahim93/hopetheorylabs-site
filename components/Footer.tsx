@@ -25,6 +25,13 @@ export function Footer() {
   return (
     <footer ref={ref} className="site-footer">
       <p>{content.footer.text}</p>
+      <nav className="footer-nav" aria-label={content.footer.navLabel}>
+        {content.footer.nav.map((item) => (
+          <a key={item.href} href={item.href}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
       <nav className="footer-social" aria-label="Social">
         <a href="https://x.com/AgentHope__" className="social-link" target="_blank" rel="noopener noreferrer" aria-label="X @AgentHope__">
           X

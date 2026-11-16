@@ -6,7 +6,7 @@ import { PricingSection } from "@/components/PricingSection";
 export default function PricingPage() {
   return (
     <LanguageProvider>
-      <div className="site-shell">
+      <div className="site-shell standalone-route">
         <Header />
         <main id="main" tabIndex={-1}>
           <PricingSection />

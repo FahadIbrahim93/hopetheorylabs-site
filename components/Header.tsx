@@ -3,18 +3,29 @@
 import { useContent } from "./LanguageProvider";
 import { LanguageToggle } from "./LanguageToggle";
 import { WhatsAppCta } from "./WhatsAppCta";
+
+/*
+  Route-aware header: every href is root-relative (`/services`, `/#work`), so the
+  same links work from the homepage and from the dedicated routes.
+*/
 export function Header() {
   const content = useContent();
+  const { header } = content;
   return <header className="site-header">
-    <a href="#top" className="site-wordmark" aria-label="Hope Theory Labs — home">{content.header.wordmark}</a>
+    <a href={header.homeHref} className="site-wordmark" aria-label={`${header.wordmark} — home`}>{header.wordmark}</a>
     <nav className="desktop-nav" aria-label="Primary">
-      {content.header.nav.filter((item) => item.label !== "Contact").map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
+      {header.nav.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
       <LanguageToggle />
-      <a href="/contact" className="nav-contact">{content.header.nav.find((item) => item.label === "Contact")?.label ?? "Contact"}</a>
+      <a href={header.cta.href} className="nav-contact">{header.cta.label}</a>
     </nav>
     <details className="mobile-menu">
-      <summary aria-label={content.header.menu}><span></span><span></span></summary>
-      <nav aria-label="Mobile primary">{content.header.nav.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}<LanguageToggle /><WhatsAppCta href={content.hero.whatsappLink}>{content.header.whatsapp}</WhatsAppCta></nav>
+      <summary aria-label={header.menu}><span></span><span></span></summary>
+      <nav aria-label="Mobile primary">
+        {header.nav.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
+        <a href={header.cta.href} className="nav-contact">{header.cta.label}</a>
+        <LanguageToggle />
+        <WhatsAppCta href={content.hero.whatsappLink}>{header.whatsapp}</WhatsAppCta>
+      </nav>
     </details>
   </header>;
 }

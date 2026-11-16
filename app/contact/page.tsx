@@ -6,7 +6,7 @@ import { Contact } from "@/components/Contact";
 export default function ContactPage() {
   return (
     <LanguageProvider>
-      <div className="site-shell">
+      <div className="site-shell standalone-route">
         <Header />
         <main id="main" tabIndex={-1}>
           <Contact />

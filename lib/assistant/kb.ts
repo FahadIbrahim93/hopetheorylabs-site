@@ -13,8 +13,10 @@ export const EMAIL = en.contact.email;
 export const WHATSAPP = whatsappLink;
 export const WHATSAPP_DISPLAY = en.contact.phone.replace(/^WhatsApp\s+/, "");
 
-const website = en.services.websiteLane.items[0];
-const aiItems = en.services.aiLane.items;
+// Minimal wiring to the issue #44 content schema. The full assistant rewrite
+// (FDE, SME vs enterprise, discovery answers) is tracked in issue #47.
+const website = en.services.packages;
+const pillars = en.services.pillars;
 
 /** The approved package ladder, read straight from the pricing block. */
 export const PACKAGES = `${en.pricing.tiers
@@ -22,10 +24,10 @@ export const PACKAGES = `${en.pricing.tiers
   .join(", ")}. ${en.pricing.payment} ${en.pricing.founding}`;
 
 export const FACTS = {
-  studio: `${en.about.heading} ${en.about.text}`,
-  website: website ? `${website.title}: ${website.description}` : "",
-  aiWork: aiItems.map((item) => `${item.title}: ${item.description}`).join(" "),
-  earlyAccess: `${en.services.aiLane.tag} — ${aiItems.map((i) => i.title).join(", ")}. ${en.services.aiLane.note}`,
+  studio: `${en.about.heading} ${en.about.text} ${en.about.founder.name}: ${en.about.founder.role}.`,
+  website: `${website.title}: ${website.description} ${website.note}`,
+  services: pillars.map((item) => `${item.title}: ${item.summary}`).join(" "),
+  customQuote: en.services.customNote,
   founding: en.pricing.founding,
   pricing: en.pricing.intro,
   packages: PACKAGES,
@@ -46,8 +48,8 @@ export const FACTS_LINES: readonly string[] = [
   `Price: ${FACTS.pricing}`,
   `Packages: ${FACTS.packages}`,
   `Founding offer: ${FACTS.founding}`,
-  `AI work: ${FACTS.aiWork}`,
-  `AI status: ${FACTS.earlyAccess}`,
+  `Services: ${FACTS.services}`,
+  `Custom work pricing: ${FACTS.customQuote}`,
   `How we work: ${FACTS.steps}`,
   `Free concept: ${FACTS.concept}`,
   `The approach: ${FACTS.stages}`,
@@ -115,17 +117,17 @@ const RULES: Rule[] = [
   {
     id: "ai",
     test: /\bai\b|automation|automate|agent|assistant|chatbot|integration|transformation|অটোমেশন|এআই|ইন্টিগ্রেশন/i,
-    reply: `${FACTS.aiWork} ${FACTS.earlyAccess}`,
+    reply: `${FACTS.services} ${FACTS.customQuote}`,
   },
   {
     id: "process",
     test: /how (does|do) (it|you) work|process|steps|what happens|\bstart\b|getting started|timeline|how long|কীভাবে|কিভাবে|কতদিন|সময়|প্রসেস/i,
-    reply: `Four steps: ${en.howItWorks.steps.map((step) => step.label).join(" → ")}. ${en.howItWorks.steps.map((step) => step.description).join(" ")} Timing depends on scope, so we confirm it with you on WhatsApp.`,
+    reply: `${en.howItWorks.heading} ${en.howItWorks.steps.map((step) => step.label).join(" → ")}. ${en.howItWorks.steps.map((step) => step.description).join(" ")} Timing depends on scope, so we confirm it with you on WhatsApp.`,
   },
   {
     id: "team",
     test: /who are you|who is|team|about you|founder|company|কে|টিম|কোম্পানি|সম্পর্কে/i,
-    reply: `${en.about.heading} ${en.about.text}`,
+    reply: FACTS.studio,
   },
   {
     id: "website",

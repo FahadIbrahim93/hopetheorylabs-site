@@ -20,7 +20,7 @@ export const en: SiteContent = {
     banglaEnabled: false,
   },
   hero: {
-    eyebrow: "AI engineering · Custom software · Dhaka / global delivery",
+    eyebrow: "AI engineering · Custom software · Based in Dhaka, working with clients worldwide",
     heading: "We engineer software / that makes businesses smarter.",
     tagline: "Your data. Connected. Your business. Smarter.",
     subheading:
@@ -71,7 +71,7 @@ export const en: SiteContent = {
     eyebrow: "What we engineer",
     heading: "Five ways we work with you.",
     intro:
-      "Two founders stay on the work, from discovery to production. Outside specialists join only when a project needs them. Start with whichever of these fits the problem in front of you.",
+      "You work with the founder from discovery to production. Outside specialists join only when a project needs them. Start with whichever of these fits the problem in front of you.",
     pillars: [
       {
         slug: "forward-deployed-engineering",
@@ -289,11 +289,8 @@ export const en: SiteContent = {
   },
   about: {
     eyebrow: "About", heading: "Founder-led, from discovery to production.",
-    text: "Hope Theory Labs is an AI engineering and custom software studio in Dhaka, run by its two co-founders. The people you talk to are the people who build. We deploy software rather than build a large payroll, and bring in outside specialists only when a project needs them.",
-    founders: [
-      { name: "Fahad Ibrahim", role: "Co-founder · Engineering and technical delivery" },
-      { name: "Tamim Abir", role: "Co-founder · Commercial operations and client relationships" },
-    ],
+    text: "Hope Theory Labs is an AI engineering and custom software studio in Dhaka, founded and run by Fahad Ibrahim. The person you talk to is the person who builds. Outside specialists join only when a project needs them.",
+    founder: { name: "Fahad Ibrahim", role: "Founder · Engineering and technical delivery" },
   },
   contact: {
     eyebrow: "Contact", heading: "Begin the conversation.",

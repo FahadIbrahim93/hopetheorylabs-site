@@ -18,7 +18,7 @@ export const bn: SiteContent = {
     detailsCta: { ...en.services.detailsCta },
     packages: { ...en.services.packages, cta: { ...en.services.packages.cta } },
   },
-  about: { ...en.about, founders: en.about.founders.map((founder) => ({ ...founder })) },
+  about: { ...en.about, founder: { ...en.about.founder } },
   work: {
     ...en.work,
     cases: en.work.cases.map((c) => ({

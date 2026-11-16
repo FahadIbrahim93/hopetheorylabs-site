@@ -24,7 +24,7 @@ export const PACKAGES = `${en.pricing.tiers
   .join(", ")}. ${en.pricing.payment} ${en.pricing.founding}`;
 
 export const FACTS = {
-  studio: `${en.about.heading} ${en.about.text} ${en.about.founders.map((f) => `${f.name}: ${f.role}.`).join(" ")}`,
+  studio: `${en.about.heading} ${en.about.text} ${en.about.founder.name}: ${en.about.founder.role}.`,
   website: `${website.title}: ${website.description} ${website.note}`,
   services: pillars.map((item) => `${item.title}: ${item.summary}`).join(" "),
   customQuote: en.services.customNote,

@@ -132,7 +132,7 @@ export interface SiteContent {
     honestyNote: string;
     cases: WorkCaseStudy[];
   };
-  about: { eyebrow: string; heading: string; text: string; founders: Founder[] };
+  about: { eyebrow: string; heading: string; text: string; founder: Founder };
   contact: {
     eyebrow: string; heading: string; note: string; nameLabel: string; needLabel: string;
     submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;

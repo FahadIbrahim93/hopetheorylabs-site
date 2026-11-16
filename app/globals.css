@@ -382,6 +382,8 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
 .mobile-menu summary span { height:1px; width:100%; background:#eef0f2; }
 .mobile-menu nav { position:absolute; right:0; top:52px; width:240px; padding:16px; background:#0b0f14; border:1px solid #2a323d; display:grid; gap:8px; }
 .mobile-menu nav a { padding:10px; color:#eef0f2; text-decoration:none; }
+/* Keep the WhatsApp CTA's ink text and icon on the light pill. */
+.mobile-menu nav a.cta { color:#07090c; justify-content:center; }
 .hero-section { min-height:100svh; position:relative; display:flex; align-items:center; overflow:hidden; padding:128px clamp(24px,6vw,96px) 70px; border-bottom:1px solid var(--site-line); }
 .hero-fallback { position:absolute; inset:0; background:radial-gradient(ellipse at 76% 42%, #0f1b2d 0, #07090c 56%); pointer-events:none; }
 .hero-section > canvas { position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
@@ -579,6 +581,8 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
 .services-packages { max-width:640px; margin-top:56px; }
 .services-page { align-items:flex-start; padding-top:148px; }
 .services-page > .section-marker { top:96px; }
+/* Dedicated routes start under the fixed header; keep HTL markers below the CTA / hamburger. */
+.standalone-route .section-marker { top:96px; }
 /* Long standalone page: render eagerly so the 480px intrinsic-size placeholder doesn't shift the footer (CLS). */
 .services-page { content-visibility:visible; contain-intrinsic-size:none; }
 .services-page-inner { width:100%; max-width:1100px; margin:0 auto; }
@@ -591,10 +595,10 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
 .services-detail-grid dt { color:#8b95a3; font:400 11px var(--font-jetbrains-mono),monospace; letter-spacing:.14em; text-transform:uppercase; }
 .services-detail-grid dd { margin:8px 0 0; color:#a3acb8; font-size:15px; line-height:1.6; }
 .services-detail-grid ul { margin:0; padding-left:18px; }
-.about-founders { list-style:none; margin:32px 0 0; padding:0; max-width:640px; border-top:1px solid var(--site-line); }
-.about-founders li { display:grid; grid-template-columns:minmax(140px,.6fr) minmax(0,1.4fr); gap:18px; padding:16px 0; border-bottom:1px solid var(--site-line); }
-.about-founders b { color:#eef0f2; font-weight:500; font-size:18px; }
-.about-founders span { color:#a3acb8; font-size:15px; line-height:1.5; }
+.about-founder { list-style:none; margin:32px 0 0; padding:0; max-width:640px; border-top:1px solid var(--site-line); }
+.about-founder li { display:grid; grid-template-columns:minmax(140px,.6fr) minmax(0,1.4fr); gap:18px; padding:16px 0; border-bottom:1px solid var(--site-line); }
+.about-founder b { color:#eef0f2; font-weight:500; font-size:18px; }
+.about-founder span { color:#a3acb8; font-size:15px; line-height:1.5; }
 .footer-nav { display:flex; flex-wrap:wrap; gap:4px 18px; }
 .footer-nav a { display:inline-flex; align-items:center; min-height:44px; color:#a3acb8; text-decoration:none; }
 .footer-nav a:hover, .footer-nav a:focus-visible { color:#eef0f2; }
@@ -665,7 +669,7 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
   .services-pillar { grid-template-columns:30px minmax(0,1fr); gap:6px 14px; }
   .services-pillar > span:last-child { grid-column:2; }
   .services-page { padding-top:120px; }
-  .about-founders li { grid-template-columns:1fr; gap:4px; }
+  .about-founder li { grid-template-columns:1fr; gap:4px; }
   .work-section { justify-content:flex-start; gap:38px; }
   .phone-mockup { margin:0 auto; }
   .contact-section { padding-bottom:140px; }
@@ -742,3 +746,19 @@ html.nogl .hero-visual-static { display:flex; }
 /* State readout now lives inside the narrative rail (not floating over content). */
 .narrative-rail { transition:opacity 300ms var(--ease-signature), visibility 300ms; }
 html.footer-in-view .narrative-rail { opacity:0; visibility:hidden; pointer-events:none; }
+
+/* Keep body copy clear of the fixed assistant + WhatsApp buttons on small screens. */
+@media (max-width: 860px) {
+  .hero-section,
+  .story-section,
+  .flow-section,
+  .how-section,
+  .services-section,
+  .work-section,
+  .about-section,
+  .contact-section,
+  .pricing-section {
+    padding-right: 80px;
+  }
+  .site-footer { padding-right: 80px; }
+}

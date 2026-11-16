@@ -12,13 +12,11 @@ export function About() {
         <p className="eyebrow">{content.about.eyebrow}</p>
         <h2 id="about-heading">{content.about.heading}</h2>
         <p>{content.about.text}</p>
-        <ul className="about-founders" role="list">
-          {content.about.founders.map((founder) => (
-            <li key={founder.name}>
-              <b>{founder.name}</b>
-              <span>{founder.role}</span>
-            </li>
-          ))}
+        <ul className="about-founder" role="list">
+          <li>
+            <b>{content.about.founder.name}</b>
+            <span>{content.about.founder.role}</span>
+          </li>
         </ul>
       </div>
     </section>

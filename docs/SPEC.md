@@ -21,7 +21,7 @@ One responsive, accessible marketing site. Do not iframe the source HTML. Copy, 
 
 ## Visual system
 
-- Palette and typography as in `docs/BRAND.md`: page background is near-black `#07090C`; navy `#0F1B2D` is for cards, panels, pricing and the theme colour only; gold `#B8892F` is the accent (dark gold `#8A6420` on light). Fonts are Instrument Sans and Newsreader.
+- Palette and typography as in `docs/BRAND.md`.
 - Hero headline unchanged: “Your data. Connected. / Your business. Smarter.”
 - Eight flow sources: **Productivity, CRM, Databases, Files, Apps, APIs, Systems, People** with captions in `hero.coreNodeDetails` (kinds of data, not client integrations).
 - Intro overlay (brand + line), grain + vignette, custom cursor (mouse only), magnetic hero CTA, header blur on scroll.

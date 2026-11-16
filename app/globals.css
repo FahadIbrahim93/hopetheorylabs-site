@@ -161,6 +161,25 @@ html.js .reveal.reveal-in {
   outline-offset: 2px;
 }
 
+/*
+  Windows high-contrast / forced colours replaces the palette, so the gold
+  accents disappear. Keep the ring and every control boundary visible.
+*/
+@media (forced-colors: active) {
+  :focus-visible { outline: 2px solid Highlight; }
+  .site-wordmark::after,
+  .narrative-rail-dot,
+  .pricing-features li::before,
+  .legend-item.is-active i { background: CanvasText; }
+  .contact-form input,
+  .contact-form textarea,
+  .mobile-menu summary,
+  .nav-contact,
+  .legend-item,
+  .pricing-card,
+  .pricing-badge { border-color: CanvasText; }
+}
+
 /* Custom mobile-menu marker: we draw our own icon inside the <summary>. */
 summary::-webkit-details-marker {
   display: none;
@@ -243,7 +262,8 @@ body { background: var(--color-ink); color: var(--color-paper); font-family: var
   .site-header.is-scrolled { background: rgb(7 9 12 / 92%); }
 }
 .scene-copy { text-shadow: 0 0 28px var(--color-ink), 0 0 10px var(--color-ink); }
-html.nogl body { background: radial-gradient(ellipse at 70% 40%, #0f1b2d 0, #07090c 60%); }
+/* Navy is a surface, never the page: the fallback glow lives on .hero-fallback. */
+html.nogl body { background: var(--color-ink); }
 html.nogl .flow-label-layer, html.nogl .state-hud { display: none; }
 /*
   Film grain + vignette — procedural SVG turbulence (no external CDN/assets).
@@ -300,8 +320,8 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
   display:none;
   width:132px;
   color:#8b95a3;
-  font:400 9px var(--font-mono),monospace;
-  letter-spacing:1.5px;
+  font:400 10px var(--font-mono),monospace;
+  letter-spacing:1.2px;
   text-transform:uppercase;
 }
 .narrative-rail-label { display:block; margin-bottom:10px; color:var(--color-slate); }
@@ -341,7 +361,7 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
   border-color:var(--color-gold);
   background:var(--color-gold);
 }
-.narrative-rail-name { font-size:8px; letter-spacing:1.2px; line-height:1.3; }
+.narrative-rail-name { font-size:10px; letter-spacing:.6px; line-height:1.3; }
 /* Only where the side gutter is wide enough that the rail never sits over content. */
 @media (min-width: 1600px) {
   .narrative-rail { display:block; }
@@ -450,7 +470,6 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
 .work-deliverables li { margin-bottom:6px; }
 .work-copy { max-width:530px; flex:1 1 360px; }
 .work-copy .text-link { margin-top:4px; }
-.story-section, .flow-section, .how-section, .services-section, .work-section, .about-section, .contact-section { content-visibility:auto; contain-intrinsic-size:auto 480px; }
 .work-visual { position:relative; flex:none; }
 .scene-slot.work-visual-slot { position:absolute; inset:-120px -140px; width:auto; }
 .game-preview { flex:none; display:flex; flex-direction:column; align-items:center; gap:16px; max-width:min(100%,420px); }
@@ -566,8 +585,6 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
 .services-page > .section-marker { top:96px; }
 /* Dedicated routes start under the fixed header; keep HTL markers below the CTA / hamburger. */
 .standalone-route .section-marker { top:96px; }
-/* Long standalone page: render eagerly so the 480px intrinsic-size placeholder doesn't shift the footer (CLS). */
-.services-page { content-visibility:visible; contain-intrinsic-size:none; }
 .services-page-inner { width:100%; max-width:1100px; margin:0 auto; }
 .services-page-inner h1 { margin:0; font-family:var(--font-heading); font-size:clamp(42px,5.4vw,80px); line-height:1.02; font-weight:400; letter-spacing:-.035em; }
 .services-detail-list { list-style:none; margin:48px 0 32px; padding:0; border-top:1px solid var(--site-line); }
@@ -680,7 +697,7 @@ html.nogl .hero-visual-static { display:flex; }
 }
 
 /* Services & Pricing (brand navy #0F1B2D, gold #B8892F) */
-.pricing-section { position:relative; content-visibility:auto; contain-intrinsic-size:auto 1600px; display:block; padding:clamp(72px,10vw,120px) clamp(16px,5vw,64px); }
+.pricing-section { position:relative; display:block; padding:clamp(72px,10vw,120px) clamp(16px,5vw,64px); }
 .pricing-inner { max-width:1040px; margin:0 auto; }
 .pricing-inner h1, .pricing-inner h2 { margin:0; font-family:var(--font-heading); font-size:clamp(34px,9vw,64px); line-height:1.05; font-weight:400; letter-spacing:-.03em; color:#fff; }
 .pricing-intro { max-width:640px; margin:16px 0 0; color:#c3cad3; font-size:16px; line-height:1.6; }

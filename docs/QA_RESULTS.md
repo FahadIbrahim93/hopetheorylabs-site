@@ -54,8 +54,8 @@ Tooling: `npm run perf:first-load`, `node scripts/run-lighthouse-mobile.mjs` (Li
 
 ### i18n
 
-- [x] `header.banglaEnabled: false` — toggle hidden
-- [ ] Bangla review by Fahad before enable
+- [x] No language toggle ships; the half-built Bangla toggle, `content/bn.ts` and the unloaded Bangla webfont token were removed
+- [ ] Translation deferred until a real `content/bn.ts` exists and Fahad has reviewed it
 
 ### SEO and meta
 
@@ -65,6 +65,12 @@ Tooling: `npm run perf:first-load`, `node scripts/run-lighthouse-mobile.mjs` (Li
 
 - [ ] Spot-check **360 / 768 / 1280 / 1920** px on Vercel preview (Chromium automated partial only)
 - [ ] Safari / Firefox real devices — **not verified**
+
+## Automated accessibility gate — added with the #50 follow-up
+
+- `npm run test:e2e` (Playwright + axe, desktop and mobile) checks every route against WCAG 2.2 A/AA, one `h1` per route, and no sideways scroll at 390px. It runs in CI on every pull request; evidence frames are produced locally by `npm run evidence` and are no longer committed.
+- Lighthouse CI (`.lighthouserc.json`) asserts `color-contrast` and an accessibility score of at least 0.95 against the static export on every pull request.
+- These suites were **not executed in the agent VM** (the container cannot install Chrome's system libraries). The first CI run is the verification; treat the older local Lighthouse numbers below as historical.
 
 ## Launch gates — status
 

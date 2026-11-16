@@ -11,6 +11,10 @@
 !.yarn/versions
 
 # testing
+/playwright-report/
+/test-results/
+/.lighthouseci/
+docs/screenshots/local/
 /coverage
 
 # next.js

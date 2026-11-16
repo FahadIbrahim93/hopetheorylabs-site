@@ -29,7 +29,7 @@ export function Contact({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   }
 
   return (
-    <section id="contact" className="contact-section border-b border-paper/10" aria-labelledby="contact-heading">
+    <section id="contact" className="contact-section border-b border-body/10" aria-labelledby="contact-heading">
       <SectionMarker index="009" />
       <div className="contact-grid contact-grid-html">
         <div className="contact-intro scene-copy">

@@ -10,7 +10,7 @@ export function FeatureGrid() {
   return (
     <section
       id="services"
-      className="services-section services-section-html border-b border-paper/10"
+      className="services-section services-section-html border-b border-body/10"
       aria-labelledby="services-heading"
     >
       <SectionMarker index="006" />

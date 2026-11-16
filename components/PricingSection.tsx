@@ -12,7 +12,7 @@ export function PricingSection({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const CardHeading = (headingLevel === 1 ? "h3" : "h4") as "h3" | "h4";
 
   return (
-    <section id="pricing" className="pricing-section border-b border-paper/10" aria-labelledby="pricing-heading">
+    <section id="pricing" className="pricing-section border-b border-body/10" aria-labelledby="pricing-heading">
       <SectionMarker index="006B" />
       <div className="pricing-inner">
         <p className="eyebrow">{pricing.eyebrow}</p>

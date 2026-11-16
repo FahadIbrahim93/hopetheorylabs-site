@@ -58,7 +58,7 @@ export function WorkSection() {
   const { work } = useContent();
 
   return (
-    <section id="work" className="work-section work-section-proof border-b border-paper/10" aria-labelledby="work-heading">
+    <section id="work" className="work-section work-section-proof border-b border-body/10" aria-labelledby="work-heading">
       <SectionMarker index="007" />
       <div className="work-proof-intro scene-copy">
         <p className="eyebrow">{work.eyebrow}</p>

@@ -4,7 +4,7 @@ import { useContent } from "./ContentProvider";
 export function LivingFlow() {
   const { story } = useContent();
   return (
-    <section id="flow" className="flow-section flow-section-html border-b border-paper/10" aria-labelledby="flow-heading">
+    <section id="flow" className="flow-section flow-section-html border-b border-body/10" aria-labelledby="flow-heading">
       <SectionMarker index="004" />
       <div className="flow-inner flow-inner-html">
         <div className="flow-copy scene-copy">

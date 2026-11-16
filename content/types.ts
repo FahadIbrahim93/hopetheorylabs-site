@@ -16,7 +16,7 @@ export interface AssistantCopy {
   };
 }
 
-export type WorkCaseTag = "Concept" | "Shipped" | "In progress";
+export type WorkCaseTag = "Concept" | "Shipped" | "In progress" | "Internal";
 
 export interface WorkCaseStudy {
   slug: string;
@@ -24,6 +24,9 @@ export interface WorkCaseStudy {
   tag: WorkCaseTag;
   discipline: "Website" | "Browser game" | "AI integration" | "AI transformation";
   summary: string;
+  /** Issue #46: the problem and what the build demonstrates, in plain words. */
+  problem?: string;
+  demonstrates?: string;
   /** Factual deliverables only — no invented metrics or client logos. */
   deliverables: string[];
   link?: { href: string; label: string };
@@ -127,6 +130,7 @@ export interface SiteContent {
     heading: string;
     intro: string;
     honestyNote: string;
+    labels: { problem: string; demonstrates: string };
     cases: WorkCaseStudy[];
   };
   about: { eyebrow: string; heading: string; text: string; founder: Founder };

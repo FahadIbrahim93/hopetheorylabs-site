@@ -228,6 +228,7 @@ export const en: SiteContent = {
     intro:
       "We build a free website concept before you pay. Case studies below say whether work is a concept pitch, in progress, or shipped — including studio games and sites we ship ourselves. No client logos, reviews, or made-up numbers.",
     honestyNote: "Ask us on WhatsApp if you want permission details for a concept built from a real catalog.",
+    labels: { problem: "The problem", demonstrates: "What it demonstrates" },
     cases: [
       {
         slug: "rollers-republic",
@@ -236,6 +237,10 @@ export const en: SiteContent = {
         discipline: "Website",
         summary:
           "Concept storefront for a Dhaka headshop, built from their catalog. Try ordering on your phone; if it fits, we deploy on your domain with WhatsApp and cash on delivery.",
+        problem:
+          "The catalogue lives in social posts and DMs, so ordering depends on someone answering the phone.",
+        demonstrates:
+          "A concept pitched on the shop's public catalogue, with WhatsApp ordering and cash on delivery. No client relationship is implied.",
         deliverables: [
           "Mobile catalog and add-to-cart flow",
           "Prefilled WhatsApp order message",
@@ -256,6 +261,10 @@ export const en: SiteContent = {
         discipline: "Browser game",
         summary:
           "Free arcade space shooter in the browser — canvas, procedural art and audio, installable PWA with offline play after the first visit.",
+        problem:
+          "A studio that sells engineering work needs shipped software to point at, not a slide.",
+        demonstrates:
+          "End-to-end delivery of a browser game: gameplay, procedural art and audio, installable PWA. It is a studio game, not an enterprise AI deployment.",
         deliverables: [
           "Vanilla JavaScript on HTML5 canvas (no framework or bundler)",
           "Multiple modes, ships, and accessibility options (touch, gamepad, reduced motion)",
@@ -273,10 +282,14 @@ export const en: SiteContent = {
       {
         slug: "hope-theory-labs-site",
         title: "Hope Theory Labs",
-        tag: "Shipped",
+        tag: "Internal",
         discipline: "Website",
         summary:
           "This marketing site — static export, accessible fallbacks, WebGL intelligence scene on capable desktops only.",
+        problem:
+          "The studio's own site has to demonstrate the work it sells, on the devices buyers actually use.",
+        demonstrates:
+          "A static export with accessible fallbacks, a WebGL scene on capable desktops only, and reduced-motion support. Internal build, shipped by the studio.",
         deliverables: [
           "Static Next.js export on Vercel",
           "WhatsApp-first contact and founding pricing in copy",

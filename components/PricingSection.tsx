@@ -19,6 +19,7 @@ export function PricingSection({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         <Heading id="pricing-heading">{pricing.heading}</Heading>
         <p className="pricing-intro">{pricing.intro}</p>
 
+        <p className="pricing-packages-label">{pricing.packagesLabel}</p>
         <ul className="pricing-tiers" role="list">
           {pricing.tiers.map((tier) => {
             const id = `tier-${tier.name.toLowerCase()}`;
@@ -60,6 +61,7 @@ export function PricingSection({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
             </li>
           ))}
         </ul>
+        <p className="pricing-lane-note">{pricing.customNote}</p>
       </div>
     </section>
   );

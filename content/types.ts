@@ -117,6 +117,8 @@ export interface SiteContent {
     eyebrow: string;
     heading: string;
     intro: string;
+    packagesLabel: string;
+    customNote: string;
     tiers: PricingTier[];
     founding: string;
     payment: string;
@@ -134,8 +136,18 @@ export interface SiteContent {
     cases: WorkCaseStudy[];
   };
   about: { eyebrow: string; heading: string; text: string; founder: Founder };
-  contact: {
-    eyebrow: string; heading: string; note: string; nameLabel: string; needLabel: string;
+    contact: {
+    eyebrow: string;
+    heading: string;
+    note: string;
+    nameLabel: string;
+    typeLabel: string;
+    typeOptions: string[];
+    objectiveLabel: string;
+    timeframeLabel: string;
+    timeframeOptions: string[];
+    replyLabel: string;
+    replyOptions: string[];
     submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
   };
   assistant: AssistantCopy;

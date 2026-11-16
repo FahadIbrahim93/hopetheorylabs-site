@@ -162,8 +162,11 @@ export const en: SiteContent = {
   },
   pricing: {
     eyebrow: "Services & Pricing",
-    heading: "Clear, fixed prices in taka.",
-    intro: "No monthly fee from us. Domain and hosting stay in your name.",
+    heading: "Standard website packages, fixed in taka.",
+    intro: "No monthly fee from us. Domain and hosting stay in your name. Custom software and AI work is scoped after discovery, not sold at a published fee.",
+    packagesLabel: "Standard website packages",
+    customNote:
+      "Custom software, forward-deployed engineering and AI work is scoped after discovery and quoted per project. Paid discovery only when agreed.",
     tiers: [
       {
         name: "Starter", subtitle: "One-page website", price: "৳10,000",
@@ -208,7 +211,7 @@ export const en: SiteContent = {
       { label: "Domain and hosting, set up at cost, in your name", price: "At cost" },
       { label: "Monthly care (updates, backups, fixes)", price: "Ask us" },
     ],
-    aiHeading: "AI services",
+    aiHeading: "AI services · quoted after discovery",
     aiCards: [
       {
         title: "AI Audit", tag: "Early access", price: "Ask us",
@@ -305,8 +308,23 @@ export const en: SiteContent = {
   },
   contact: {
     eyebrow: "Contact", heading: "Begin the conversation.",
-    note: "Tell us about your business and we'll reply on WhatsApp whenever suits you.",
-    nameLabel: "Your name", needLabel: "What do you need?", submit: "Send on WhatsApp",
+    note: "Tell us what you're working on and we'll reply on WhatsApp whenever suits you.",
+    nameLabel: "Your name",
+    typeLabel: "What kind of work?",
+    typeOptions: [
+      "Forward-deployed engineering",
+      "Custom web or mobile software",
+      "AI integration or automation",
+      "Enterprise systems or data",
+      "A website package",
+      "Not sure yet",
+    ],
+    objectiveLabel: "What should it achieve?",
+    timeframeLabel: "When do you want to start?",
+    timeframeOptions: ["As soon as possible", "In 1–3 months", "In 3–6 months", "Still exploring"],
+    replyLabel: "Where should we reply?",
+    replyOptions: ["WhatsApp", "Email"],
+    submit: "Send on WhatsApp",
     phone: "WhatsApp 01718463471", phoneHref: whatsappLink, email: "hopetheorybd@gmail.com",
     whatsappCta: "Message us on WhatsApp",
   },

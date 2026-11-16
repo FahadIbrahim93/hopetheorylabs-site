@@ -2,7 +2,7 @@
 
 import { SectionMarker } from "./SectionMarker";
 import { WhatsAppCta } from "./WhatsAppCta";
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 export function PricingSection({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const { pricing } = useContent();

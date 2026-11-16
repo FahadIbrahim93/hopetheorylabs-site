@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 import { StateHud } from "./StateHud";
 
 const SECTIONS = [

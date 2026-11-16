@@ -2,7 +2,7 @@
 
 import type { PointerEvent } from "react";
 
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 /*
   Hope Theory Labs intelligence core — static layer.

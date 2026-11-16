@@ -1,11 +1,11 @@
 "use client";
 
-import { LanguageProvider } from "@/components/LanguageProvider";
+import { ContentProvider } from "@/components/ContentProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SectionMarker } from "@/components/SectionMarker";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
-import { useContent } from "@/components/LanguageProvider";
+import { useContent } from "@/components/ContentProvider";
 
 function ServicesContent() {
   const content = useContent();
@@ -74,7 +74,7 @@ function ServicesContent() {
 
 export default function ServicesPage() {
   return (
-    <LanguageProvider>
+    <ContentProvider>
       <div className="site-shell standalone-route">
         <Header />
         <main id="main" tabIndex={-1}>
@@ -82,6 +82,6 @@ export default function ServicesPage() {
         </main>
         <Footer />
       </div>
-    </LanguageProvider>
+    </ContentProvider>
   );
 }

@@ -1,7 +1,7 @@
 import type { WorkCaseStudy } from "@/content/types";
 
 import { SectionMarker } from "./SectionMarker";
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 function GamePreview({
   imageSrc,

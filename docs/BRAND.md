@@ -23,7 +23,7 @@ The fonts actually loaded on the site, and the pair to use going forward:
 - **Headings:** Newsreader (editorial serif), including the hero heading.
 - **Body and UI:** Instrument Sans.
 - **Mono labels:** the system monospace stack (`ui-monospace`, SFMono-Regular, Menlo, Consolas) — no mono webfont.
-- **Bangla:** Hind Siliguri 400/600.
+- **Bangla:** not shipped. The language toggle and its webfont were removed until the copy is translated and reviewed; do not add a Bangla webfont without the copy.
 
 Do not load or document Inter or Space Grotesk. Load the weights the CSS actually uses, rather than relying on a synthetic bold.
 

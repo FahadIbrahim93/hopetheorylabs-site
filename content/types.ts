@@ -1,6 +1,6 @@
 /*
- * Shared content contract for the English and Bangla site copy.
- * Keep all user-facing copy in content/en.ts and content/bn.ts.
+ * Shared content contract for the site copy.
+ * Keep all user-facing copy in content/en.ts.
  */
 export interface NavLink { label: string; href: string }
 
@@ -80,9 +80,6 @@ export interface SiteContent {
     whatsapp: string;
     menu: string;
     skip: string;
-    language: string;
-    /** When false, the Bangla toggle is hidden until copy is reviewed (docs/QA.md). */
-    banglaEnabled: boolean;
   };
   hero: {
     /** Split on " / " into two lines. */

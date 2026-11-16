@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { experienceActions } from "./experience/store";
 import { SectionMarker } from "./SectionMarker";
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 export function HowItWorksTimeline() {
   const content = useContent();

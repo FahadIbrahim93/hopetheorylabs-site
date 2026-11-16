@@ -1,7 +1,7 @@
 "use client";
 
 import { SectionMarker } from "./SectionMarker";
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 export function About({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const content = useContent();

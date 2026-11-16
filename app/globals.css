@@ -15,7 +15,6 @@
   --font-sans: var(--font-instrument-sans), system-ui, sans-serif;
   --font-heading: var(--font-newsreader), Georgia, serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  --font-bangla: var(--font-hind-siliguri), system-ui, sans-serif;
 }
 
 /* Non-Tailwind tokens used by hand-written rules. */
@@ -34,17 +33,6 @@
   html {
     scroll-behavior: smooth;
   }
-}
-
-/*
-  When Bangla is active (issue #3: data-lang on the shell root), Latin
-  display/body fonts switch to Hind Siliguri — Space Grotesk and Inter have
-  no Bengali script coverage. Overriding the theme variables keeps the
-  font-heading/font-sans utilities untouched.
-*/
-[data-lang="bn"] {
-  --font-sans: var(--font-hind-siliguri), ui-sans-serif, sans-serif;
-  --font-heading: var(--font-hind-siliguri), ui-sans-serif, sans-serif;
 }
 
 /*

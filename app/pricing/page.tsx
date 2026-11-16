@@ -1,11 +1,11 @@
-import { LanguageProvider } from "@/components/LanguageProvider";
+import { ContentProvider } from "@/components/ContentProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PricingSection } from "@/components/PricingSection";
 
 export default function PricingPage() {
   return (
-    <LanguageProvider>
+    <ContentProvider>
       <div className="site-shell standalone-route">
         <Header />
         <main id="main" tabIndex={-1}>
@@ -13,6 +13,6 @@ export default function PricingPage() {
         </main>
         <Footer />
       </div>
-    </LanguageProvider>
+    </ContentProvider>
   );
 }

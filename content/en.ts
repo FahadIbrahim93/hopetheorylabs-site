@@ -16,8 +16,6 @@ export const en: SiteContent = {
     whatsapp: "WhatsApp",
     menu: "Menu",
     skip: "Skip to content",
-    language: "Site language",
-    banglaEnabled: false,
   },
   hero: {
     eyebrow: "AI engineering · Custom software · Based in Dhaka, working with clients worldwide",

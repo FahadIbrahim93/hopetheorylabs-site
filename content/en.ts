@@ -1,16 +1,18 @@
 import type { SiteContent } from "./types";
-import { whatsappAiLink, whatsappFor, whatsappLink, whatsappOrderLink } from "./types";
+import { whatsappFor, whatsappLink, whatsappProjectLink } from "./types";
 
 export const en: SiteContent = {
   header: {
     wordmark: "Hope Theory Labs",
+    homeHref: "/",
     nav: [
-      { label: "Approach", href: "#method" },
       { label: "Services", href: "/services" },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Work", href: "#work" },
+      { label: "Approach", href: "/#how" },
+      { label: "Work", href: "/#work" },
+      { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
+    cta: { label: "Discuss a project", href: "/contact" },
     whatsapp: "WhatsApp",
     menu: "Menu",
     skip: "Skip to content",
@@ -18,12 +20,13 @@ export const en: SiteContent = {
     banglaEnabled: false,
   },
   hero: {
-    eyebrow: "Dhaka · Websites from ৳10,000 · WhatsApp orders",
-    heading: "Your data. Connected. / Your business. Smarter.",
+    eyebrow: "AI engineering · Custom software · Based in Dhaka, working with clients worldwide",
+    heading: "We engineer software / that makes businesses smarter.",
+    tagline: "Your data. Connected. Your business. Smarter.",
     subheading:
-      "Fast, mobile-first sites for shops and service businesses — orders on WhatsApp, cash on delivery, fixed prices in taka. Start with a free concept on your phone. AI and connected data is a separate, early-access conversation when you are ready.",
-    primaryCta: "Message us on WhatsApp", whatsappLink: whatsappOrderLink,
-    secondaryCta: "See packages", secondaryHref: "#pricing",
+      "Hope Theory Labs builds custom web and mobile applications, integrates AI into existing workflows, and works directly with teams to turn complex business problems into software that runs in production.",
+    primaryCta: "Discuss your project", whatsappLink: whatsappProjectLink,
+    secondaryCta: "Explore our work", secondaryHref: "/#work",
     coreDescription: "An animated intelligence core connects websites, CRM, databases, files, apps, APIs, systems and people.",
     coreNodes: ["Productivity", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],
     coreNodeDetails: [
@@ -39,12 +42,12 @@ export const en: SiteContent = {
     coreCaption: "Connected intelligence · Hope Theory Labs",
   },
   story: {
-    methodEyebrow: "Stage I", methodHeading: "The digital self.",
-    methodText: "Before a company can think, it has to be legible. We rebuild your site, brand, systems and records into one clean, professional presence.",
+    methodEyebrow: "Stage I · Optional", methodHeading: "A digital foundation.",
+    methodText: "Some businesses start here: a clean site, tidy records and systems that represent them properly. If you already have that, skip ahead. It is one path, not a ticket you must buy first.",
     shiftEyebrow: "Stage II", shiftHeading: "The shift to intelligence.",
     shiftText:
-      "Stage II is the long game: one record across email, chat, spreadsheets and your storefront, with an assistant on top. Most clients start with Stage I; we only open Stage II with businesses that already have a clear digital self.",
-    shiftCta: "Compare both paths",
+      "Connected systems, then intelligent workflows: one record across email, chat, spreadsheets and the tools you already run, with AI working inside them and your team approving what matters. We start wherever the problem is.",
+    shiftCta: "See what we engineer",
     flowEyebrow: "The living platform", flowHeading: "Everything you run, in one living flow.",
     flowText: "Eight kinds of source feed one connected record. Signals travel from each source into the core, and answers travel back out to the people and tools that need them.",
     flowHint: "Select a source to trace its connection.",
@@ -55,46 +58,100 @@ export const en: SiteContent = {
     ],
   },
   howItWorks: {
-    eyebrow: "How it works", heading: "Four steps, in plain order.",
+    eyebrow: "How we work", heading: "Five steps, in plain order.",
     steps: [
-      { label: "Map", description: "We list every place your business keeps information: email, chat, spreadsheets, accounting, your storefront." },
-      { label: "Digital self", description: "We build the website and clean records that represent you properly, online and inside your own systems." },
-      { label: "Connect", description: "We pull those sources into one record, so there is one place to ask and one version of the truth." },
-      { label: "Act", description: "We add an assistant on top that answers questions across it and handles routine work, with your team approving what matters." },
+      { label: "Discover", description: "We sit with your team and map the workflow: where information lives, where work stalls, and what a better outcome looks like." },
+      { label: "Scope", description: "We agree what to build first, what it should change and what is out of scope, in writing, before the build starts." },
+      { label: "Prototype", description: "We build a working version against your real tools and data, so you can judge it in use instead of on slides." },
+      { label: "Deploy", description: "We integrate it with your systems, put it into production with your team approving what matters, and hand over how it works." },
+      { label: "Improve", description: "We watch how it is used, fix what needs fixing, and improve it under a written scope if you want ongoing support." },
     ],
   },
   services: {
-    eyebrow: "What we build",
-    heading: "Two paths. Start where you are.",
+    eyebrow: "What we engineer",
+    heading: "Five ways we work with you.",
     intro:
-      "Need orders on WhatsApp this month? Start with a website. Curious about agents and connected data? That's a separate conversation — we'll tell you honestly if we're the right fit.",
-    websiteLane: {
-      label: "Start here · Available now",
-      items: [
-        {
-          title: "Websites",
-          description:
-            "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳10,000 — see pricing below. Founding clients get the Counter for ৳15,000 with a short review and permission to show the site.",
-        },
-      ],
-      note: "We build a free concept first. You try it on your phone; if you like it, we set it up on your domain.",
-    },
-    aiLane: {
-      label: "Roadmap · Early access",
-      tag: "Early access",
-      items: [
-        {
-          title: "AI integrations",
-          description: "Agents and automations wired into the tools you already run — scoped after we understand your stack.",
-        },
-        {
-          title: "AI transformation",
-          description: "Digital self first, then one living intelligence across your data sources. Founding partners only while we refine the offer.",
-        },
-      ],
-      note: "No public pricing yet. We don't sell AI retainers from this page — message us with the workflow you want to fix.",
-      whatsappCta: "Ask about AI on WhatsApp",
-      whatsappLink: whatsappAiLink,
+      "You work with the founder from discovery to production. Outside specialists join only when a project needs them. Start with whichever of these fits the problem in front of you.",
+    pillars: [
+      {
+        slug: "forward-deployed-engineering",
+        title: "Forward-deployed engineering",
+        summary: "Engineers work alongside your team, inside your workflow, from discovery to production and handoff.",
+        problem: "The problem is inside how your team works, and a brief sent to an outside agency would miss most of it.",
+        outputs: [
+          "Workflow map and written scope",
+          "Working proof of value on your real tools",
+          "Integration, production deployment and handoff",
+        ],
+        fit: "Teams with a specific operational problem who want builders in the room, not advice alone.",
+        engagement: "Scoped per project. Time on site depends on the project; it is not a full-time resident team.",
+      },
+      {
+        slug: "custom-software",
+        title: "Custom web and mobile software",
+        summary: "Websites, apps, e-commerce, SaaS, portals, APIs and internal tools, built to fit how you run.",
+        problem: "Off-the-shelf software doesn't fit, or the tool you have has outgrown the business.",
+        outputs: [
+          "Web and mobile applications",
+          "Customer portals, e-commerce and SaaS products",
+          "APIs and internal tools",
+        ],
+        fit: "Startups, small businesses and growing companies that need software built for their process.",
+        engagement: "Fixed-scope projects or milestone-based builds.",
+      },
+      {
+        slug: "ai-integration",
+        title: "AI integration and automation",
+        summary: "LLM applications, answers grounded in your own documents, agents and document workflows, with human approval built in.",
+        problem: "Your team repeats manual work across documents, inboxes and tools, and generic chatbots don't know your business.",
+        outputs: [
+          "LLM applications and assistants grounded in your own material",
+          "Agents and document workflows with human approval steps",
+          "Evaluations and controls, so you can see what the system does",
+        ],
+        fit: "Teams with repetitive, document-heavy or knowledge-heavy work.",
+        engagement: "Scoped after discovery. No published fee.",
+      },
+      {
+        slug: "enterprise-systems-data",
+        title: "Enterprise systems and data",
+        summary: "Integrations between the tools you already run, CRM and ERP interfaces, data pipelines and dashboards.",
+        problem: "Data sits in disconnected systems, so reports are manual and nobody trusts one version of the numbers.",
+        outputs: [
+          "Integrations between existing and legacy tools",
+          "CRM and ERP interfaces",
+          "Data pipelines and dashboards",
+          "One workflow modernised at a time",
+        ],
+        fit: "Growing companies and larger organisations with several systems that don't talk to each other.",
+        engagement: "Discovery first, then a scoped build.",
+      },
+      {
+        slug: "managed-engineering",
+        title: "Managed engineering",
+        summary: "Monitoring, maintenance and steady improvement of software in production, under a written scope.",
+        problem: "Software is live, but nobody owns keeping it healthy and improving it.",
+        outputs: [
+          "Monitoring and maintenance",
+          "Fixes and iterative improvements",
+          "A written support scope",
+        ],
+        fit: "Teams running software we built, or software we have reviewed first.",
+        engagement: "A scoped support agreement. Not unlimited 24/7 support.",
+      },
+    ],
+    labels: { problem: "The problem", outputs: "What we deliver", fit: "Who it fits", engagement: "How we engage" },
+    detailsCta: { label: "Explore our services", href: "/services" },
+    customNote: "Custom software, AI, enterprise and forward-deployed work is quoted after discovery. Paid discovery only when agreed. No made-up price ranges.",
+    whatsappCta: "Discuss your project",
+    whatsappLink: whatsappProjectLink,
+    packages: {
+      label: "Separate offer · Available now",
+      title: "Standard website packages",
+      description:
+        "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳10,000. Founding clients get the Counter for ৳15,000 with a short review and permission to show the site.",
+      note: "A website is not required before any other work. It is a separate offer for businesses that need one.",
+      cta: { label: "See website packages", href: "/pricing" },
     },
   },
   whatYouGet: {
@@ -167,11 +224,6 @@ export const en: SiteContent = {
       },
     ],
   },
-  earlyAccess: {
-    heading: "Coming soon", tag: "Early access",
-    items: ["AI audits", "Forward-deployed AI engineering"],
-    text: "Ask us if you're curious.",
-  },
   work: {
     eyebrow: "Work",
     heading: "Proof, labelled honestly.",
@@ -236,8 +288,9 @@ export const en: SiteContent = {
     ],
   },
   about: {
-    eyebrow: "About", heading: "A solo studio in Dhaka.",
-    text: "I'm Fahad Ibrahim, the founder of Hope Theory Labs. I keep things simple and honest, and I work with you directly.",
+    eyebrow: "About", heading: "Founder-led, from discovery to production.",
+    text: "Hope Theory Labs is an AI engineering and custom software studio in Dhaka, founded and run by Fahad Ibrahim. The person you talk to is the person who builds. Outside specialists join only when a project needs them.",
+    founder: { name: "Fahad Ibrahim", role: "Founder · Engineering and technical delivery" },
   },
   contact: {
     eyebrow: "Contact", heading: "Begin the conversation.",
@@ -287,6 +340,13 @@ export const en: SiteContent = {
   footer: {
     text: "© 2026 Hope Theory Labs · Dhaka, Bangladesh · from the Hope Theory family. No cookies, no analytics.",
     ticker: ["Email", "CRM", "Billing", "Docs", "Chat", "Storefront", "Support"],
+    navLabel: "Site",
+    nav: [
+      { label: "Services", href: "/services" },
+      { label: "Website packages", href: "/pricing" },
+      { label: "About", href: "/about" },
+      { label: "Contact", href: "/contact" },
+    ],
   },
   studio: {
     introWordmark: "Hope Theory Labs",

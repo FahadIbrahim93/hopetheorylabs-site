@@ -6,7 +6,7 @@ import { About } from "@/components/About";
 export default function AboutPage() {
   return (
     <LanguageProvider>
-      <div className="site-shell">
+      <div className="site-shell standalone-route">
         <Header />
         <main id="main" tabIndex={-1}>
           <About />

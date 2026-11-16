@@ -7,13 +7,13 @@ import { StateHud } from "./StateHud";
 
 const SECTIONS = [
   { id: "top", label: "Origin" },
-  { id: "method", label: "Digital self" },
+  { id: "method", label: "Foundation" },
   { id: "shift", label: "Intelligence" },
   { id: "flow", label: "Living flow" },
   { id: "how", label: "Process" },
   { id: "services", label: "Services" },
   { id: "work", label: "Work" },
-  { id: "about", label: "Studio" },
+  { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
 ] as const;
 

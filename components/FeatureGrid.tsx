@@ -2,6 +2,7 @@ import { SectionMarker } from "./SectionMarker";
 import { WhatsAppCta } from "./WhatsAppCta";
 import { useContent } from "./LanguageProvider";
 
+/* Homepage overview of the five service pillars; full detail lives on /services. */
 export function FeatureGrid() {
   const content = useContent();
   const { services } = content;
@@ -18,33 +19,34 @@ export function FeatureGrid() {
           <p className="eyebrow">{services.eyebrow}</p>
           <h2 id="services-heading">{services.heading}</h2>
           <p className="services-intro-text">{services.intro}</p>
-          <div className="services-lanes">
-            <div id="services-website" className="services-lane">
-              <p className="services-lane-label">{services.websiteLane.label}</p>
-              {services.websiteLane.items.map((item) => (
-                <div key={item.title} className="services-lane-item">
-                  <b>{item.title}</b>
-                  <span>{item.description}</span>
-                </div>
-              ))}
-              <p className="services-lane-note">{services.websiteLane.note}</p>
+          <ol className="services-pillars" role="list">
+            {services.pillars.map((pillar, index) => (
+              <li key={pillar.slug} className="services-pillar">
+                <span className="services-pillar-index" aria-hidden="true">0{index + 1}</span>
+                <b>{pillar.title}</b>
+                <span>{pillar.summary}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="services-lane-note">{services.customNote}</p>
+          <div className="services-actions">
+            <WhatsAppCta href={services.whatsappLink} className="services-ai-cta">
+              {services.whatsappCta}
+            </WhatsAppCta>
+            <a className="text-link" href={services.detailsCta.href}>
+              {services.detailsCta.label} <span aria-hidden="true">›</span>
+            </a>
+          </div>
+          <div id="services-website" className="services-lane services-packages">
+            <p className="services-lane-label">{services.packages.label}</p>
+            <div className="services-lane-item">
+              <b>{services.packages.title}</b>
+              <span>{services.packages.description}</span>
             </div>
-            <div id="services-ai" className="services-lane services-lane-ai">
-              <p className="services-lane-label">
-                {services.aiLane.label}{" "}
-                <em className="tag">{services.aiLane.tag}</em>
-              </p>
-              {services.aiLane.items.map((item) => (
-                <div key={item.title} className="services-lane-item">
-                  <b>{item.title}</b>
-                  <span>{item.description}</span>
-                </div>
-              ))}
-              <p className="services-lane-note">{services.aiLane.note}</p>
-              <WhatsAppCta href={services.aiLane.whatsappLink} className="services-ai-cta">
-                {services.aiLane.whatsappCta}
-              </WhatsAppCta>
-            </div>
+            <p className="services-lane-note">{services.packages.note}</p>
+            <a className="text-link" href={services.packages.cta.href}>
+              {services.packages.cta.label} <span aria-hidden="true">›</span>
+            </a>
           </div>
         </div>
       </div>

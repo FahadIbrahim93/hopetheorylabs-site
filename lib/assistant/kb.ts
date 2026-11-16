@@ -13,10 +13,11 @@ export const EMAIL = en.contact.email;
 export const WHATSAPP = whatsappLink;
 export const WHATSAPP_DISPLAY = en.contact.phone.replace(/^WhatsApp\s+/, "");
 
-// Minimal wiring to the issue #44 content schema. The full assistant rewrite
-// (FDE, SME vs enterprise, discovery answers) is tracked in issue #47.
+// Assistant copy for the repositioned studio (issue #47). Every fact is read
+// from content/en.ts, so the assistant cannot drift from the published copy.
 const website = en.services.packages;
 const pillars = en.services.pillars;
+const forwardDeployed = pillars.find((item) => item.slug === "forward-deployed-engineering");
 
 /** The approved package ladder, read straight from the pricing block. */
 export const PACKAGES = `${en.pricing.tiers
@@ -28,6 +29,9 @@ export const FACTS = {
   website: `${website.title}: ${website.description} ${website.note}`,
   services: pillars.map((item) => `${item.title}: ${item.summary}`).join(" "),
   customQuote: en.services.customNote,
+  forwardDeployed: forwardDeployed ? `${forwardDeployed.summary} ${forwardDeployed.engagement}` : "",
+  discovery: `${en.howItWorks.steps[0]?.label ?? "Discover"}: ${en.howItWorks.steps[0]?.description ?? ""} ${en.services.customNote}`,
+  fit: pillars.map((item) => `${item.title}: ${item.fit}`).join(" "),
   founding: en.pricing.founding,
   pricing: en.pricing.intro,
   packages: PACKAGES,
@@ -49,7 +53,10 @@ export const FACTS_LINES: readonly string[] = [
   `Packages: ${FACTS.packages}`,
   `Founding offer: ${FACTS.founding}`,
   `Services: ${FACTS.services}`,
+  `Forward-deployed engineering: ${FACTS.forwardDeployed}`,
+  `Who each service fits: ${FACTS.fit}`,
   `Custom work pricing: ${FACTS.customQuote}`,
+  `How work starts: ${FACTS.discovery}`,
   `How we work: ${FACTS.steps}`,
   `Free concept: ${FACTS.concept}`,
   `The approach: ${FACTS.stages}`,
@@ -105,6 +112,11 @@ const RULES: Rule[] = [
     reply: `You can reach us on WhatsApp at ${WHATSAPP_DISPLAY}, or email ${EMAIL}.`,
   },
   {
+    id: "discovery",
+    test: /forward[- ]deployed|discovery|scope|scoping|proposal|custom quote|how long|enterprise|\bsme\b|small business|startup|larger (?:compan|organi)|who (?:is|are) (?:this|you) for|এন্টারপ্রাইজ|স্কোপing|ডিসকভারি/i,
+    reply: `${FACTS.forwardDeployed} ${FACTS.discovery}`,
+  },
+  {
     id: "price",
     test: /price|pricing|cost|budget|how much|৳|taka|price list|quote|charge|package|tier|starter|counter|showroom|care plan|দাম|খরচ|কত|টাকা|বাজেট|প্যাকেজ/i,
     reply: `${en.pricing.intro} ${PACKAGES}`.trim(),
@@ -145,7 +157,7 @@ export function matchFaq(message: string): { id: string; reply: string } {
 
 export function buildSystemPrompt(): string {
   return [
-    "You are the assistant on the Hope Theory Labs website, a web and AI studio in Dhaka, Bangladesh.",
+    "You are the assistant on the Hope Theory Labs website: a founder-led AI engineering and custom software studio in Dhaka, Bangladesh.",
     "Facts you may use, and the only facts you may use:",
     ...FACTS_LINES.map((line) => `- ${line}`),
     "Rules:",
@@ -154,6 +166,8 @@ export function buildSystemPrompt(): string {
     "- At most 90 words, plain sentences, no markdown, no bullet characters, no emoji.",
     "- Never invent prices, packages, discounts, timelines, clients, reviews, statistics or credentials.",
     "- Never say a call, meeting or booking is confirmed or created. Enquiries and bookings continue on WhatsApp.",
+    "- Forward-deployed work is scoped per project. It is not a resident team and never a published fee.",
+    "- Published website packages are a separate offer. Do not present them as the company's only service.",
     "- Do not name anyone except the team members in the facts.",
     `- WhatsApp: ${WHATSAPP}. Email: ${EMAIL}.`,
   ].join("\n");

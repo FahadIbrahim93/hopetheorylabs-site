@@ -301,7 +301,7 @@ export const en: SiteContent = {
     title: "Hope Theory assistant",
     open: "Open the Hope Theory assistant",
     close: "Close the assistant",
-    intro: "Hi — I'm the Hope Theory assistant. Ask about websites, packages from ৳10,000, or how the free concept works.",
+    intro: "Hi — I'm the Hope Theory assistant. Ask what we build, how discovery works, or about the published website packages.",
     inputLabel: "Your message",
     placeholder: "Type your question",
     send: "Send",
@@ -313,10 +313,10 @@ export const en: SiteContent = {
     rateLimited: "You've sent a few messages already. Give it a few minutes, or message us on WhatsApp.",
     tooLong: "That message is too long. Keep it under 1,000 characters.",
     chips: [
+      "What does forward-deployed mean?",
+      "How does discovery work?",
       "Compare website packages",
-      "How does the free concept work?",
-      "Explore AI automation",
-      "Prepare an enquiry",
+      "Explore AI integration",
     ],
     booking: "Book a call",
     enquiry: {

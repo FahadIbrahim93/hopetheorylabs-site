@@ -7,7 +7,7 @@ import "./globals.css";
 
 const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500"],
   display: "swap",
   variable: "--font-newsreader",
   adjustFontFallback: true,
@@ -16,7 +16,7 @@ const newsreader = Newsreader({
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500", "600"],
   display: "swap",
   variable: "--font-instrument-sans",
   adjustFontFallback: true,

@@ -5,8 +5,9 @@ import type { FormEvent } from "react";
 import { SectionMarker } from "./SectionMarker";
 import { useContent } from "./LanguageProvider";
 
-export function Contact() {
+export function Contact({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const content = useContent();
+  const Heading = (headingLevel === 1 ? "h1" : "h2") as "h1" | "h2";
   function sendMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -21,7 +22,7 @@ export function Contact() {
       <div className="contact-grid contact-grid-html">
         <div className="contact-intro scene-copy">
           <p className="eyebrow">{content.contact.eyebrow}</p>
-          <h2 id="contact-heading">{content.contact.heading}</h2>
+          <Heading id="contact-heading">{content.contact.heading}</Heading>
           <p>{content.contact.note}</p>
           <form className="contact-form" onSubmit={sendMessage}>
             <label>

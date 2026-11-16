@@ -9,7 +9,7 @@ export default function PricingPage() {
       <div className="site-shell standalone-route">
         <Header />
         <main id="main" tabIndex={-1}>
-          <PricingSection />
+          <PricingSection headingLevel={1} />
         </main>
         <Footer />
       </div>

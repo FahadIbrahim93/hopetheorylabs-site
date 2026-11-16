@@ -9,7 +9,7 @@ export default function ContactPage() {
       <div className="site-shell standalone-route">
         <Header />
         <main id="main" tabIndex={-1}>
-          <Contact />
+          <Contact headingLevel={1} />
         </main>
         <Footer />
       </div>

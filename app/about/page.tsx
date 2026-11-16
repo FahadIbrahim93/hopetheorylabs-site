@@ -9,7 +9,7 @@ export default function AboutPage() {
       <div className="site-shell standalone-route">
         <Header />
         <main id="main" tabIndex={-1}>
-          <About />
+          <About headingLevel={1} />
         </main>
         <Footer />
       </div>

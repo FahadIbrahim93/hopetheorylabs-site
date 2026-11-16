@@ -130,7 +130,7 @@ export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
               fillOpacity=".82"
               fontSize="11"
               letterSpacing="1.5"
-              fontFamily="var(--font-jetbrains-mono), monospace"
+              fontFamily="var(--font-mono), monospace"
             >
               {content.hero.coreNodes[index].toUpperCase()}
             </text>

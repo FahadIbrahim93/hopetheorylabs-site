@@ -136,7 +136,7 @@ export interface SiteContent {
     cases: WorkCaseStudy[];
   };
   about: { eyebrow: string; heading: string; text: string; founder: Founder };
-    contact: {
+  contact: {
     eyebrow: string;
     heading: string;
     note: string;
@@ -146,15 +146,12 @@ export interface SiteContent {
     objectiveLabel: string;
     timeframeLabel: string;
     timeframeOptions: string[];
-    replyLabel: string;
-    replyOptions: string[];
     submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
   };
   assistant: AssistantCopy;
   footer: { text: string; ticker: string[]; nav: NavLink[]; navLabel: string };
   studio: {
     introWordmark: string;
-    introCue: string;
     railLabel: string;
   };
 }

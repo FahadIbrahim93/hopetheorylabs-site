@@ -11,7 +11,6 @@ export function Contact({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const Heading = (headingLevel === 1 ? "h1" : "h2") as "h1" | "h2";
   const [workType, setWorkType] = useState(contact.typeOptions[contact.typeOptions.length - 1]);
   const [timeframe, setTimeframe] = useState(contact.timeframeOptions[0]);
-  const [replyOn, setReplyOn] = useState(contact.replyOptions[0]);
 
   function sendMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,7 +22,6 @@ export function Contact({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
       contact.typeLabel + " " + workType,
       contact.objectiveLabel + " " + (objective || "—"),
       contact.timeframeLabel + " " + timeframe,
-      contact.replyLabel + " " + replyOn,
     ].join("\n");
     window.open("https://wa.me/8801718463471?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
   }
@@ -55,12 +53,6 @@ export function Contact({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
               {contact.timeframeLabel}
               <select name="timeframe" value={timeframe} onChange={(event) => setTimeframe(event.target.value)}>
                 {contact.timeframeOptions.map((option) => <option key={option} value={option}>{option}</option>)}
-              </select>
-            </label>
-            <label>
-              {contact.replyLabel}
-              <select name="replyOn" value={replyOn} onChange={(event) => setReplyOn(event.target.value)}>
-                {contact.replyOptions.map((option) => <option key={option} value={option}>{option}</option>)}
               </select>
             </label>
             <button className="primary-cta" type="submit">

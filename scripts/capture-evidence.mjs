@@ -8,8 +8,8 @@
 
   Frames land in docs/screenshots/local/<width>/<route>.jpg (git-ignored) and
   are meant to live in the PR description or an issue, not in the repository
-  (the 55 committed frames in docs/screenshots/issue-50 are retired in favour
-  of this script).
+  (the previously committed frames under docs/screenshots/issue-50 have been
+  removed; this script replaces them).
 */
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";

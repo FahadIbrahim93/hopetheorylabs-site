@@ -28,17 +28,18 @@ try {
     "content/types.ts",
     "lib/assistant/kb.ts",
   ];
-  const out = join(dir, "out.mjs");
-  const entry = join(dir, "entry.ts");
-  writeFileSync(
-    entry,
-    `export { FACTS_LINES, ALLOWED_PRICES, unknownPrice, matchFaq, PACKAGES } from "${join(root, "lib/assistant/kb.ts").replace(/\\/g, "/")}";\n`,
-  );
-  const tsc = spawnSync(
+  // Compile the knowledge base (and the content it reads) to CommonJS so the
+  // routing rules can be exercised for real, not just grepped.
+  const build = spawnSync(
     "npx",
-    ["tsc", entry, "--outFile", out, "--module", "commonjs", "--esModuleInterop", "--skipLibCheck", "--target", "ES2020", "--moduleResolution", "node"],
+    ["tsc", ...files, "--outDir", dir, "--rootDir", root, "--module", "commonjs", "--esModuleInterop", "--skipLibCheck", "--target", "ES2020", "--moduleResolution", "node"],
     { cwd: root, encoding: "utf8" },
   );
+  if (build.status !== 0) {
+    console.error(build.stdout || "");
+    console.error(build.stderr || "");
+    fail("could not compile lib/assistant/kb.ts for the routing checks");
+  }
   // Prefer esbuild-like: use tsx/ts-node free path via next's tsc project
   const compile = spawnSync(
     "npx",
@@ -69,6 +70,41 @@ try {
   if (!kb.includes("unknownPrice")) fail("kb must export unknownPrice");
   if (!kb.includes("matchFaq")) fail("kb must export matchFaq");
   ok("kb wires pricing.tiers and guards");
+
+  // Offline fallback routing: price questions must get the published packages
+  // (English and Bangla), even when they also mention a business type or scope.
+  const kbModule = require(join(dir, "lib/assistant/kb.js"));
+  const route = (q) => kbModule.matchFaq(q);
+  const priceQuestions = [
+    "How much for a small business website?",
+    "What do you charge for a startup landing page?",
+    "price for enterprise website",
+    "How much does the Counter package cost?",
+    "দাম কত?",
+    "ওয়েবসাইট বানাতে কত টাকা লাগবে?",
+    "এন্টারপ্রাইজ ওয়েবসাইটের খরচ কত?",
+  ];
+  for (const q of priceQuestions) {
+    const { id, reply } = route(q);
+    if (id !== "price") fail(`"${q}" routed to ${id}, expected price`);
+    for (const figure of ["৳10,000", "৳25,000", "৳45,000"]) {
+      if (!reply.includes(figure)) fail(`price reply for "${q}" is missing ${figure}`);
+    }
+  }
+  ok(`${priceQuestions.length} price questions (English and Bangla) get the published packages`);
+
+  const discoveryQuestions = [
+    "What does forward-deployed mean?",
+    "How does discovery work?",
+    "Is this for enterprise teams?",
+    "স্কোপ কীভাবে ঠিক হয়?",
+    "ডিসকভারি কী?",
+  ];
+  for (const q of discoveryQuestions) {
+    const { id } = route(q);
+    if (id !== "discovery") fail(`"${q}" routed to ${id}, expected discovery`);
+  }
+  ok(`${discoveryQuestions.length} scoping questions get the discovery answer`);
 
   console.log("check-assistant-kb: all passed");
 } finally {

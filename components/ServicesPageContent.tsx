@@ -13,7 +13,7 @@ export function ServicesPageContent() {
   const { services } = content;
 
   return (
-    <section id="services" className="services-section services-page border-b border-paper/10" aria-labelledby="services-heading">
+    <section id="services" className="services-section services-page border-b border-body/10" aria-labelledby="services-heading">
       <SectionMarker index="services" />
       <div className="services-page-inner scene-copy">
         <p className="eyebrow">{services.eyebrow}</p>

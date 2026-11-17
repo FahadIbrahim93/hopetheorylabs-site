@@ -41,16 +41,14 @@ function token(block, name) {
 
 /* The written decision. Values are lowercase hex, as they appear in CSS. */
 const PALETTE = {
-  "color-ink": { value: "#07090c", role: "page background and ink on light pills" },
-  "color-paper": { value: "#eef0f2", role: "body text on the page" },
-  "color-slate": { value: "#a3acb8", role: "muted labels and secondary copy" },
+  "color-page": { value: "#07090c", role: "page background and ink on light surfaces" },
+  "color-body": { value: "#eef0f2", role: "body text on the page" },
+  "color-muted": { value: "#a3acb8", role: "muted labels and secondary copy" },
+  "color-line": { value: "#2a323d", role: "hairlines and decorative rules" },
+  "color-line-control": { value: "#5b6675", role: "control and input boundaries" },
+  "color-navy": { value: "#0f1b2d", role: "cards and the theme colour" },
   "color-gold": { value: "#b8892f", role: "the single accent" },
   "color-gold-dark": { value: "#8a6420", role: "gold text on light surfaces" },
-};
-
-const STRUCTURE = {
-  "site-line": { value: "#2a323d", role: "hairlines and decorative rules" },
-  "site-line-strong": { value: "#5b6675", role: "control and input boundaries" },
 };
 
 const LIGHT_SURFACE = "#f8f6f1"; // paper, docs/BRAND.md
@@ -75,16 +73,11 @@ for (const [name, { value, role }] of Object.entries(PALETTE)) {
   }
 }
 
-console.log("\nStructure tokens — :root");
-for (const [name, { value, role }] of Object.entries(STRUCTURE)) {
-  const declared = token(rootTokens, name);
-  if (!declared) {
-    fail(`:root is missing --${name} (${role})`);
-  } else if (declared.toLowerCase() !== value) {
-    fail(`:root --${name} is ${declared}, expected ${value} (${role})`);
-  } else {
-    ok(`--${name} ${value}`);
-  }
+console.log("\nStructure tokens — @theme");
+for (const name of ["color-line", "color-line-control", "color-navy"]) {
+  const declared = token(theme, name);
+  if (!declared) fail(`@theme is missing --${name} (see PALETTE)`);
+  else ok(`--${name} ${declared.toLowerCase()}`);
 }
 
 const hex = (value) => {
@@ -109,14 +102,14 @@ const ratio = (a, b) => {
 };
 
 const PAIRS = [
-  ["color-paper", "color-ink", 4.5, "body text on the page"],
-  ["color-slate", "color-ink", 4.5, "muted text on the page"],
-  ["color-gold", "color-ink", 4.5, "gold text on the page"],
-  ["color-paper", NAVY, 4.5, "body text on navy cards"],
+  ["color-body", "color-page", 4.5, "body text on the page"],
+  ["color-muted", "color-page", 4.5, "muted text on the page"],
+  ["color-gold", "color-page", 4.5, "gold text on the page"],
+  ["color-body", NAVY, 4.5, "body text on navy cards"],
   ["color-gold", NAVY, 4.5, "pricing price on navy cards"],
   ["color-gold-dark", LIGHT_SURFACE, 4.5, "gold text on light surfaces"],
-  ["site-line-strong", INPUT_GROUND, 3, "input border against its own ground"],
-  ["site-line-strong", "color-ink", 3, "control border against the page"],
+  ["color-line-control", INPUT_GROUND, 3, "input border against its own ground"],
+  ["color-line-control", "color-page", 3, "control border against the page"],
 ];
 
 console.log("\nContrast — WCAG 2.2 AA floors");

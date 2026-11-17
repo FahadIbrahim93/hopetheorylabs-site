@@ -141,10 +141,10 @@ export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
         <circle cx="42" cy="292" r="2" fill="#B8892F" />
         <circle cx="598" cy="292" r="2" fill="#B8892F" />
       </svg>
-      <div className="core-caption relative z-[1] mx-auto mt-[-2px] flex max-w-[360px] items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-paper/50">
-        <span className="h-px flex-1 bg-paper/15" />
+      <div className="core-caption relative z-[1] mx-auto mt-[-2px] flex max-w-[360px] items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-body/50">
+        <span className="h-px flex-1 bg-body/15" />
         <span>{content.hero.coreCaption}</span>
-        <span className="h-px flex-1 bg-paper/15" />
+        <span className="h-px flex-1 bg-body/15" />
       </div>
     </div>
   );

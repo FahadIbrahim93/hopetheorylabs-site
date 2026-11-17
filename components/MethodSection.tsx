@@ -4,7 +4,7 @@ import { useContent } from "./ContentProvider";
 export function MethodSection() {
   const { story } = useContent();
   return (
-    <section id="method" className="story-section border-b border-paper/10" aria-labelledby="method-heading">
+    <section id="method" className="story-section border-b border-body/10" aria-labelledby="method-heading">
       <SectionMarker index="002" />
       <div className="story-inner story-inner-html">
         <div className="story-copy scene-copy">

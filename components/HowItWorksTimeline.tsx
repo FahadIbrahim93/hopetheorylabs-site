@@ -15,7 +15,7 @@ export function HowItWorksTimeline() {
   }, [active]);
 
   return (
-    <section id="how" className="how-section how-section-html border-b border-paper/10" aria-labelledby="how-heading">
+    <section id="how" className="how-section how-section-html border-b border-body/10" aria-labelledby="how-heading">
       <SectionMarker index="005" />
       <div className="how-head scene-copy">
         <p className="eyebrow">{content.howItWorks.eyebrow}</p>

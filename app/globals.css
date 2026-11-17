@@ -496,9 +496,12 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
 .contact-form select { appearance:none; background-image:linear-gradient(45deg, transparent 50%, #a3acb8 50%), linear-gradient(135deg, #a3acb8 50%, transparent 50%); background-position:calc(100% - 20px) 22px, calc(100% - 14px) 22px; background-size:6px 6px, 6px 6px; background-repeat:no-repeat; padding-right:36px; }
 .contact-form select option { background:#0f1b2d; color:#eef0f2; }
 .contact-form textarea { min-height:96px; resize:vertical; }
-.contact-form textarea { min-height:96px; resize:vertical; }
 .contact-form .primary-cta { width:max-content; margin-top:8px; }
-.pricing-packages-label { margin:0 0 12px; color:#8b95a3; font:400 10px var(--font-mono),monospace; letter-spacing:2px; text-transform:uppercase; }
+/* The label sits directly above the tier cards, so the cards close up to it. */
+.pricing-packages-label + .pricing-tiers { margin-top:14px; }
+/* Space between the intro note and the first field (it collided at 390px). */
+.contact-intro > .contact-form { margin-top:28px; }
+.pricing-packages-label { margin:36px 0 0; color:#8b95a3; font:400 10px var(--font-mono),monospace; letter-spacing:2px; text-transform:uppercase; }
 .pricing-lane-note { margin:22px 0 0; color:#a3acb8; font-size:15px; line-height:1.55; }
 .contact-links { display:flex; flex-wrap:wrap; align-items:center; gap:22px; margin-top:28px; }
 .contact-links .primary-cta { margin:0; }
@@ -637,7 +640,7 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
   .mobile-menu { display:block; }
   .mobile-menu nav { right:0; }
   .hero-section { align-items:flex-start; padding:112px var(--section-pad-x) var(--section-pad-y); }
-  .hero-grid { display:flex; flex-direction:column; align-items:stretch; gap:18px; }
+  .hero-grid { display:flex; flex-direction:column; align-items:stretch; gap:18px; padding-bottom:0; }
   .hero-copy h1 { font-size:clamp(40px,10vw,58px); line-height:.99; }
   .hero-subheading { margin-top:20px; font-size:17px; }
   .hero-actions { margin-top:24px; gap:12px; }
@@ -694,7 +697,7 @@ html.nogl .hero-visual-static { display:flex; }
 /* Services & Pricing (brand navy #0F1B2D, gold #B8892F) */
 .pricing-section { position:relative; display:block; padding:clamp(72px,10vw,120px) clamp(16px,5vw,64px); }
 .pricing-inner { max-width:1040px; margin:0 auto; }
-.pricing-inner h1, .pricing-inner h2 { margin:0; font-family:var(--font-heading); font-size:clamp(34px,9vw,64px); line-height:1.05; font-weight:400; letter-spacing:-.03em; color:#fff; }
+#pricing-heading { margin:0; font-family:var(--font-heading); font-size:clamp(34px,9vw,64px); line-height:1.05; font-weight:400; letter-spacing:-.03em; color:#fff; }
 .pricing-intro { max-width:640px; margin:16px 0 0; color:#c3cad3; font-size:16px; line-height:1.6; }
 .pricing-tiers, .pricing-ai { list-style:none; padding:0; margin:36px 0 0; display:grid; gap:20px; grid-template-columns:1fr; }
 .pricing-card { position:relative; display:flex; flex-direction:column; background:#0F1B2D; border:1px solid #2a3a52; border-radius:12px; padding:24px 20px; color:#eef0f2; }

@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   ci:
-    name: ci-build-and-lighthouse
+    name: lint-typecheck-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

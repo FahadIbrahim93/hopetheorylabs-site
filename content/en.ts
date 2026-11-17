@@ -16,8 +16,6 @@ export const en: SiteContent = {
     whatsapp: "WhatsApp",
     menu: "Menu",
     skip: "Skip to content",
-    language: "Site language",
-    banglaEnabled: false,
   },
   hero: {
     eyebrow: "AI engineering · Custom software · Based in Dhaka, working with clients worldwide",
@@ -164,8 +162,11 @@ export const en: SiteContent = {
   },
   pricing: {
     eyebrow: "Services & Pricing",
-    heading: "Clear, fixed prices in taka.",
-    intro: "No monthly fee from us. Domain and hosting stay in your name.",
+    heading: "Standard website packages, fixed in taka.",
+    intro: "No monthly fee from us. Domain and hosting stay in your name. Custom software and AI work is scoped after discovery, not sold at a published fee.",
+    packagesLabel: "Standard website packages",
+    customNote:
+      "Custom software, forward-deployed engineering and AI work is scoped after discovery and quoted per project. Paid discovery only when agreed.",
     tiers: [
       {
         name: "Starter", subtitle: "One-page website", price: "৳10,000",
@@ -210,7 +211,7 @@ export const en: SiteContent = {
       { label: "Domain and hosting, set up at cost, in your name", price: "At cost" },
       { label: "Monthly care (updates, backups, fixes)", price: "Ask us" },
     ],
-    aiHeading: "AI services",
+    aiHeading: "AI services · quoted after discovery",
     aiCards: [
       {
         title: "AI Audit", tag: "Early access", price: "Ask us",
@@ -230,6 +231,7 @@ export const en: SiteContent = {
     intro:
       "We build a free website concept before you pay. Case studies below say whether work is a concept pitch, in progress, or shipped — including studio games and sites we ship ourselves. No client logos, reviews, or made-up numbers.",
     honestyNote: "Ask us on WhatsApp if you want permission details for a concept built from a real catalog.",
+    labels: { problem: "The problem", demonstrates: "What it demonstrates" },
     cases: [
       {
         slug: "rollers-republic",
@@ -238,6 +240,10 @@ export const en: SiteContent = {
         discipline: "Website",
         summary:
           "Concept storefront for a Dhaka headshop, built from their catalog. Try ordering on your phone; if it fits, we deploy on your domain with WhatsApp and cash on delivery.",
+        problem:
+          "The catalogue lives in social posts and DMs, so ordering depends on someone answering the phone.",
+        demonstrates:
+          "A concept pitched on the shop's public catalogue, with WhatsApp ordering and cash on delivery. No client relationship is implied.",
         deliverables: [
           "Mobile catalog and add-to-cart flow",
           "Prefilled WhatsApp order message",
@@ -258,6 +264,10 @@ export const en: SiteContent = {
         discipline: "Browser game",
         summary:
           "Free arcade space shooter in the browser — canvas, procedural art and audio, installable PWA with offline play after the first visit.",
+        problem:
+          "A studio that sells engineering work needs shipped software to point at, not a slide.",
+        demonstrates:
+          "End-to-end delivery of a browser game: gameplay, procedural art and audio, installable PWA. It is a studio game, not an enterprise AI deployment.",
         deliverables: [
           "Vanilla JavaScript on HTML5 canvas (no framework or bundler)",
           "Multiple modes, ships, and accessibility options (touch, gamepad, reduced motion)",
@@ -275,10 +285,14 @@ export const en: SiteContent = {
       {
         slug: "hope-theory-labs-site",
         title: "Hope Theory Labs",
-        tag: "Shipped",
+        tag: "Internal",
         discipline: "Website",
         summary:
           "This marketing site — static export, accessible fallbacks, WebGL intelligence scene on capable desktops only.",
+        problem:
+          "The studio's own site has to demonstrate the work it sells, on the devices buyers actually use.",
+        demonstrates:
+          "A static export with accessible fallbacks, a WebGL scene on capable desktops only, and reduced-motion support. Internal build, shipped by the studio.",
         deliverables: [
           "Static Next.js export on Vercel",
           "WhatsApp-first contact and founding pricing in copy",
@@ -294,8 +308,21 @@ export const en: SiteContent = {
   },
   contact: {
     eyebrow: "Contact", heading: "Begin the conversation.",
-    note: "Tell us about your business and we'll reply on WhatsApp whenever suits you.",
-    nameLabel: "Your name", needLabel: "What do you need?", submit: "Send on WhatsApp",
+    note: "Tell us what you're working on and we'll reply on WhatsApp whenever suits you.",
+    nameLabel: "Your name",
+    typeLabel: "What kind of work?",
+    typeOptions: [
+      "Forward-deployed engineering",
+      "Custom web or mobile software",
+      "AI integration or automation",
+      "Enterprise systems or data",
+      "A website package",
+      "Not sure yet",
+    ],
+    objectiveLabel: "What should it achieve?",
+    timeframeLabel: "When do you want to start?",
+    timeframeOptions: ["As soon as possible", "In 1–3 months", "In 3–6 months", "Still exploring"],
+    submit: "Send on WhatsApp",
     phone: "WhatsApp 01718463471", phoneHref: whatsappLink, email: "hopetheorybd@gmail.com",
     whatsappCta: "Message us on WhatsApp",
   },
@@ -303,7 +330,7 @@ export const en: SiteContent = {
     title: "Hope Theory assistant",
     open: "Open the Hope Theory assistant",
     close: "Close the assistant",
-    intro: "Hi — I'm the Hope Theory assistant. Ask about websites, packages from ৳10,000, or how the free concept works.",
+    intro: "Hi — I'm the Hope Theory assistant. Ask what we build, how discovery works, or about the published website packages.",
     inputLabel: "Your message",
     placeholder: "Type your question",
     send: "Send",
@@ -315,10 +342,10 @@ export const en: SiteContent = {
     rateLimited: "You've sent a few messages already. Give it a few minutes, or message us on WhatsApp.",
     tooLong: "That message is too long. Keep it under 1,000 characters.",
     chips: [
+      "What does forward-deployed mean?",
+      "How does discovery work?",
       "Compare website packages",
-      "How does the free concept work?",
-      "Explore AI automation",
-      "Prepare an enquiry",
+      "Explore AI integration",
     ],
     booking: "Book a call",
     enquiry: {
@@ -350,7 +377,6 @@ export const en: SiteContent = {
   },
   studio: {
     introWordmark: "Hope Theory Labs",
-    introCue: "Calibrating intelligence core",
     railLabel: "Signal",
   },
 };

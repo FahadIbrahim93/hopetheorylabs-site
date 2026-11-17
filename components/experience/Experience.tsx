@@ -3,7 +3,6 @@
 import { Component, useCallback, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 
 import { CursorRing } from "./CursorRing";
-import { IntroOverlay } from "./IntroOverlay";
 import { NodeLabels } from "./NodeLabels";
 import { detectTier, detectWebGL, isConstrainedDevice, readOverride } from "./quality";
 import { useExperienceMode, useReducedMotion } from "./mode";
@@ -123,7 +122,6 @@ export function Experience() {
 
   return (
     <>
-      <IntroOverlay />
       {finePointer && <CursorRing />}
       <div className={`experience-layer${live ? " is-live" : ""}`} aria-hidden="true">
         <ExperienceBoundary onError={handleFailure}>

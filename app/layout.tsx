@@ -7,7 +7,7 @@ import "./globals.css";
 
 const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500"],
   display: "swap",
   variable: "--font-newsreader",
   adjustFontFallback: true,
@@ -16,7 +16,7 @@ const newsreader = Newsreader({
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500", "600"],
   display: "swap",
   variable: "--font-instrument-sans",
   adjustFontFallback: true,
@@ -24,25 +24,28 @@ const instrumentSans = Instrument_Sans({
 
 const siteUrl = "https://hopetheorylabs.vercel.app";
 
+const title = "Hope Theory Labs — AI engineering and custom software | Dhaka";
+const description =
+  "Founder-led AI engineering and custom software studio in Dhaka. Forward-deployed engineering, AI integration, enterprise systems and managed engineering. Website packages from ৳10,000.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Hope Theory Labs — Mobile websites with WhatsApp orders | Dhaka",
-  description:
-    "Fast, mobile-first websites for Dhaka businesses from ৳10,000. WhatsApp ordering, cash on delivery, fixed prices. Free concept before you pay. AI services in early access.",
+  title: { default: title, template: "%s — Hope Theory Labs" },
+  description,
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Hope Theory Labs",
-    description: "Mobile websites with WhatsApp orders. From ৳10,000. Based in Dhaka.",
+    title,
+    description,
     type: "website",
     url: "/",
     siteName: "Hope Theory Labs",
     locale: "en_US",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Hope Theory Labs — Your data. Connected. Your business. Smarter." }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Hope Theory Labs — AI engineering and custom software, based in Dhaka." }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hope Theory Labs",
-    description: "Mobile websites with WhatsApp orders. From ৳10,000. Based in Dhaka.",
+    title,
+    description,
     images: ["/og.png"],
   },
   robots: { index: true, follow: true },

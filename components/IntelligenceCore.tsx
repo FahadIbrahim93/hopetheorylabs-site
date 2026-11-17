@@ -2,7 +2,7 @@
 
 import type { PointerEvent } from "react";
 
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 /*
   Hope Theory Labs intelligence core — static layer.
@@ -58,7 +58,7 @@ export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
           <radialGradient id="core-sphere-fill" cx="0" cy="0" r="1" gradientTransform="translate(292 258) rotate(49) scale(184)">
             <stop stopColor="#F4E6C3" stopOpacity=".92" />
             <stop offset=".22" stopColor="#B99A5B" stopOpacity=".72" />
-            <stop offset=".56" stopColor="#1C4A49" stopOpacity=".68" />
+            <stop offset=".56" stopColor="#1B2433" stopOpacity=".68" />
             <stop offset="1" stopColor="#0F1B2D" stopOpacity=".08" />
           </radialGradient>
           <linearGradient id="core-scan-gradient" x1="320" y1="170" x2="320" y2="430" gradientUnits="userSpaceOnUse">
@@ -130,7 +130,7 @@ export function IntelligenceCore({ retired = false }: { retired?: boolean }) {
               fillOpacity=".82"
               fontSize="11"
               letterSpacing="1.5"
-              fontFamily="var(--font-jetbrains-mono), monospace"
+              fontFamily="var(--font-mono), monospace"
             >
               {content.hero.coreNodes[index].toUpperCase()}
             </text>

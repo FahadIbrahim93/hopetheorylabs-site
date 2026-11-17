@@ -134,7 +134,7 @@
 }
 
 .asst-ok {
-  color: #7fd6c2;
+  color: var(--color-gold);
 }
 
 .asst-chips {

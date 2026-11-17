@@ -6,7 +6,7 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 
 - [ ] Background `#07090C`, off-white `#EEF0F2`, muted `#A3ACB8`, hairline `#2A323D`, gold accent `#B8892F` (dark gold `#8A6420` for text on light), navy `#0F1B2D`, paper `#F8F6F1`, slate `#475569`, amber `#FFBD61`. **No teal anywhere** (see docs/BRAND.md)
 - [ ] `rg -i "teal|14b8a6|2dd4bf|7fd6c2|0f766e" app components content` returns nothing; Lighthouse color-contrast passes
-- [ ] Instrument Sans (UI/body), Newsreader (headings), system monospace (labels); Hind Siliguri when Bangla is active
+- [ ] Instrument Sans (UI/body), Newsreader (headings), system monospace (labels); no Bangla webfont is loaded
 - [ ] Editorial type, asymmetric layout, hairline rules, small uppercase labels — no centered-everything sections
 - [ ] One persistent full-viewport WebGL scene (or SVG/canvas fallback); copy in a single legible column
 - [ ] Rollers Republic labelled **Concept**; speed slider **Illustrative only** with no numbers
@@ -14,7 +14,7 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 
 ## Copy and conversion
 
-- [ ] All visible strings from `content/en.ts` / `content/bn.ts` only
+- [ ] All visible strings from `content/en.ts` only
 - [ ] WhatsApp links use `https://wa.me/8801718463471`; email `hopetheorybd@gmail.com` where shown
 - [ ] Primary CTA path to WhatsApp is obvious (hero, contact, floating button hides over contact)
 
@@ -34,9 +34,7 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 
 ## i18n
 
-- [ ] When `header.banglaEnabled` is **true** in `content/en.ts`: EN / বাংলা toggle switches copy, sets `html lang`, persists in `localStorage`
-- [ ] When `banglaEnabled` is **false** (default until review): toggle is **hidden** on the live site
-- [ ] Bangla copy reviewed by Fahad before enabling the toggle
+- [ ] No language toggle ships and no Bangla webfont is loaded. Translation needs a real `content/bn.ts` and Fahad's review before the toggle returns.
 
 ## SEO and meta
 

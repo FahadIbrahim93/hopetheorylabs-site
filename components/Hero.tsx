@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 import { useExperienceMode } from "./experience/mode";
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 import { IntelligenceCore } from "./IntelligenceCore";
 import { WhatsAppCta } from "./WhatsAppCta";
 import { WordReveal } from "./WordReveal";

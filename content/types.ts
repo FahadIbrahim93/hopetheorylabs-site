@@ -1,6 +1,6 @@
 /*
- * Shared content contract for the English and Bangla site copy.
- * Keep all user-facing copy in content/en.ts and content/bn.ts.
+ * Shared content contract for the site copy.
+ * Keep all user-facing copy in content/en.ts.
  */
 export interface NavLink { label: string; href: string }
 
@@ -16,7 +16,7 @@ export interface AssistantCopy {
   };
 }
 
-export type WorkCaseTag = "Concept" | "Shipped" | "In progress";
+export type WorkCaseTag = "Concept" | "Shipped" | "In progress" | "Internal";
 
 export interface WorkCaseStudy {
   slug: string;
@@ -24,6 +24,9 @@ export interface WorkCaseStudy {
   tag: WorkCaseTag;
   discipline: "Website" | "Browser game" | "AI integration" | "AI transformation";
   summary: string;
+  /** Issue #46: the problem and what the build demonstrates, in plain words. */
+  problem?: string;
+  demonstrates?: string;
   /** Factual deliverables only — no invented metrics or client logos. */
   deliverables: string[];
   link?: { href: string; label: string };
@@ -80,9 +83,6 @@ export interface SiteContent {
     whatsapp: string;
     menu: string;
     skip: string;
-    language: string;
-    /** When false, the Bangla toggle is hidden until copy is reviewed (docs/QA.md). */
-    banglaEnabled: boolean;
   };
   hero: {
     /** Split on " / " into two lines. */
@@ -117,6 +117,8 @@ export interface SiteContent {
     eyebrow: string;
     heading: string;
     intro: string;
+    packagesLabel: string;
+    customNote: string;
     tiers: PricingTier[];
     founding: string;
     payment: string;
@@ -130,18 +132,26 @@ export interface SiteContent {
     heading: string;
     intro: string;
     honestyNote: string;
+    labels: { problem: string; demonstrates: string };
     cases: WorkCaseStudy[];
   };
   about: { eyebrow: string; heading: string; text: string; founder: Founder };
   contact: {
-    eyebrow: string; heading: string; note: string; nameLabel: string; needLabel: string;
+    eyebrow: string;
+    heading: string;
+    note: string;
+    nameLabel: string;
+    typeLabel: string;
+    typeOptions: string[];
+    objectiveLabel: string;
+    timeframeLabel: string;
+    timeframeOptions: string[];
     submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
   };
   assistant: AssistantCopy;
   footer: { text: string; ticker: string[]; nav: NavLink[]; navLabel: string };
   studio: {
     introWordmark: string;
-    introCue: string;
     railLabel: string;
   };
 }

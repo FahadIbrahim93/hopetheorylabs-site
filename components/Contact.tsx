@@ -1,50 +1,73 @@
 "use client";
 
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
 import { SectionMarker } from "./SectionMarker";
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
-export function Contact() {
+export function Contact({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const content = useContent();
+  const { contact } = content;
+  const Heading = (headingLevel === 1 ? "h1" : "h2") as "h1" | "h2";
+  const [workType, setWorkType] = useState(contact.typeOptions[contact.typeOptions.length - 1]);
+  const [timeframe, setTimeframe] = useState(contact.timeframeOptions[0]);
+
   function sendMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const name = String(form.get("name") ?? "").trim();
-    const need = String(form.get("need") ?? "").trim();
-    const message = "Hi Hope Theory Labs, I’m " + (name || "a visitor") + ". " + need;
+    const objective = String(form.get("objective") ?? "").trim();
+    const message = [
+      "Hi Hope Theory Labs, I'm " + (name || "a visitor") + ".",
+      contact.typeLabel + " " + workType,
+      contact.objectiveLabel + " " + (objective || "—"),
+      contact.timeframeLabel + " " + timeframe,
+    ].join("\n");
     window.open("https://wa.me/8801718463471?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
   }
+
   return (
     <section id="contact" className="contact-section border-b border-paper/10" aria-labelledby="contact-heading">
       <SectionMarker index="009" />
       <div className="contact-grid contact-grid-html">
         <div className="contact-intro scene-copy">
-          <p className="eyebrow">{content.contact.eyebrow}</p>
-          <h2 id="contact-heading">{content.contact.heading}</h2>
-          <p>{content.contact.note}</p>
+          <p className="eyebrow">{contact.eyebrow}</p>
+          <Heading id="contact-heading">{contact.heading}</Heading>
+          <p>{contact.note}</p>
           <form className="contact-form" onSubmit={sendMessage}>
             <label>
-              {content.contact.nameLabel}
+              {contact.nameLabel}
               <input name="name" autoComplete="name" />
             </label>
             <label>
-              {content.contact.needLabel}
-              <textarea name="need" rows={3} />
+              {contact.typeLabel}
+              <select name="workType" value={workType} onChange={(event) => setWorkType(event.target.value)}>
+                {contact.typeOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+              </select>
+            </label>
+            <label>
+              {contact.objectiveLabel}
+              <textarea name="objective" rows={3} />
+            </label>
+            <label>
+              {contact.timeframeLabel}
+              <select name="timeframe" value={timeframe} onChange={(event) => setTimeframe(event.target.value)}>
+                {contact.timeframeOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+              </select>
             </label>
             <button className="primary-cta" type="submit">
-              {content.contact.submit}
+              {contact.submit}
             </button>
           </form>
           <div className="contact-links">
-            <a className="primary-cta" href={content.contact.phoneHref} target="_blank" rel="noopener noreferrer">
-              {content.contact.whatsappCta}
+            <a className="primary-cta" href={contact.phoneHref} target="_blank" rel="noopener noreferrer">
+              {contact.whatsappCta}
             </a>
-            <a className="text-link" href={"mailto:" + content.contact.email}>
-              {content.contact.email}
+            <a className="text-link" href={"mailto:" + contact.email}>
+              {contact.email}
             </a>
           </div>
-          <p className="contact-phone">{content.contact.phone}</p>
+          <p className="contact-phone">{contact.phone}</p>
         </div>
       </div>
       <div className="ticker" aria-hidden="true">

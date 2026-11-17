@@ -9,8 +9,8 @@ One responsive, accessible marketing site. Do not iframe the source HTML. Copy, 
 ## Stack and implementation constraints
 
 - Next.js App Router, TypeScript, Tailwind CSS v4, Framer Motion LazyMotion, static export, Vercel.
-- Copy in `content/en.ts` / `content/bn.ts` (Bangla TODO).
-- Fonts via `next/font/google`: Instrument Sans, Newsreader, Hind Siliguri (mono labels use the system monospace stack).
+- Copy in `content/en.ts`.
+- Fonts via `next/font/google`: Instrument Sans and Newsreader (mono labels use the system monospace stack).
 - No analytics, cookies, tracking, fake metrics or testimonials.
 - **WebGL:** npm `three` + `@react-three/fiber`, shaders ported from the complete inline script in the supplied HTML (particle morph, fresnel core, rings, flow edges/dots, burst, drag-rotate, stars). No CDN scripts.
 - One fixed canvas (`components/experience/`). Scroll → damped `pp` → morph and HUD. Copy in single column; scene group offset matches HTML (`gx0` / mobile `gy0`). No scroll hijacking.

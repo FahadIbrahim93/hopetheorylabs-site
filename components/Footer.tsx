@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 export function Footer() {
   const content = useContent();

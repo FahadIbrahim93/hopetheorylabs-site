@@ -1,7 +1,7 @@
 import type { WorkCaseStudy } from "@/content/types";
 
 import { SectionMarker } from "./SectionMarker";
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 function GamePreview({
   imageSrc,
@@ -76,6 +76,18 @@ export function WorkSection() {
               </div>
               <h3 className="work-case-title">{item.title}</h3>
               <p>{item.summary}</p>
+              {item.problem && (
+                <p className="work-case-fact">
+                  <span>{work.labels.problem}</span>
+                  {item.problem}
+                </p>
+              )}
+              {item.demonstrates && (
+                <p className="work-case-fact">
+                  <span>{work.labels.demonstrates}</span>
+                  {item.demonstrates}
+                </p>
+              )}
               <ul className="work-deliverables">
                 {item.deliverables.map((line) => (
                   <li key={line}>{line}</li>

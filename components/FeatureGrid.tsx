@@ -1,6 +1,6 @@
 import { SectionMarker } from "./SectionMarker";
 import { WhatsAppCta } from "./WhatsAppCta";
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 /* Homepage overview of the five service pillars; full detail lives on /services. */
 export function FeatureGrid() {

@@ -1,7 +1,6 @@
 "use client";
 
-import { useContent } from "./LanguageProvider";
-import { LanguageToggle } from "./LanguageToggle";
+import { useContent } from "./ContentProvider";
 import { WhatsAppCta } from "./WhatsAppCta";
 
 /*
@@ -15,7 +14,6 @@ export function Header() {
     <a href={header.homeHref} className="site-wordmark" aria-label={`${header.wordmark} — home`}>{header.wordmark}</a>
     <nav className="desktop-nav" aria-label="Primary">
       {header.nav.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
-      <LanguageToggle />
       <a href={header.cta.href} className="nav-contact">{header.cta.label}</a>
     </nav>
     <details className="mobile-menu">
@@ -23,7 +21,6 @@ export function Header() {
       <nav aria-label="Mobile primary">
         {header.nav.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
         <a href={header.cta.href} className="nav-contact">{header.cta.label}</a>
-        <LanguageToggle />
         <WhatsAppCta href={content.hero.whatsappLink}>{header.whatsapp}</WhatsAppCta>
       </nav>
     </details>

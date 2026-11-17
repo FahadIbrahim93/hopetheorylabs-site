@@ -1,5 +1,5 @@
 import { SectionMarker } from "./SectionMarker";
-import { useContent } from "./LanguageProvider";
+import { useContent } from "./ContentProvider";
 
 export function LivingFlow() {
   const { story } = useContent();

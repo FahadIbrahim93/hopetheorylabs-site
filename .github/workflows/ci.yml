@@ -30,3 +30,35 @@ jobs:
         run: npm run perf:first-load
         continue-on-error: true
       - run: npm test
+      # Lighthouse runs against the export this job just built. It used to be a
+      # second job with its own `npm run build`, which duplicated the build and
+      # failed on its own while the same build passed here (issue #50 follow-up).
+      - name: Lighthouse CI (contrast + accessibility gate)
+        run: npx --yes @lhci/cli@0.14.x autorun
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: .lighthouseci
+          retention-days: 7
+
+  a11y:
+    name: a11y-playwright-axe
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7

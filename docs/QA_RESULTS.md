@@ -54,8 +54,8 @@ Tooling: `npm run perf:first-load`, `node scripts/run-lighthouse-mobile.mjs` (Li
 
 ### i18n
 
-- [x] `header.banglaEnabled: false` — toggle hidden
-- [ ] Bangla review by Fahad before enable
+- [x] No language toggle ships; the half-built Bangla toggle, `content/bn.ts` and the unloaded Bangla webfont token were removed
+- [ ] Translation deferred until a real `content/bn.ts` exists and Fahad has reviewed it
 
 ### SEO and meta
 
@@ -65,6 +65,12 @@ Tooling: `npm run perf:first-load`, `node scripts/run-lighthouse-mobile.mjs` (Li
 
 - [ ] Spot-check **360 / 768 / 1280 / 1920** px on Vercel preview (Chromium automated partial only)
 - [ ] Safari / Firefox real devices — **not verified**
+
+## Automated accessibility gate — added with the #50 follow-up
+
+- `npm run test:e2e` (Playwright + axe, desktop and mobile) checks every route against WCAG 2.2 A/AA, one `h1` per route, and no sideways scroll at 390px. It runs in CI on every pull request; evidence frames are produced locally by `npm run evidence` and are no longer committed. The 57 frames under `docs/screenshots/issue-50` were removed once these jobs went green.
+- Lighthouse CI (`.lighthouserc.json`) asserts `color-contrast` and an accessibility score of at least 0.95 against the static export on every pull request.
+- These suites run in CI: `a11y-playwright-axe` passed on its first run (22 tests, desktop and mobile). The Lighthouse assertions run in the same job as the build, so one build feeds both and a second parallel build can no longer fail on its own.
 
 ## Launch gates — status
 

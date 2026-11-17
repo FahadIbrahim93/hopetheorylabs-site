@@ -28,6 +28,12 @@ export function Reveal({ children, className = "" }: { children: ReactNode; clas
     }
 
     el.classList.add("reveal");
+    // Anything already on screen (or scrolled past) shows immediately; the rise
+    // is decoration, never a gate on readability (issue #50).
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      el.classList.add("reveal-in");
+      return;
+    }
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -37,7 +43,7 @@ export function Reveal({ children, className = "" }: { children: ReactNode; clas
           }
         }
       },
-      { threshold: 0.15 },
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();

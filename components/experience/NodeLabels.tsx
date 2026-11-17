@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { NODE_COLORS, nodeSide } from "./nodes";
-import { useContent } from "../LanguageProvider";
+import { useContent } from "../ContentProvider";
 import { experienceActions, getDiscrete, onSceneFrame } from "./store";
 
 /*

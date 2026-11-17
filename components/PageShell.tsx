@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-import { LanguageProvider, useContent, useLang } from "./LanguageProvider";
+import { ContentProvider, useContent } from "./ContentProvider";
 import { About } from "./About";
 import { Contact } from "./Contact";
 import { FeatureGrid } from "./FeatureGrid";
@@ -27,8 +27,7 @@ const Experience = dynamic(() => import("./experience/Experience").then((m) => m
 
 function Shell() {
   const content = useContent();
-  const { lang } = useLang();
-  return <div data-lang={lang} className="site-shell">
+  return <div className="site-shell">
     <a href="#main" className="skip-link">{content.header.skip}</a>
     <Header />
     <HeaderScroll />
@@ -56,5 +55,5 @@ function Shell() {
   </div>;
 }
 export function PageShell() {
-  return <LanguageProvider><Shell /></LanguageProvider>;
+  return <ContentProvider><Shell /></ContentProvider>;
 }

@@ -5,7 +5,7 @@ The supplied Hope Theory Labs HTML concept is the primary visual reference. Pres
 ## Visual language
 
 - Page background is near-black `#07090C`, with off-white `#EEF0F2`, muted `#A3ACB8` and hairline `#2A323D`. Navy `#0F1B2D` is for cards, panels, pricing and the theme colour only — not the page. Gold accent `#B8892F` (dark gold `#8A6420` for text on light, `--color-gold-dark`), paper `#F8F6F1`, slate `#475569`. The warmer highlight `#FFBD61` is a legacy exception, not a second brand colour. **No teal anywhere** (see `docs/BRAND.md`).
-- Instrument Sans for body/UI; Newsreader for editorial headings; system monospace for technical labels; Hind Siliguri for Bangla.
+- Instrument Sans for body/UI; Newsreader for editorial headings; system monospace for technical labels. No Bangla webfont is loaded: the language toggle is removed until the copy is translated and reviewed.
 - Oversized editorial type, asymmetric grids, wide whitespace, fine rules and small uppercase labels.
 - Narrative: digital foundation (optional) → intelligence shift → living flow → how we work → five services → website packages → work → about → contact.
 - The central visual is one **persistent full-viewport WebGL scene** behind the page (particle morph scatter → globe → galaxy, fresnel core, orbit rings, flow constellation). Copy sits in a single column with text-shadow for legibility; the scene shifts composition on desktop (offset right) and mobile (raised). Nothing else should compete with the core for motion.
@@ -22,4 +22,4 @@ The supplied Hope Theory Labs HTML concept is the primary visual reference. Pres
 - **Three.js + React Three Fiber** with hand-written GLSL from the supplied HTML port. No CDN Three.js, no GSAP/Lottie, no post-processing stacks. Inline-SVG `IntelligenceCore` + optional 2D particles remain the **fallback** when WebGL fails (`?experience=fallback`).
 - WebGL loads after `window` `load`, never blocks first paint; dispose GPU resources on unmount; one frame loop; runtime tier downgrade (particle draw range + DPR) before dropping frames.
 - No analytics, tracking, cookies, fake metrics, purple/blue gradients, stock 3D blobs, glassmorphism, emoji, generic card grids or urgency copy.
-- All visible text in `content/en.ts` and `content/bn.ts`. Bangla requires Fahad Ibrahim review before launch.
+- All visible text in `content/en.ts`. Bangla is out of scope until the copy is translated and Fahad Ibrahim has reviewed it.

@@ -350,7 +350,6 @@ export const en: SiteContent = {
   },
   studio: {
     introWordmark: "Hope Theory Labs",
-    introCue: "Calibrating intelligence core",
     railLabel: "Signal",
   },
 };

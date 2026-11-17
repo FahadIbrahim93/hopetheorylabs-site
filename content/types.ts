@@ -138,7 +138,6 @@ export interface SiteContent {
   footer: { text: string; ticker: string[]; nav: NavLink[]; navLabel: string };
   studio: {
     introWordmark: string;
-    introCue: string;
     railLabel: string;
   };
 }

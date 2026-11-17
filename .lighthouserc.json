@@ -1,9 +1,17 @@
 {
   "ci": {
     "collect": {
-      "staticDistDir": "./out",
-      "url": ["/", "/services", "/pricing", "/about", "/contact"],
-      "numberOfRuns": 1
+      "startServerCommand": "node scripts/serve-out.mjs 3100",
+      "startServerReadyPattern": "serve-out:",
+      "url": [
+        "http://127.0.0.1:3100/",
+        "http://127.0.0.1:3100/services",
+        "http://127.0.0.1:3100/pricing",
+        "http://127.0.0.1:3100/about",
+        "http://127.0.0.1:3100/contact"
+      ],
+      "numberOfRuns": 1,
+      "settings": { "chromeFlags": "--no-sandbox --disable-dev-shm-usage" }
     },
     "assert": {
       "assertions": {

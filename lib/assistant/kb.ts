@@ -112,14 +112,16 @@ const RULES: Rule[] = [
     reply: `You can reach us on WhatsApp at ${WHATSAPP_DISPLAY}, or email ${EMAIL}.`,
   },
   {
-    id: "discovery",
-    test: /forward[- ]deployed|discovery|scope|scoping|proposal|custom quote|how long|enterprise|\bsme\b|small business|startup|larger (?:compan|organi)|who (?:is|are) (?:this|you) for|এন্টারপ্রাইজ|স্কোপing|ডিসকভারি/i,
-    reply: `${FACTS.forwardDeployed} ${FACTS.discovery}`,
-  },
-  {
     id: "price",
     test: /price|pricing|cost|budget|how much|৳|taka|price list|quote|charge|package|tier|starter|counter|showroom|care plan|দাম|খরচ|কত|টাকা|বাজেট|প্যাকেজ/i,
     reply: `${en.pricing.intro} ${PACKAGES}`.trim(),
+  },
+  // Discovery sits after price on purpose: "how much for a small business site?"
+  // must get the published packages, not the scoping answer.
+  {
+    id: "discovery",
+    test: /forward[- ]deployed|discovery|scope|scoping|proposal|custom quote|how long|enterprise|\bsme\b|small business|startup|larger (?:compan|organi)|who (?:is|are) (?:this|you) for|এন্টারপ্রাইজ|স্কোপ|ডিসকভারি/i,
+    reply: `${FACTS.forwardDeployed} ${FACTS.discovery}`,
   },
   {
     id: "concept",

@@ -32,7 +32,11 @@ export function Footer() {
           </a>
         ))}
       </nav>
-      {/* TODO: add social links once the company handles are confirmed. */}
+      <nav className="footer-nav footer-social" aria-label="Social">
+        <a href={content.footer.social.href} target="_blank" rel="noopener noreferrer" aria-label={content.footer.social.aria}>
+          {content.footer.social.label}
+        </a>
+      </nav>
       <span>HTL / END OF TRANSMISSION</span>
     </footer>
   );

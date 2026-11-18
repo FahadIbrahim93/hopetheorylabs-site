@@ -52,7 +52,8 @@ Urban housing, office and facade context. Present texture, memory, and worn beau
 ## Voice and positioning
 
 - Hope Theory Labs is an AI-first studio. Lead with the AI Audit, then forward-deployed AI engineering. Custom software, web and mobile, enterprise systems and managed engineering are supporting services.
-- The AI Audit and all engineering work are quoted per scope after a short discovery call. Never publish a fee, a range, or a founding or introductory rate for them. The website packages are the only public prices.
+- The AI Audit and all engineering work are quoted per scope after a short discovery call. Never publish a fee, a range, or a founding or introductory rate for them. The website packages are the only public prices. On `/pricing` the AI work comes first, and the website packages sit below it as the supporting offer.
+- The footer links the company X account, https://x.com/HopeTheoryLabs. Add other social links only once the handle is confirmed.
 - No tagline is set on the site. The working line in the brand book is not locked; leave it off until Fahad decides.
 - Do not say "clients worldwide", and do not invent clients, numbers or testimonials. ServeAI is pre-production, never live, and Rollers Republic is a Concept.
 

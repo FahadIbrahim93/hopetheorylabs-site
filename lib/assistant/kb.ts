@@ -34,7 +34,7 @@ export const FACTS = {
   discovery: `${en.howItWorks.steps[0]?.label ?? "Discover"}: ${en.howItWorks.steps[0]?.description ?? ""} ${en.services.customNote}`,
   fit: pillars.map((item) => `${item.title}: ${item.fit}`).join(" "),
   audit: `${auditPillar ? `${auditPillar.title}: ${auditPillar.summary} ${auditPillar.engagement}` : ""} It leads to forward-deployed AI engineering when you want the first opportunity built.`,
-  pricing: en.pricing.intro,
+  pricing: `${en.pricing.intro} ${en.pricing.packagesIntro}`,
   packages: PACKAGES,
   whatYouGet: en.whatYouGet.items.join(", "),
   steps: en.howItWorks.steps
@@ -122,7 +122,7 @@ const RULES: Rule[] = [
   {
     id: "price",
     test: /price|pricing|cost|budget|how much|৳|taka|price list|quote|charge|package|tier|starter|counter|showroom|care plan|দাম|খরচ|কত|টাকা|বাজেট|প্যাকেজ/i,
-    reply: `${en.pricing.intro} ${PACKAGES}`.trim(),
+    reply: `${en.pricing.intro} Website packages: ${PACKAGES}`.trim(),
   },
   // Discovery sits after price on purpose: "how much for a small business site?"
   // must get the published packages, not the scoping answer.

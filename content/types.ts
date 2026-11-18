@@ -120,13 +120,13 @@ export interface SiteContent {
     eyebrow: string;
     heading: string;
     intro: string;
-    packagesLabel: string;
+    packagesHeading: string;
+    packagesIntro: string;
     customNote: string;
     tiers: PricingTier[];
     payment: string;
     addOnsHeading: string;
     addOns: { label: string; price: string }[];
-    aiHeading: string;
     aiCards: { title: string; tag: string; price: string; description: string; cta: string; whatsappLink: string }[];
   };
   work: {
@@ -151,7 +151,7 @@ export interface SiteContent {
     submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
   };
   assistant: AssistantCopy;
-  footer: { text: string; ticker: string[]; nav: NavLink[]; navLabel: string };
+  footer: { text: string; ticker: string[]; nav: NavLink[]; navLabel: string; social: { label: string; href: string; aria: string } };
   studio: {
     introWordmark: string;
     railLabel: string;

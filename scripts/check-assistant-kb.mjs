@@ -118,6 +118,10 @@ try {
   }
   ok(`${auditQuestions.length} audit questions get the quoted-per-scope answer with no price`);
 
+  const aiBlock = en.slice(en.indexOf("aiCards: ["), en.indexOf("  work: {"));
+  if (!aiBlock || /৳/.test(aiBlock)) fail("the AI cards on the pricing page must carry no ৳ figure");
+  ok("AI cards carry no price");
+
   if (/founding/i.test(en)) fail("content/en.ts still mentions a founding offer");
   if (/clients worldwide|worldwide/i.test(en)) fail("content/en.ts still says clients worldwide");
   ok("no founding offer and no worldwide claim in the site copy");

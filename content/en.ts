@@ -182,11 +182,12 @@ export const en: SiteContent = {
   },
   pricing: {
     eyebrow: "Services & Pricing",
-    heading: "Standard website packages, fixed in taka.",
-    intro: "No monthly fee from us. Domain and hosting stay in your name. AI and custom software work is scoped after discovery, not sold at a published fee.",
-    packagesLabel: "Standard website packages",
+    heading: "Start with the AI Audit.",
+    intro: "The AI Audit and forward-deployed AI engineering are quoted per scope after discovery. We publish no fee for them.",
+    packagesHeading: "Website packages",
+    packagesIntro: "A separate, supporting offer, fixed in taka. No monthly fee from us. Domain and hosting stay in your name.",
     customNote:
-      "The AI Audit, forward-deployed engineering and custom software are scoped after discovery and quoted per project.",
+      "All AI and custom software work is quoted per scope after discovery.",
     tiers: [
       {
         name: "Starter", subtitle: "One-page website", price: "৳10,000",
@@ -230,7 +231,6 @@ export const en: SiteContent = {
       { label: "Domain and hosting, set up at cost, in your name", price: "At cost" },
       { label: "Monthly care (updates, backups, fixes)", price: "Ask us" },
     ],
-    aiHeading: "AI work · quoted per scope after discovery",
     aiCards: [
       {
         title: "AI Audit", tag: "Start here", price: "Quoted per scope",
@@ -385,6 +385,7 @@ export const en: SiteContent = {
     },
   },
   footer: {
+    social: { label: "X", href: "https://x.com/HopeTheoryLabs", aria: "Hope Theory Labs on X (opens in a new tab)" },
     text: "© 2026 Hope Theory Labs · Dhaka, Bangladesh · from the Hope Theory family. No cookies, no analytics.",
     ticker: ["Email", "CRM", "Billing", "Docs", "Chat", "Storefront", "Support"],
     navLabel: "Site",

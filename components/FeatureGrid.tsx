@@ -2,7 +2,7 @@ import { SectionMarker } from "./SectionMarker";
 import { WhatsAppCta } from "./WhatsAppCta";
 import { useContent } from "./ContentProvider";
 
-/* Homepage overview of the five service pillars; full detail lives on /services. */
+/* Homepage overview of the six service pillars; full detail lives on /services. */
 export function FeatureGrid() {
   const content = useContent();
   const { services } = content;
@@ -23,7 +23,10 @@ export function FeatureGrid() {
             {services.pillars.map((pillar, index) => (
               <li key={pillar.slug} className="services-pillar">
                 <span className="services-pillar-index" aria-hidden="true">0{index + 1}</span>
-                <b>{pillar.title}</b>
+                <b>
+                  {pillar.title}
+                  <small className={`services-pillar-lane is-${pillar.lane}`}>{services.laneLabels[pillar.lane]}</small>
+                </b>
                 <span>{pillar.summary}</span>
               </li>
             ))}

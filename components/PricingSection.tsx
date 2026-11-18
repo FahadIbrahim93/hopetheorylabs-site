@@ -41,7 +41,6 @@ export function PricingSection({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         </ul>
 
         <div className="pricing-terms">
-          <p className="pricing-founding">{pricing.founding}</p>
           <p>{pricing.payment}</p>
           <SubHeading className="pricing-subhead">{pricing.addOnsHeading}</SubHeading>
           <ul className="pricing-addons" role="list">

@@ -22,14 +22,14 @@ One responsive, accessible marketing site. Do not iframe the source HTML. Copy, 
 ## Visual system
 
 - Palette and typography as in `docs/BRAND.md`.
-- Hero (issue #44, pending founder sign-off in #43): eyebrow “AI engineering · Custom software · Based in Dhaka, working with clients worldwide”, H1 “We engineer software / that makes businesses smarter.”, and the exact tagline “Your data. Connected. Your business. Smarter.” as the supporting line directly under the H1. Copy source: `docs/POSITIONING.md` (branch `issue-43-positioning`).
+- Hero (AI-first, November 2026): eyebrow “AI Audit · Forward-deployed AI engineering · Dhaka”, H1 “Find where AI pays off. / Then we build it with you.”, then a two-sentence supporting line about the AI Audit and forward-deployed engineering. No tagline and no “clients worldwide”. Copy source: the AI-first messaging block (labs Drive) and `content/en.ts`.
 - Eight flow sources: **Productivity, CRM, Databases, Files, Apps, APIs, Systems, People** with captions in `hero.coreNodeDetails` (kinds of data, not client integrations).
 - Intro overlay (brand + line), grain + vignette, custom cursor (mouse only), magnetic hero CTA, header blur on scroll.
 - HUD states: **Scattered → Structured → Alive** (not the old per-section IO labels in WebGL mode).
 
 ## Page sequence
 
-Header (Services · Approach · Work · About · Contact + “Discuss a project”; root-relative links so they work from every route), hero, Stage I/II as an **optional** maturity path (never a gate before AI or forward-deployed work), living flow (centred heading + three pills), how we work (five steps: Discover, Scope, Prototype, Deploy, Improve + live description), services (five pillars: forward-deployed engineering, custom web and mobile software, AI integration and automation, enterprise systems and data, managed engineering; website packages shown as a separate, secondary offer), website packages, work (Rollers Republic **Concept**), about (solo founder Fahad Ibrahim, role only), contact + ticker, footer (Pricing lives here, not in the primary nav), floating WhatsApp.
+Header (Services · Approach · Work · About · Contact + “Discuss a project”; root-relative links so they work from every route), hero, Stage I/II as an **optional** maturity path (never a gate before AI or forward-deployed work), living flow (centred heading + three pills), how we work (five steps: Discover, Scope, Prototype, Deploy, Improve + live description), services (six, in order: AI Audit, forward-deployed AI engineering, AI integration and automation as lead services, then custom software, web and mobile, enterprise systems and data, and managed engineering as supporting services; website packages shown as a separate, secondary offer), website packages, work (Rollers Republic **Concept**), about (solo founder Fahad Ibrahim, role only), contact + ticker, footer (Pricing lives here, not in the primary nav), floating WhatsApp.
 
 `/services` explains each pillar as problem → what we deliver → who it fits → how we engage. Custom work is “quoted after discovery”; no invented fees or ranges.
 

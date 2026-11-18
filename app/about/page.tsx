@@ -8,7 +8,7 @@ import { About } from "@/components/About";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Hope Theory Labs is an AI engineering and custom software studio in Dhaka, founded and run by Fahad Ibrahim. The person you talk to is the person who builds.",
+    "Hope Theory Labs is a founder-led, AI-first studio in Dhaka, founded and run by Fahad Ibrahim. The person you talk to is the person who builds.",
   alternates: { canonical: "/about" },
 };
 

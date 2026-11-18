@@ -2,7 +2,7 @@
 
 These are the locked colour and type tokens for the Hope Theory Labs site. They were confirmed in writing on 16 November 2026 (issue #48). Do not migrate the palette.
 
-The brand identity built on this palette (direction "Instrument", November 2026) adds the H-T-L monogram, the brand kit in `brand/` and the rules below. The full brand book is `brand/guidelines/HTL-Brand-Guidelines.pdf`; the kit index is `brand/README.md`.
+Fahad approved the "Instrument" identity in November 2026, so the earlier rule against a new master mark no longer applies. The identity adds the H-T-L monogram, the brand kit in `brand/` and the rules below. The palette itself is unchanged. The full brand book is `brand/guidelines/HTL-Brand-Guidelines.pdf`; the kit index is `brand/README.md`.
 
 The live page and `docs/DESIGN_RULES.md` already follow this system. Where an older note in this file disagreed, this page is now the source of truth for colour and typography. Layout and page sequence remain in `docs/SPEC.md`.
 
@@ -16,7 +16,7 @@ The live page and `docs/DESIGN_RULES.md` already follow this system. Where an ol
 - **Slate `#475569`:** secondary text on light backgrounds.
 - **No teal.** Do not reintroduce teal, cyan or mint (`#14B8A6`, `#2DD4BF`, `#7FD6C2`, `#0F766E`, or Tailwind `teal-*`). Before merging, `rg -i "teal|14b8a6|2dd4bf|7fd6c2|0f766e"` must return nothing in `app/`, `components/` and `content/`.
 - One accent only. If a design starts pulling in a second accent, stop and simplify. The warmer highlight `#FFBD61` is a legacy exception, not a second brand colour.
-- Do not introduce metallic silver or champagne. The only master mark is the H-T-L monogram (see Identity); the chrome "Concept 4" render, the "HTC" name and `htc-monogram-flat.svg` are retired.
+- Do not introduce metallic silver or champagne. The H-T-L monogram is the one master mark (see Identity). Concept 4 (the chrome render), the "HTC" name and `htc-monogram-flat.svg` are retired and must not come back.
 
 ## Typography
 
@@ -46,7 +46,15 @@ Urban housing, office and facade context. Present texture, memory, and worn beau
 - **Site:** the header shows the monogram with the caps wordmark (`.site-wordmark`). Favicons are `app/icon.svg` (32 px cut), `app/favicon.ico` (pixel-fitted 16 px cut), `app/apple-icon.png`; the manifest icons are in `public/icons/`. The Open Graph image is `public/og.png`.
 - **Clear space:** two strokes (27% of the mark's height) on every side. **Minimum size:** 24 px / 8 mm for the monogram; use the favicon cuts below 24 px. Horizontal lockup at least 160 px / 35 mm wide.
 - **Never:** bevel, chrome, glow, gradient, outline, rotate, stretch or recolour the mark; never move the gold tip or use a second accent in it.
+- **Concept 4 is retired.** It was the earlier chrome-and-bevel direction. Do not use its render, its mockups or the HTC name anywhere on the site or in new material. If a person asks for it, point them to this page.
 - **Status labels:** every project, demo and case study is labelled Concept, In progress or Shipped.
+
+## Voice and positioning
+
+- Hope Theory Labs is an AI-first studio. Lead with the AI Audit, then forward-deployed AI engineering. Custom software, web and mobile, enterprise systems and managed engineering are supporting services.
+- The AI Audit and all engineering work are quoted per scope after a short discovery call. Never publish a fee, a range, or a founding or introductory rate for them. The website packages are the only public prices.
+- No tagline is set on the site. The working line in the brand book is not locked; leave it off until Fahad decides.
+- Do not say "clients worldwide", and do not invent clients, numbers or testimonials. ServeAI is pre-production, never live, and Rollers Republic is a Concept.
 
 ## Rebuilding the brand kit
 

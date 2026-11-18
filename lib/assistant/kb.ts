@@ -18,11 +18,12 @@ export const WHATSAPP_DISPLAY = en.contact.phone.replace(/^WhatsApp\s+/, "");
 const website = en.services.packages;
 const pillars = en.services.pillars;
 const forwardDeployed = pillars.find((item) => item.slug === "forward-deployed-engineering");
+const auditPillar = pillars.find((item) => item.slug === "ai-audit");
 
 /** The approved package ladder, read straight from the pricing block. */
 export const PACKAGES = `${en.pricing.tiers
   .map((tier) => `${tier.name} ${tier.price}`)
-  .join(", ")}. ${en.pricing.payment} ${en.pricing.founding}`;
+  .join(", ")}. ${en.pricing.payment}`;
 
 export const FACTS = {
   studio: `${en.about.heading} ${en.about.text} ${en.about.founder.name}: ${en.about.founder.role}.`,
@@ -32,7 +33,7 @@ export const FACTS = {
   forwardDeployed: forwardDeployed ? `${forwardDeployed.summary} ${forwardDeployed.engagement}` : "",
   discovery: `${en.howItWorks.steps[0]?.label ?? "Discover"}: ${en.howItWorks.steps[0]?.description ?? ""} ${en.services.customNote}`,
   fit: pillars.map((item) => `${item.title}: ${item.fit}`).join(" "),
-  founding: en.pricing.founding,
+  audit: `${auditPillar ? `${auditPillar.title}: ${auditPillar.summary} ${auditPillar.engagement}` : ""} It leads to forward-deployed AI engineering when you want the first opportunity built.`,
   pricing: en.pricing.intro,
   packages: PACKAGES,
   whatYouGet: en.whatYouGet.items.join(", "),
@@ -51,7 +52,7 @@ export const FACTS_LINES: readonly string[] = [
   `What a website includes: ${FACTS.whatYouGet}`,
   `Price: ${FACTS.pricing}`,
   `Packages: ${FACTS.packages}`,
-  `Founding offer: ${FACTS.founding}`,
+  `AI Audit: ${FACTS.audit}`,
   `Services: ${FACTS.services}`,
   `Forward-deployed engineering: ${FACTS.forwardDeployed}`,
   `Who each service fits: ${FACTS.fit}`,
@@ -111,6 +112,13 @@ const RULES: Rule[] = [
     test: /whatsapp|phone|number|e-?mail|contact|reach you|talk to|নম্বর|যোগাযোগ|ইমেইল|ফোন|হোয়াটসঅ্যাপ/i,
     reply: `You can reach us on WhatsApp at ${WHATSAPP_DISPLAY}, or email ${EMAIL}.`,
   },
+  // The audit is quoted per scope after discovery, so it must never fall into
+  // the price rule below and pick up the website package ladder.
+  {
+    id: "audit",
+    test: /\baudit\b|অডিট/i,
+    reply: `${FACTS.audit} ${FACTS.customQuote}`,
+  },
   {
     id: "price",
     test: /price|pricing|cost|budget|how much|৳|taka|price list|quote|charge|package|tier|starter|counter|showroom|care plan|দাম|খরচ|কত|টাকা|বাজেট|প্যাকেজ/i,
@@ -159,7 +167,7 @@ export function matchFaq(message: string): { id: string; reply: string } {
 
 export function buildSystemPrompt(): string {
   return [
-    "You are the assistant on the Hope Theory Labs website: a founder-led AI engineering and custom software studio in Dhaka, Bangladesh.",
+    "You are the assistant on the Hope Theory Labs website: a founder-led, AI-first studio in Dhaka, Bangladesh. It starts with an AI Audit, then builds what the audit finds through forward-deployed AI engineering. Custom software, web and systems work support that.",
     "Facts you may use, and the only facts you may use:",
     ...FACTS_LINES.map((line) => `- ${line}`),
     "Rules:",
@@ -168,7 +176,7 @@ export function buildSystemPrompt(): string {
     "- At most 90 words, plain sentences, no markdown, no bullet characters, no emoji.",
     "- Never invent prices, packages, discounts, timelines, clients, reviews, statistics or credentials.",
     "- Never say a call, meeting or booking is confirmed or created. Enquiries and bookings continue on WhatsApp.",
-    "- Forward-deployed work is scoped per project. It is not a resident team and never a published fee.",
+    "- The AI Audit and forward-deployed work are scoped per project and quoted after a short discovery call. They are never a published fee, and there is no founding or introductory rate. It is not a resident team.",
     "- Published website packages are a separate offer. Do not present them as the company's only service.",
     "- Do not name anyone except the team members in the facts.",
     `- WhatsApp: ${WHATSAPP}. Email: ${EMAIL}.`,

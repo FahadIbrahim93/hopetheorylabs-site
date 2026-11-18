@@ -32,12 +32,7 @@ export function Footer() {
           </a>
         ))}
       </nav>
-      <nav className="footer-social" aria-label="Social">
-        <a href="https://x.com/AgentHope__" className="social-link" target="_blank" rel="noopener noreferrer" aria-label="X @AgentHope__">
-          X
-        </a>
-        {/* TODO: Claim @hopetheorylabs on Instagram and Facebook, then add links here */}
-      </nav>
+      {/* TODO: add social links once the company handles are confirmed. */}
       <span>HTL / END OF TRANSMISSION</span>
     </footer>
   );

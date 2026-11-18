@@ -8,7 +8,7 @@ import { Contact } from "@/components/Contact";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Tell Hope Theory Labs what you are working on. Custom software and AI work is scoped after discovery; published website packages start at ৳10,000. Replies on WhatsApp.",
+    "Tell Hope Theory Labs what you are working on. Ask about the AI Audit or an engineering project; both are scoped after discovery. Website packages start at ৳10,000. Replies on WhatsApp.",
   alternates: { canonical: "/contact" },
 };
 

@@ -1,6 +1,8 @@
 # Hope Theory Labs — Website
 
-One-page marketing site for **Hope Theory Labs** (Dhaka). Primary conversion: start a WhatsApp conversation.
+Marketing site for **Hope Theory Labs** (Dhaka), founded by Fahad Ibrahim. It leads with the AI Audit and forward-deployed AI engineering. The main conversion is a WhatsApp conversation that opens with a prefilled message.
+
+Routes: `/`, `/about`, `/services`, `/pricing`, `/contact`. Agents: start with [AGENTS.md](AGENTS.md), then [docs/STATUS.md](docs/STATUS.md) and [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Live site
 
@@ -8,7 +10,7 @@ One-page marketing site for **Hope Theory Labs** (Dhaka). Primary conversion: st
 
 Deploys automatically when changes merge to **`main`** (Vercel project `hopetheorylabs`, static export from `out/`). Custom domain is configured in the Vercel dashboard when ready.
 
-Current release: full-viewport **WebGL intelligence experience**, website package pricing in content, and a **floating site assistant** (FAQ + optional free-tier models + lead capture).
+Current release (18 Nov 2026): AI-first copy and the "Instrument" brand, a full-viewport **WebGL scene** with an SVG fallback, website package pricing (the AI Audit has no published price), and a **floating site assistant** (FAQ, optional free-tier models, lead capture).
 
 ## Stack
 
@@ -24,7 +26,8 @@ npm run dev          # http://localhost:3000
 npm run lint
 npm run typecheck
 npm run build        # output in out/
-npm test             # assistant KB + API offline checks
+npm test             # design tokens, assistant KB, API and WhatsApp link checks
+npm run test:e2e     # Playwright layout and axe tests
 npx serve out        # optional static preview
 ```
 
@@ -44,12 +47,16 @@ Environment variables are optional; see [`.env.example`](.env.example) and [docs
 | [docs/QA_RESULTS.md](docs/QA_RESULTS.md) | Recorded results / Lighthouse notes |
 | [docs/ASSISTANT.md](docs/ASSISTANT.md) | Floating assistant architecture and verify steps |
 | [docs/ASSETS.md](docs/ASSETS.md) | Asset notes |
-| [AGENTS.md](AGENTS.md) | Agent workflow |
+| [docs/STATUS.md](docs/STATUS.md) | What is live, open work, known gaps |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | Remaining work in priority order |
+| [brand/README.md](brand/README.md) | Instrument brand kit |
+| [AGENTS.md](AGENTS.md) | Agent rules, setup and CI |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Human and agent contribution flow |
 
 ## Architecture
 
-- `app/page.tsx` → page shell: sections, copy from `content/*.ts`.
+- `app/` routes → page shells; all copy comes from `content/en.ts`.
+- `lib/whatsapp.ts`: every WhatsApp link, built with a `?text=` message.
 - `components/experience/`: WebGL narrative after `window` `load`; SVG/canvas fallback when needed.
 - `components/assistant/`: gold bubble (first-load) + lazy panel; knowledge from `lib/assistant/kb.ts` bound to `content/en.ts`.
 - `api/chat.ts` / `api/lead.ts`: Groq → Gemini → FAQ; lead save (Supabase / Resend optional).
@@ -59,8 +66,8 @@ Security headers and caching: `vercel.json`.
 ## Repository hygiene
 
 - Feature work: branch from `main` (`issue-<n>` or short descriptive name), PR into `main`, `Closes #n` when applicable.
-- Do **not** push directly to `main` or self-merge without review (see AGENTS.md).
-- Prefer deleting merged/superseded remote branches. Keep `main` as the only long-lived branch.
+- Do **not** push directly to `main`, and do not merge without Fahad's OK. A merge to `main` deploys production (see AGENTS.md).
+- Merged branches pile up; deleting them needs Fahad's OK (see issue #67). `main` is the only long-lived branch.
 
 ## Vercel
 

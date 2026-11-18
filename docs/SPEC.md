@@ -1,6 +1,6 @@
 # Hope Theory Labs — Canonical Website Specification
 
-**Design source:** Fahad's supplied standalone HTML concept (25 October 2026). This document supersedes older layout notes where they conflict. The live stack is **Next.js components + R3F**, not the locked inline HTML page on `main` (that path is superseded by this PR's architecture).
+**Design source:** Fahad's supplied standalone HTML concept (25 October 2026). This document supersedes older layout notes where they conflict. The site is built as **Next.js components + R3F**, not as the original inline HTML page.
 
 ## Goal
 

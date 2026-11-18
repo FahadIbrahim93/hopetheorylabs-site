@@ -10,7 +10,7 @@
   --color-body: #eef0f2; /* body text on the page */
   --color-muted: #a3acb8; /* muted labels and secondary copy */
   --color-line: #2a323d; /* hairlines and decorative rules */
-  --color-line-control: #5b6675; /* control and input boundaries */
+  --color-line-control: #6b7685; /* control and input boundaries (3:1 on navy too) */
   --color-navy: #0f1b2d; /* cards and the theme colour */
   --color-gold: #b8892f; /* the single accent */
   --color-gold-dark: #8a6420; /* gold text on light surfaces only */
@@ -156,7 +156,6 @@ html.js .reveal.reveal-in {
 */
 @media (forced-colors: active) {
   :focus-visible { outline: 2px solid Highlight; }
-  .site-wordmark::after,
   .narrative-rail-dot,
   .pricing-features li::before,
   .legend-item.is-active i { background: CanvasText; }
@@ -362,8 +361,10 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
 .work-case:focus-within .work-case-copy { color:#eef0f2; }
 .work-case:hover .work-case-title,
 .work-case:focus-within .work-case-title { color:var(--color-gold); }
-.site-wordmark { display:inline-flex; align-items:center; min-height:44px; color:var(--color-body); font-size:16px; font-weight:500; text-decoration:none; white-space:nowrap; }
-.site-wordmark::after { content:""; display:inline-block; width:5px; height:5px; border-radius:50%; margin:0 0 2px 6px; background:var(--color-gold); }
+.site-wordmark { display:inline-flex; align-items:center; gap:12px; min-height:44px; color:var(--color-body); text-decoration:none; white-space:nowrap; }
+/* Brand lockup (docs/BRAND.md, Identity): monogram + caps wordmark, tracked +0.22em. */
+.site-wordmark-mark { flex:none; display:block; }
+.site-wordmark-text { font:600 13px/1 var(--font-instrument-sans),sans-serif; letter-spacing:.22em; text-transform:uppercase; }
 .desktop-nav { display:flex; align-items:center; gap:6px; }
 .desktop-nav > a, .desktop-nav button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:10px 14px; border:0; background:none; color:#a3acb8; font:400 15px var(--font-instrument-sans),sans-serif; text-decoration:none; }
 .desktop-nav > a:hover, .desktop-nav > a:focus-visible { color:#eef0f2; }

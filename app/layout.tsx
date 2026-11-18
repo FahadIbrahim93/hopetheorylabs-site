@@ -62,7 +62,7 @@ const jsonLd = {
   name: "Hope Theory Labs",
   url: siteUrl,
   image: `${siteUrl}/og.png`,
-  email: "hopetheorybd@gmail.com",
+  email: "hopetheorylabs@gmail.com",
   telephone: "+8801718463471",
   areaServed: "Bangladesh",
   address: {

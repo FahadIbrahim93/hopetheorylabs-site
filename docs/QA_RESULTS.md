@@ -1,5 +1,7 @@
 # QA results
 
+> **Out of date.** The numbers and checklist below were recorded on 26 Oct 2026, before the repositioning, the Instrument brand and the route split. A refresh is tracked in [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66). The live-site facts as of 18 Nov 2026 are in [STATUS.md](STATUS.md).
+
 **Production URL:** https://hopetheorylabs.vercel.app  
 **Architecture:** Next.js static export · WebGL on capable desktops · SVG core on mobile / fallback.
 
@@ -39,7 +41,7 @@ Tooling: `npm run perf:first-load`, `node scripts/run-lighthouse-mobile.mjs` (Li
 ### Copy and conversion
 
 - [x] Visible strings from `content/en.ts` / `content/bn.ts`
-- [x] WhatsApp `https://wa.me/8801718463471`; email `hopetheorybd@gmail.com`
+- [x] WhatsApp `https://wa.me/8801718463471`; email `hopetheorylabs@gmail.com`
 
 ### Motion and WebGL
 

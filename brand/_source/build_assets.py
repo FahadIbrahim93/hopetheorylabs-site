@@ -103,18 +103,18 @@ ims = [Image.open(f"{tmp}/{s}.png").convert("RGBA") for s in (16, 32, 48)]
 ims[2].save(os.path.join(ROOT, "app/favicon.ico"), format="ICO", sizes=[(16, 16), (32, 32), (48, 48)], append_images=ims[:2])
 
 # ---------------------------------------------------------------- Open Graph 1200x630
-HERO = "We engineer software that makes businesses smarter."
-EYEBROW = "AI engineering · Custom software · Dhaka"
+HERO = "Find where AI pays off. Then we build it with you."
+EYEBROW = "AI Audit · Forward-deployed AI engineering · Dhaka"
 def og():
     W, H, m = 1200, 630, 80
     body, _ = lockup(m, 72, 40)
     b = [body, label(EYEBROW, m, 250)]
-    lines = wrap(HERO, "serif", 500, 68, W - 2 * m)
+    lines = ["Find where AI pays off.", "Then we build it with you."]
     for i, ln in enumerate(lines):
         b.append(text(ln, m, 330 + i * 76, "serif", 500, 68, INK, opsz=72))
     b.append(label("hopetheorylabs.vercel.app", m, 520, 15, MUTED))
     b.append(ticks(m, 568, W - 2 * m, accent_at=60))
-    return svg(W, H, "".join(b), "Hope Theory Labs — We engineer software that makes businesses smarter.", NIGHT)
+    return svg(W, H, "".join(b), "Hope Theory Labs — " + HERO, NIGHT)
 og_svg = out("brand/social/htl-og-1200x630.svg", og())
 png(og_svg, "public/og.png", 1200, 630)
 
@@ -122,7 +122,7 @@ png(og_svg, "public/og.png", 1200, 630)
 def x_header():
     W, H, r = 1500, 500, 1420
     b = [label(EYEBROW, r, 170, 16, MUTED, "end")]
-    for i, ln in enumerate(["We engineer software", "that makes businesses smarter."]):
+    for i, ln in enumerate(["Find where AI pays off.", "Then we build it with you."]):
         b.append(text(ln, r, 250 + i * 66, "serif", 500, 58, INK, anchor="end", opsz=72))
     b.append(ticks(620, 420, 800, accent_at=42))
     return svg(W, H, "".join(b), "Hope Theory Labs header", NIGHT)
@@ -136,7 +136,7 @@ def linkedin_cover():
 def facebook_cover():
     W, H, c = 1640, 624, 820
     b = [label(EYEBROW, c, 228, 18, MUTED, "middle")]
-    for i, ln in enumerate(["We engineer software", "that makes businesses smarter."]):
+    for i, ln in enumerate(["Find where AI pays off.", "Then we build it with you."]):
         b.append(text(ln, c, 320 + i * 74, "serif", 500, 64, INK, anchor="middle", opsz=72))
     b.append(ticks(420, 520, 800, accent_at=48))
     return svg(W, H, "".join(b), "Hope Theory Labs cover", NIGHT)
@@ -197,7 +197,7 @@ def gh_preview():
 def gh_banner():
     W, H, m = 1280, 320, 64
     body, w = lockup(m, 112, 64)
-    b = [body, label("AI engineering · Custom software · Dhaka", W - m, 152, 16, MUTED, "end"),
+    b = [body, label(EYEBROW, W - m, 152, 16, MUTED, "end"),
          ticks(m, 268, W - 2 * m, accent_at=64)]
     return svg(W, H, "".join(b), "Hope Theory Labs", NIGHT)
 

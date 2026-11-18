@@ -23,23 +23,23 @@
 
 ## Messaging hierarchy
 
-1. **What we are:** a founder-led AI engineering partner for organisations.
-2. **What we do:** design, build, connect and operate custom software and intelligent workflows.
+1. **What we are:** a founder-led, AI-first studio for organisations.
+2. **What we do:** start with an AI Audit, then design, build, connect and operate what it finds, with custom software and systems work in support.
 3. **How we do it:** forward-deployed engineers who work alongside your team until it runs.
 4. **Why it matters:** scattered tools become one working record, and routine work gets done by software.
 
 ## Approved lines
 
-- Hero: *We engineer software that makes businesses smarter.*
-- Working tagline (not locked): *Your data. Connected. Your business. Smarter.*
-- Primary call to action: *Discuss a project*
+- Hero: *Find where AI pays off. Then we build it with you.*
+- Tagline: not set. A working line exists but is not approved; leave it off every public surface until Fahad decides.
+- Primary call to action: *Ask about the AI Audit* (the header button stays *Discuss a project*)
 - Secondary call to action: *See our work*
 - Brief invitation: *Tell us what your team needs to build, automate or connect.*
 
 ## Words and formats
 
 - Company: **Hope Theory Labs**, then **HTL**.
-- Prices: `৳10,000` (taka sign, no space, thousands comma). Quote enterprise and custom work on scope; never show the small-retail packages to enterprise buyers.
+- Prices: `৳10,000` (taka sign, no space, thousands comma). Quote the AI Audit, enterprise and custom work on scope after a short discovery call, and never publish a fee or an introductory rate for them; never show the small-retail packages to enterprise buyers.
 - Dates: 18 November 2026 in prose; 18 Nov 2026 in labels.
 - Avoid: "revolutionary", "cutting-edge", "seamless", "game-changing", "unlock", "leverage", "AI-powered" as a standalone claim, "best-in-class".
 - HTL ServeAI is in development. Never describe it as live.

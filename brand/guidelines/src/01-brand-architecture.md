@@ -2,9 +2,9 @@
 
 ## Positioning
 
-**One sentence:** a founder-led AI engineering partner that works alongside organisations to design, build, connect and operate custom software and intelligent workflows.
+**One sentence:** Hope Theory Labs is an AI-first studio in Dhaka: we start with an AI Audit, then build what it finds through forward-deployed AI engineering.
 
-**Short description** (bios, profiles): Hope Theory Labs is a founder-led AI engineering studio building custom software, integrated systems and practical AI for businesses.
+**Short description** (bios, profiles): Hope Theory Labs is a founder-led, AI-first studio in Dhaka. We begin with an AI Audit that shows where AI can genuinely help a team, then build and run it alongside them through forward-deployed AI engineering, with custom software, web and systems integration in support.
 
 **What we are not:** a website shop, an SME accounting startup, a GPU-hosting business or an AI research lab. Those may be things we can do; they are not who we are.
 
@@ -31,6 +31,6 @@ Hope Theory Labs is a **single masterbrand**. Everything public carries the HTL 
 
 Use one of these under the logo or in a header, never more than one at a time.
 
-- AI engineering · Custom software · Dhaka
-- AI and software engineering
-- Working tagline (not locked): *Your data. Connected. Your business. Smarter.*
+- AI Audit · Forward-deployed AI engineering · Dhaka
+- AI-first studio · Dhaka
+- Tagline: not set (see Voice).

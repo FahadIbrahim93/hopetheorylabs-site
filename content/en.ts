@@ -323,7 +323,7 @@ export const en: SiteContent = {
     timeframeLabel: "When do you want to start?",
     timeframeOptions: ["As soon as possible", "In 1–3 months", "In 3–6 months", "Still exploring"],
     submit: "Send on WhatsApp",
-    phone: "WhatsApp 01718463471", phoneHref: whatsappLink, email: "hopetheorybd@gmail.com",
+    phone: "WhatsApp 01718463471", phoneHref: whatsappLink, email: "hopetheorylabs@gmail.com",
     whatsappCta: "Message us on WhatsApp",
   },
   assistant: {

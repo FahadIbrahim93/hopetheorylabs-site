@@ -3,11 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AssistantCopy } from "@/content/types";
 import { matchFaq } from "@/lib/assistant/kb";
+import { WHATSAPP_BASE, whatsappUrl } from "@/lib/whatsapp";
 
 export interface AssistantPanelProps {
   copy: AssistantCopy;
-  /** Base wa.me link, e.g. https://wa.me/8801718463471 */
-  whatsapp: string;
   email: string;
   calcomUrl?: string;
   onClose: () => void;
@@ -25,11 +24,37 @@ const MAX_CHARS = 1000;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE = /^\+?[\d][\d\s()\-]{6,19}$/;
 
+const URL_IN_TEXT = /https?:\/\/[^\s<>"]+/g;
+
+/**
+ * Turn links in an assistant reply into real links. A WhatsApp link would
+ * otherwise show as a long percent-encoded URL, so it reads as the handoff label.
+ */
+function renderBubble(content: string, whatsappLabel: string) {
+  const out: (string | React.ReactElement)[] = [];
+  let last = 0;
+  for (const match of content.matchAll(URL_IN_TEXT)) {
+    const raw = match[0];
+    const url = raw.replace(/[.,;:!?)\]]+$/, "");
+    const start = match.index ?? 0;
+    if (start > last) out.push(content.slice(last, start));
+    const isWhatsApp = url.startsWith(WHATSAPP_BASE);
+    out.push(
+      <a key={start} className="asst-link" href={url} target="_blank" rel="noopener noreferrer">
+        {isWhatsApp ? whatsappLabel : url}
+      </a>,
+    );
+    last = start + url.length;
+  }
+  if (last < content.length) out.push(content.slice(last));
+  return out;
+}
+
 function hasBangla(text: string): boolean {
   return /[\u0980-\u09FF]/.test(text);
 }
 
-export default function AssistantPanel({ copy, whatsapp, email, calcomUrl, onClose }: AssistantPanelProps) {
+export default function AssistantPanel({ copy, email, calcomUrl, onClose }: AssistantPanelProps) {
   const [bubbles, setBubbles] = useState<Bubble[]>([{ id: 0, role: "assistant", content: copy.intro }]);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
@@ -178,7 +203,7 @@ export default function AssistantPanel({ copy, whatsapp, email, calcomUrl, onClo
   };
 
   const summaryMessage = `Hi Hope Theory Labs, I'm ${form.name}. ${form.need} Contact: ${form.contact}`;
-  const whatsappHref = `${whatsapp}?text=${encodeURIComponent(summaryMessage)}`;
+  const whatsappHref = whatsappUrl(summaryMessage);
   const mailtoHref = `mailto:${email}?subject=${encodeURIComponent(copy.enquiry.emailSubject)}&body=${encodeURIComponent(summaryMessage)}`;
 
   const saveEnquiry = async () => {
@@ -232,7 +257,7 @@ export default function AssistantPanel({ copy, whatsapp, email, calcomUrl, onClo
       <div className="asst-log" ref={logRef} role="log" aria-live="polite" aria-relevant="additions text">
         {bubbles.map((bubble) => (
           <p key={bubble.id} className={bubble.role === "user" ? "asst-m asst-me" : "asst-m"}>
-            {bubble.content}
+            {bubble.role === "assistant" ? renderBubble(bubble.content, copy.handoffCta) : bubble.content}
           </p>
         ))}
         {busy ? (

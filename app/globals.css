@@ -26,6 +26,11 @@
   --motion-ms: 600ms;
   --section-pad-y: clamp(72px, 8vw, 112px);
   --section-pad-x: clamp(24px, 6vw, 96px);
+  /* Right-hand clearance for the two floating buttons (assistant + WhatsApp):
+     their inset (up to 32px) + 56px button + a 16px breathing gap. */
+  --fab-gutter: 104px;
+  /* The side rail (>=1600px) sits in a gutter this wide, buttons included. */
+  --rail-gutter: 200px;
   color-scheme: dark;
 }
 
@@ -313,7 +318,7 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
   text-transform:uppercase;
 }
 .narrative-rail-label { display:block; margin-bottom:10px; color:var(--color-muted); }
-.narrative-rail-track { position:relative; padding-left:14px; border-left:1px solid var(--color-line-control); min-height:200px; }
+.narrative-rail-track { position:relative; padding-left:14px; border-left:1px solid var(--color-line-control); }
 .narrative-rail-fill {
   position:absolute;
   left:-1px;
@@ -323,12 +328,12 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
   background:var(--color-gold);
   transition:height 400ms var(--ease-signature);
 }
-.narrative-rail-stops { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+.narrative-rail-stops { list-style:none; margin:0; padding:0; display:grid; gap:4px; }
 .narrative-rail-stops a {
   display:flex;
   align-items:center;
   gap:8px;
-  min-height:44px;
+  min-height:28px;
   color:#8b95a3;
   text-decoration:none;
   transition:color 400ms var(--ease-signature);
@@ -350,11 +355,16 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
   background:var(--color-gold);
 }
 .narrative-rail-name { font-size:10px; letter-spacing:.6px; line-height:1.3; }
-/* Only where the side gutter is wide enough that the rail never sits over content. */
-@media (min-width: 1600px) {
+/* Only where the side gutter is wide enough, and the window tall enough, that the
+   rail never sits over content, the hero labels or the floating buttons. */
+@media (min-width: 1600px) and (min-height: 700px) {
   .narrative-rail { display:block; }
+}
+@media (min-width: 1600px) {
   /* Reserve a right gutter so the rail never sits on section content. */
-  #main section { padding-right:max(clamp(24px,6vw,96px), 200px); }
+  #main section { padding-right:max(clamp(24px,6vw,96px), var(--rail-gutter)); }
+  /* The decorative HTL / 00n serials and the hero's Dhaka label sit left of the rail. */
+  .section-marker, .hero-section .hero-index { right:max(clamp(24px,6vw,96px), var(--rail-gutter)); }
 }
 .work-case { transition:border-color 600ms var(--ease-signature); }
 .work-case:hover .work-case-copy,
@@ -499,6 +509,10 @@ html::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:
 .contact-form select option { background:#0f1b2d; color:#eef0f2; }
 .contact-form textarea { min-height:96px; resize:vertical; }
 .contact-form .primary-cta { width:max-content; margin-top:8px; }
+/* Required-field feedback: coral border + a short line under the field. Text is
+   plain sentence case (not the mono caps of the label) so it reads as a message. */
+.contact-form [aria-invalid="true"] { border-color:#ff9a8a; box-shadow:0 0 0 1px #ff9a8a; }
+.contact-form .field-error { color:#ffb4a8; font:400 14px/1.4 var(--font-instrument-sans),sans-serif; letter-spacing:0; text-transform:none; }
 /* The label sits directly above the tier cards, so the cards close up to it. */
 /* Space between the intro note and the first field (it collided at 390px). */
 .contact-intro > .contact-form { margin-top:28px; }
@@ -740,8 +754,9 @@ html.nogl .hero-visual-static { display:flex; }
 .narrative-rail { transition:opacity 300ms var(--ease-signature), visibility 300ms; }
 html.footer-in-view .narrative-rail { opacity:0; visibility:hidden; pointer-events:none; }
 
-/* Keep body copy clear of the fixed assistant + WhatsApp buttons on small screens. */
-@media (max-width: 860px) {
+/* Keep copy, form controls and the decorative serials clear of the two fixed
+   buttons (assistant + WhatsApp) at every width below the side-rail breakpoint. */
+@media (max-width: 1599px) {
   .hero-section,
   .story-section,
   .flow-section,
@@ -751,7 +766,24 @@ html.footer-in-view .narrative-rail { opacity:0; visibility:hidden; pointer-even
   .about-section,
   .contact-section,
   .pricing-section {
-    padding-right: 80px;
+    padding-right: max(var(--section-pad-x), var(--fab-gutter));
   }
-  .site-footer { padding-right: 80px; }
+  .site-footer { padding-right: max(var(--section-pad-x), var(--fab-gutter)); }
+  .section-marker, .hero-index { right: max(var(--section-pad-x), var(--fab-gutter)); }
+}
+@media (max-width: 860px) {
+  :root { --fab-gutter: 84px; }
+  .hero-section,
+  .story-section,
+  .flow-section,
+  .how-section,
+  .services-section,
+  .work-section,
+  .about-section,
+  .contact-section,
+  .pricing-section {
+    padding-right: var(--fab-gutter);
+  }
+  .site-footer { padding-right: var(--fab-gutter); }
+  .section-marker, .hero-index { right: var(--fab-gutter); }
 }

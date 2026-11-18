@@ -11,12 +11,11 @@ const Panel = dynamic(() => import("./AssistantPanel"), { ssr: false });
 
 export interface AssistantLauncherProps {
   copy: AssistantCopy;
-  whatsapp: string;
   email: string;
   calcomUrl?: string;
 }
 
-export function AssistantLauncher({ copy, whatsapp, email, calcomUrl }: AssistantLauncherProps) {
+export function AssistantLauncher({ copy, email, calcomUrl }: AssistantLauncherProps) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -55,7 +54,6 @@ export function AssistantLauncher({ copy, whatsapp, email, calcomUrl }: Assistan
       {open ? (
         <Panel
           copy={copy}
-          whatsapp={whatsapp}
           email={email}
           calcomUrl={calcomUrl}
           onClose={() => {

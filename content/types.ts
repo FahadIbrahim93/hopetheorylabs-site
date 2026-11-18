@@ -2,6 +2,7 @@
  * Shared content contract for the site copy.
  * Keep all user-facing copy in content/en.ts.
  */
+import { whatsappDefaultUrl, whatsappTopicUrl, whatsappUrl } from "../lib/whatsapp";
 export interface NavLink { label: string; href: string }
 
 export interface AssistantCopy {
@@ -148,7 +149,7 @@ export interface SiteContent {
     objectiveLabel: string;
     timeframeLabel: string;
     timeframeOptions: string[];
-    submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
+    submit: string; nameError: string; objectiveError: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
   };
   assistant: AssistantCopy;
   footer: { text: string; ticker: string[]; nav: NavLink[]; navLabel: string; social: { label: string; href: string; aria: string } };
@@ -157,9 +158,11 @@ export interface SiteContent {
     railLabel: string;
   };
 }
-export const whatsappLink = "https://wa.me/8801718463471";
-export const whatsappProjectLink =
-  "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20to%20discuss%20a%20project.";
+/*
+  Every WhatsApp link carries a prefilled message (see lib/whatsapp.ts). A bare
+  wa.me link opens an empty chat, so `whatsappLink` is the default-message link.
+*/
+export const whatsappLink = whatsappDefaultUrl;
+export const whatsappProjectLink = whatsappUrl("Hi Hope Theory Labs, I'd like to discuss a project.");
 /** WhatsApp link with prefilled text naming a pricing tier or service. */
-export const whatsappFor = (topic: string) =>
-  `https://wa.me/8801718463471?text=${encodeURIComponent(`Hi Hope Theory Labs, I'm interested in ${topic}.`)}`;
+export const whatsappFor = whatsappTopicUrl;

@@ -6,6 +6,7 @@
  */
 import { en } from "../content/en";
 import { WHATSAPP } from "../lib/assistant/kb";
+import { whatsappUrl } from "../lib/whatsapp";
 import {
   clientKey,
   emailLead,
@@ -30,7 +31,7 @@ function text(value: unknown): string {
 
 function whatsappPrefill(name: string, contact: string, need: string): string {
   const message = `Hi Hope Theory Labs, I'm ${name}. ${need} Contact: ${contact}`;
-  return `${WHATSAPP}?text=${encodeURIComponent(message)}`;
+  return whatsappUrl(message);
 }
 
 export function GET(): Response {

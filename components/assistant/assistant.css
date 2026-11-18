@@ -309,3 +309,6 @@
     transform: none;
   }
 }
+
+.asst-m .asst-link { color: var(--color-gold); text-decoration: underline; text-underline-offset: 3px; }
+.asst-m .asst-link:hover, .asst-m .asst-link:focus-visible { text-decoration-thickness: 2px; }

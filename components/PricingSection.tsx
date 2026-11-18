@@ -19,14 +19,28 @@ export function PricingSection({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         <Heading id="pricing-heading">{pricing.heading}</Heading>
         <p className="pricing-intro">{pricing.intro}</p>
 
-        <p className="pricing-packages-label">{pricing.packagesLabel}</p>
+        <ul className="pricing-ai" role="list">
+          {pricing.aiCards.map((card) => (
+            <li key={card.title} className="pricing-card pricing-card-ai">
+              <p className="pricing-badge pricing-badge-quiet">{card.tag}</p>
+              <SubHeading className="pricing-name">{card.title}</SubHeading>
+              <p className="pricing-price pricing-price-ask">{card.price}</p>
+              <p className="pricing-for">{card.description}</p>
+              <WhatsAppCta href={card.whatsappLink} className="pricing-cta">{card.cta}</WhatsAppCta>
+            </li>
+          ))}
+        </ul>
+        <p className="pricing-lane-note">{pricing.customNote}</p>
+
+        <SubHeading className="pricing-subhead pricing-packages-heading">{pricing.packagesHeading}</SubHeading>
+        <p className="pricing-packages-intro">{pricing.packagesIntro}</p>
         <ul className="pricing-tiers" role="list">
           {pricing.tiers.map((tier) => {
             const id = `tier-${tier.name.toLowerCase()}`;
             return (
               <li key={tier.name} className={`pricing-card${tier.badge ? " is-featured" : ""}`} aria-labelledby={id}>
                 {tier.badge ? <p className="pricing-badge">{tier.badge}</p> : null}
-                <SubHeading id={id} className="pricing-name">{tier.name}</SubHeading>
+                <CardHeading id={id} className="pricing-name">{tier.name}</CardHeading>
                 <p className="pricing-subtitle">{tier.subtitle}</p>
                 <p className="pricing-price">{tier.price}</p>
                 <ul className="pricing-features" role="list">
@@ -41,27 +55,12 @@ export function PricingSection({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         </ul>
 
         <div className="pricing-terms">
-          <p className="pricing-founding">{pricing.founding}</p>
           <p>{pricing.payment}</p>
-          <SubHeading className="pricing-subhead">{pricing.addOnsHeading}</SubHeading>
+          <CardHeading className="pricing-subhead">{pricing.addOnsHeading}</CardHeading>
           <ul className="pricing-addons" role="list">
             {pricing.addOns.map((a) => <li key={a.label}><span>{a.label}</span><b>{a.price}</b></li>)}
           </ul>
         </div>
-
-        <SubHeading className="pricing-subhead pricing-ai-heading">{pricing.aiHeading}</SubHeading>
-        <ul className="pricing-ai" role="list">
-          {pricing.aiCards.map((card) => (
-            <li key={card.title} className="pricing-card pricing-card-ai">
-              <p className="pricing-badge pricing-badge-quiet">{card.tag}</p>
-              <CardHeading className="pricing-name">{card.title}</CardHeading>
-              <p className="pricing-price pricing-price-ask">{card.price}</p>
-              <p className="pricing-for">{card.description}</p>
-              <WhatsAppCta href={card.whatsappLink} className="pricing-cta">{card.cta}</WhatsAppCta>
-            </li>
-          ))}
-        </ul>
-        <p className="pricing-lane-note">{pricing.customNote}</p>
       </div>
     </section>
   );

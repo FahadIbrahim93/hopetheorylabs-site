@@ -45,9 +45,11 @@ export interface WorkCaseStudy {
   };
 }
 
-/** One of the five service pillars (issue #44). Plain descriptions only: no fees, client names or metrics. */
+/** One of the six service pillars (issue #44). Plain descriptions only: no fees, client names or metrics. */
 export interface ServicePillar {
   slug: string;
+  /** "lead" services come first; "supporting" services back them up. */
+  lane: "lead" | "supporting";
   title: string;
   summary: string;
   problem: string;
@@ -86,7 +88,7 @@ export interface SiteContent {
   };
   hero: {
     /** Split on " / " into two lines. */
-    eyebrow: string; heading: string; tagline: string; subheading: string; primaryCta: string;
+    eyebrow: string; heading: string; subheading: string; primaryCta: string;
     whatsappLink: string; secondaryCta: string; secondaryHref: string;
     coreDescription: string; coreNodes: string[]; coreNodeDetails: string[]; coreCaption: string;
   };
@@ -103,6 +105,7 @@ export interface SiteContent {
     intro: string;
     pillars: ServicePillar[];
     labels: { problem: string; outputs: string; fit: string; engagement: string };
+    laneLabels: { lead: string; supporting: string };
     detailsCta: NavLink;
     /** How custom (non-package) work is priced. No figures. */
     customNote: string;
@@ -117,14 +120,13 @@ export interface SiteContent {
     eyebrow: string;
     heading: string;
     intro: string;
-    packagesLabel: string;
+    packagesHeading: string;
+    packagesIntro: string;
     customNote: string;
     tiers: PricingTier[];
-    founding: string;
     payment: string;
     addOnsHeading: string;
     addOns: { label: string; price: string }[];
-    aiHeading: string;
     aiCards: { title: string; tag: string; price: string; description: string; cta: string; whatsappLink: string }[];
   };
   work: {
@@ -149,7 +151,7 @@ export interface SiteContent {
     submit: string; phone: string; phoneHref: string; email: string; whatsappCta: string;
   };
   assistant: AssistantCopy;
-  footer: { text: string; ticker: string[]; nav: NavLink[]; navLabel: string };
+  footer: { text: string; ticker: string[]; nav: NavLink[]; navLabel: string; social: { label: string; href: string; aria: string } };
   studio: {
     introWordmark: string;
     railLabel: string;

@@ -15,7 +15,7 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 ## Copy and conversion
 
 - [ ] All visible strings from `content/en.ts` only
-- [ ] WhatsApp links use `https://wa.me/8801718463471`; email `hopetheorybd@gmail.com` where shown
+- [ ] WhatsApp links use `https://wa.me/8801718463471`; email `hopetheorylabs@gmail.com` where shown
 - [ ] Primary CTA path to WhatsApp is obvious (hero, contact, floating button hides over contact)
 
 ## Motion and WebGL

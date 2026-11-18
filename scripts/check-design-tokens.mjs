@@ -45,7 +45,7 @@ const PALETTE = {
   "color-body": { value: "#eef0f2", role: "body text on the page" },
   "color-muted": { value: "#a3acb8", role: "muted labels and secondary copy" },
   "color-line": { value: "#2a323d", role: "hairlines and decorative rules" },
-  "color-line-control": { value: "#5b6675", role: "control and input boundaries" },
+  "color-line-control": { value: "#6b7685", role: "control and input boundaries" },
   "color-navy": { value: "#0f1b2d", role: "cards and the theme colour" },
   "color-gold": { value: "#b8892f", role: "the single accent" },
   "color-gold-dark": { value: "#8a6420", role: "gold text on light surfaces" },
@@ -110,6 +110,7 @@ const PAIRS = [
   ["color-gold-dark", LIGHT_SURFACE, 4.5, "gold text on light surfaces"],
   ["color-line-control", INPUT_GROUND, 3, "input border against its own ground"],
   ["color-line-control", "color-page", 3, "control border against the page"],
+  ["color-line-control", NAVY, 3, "control border on navy cards and panels"],
 ];
 
 console.log("\nContrast — WCAG 2.2 AA floors");

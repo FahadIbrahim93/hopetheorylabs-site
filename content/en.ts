@@ -18,12 +18,11 @@ export const en: SiteContent = {
     skip: "Skip to content",
   },
   hero: {
-    eyebrow: "AI engineering · Custom software · Based in Dhaka, working with clients worldwide",
-    heading: "We engineer software / that makes businesses smarter.",
-    tagline: "Your data. Connected. Your business. Smarter.",
+    eyebrow: "AI Audit · Forward-deployed AI engineering · Dhaka",
+    heading: "Find where AI pays off. / Then we build it with you.",
     subheading:
-      "Hope Theory Labs builds custom web and mobile applications, integrates AI into existing workflows, and works directly with teams to turn complex business problems into software that runs in production.",
-    primaryCta: "Discuss your project", whatsappLink: whatsappProjectLink,
+      "An AI Audit maps your workflows and data and ranks the practical opportunities. Forward-deployed engineering turns the first one into a tool your team uses.",
+    primaryCta: "Ask about the AI Audit", whatsappLink: whatsappFor("the AI Audit"),
     secondaryCta: "Explore our work", secondaryHref: "/#work",
     coreDescription: "An animated intelligence core connects websites, CRM, databases, files, apps, APIs, systems and people.",
     coreNodes: ["Productivity", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],
@@ -67,14 +66,30 @@ export const en: SiteContent = {
   },
   services: {
     eyebrow: "What we engineer",
-    heading: "Five ways we work with you.",
+    heading: "Six ways we work with you.",
     intro:
-      "You work with the founder from discovery to production. Outside specialists join only when a project needs them. Start with whichever of these fits the problem in front of you.",
+      "Most work starts with the AI Audit. From there, we build alongside your team. Custom software, enterprise systems and managed engineering support that work, or stand on their own when that is what the problem needs. You work with the founder from discovery to production, and outside specialists join only when a project needs them.",
     pillars: [
       {
+        slug: "ai-audit",
+        lane: "lead",
+        title: "AI Audit",
+        summary: "Discovery with your team, a review of your workflows and data, and a written roadmap of the practical AI opportunities, ranked.",
+        problem: "AI could probably help, but it isn't clear which workflow to start with, what it would take, or whether your data is ready.",
+        outputs: [
+          "Discovery sessions with your team",
+          "Workflow and data review",
+          "Prioritised AI opportunities with rough effort and cost",
+          "A written roadmap",
+        ],
+        fit: "Teams that want a straight answer on where AI is worth the effort before they commit to building anything.",
+        engagement: "The entry point. Fees are set after a short discovery call and quoted per scope.",
+      },
+      {
         slug: "forward-deployed-engineering",
-        title: "Forward-deployed engineering",
-        summary: "Engineers work alongside your team, inside your workflow, from discovery to production and handoff.",
+        lane: "lead",
+        title: "Forward-deployed AI engineering",
+        summary: "We work inside your team, alongside the people who run the process, from discovery to production and handoff.",
         problem: "The problem is inside how your team works, and a brief sent to an outside agency would miss most of it.",
         outputs: [
           "Workflow map and written scope",
@@ -85,20 +100,8 @@ export const en: SiteContent = {
         engagement: "Scoped per project. Time on site depends on the project; it is not a full-time resident team.",
       },
       {
-        slug: "custom-software",
-        title: "Custom web and mobile software",
-        summary: "Websites, apps, e-commerce, SaaS, portals, APIs and internal tools, built to fit how you run.",
-        problem: "Off-the-shelf software doesn't fit, or the tool you have has outgrown the business.",
-        outputs: [
-          "Web and mobile applications",
-          "Customer portals, e-commerce and SaaS products",
-          "APIs and internal tools",
-        ],
-        fit: "Startups, small businesses and growing companies that need software built for their process.",
-        engagement: "Fixed-scope projects or milestone-based builds.",
-      },
-      {
         slug: "ai-integration",
+        lane: "lead",
         title: "AI integration and automation",
         summary: "LLM applications, answers grounded in your own documents, agents and document workflows, with human approval built in.",
         problem: "Your team repeats manual work across documents, inboxes and tools, and generic chatbots don't know your business.",
@@ -111,7 +114,22 @@ export const en: SiteContent = {
         engagement: "Scoped after discovery. No published fee.",
       },
       {
+        slug: "custom-software",
+        lane: "supporting",
+        title: "Custom software, web and mobile",
+        summary: "Web apps, mobile apps, portals, APIs, internal tools and websites, built to fit how you run.",
+        problem: "Off-the-shelf software doesn't fit, or the tool you have has outgrown the business.",
+        outputs: [
+          "Web and mobile applications",
+          "Customer portals, e-commerce and SaaS products",
+          "APIs and internal tools",
+        ],
+        fit: "Startups, small businesses and growing companies that need software built for their process.",
+        engagement: "Fixed-scope projects or milestone-based builds.",
+      },
+      {
         slug: "enterprise-systems-data",
+        lane: "supporting",
         title: "Enterprise systems and data",
         summary: "Integrations between the tools you already run, CRM and ERP interfaces, data pipelines and dashboards.",
         problem: "Data sits in disconnected systems, so reports are manual and nobody trusts one version of the numbers.",
@@ -126,6 +144,7 @@ export const en: SiteContent = {
       },
       {
         slug: "managed-engineering",
+        lane: "supporting",
         title: "Managed engineering",
         summary: "Monitoring, maintenance and steady improvement of software in production, under a written scope.",
         problem: "Software is live, but nobody owns keeping it healthy and improving it.",
@@ -139,15 +158,16 @@ export const en: SiteContent = {
       },
     ],
     labels: { problem: "The problem", outputs: "What we deliver", fit: "Who it fits", engagement: "How we engage" },
+    laneLabels: { lead: "Lead service", supporting: "Supporting" },
     detailsCta: { label: "Explore our services", href: "/services" },
-    customNote: "Custom software, AI, enterprise and forward-deployed work is quoted after discovery. Paid discovery only when agreed. No made-up price ranges.",
+    customNote: "The AI Audit, AI engineering and custom software are quoted per scope after a short discovery call. We publish no fee for them.",
     whatsappCta: "Discuss your project",
     whatsappLink: whatsappProjectLink,
     packages: {
       label: "Separate offer · Available now",
       title: "Standard website packages",
       description:
-        "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳10,000. Founding clients get the Counter for ৳15,000 with a short review and permission to show the site.",
+        "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳10,000.",
       note: "A website is not required before any other work. It is a separate offer for businesses that need one.",
       cta: { label: "See website packages", href: "/pricing" },
     },
@@ -162,11 +182,12 @@ export const en: SiteContent = {
   },
   pricing: {
     eyebrow: "Services & Pricing",
-    heading: "Standard website packages, fixed in taka.",
-    intro: "No monthly fee from us. Domain and hosting stay in your name. Custom software and AI work is scoped after discovery, not sold at a published fee.",
-    packagesLabel: "Standard website packages",
+    heading: "Start with the AI Audit.",
+    intro: "The AI Audit and forward-deployed AI engineering are quoted per scope after discovery. We publish no fee for them.",
+    packagesHeading: "Website packages",
+    packagesIntro: "A separate, supporting offer, fixed in taka. No monthly fee from us. Domain and hosting stay in your name.",
     customNote:
-      "Custom software, forward-deployed engineering and AI work is scoped after discovery and quoted per project. Paid discovery only when agreed.",
+      "All AI and custom software work is quoted per scope after discovery.",
     tiers: [
       {
         name: "Starter", subtitle: "One-page website", price: "৳10,000",
@@ -204,24 +225,22 @@ export const en: SiteContent = {
         cta: "Ask about Showroom", whatsappLink: whatsappFor("the Showroom store (৳45,000)"),
       },
     ],
-    founding: "Founding clients: ৳15,000 for the Counter, in exchange for a short review and permission to show your site.",
     payment: "Payment: 50% deposit, 25% at design approval, 25% before launch.",
     addOnsHeading: "Add-ons",
     addOns: [
       { label: "Domain and hosting, set up at cost, in your name", price: "At cost" },
       { label: "Monthly care (updates, backups, fixes)", price: "Ask us" },
     ],
-    aiHeading: "AI services · quoted after discovery",
     aiCards: [
       {
-        title: "AI Audit", tag: "Early access", price: "Ask us",
-        description: "A short paid review: 3 practical AI wins for your business plus a cost estimate.",
+        title: "AI Audit", tag: "Start here", price: "Quoted per scope",
+        description: "Discovery with your team, a workflow and data review, and a written roadmap of prioritised AI opportunities with rough effort and cost. Fees are set after a short discovery call.",
         cta: "Ask about the AI Audit", whatsappLink: whatsappFor("the AI Audit"),
       },
       {
-        title: "AI Engineering", tag: "Custom quote", price: "Custom quote",
-        description: "Agents and automations wired into the tools you already run, scoped after we understand your stack.",
-        cta: "Ask about AI Engineering", whatsappLink: whatsappFor("AI Engineering"),
+        title: "Forward-deployed AI engineering", tag: "After the audit", price: "Quoted per scope",
+        description: "We work inside your team to build, connect and run the first opportunity the audit finds, with your people approving what matters.",
+        cta: "Ask about AI engineering", whatsappLink: whatsappFor("forward-deployed AI engineering"),
       },
     ],
   },
@@ -285,17 +304,17 @@ export const en: SiteContent = {
       {
         slug: "hope-theory-labs-site",
         title: "Hope Theory Labs",
-        tag: "Internal",
+        tag: "Shipped",
         discipline: "Website",
         summary:
           "This marketing site — static export, accessible fallbacks, WebGL intelligence scene on capable desktops only.",
         problem:
           "The studio's own site has to demonstrate the work it sells, on the devices buyers actually use.",
         demonstrates:
-          "A static export with accessible fallbacks, a WebGL scene on capable desktops only, and reduced-motion support. Internal build, shipped by the studio.",
+          "A static export with accessible fallbacks, a WebGL scene on capable desktops only, and reduced-motion support. Built and shipped by the studio itself.",
         deliverables: [
           "Static Next.js export on Vercel",
-          "WhatsApp-first contact and founding pricing in copy",
+          "WhatsApp-first contact and plain-language pricing",
           "WebGL experience with SVG fallback and reduced-motion support",
         ],
       },
@@ -303,7 +322,7 @@ export const en: SiteContent = {
   },
   about: {
     eyebrow: "About", heading: "Founder-led, from discovery to production.",
-    text: "Hope Theory Labs is an AI engineering and custom software studio in Dhaka, founded and run by Fahad Ibrahim. The person you talk to is the person who builds. Outside specialists join only when a project needs them.",
+    text: "Hope Theory Labs is a founder-led, AI-first studio in Dhaka, founded and run by Fahad Ibrahim. We begin with an AI Audit, then build and run what it finds alongside your team. The person you talk to is the person who builds. Outside specialists join only when a project needs them.",
     founder: { name: "Fahad Ibrahim", role: "Founder · Engineering and technical delivery" },
   },
   contact: {
@@ -312,9 +331,10 @@ export const en: SiteContent = {
     nameLabel: "Your name",
     typeLabel: "What kind of work?",
     typeOptions: [
-      "Forward-deployed engineering",
-      "Custom web or mobile software",
+      "AI Audit",
+      "Forward-deployed AI engineering",
       "AI integration or automation",
+      "Custom software, web or mobile",
       "Enterprise systems or data",
       "A website package",
       "Not sure yet",
@@ -323,14 +343,14 @@ export const en: SiteContent = {
     timeframeLabel: "When do you want to start?",
     timeframeOptions: ["As soon as possible", "In 1–3 months", "In 3–6 months", "Still exploring"],
     submit: "Send on WhatsApp",
-    phone: "WhatsApp 01718463471", phoneHref: whatsappLink, email: "hopetheorybd@gmail.com",
+    phone: "WhatsApp 01718463471", phoneHref: whatsappLink, email: "hopetheorylabs@gmail.com",
     whatsappCta: "Message us on WhatsApp",
   },
   assistant: {
     title: "Hope Theory assistant",
     open: "Open the Hope Theory assistant",
     close: "Close the assistant",
-    intro: "Hi — I'm the Hope Theory assistant. Ask what we build, how discovery works, or about the published website packages.",
+    intro: "Hi — I'm the Hope Theory assistant. Ask about the AI Audit, how discovery works, or the published website packages.",
     inputLabel: "Your message",
     placeholder: "Type your question",
     send: "Send",
@@ -342,10 +362,10 @@ export const en: SiteContent = {
     rateLimited: "You've sent a few messages already. Give it a few minutes, or message us on WhatsApp.",
     tooLong: "That message is too long. Keep it under 1,000 characters.",
     chips: [
+      "What is the AI Audit?",
       "What does forward-deployed mean?",
-      "How does discovery work?",
       "Compare website packages",
-      "Explore AI integration",
+      "Start an enquiry",
     ],
     booking: "Book a call",
     enquiry: {
@@ -365,6 +385,7 @@ export const en: SiteContent = {
     },
   },
   footer: {
+    social: { label: "X", href: "https://x.com/HopeTheoryLabs", aria: "Hope Theory Labs on X (opens in a new tab)" },
     text: "© 2026 Hope Theory Labs · Dhaka, Bangladesh · from the Hope Theory family. No cookies, no analytics.",
     ticker: ["Email", "CRM", "Billing", "Docs", "Chat", "Storefront", "Support"],
     navLabel: "Site",

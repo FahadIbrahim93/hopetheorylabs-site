@@ -19,7 +19,7 @@ You are a coding agent building the Hope Theory Labs website. Everything you nee
 
 - Follow `docs/DESIGN_RULES.md` (anti-AI-look bans and dos, motion and performance budget).
 - Use only the copy in SPEC.md / `content/*.ts`. **No fake stats, metrics, logos, reviews, testimonials, or degree/education claims** about Fahad or anyone.
-- Rollers Republic is always "Concept". Sthappo is not added. AI, forward-deployed, enterprise and managed engineering work is offered and **quoted after discovery**: never publish a fee or range for it. The only public prices are the website packages and founding offer in `content/en.ts`.
+- Rollers Republic is always "Concept". Sthappo is not added. AI, forward-deployed, enterprise and managed engineering work is offered and **quoted after discovery**: never publish a fee or range for it. The AI Audit has no published fee and there is no founding or introductory rate. The only public prices are the website packages in `content/en.ts`.
 - **No new paid services**, no tracking/analytics/cookies, no external scripts. Free tiers only.
 - Don't deploy to production or change Vercel settings. Preview deploys come from PRs automatically.
 - Missing assets (e.g. Rollers Republic screenshots): don't fake them. Ask in the issue and leave a clear TODO.

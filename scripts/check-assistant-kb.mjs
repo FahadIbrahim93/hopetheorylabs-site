@@ -106,6 +106,26 @@ try {
   }
   ok(`${discoveryQuestions.length} scoping questions get the discovery answer`);
 
+  // The AI Audit is quoted per scope: its answers carry no ৳ figure, no
+  // package ladder and no founding or introductory rate.
+  const auditQuestions = ["What is the AI Audit?", "How much does the audit cost?", "অডিট কী?", "Do you offer an AI audit?"];
+  for (const q of auditQuestions) {
+    const { id, reply } = route(q);
+    if (id !== "audit") fail(`"${q}" routed to ${id}, expected audit`);
+    if (/৳|taka|\btk\b|bdt/i.test(reply)) fail(`audit reply for "${q}" carries a price`);
+    if (/founding|introductory|special rate|discount/i.test(reply)) fail(`audit reply for "${q}" mentions a special rate`);
+    if (!/discovery call|per scope|after discovery/i.test(reply)) fail(`audit reply for "${q}" does not say it is quoted per scope`);
+  }
+  ok(`${auditQuestions.length} audit questions get the quoted-per-scope answer with no price`);
+
+  const aiBlock = en.slice(en.indexOf("aiCards: ["), en.indexOf("  work: {"));
+  if (!aiBlock || /৳/.test(aiBlock)) fail("the AI cards on the pricing page must carry no ৳ figure");
+  ok("AI cards carry no price");
+
+  if (/founding/i.test(en)) fail("content/en.ts still mentions a founding offer");
+  if (/clients worldwide|worldwide/i.test(en)) fail("content/en.ts still says clients worldwide");
+  ok("no founding offer and no worldwide claim in the site copy");
+
   console.log("check-assistant-kb: all passed");
 } finally {
   rmSync(dir, { recursive: true, force: true });

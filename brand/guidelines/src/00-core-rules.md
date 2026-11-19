@@ -34,4 +34,4 @@ Clear, evidence-led, technically capable and direct. Plain English, no hype, no 
 
 ## Components
 
-The components live in `components/bundle.js` as `window.HTL` and need React 18 on the page. Load the stylesheet `components/bundle.css` after the tokens. Fonts load from Google Fonts (see Typography).
+The shipped website uses Next.js and React 19, with reusable components in the repository `components/` folder and web design rules in `docs/BRAND.md`. The canonical portable design tokens are in `brand/tokens/tokens.json` and `tokens.css`. A standalone Claude Design `components/bundle.js` is not shipped in this repository; do not treat it as an implemented website dependency. Fonts are loaded by the website through `next/font/google` (see Typography).

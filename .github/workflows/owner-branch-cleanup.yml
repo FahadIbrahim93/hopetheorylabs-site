@@ -8,6 +8,8 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/owner-branch-cleanup.yml"
+  pull_request:
+    types: [closed]
   workflow_dispatch:
     inputs:
       delete:
@@ -29,7 +31,7 @@ concurrency:
 jobs:
   branch-cleanup:
     if: >-
-      ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'chore(hygiene): execute owner-approved cleanup #71')) }}
+      ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'chore(hygiene): finish owner-approved branch cleanup #72')) }}
     runs-on: ubuntu-latest
     steps:
       - name: Inventory and verify merged branches
@@ -58,7 +60,7 @@ jobs:
             // Approved one-time push cleanup is restricted to these exact historical
             // branch heads. The current PR head is validated by its merged-PR record.
             // Manual dispatch remains a separate, owner-approved workflow.
-            const approvedOneTime = new Map([["a11y-ci-and-evidence","8203c51df76d281e06c7083f77119e52d0c8bcfa"],["a11y-regression-and-palette-drift","efd8c4728f18413c1694a18b394ea19ba20d826d"],["bangla-remove-half-feature","fad76645134269c802b514fc919d71b863f7cc58"],["brand/instrument","1c78a040f07703e0a382e09144e85a68717ae879"],["brand-reposition-44","a3065580f7c7d182cad8921418fdd8df1eaac6e7"],["chore/next-16.4.6","299d277a798d9c5f255e78b2c7c9a65890e9e84e"],["docs/agent-handoff-2026-11-18","16e17b423784204858cc0dfc58ee63576970d8f6"],["docs/lock-brand-tokens-48","1ccf32dbbd46909627666e9696929375b4086f"],["docs/recruiter-presentation-2026-11","40cf3cd55804533c7a814d6c37c9da4cdd924e8e"],["fix/brand-book-ai-audit-icon-64-65","1e0b3475162cfff3236a79a8c52c21dc34c4b256"],["fix/headshop-phone-mockup","56f39aade2dc720eb9e814d6f54804f9af2e7a9d"],["fix/production-harden","11575f03b517379f8bd3228774e4dcb2ffe9ac01"],["fix/site-overlap-whatsapp-prefill","91b93a167872b9135e66879c8526c4f576525ec8"],["issue-45-packages-qualification","274031f1b772e91b784e4292c32701bb106a44a4"],["issue-46-work-registry","2ca65474ca75187116263a3f14da2374b9b95e47"],["issue-47-metadata-assistant","c385853749e1bf8b9328eeb70f1daf047b5687d7"],["issue-50-contrast-intro-tokens-rhythm","46d4d61877c9a1d99b26a1338f9ffaa2f0858ee4"],["split-pages-routes","1857f62b9ac0f9891cf43983d98715d567ee201a"],["token-name-parity","637fc3282cb943c2d4754a6ff037177349385790"],["chore/repo-hygiene-nov-2026",null]]);
+            const approvedOneTime = new Map([["docs/lock-brand-tokens-48","1ccf32dbbd46909627666e9696929375b4086f"],["docs/recruiter-presentation-2026-11","40cf3cd55804533c7a814d6c37c9da4cdd924e8e"],["chore/final-branch-cleanup",null]]);
             const retained = new Set([
               main,
               "issue-42-positioning-draft",
@@ -97,7 +99,7 @@ jobs:
               let reason = null;
               try {
                 const cmp = await github.rest.repos.compareCommitsWithBasehead({
-                  owner, repo, basehead: `${main}...${name}`,
+                  owner, repo, basehead: `${main}...${branch.commit.sha}`,
                 });
                 if (cmp.data.ahead_by === 0) reason = "ancestor of default branch";
               } catch (e) {
@@ -130,14 +132,66 @@ jobs:
             // Owner-triggered deletion. Re-check the current ref to avoid deleting an updated branch.
             let removed = 0;
             for (const b of candidates) {
-              const fresh = await github.rest.repos.getBranch({ owner, repo, branch: b.name });
-              if (fresh.data.commit.sha !== b.sha || fresh.data.protected) {
-                core.warning(`Skipped changed/protected branch ${b.name}`);
-                continue;
+              try {
+                const fresh = await github.rest.repos.getBranch({ owner, repo, branch: b.name });
+                if (fresh.data.commit.sha !== b.sha || fresh.data.protected) {
+                  core.warning(`Skipped changed/protected branch ${b.name}`);
+                  continue;
+                }
+                await github.rest.git.deleteRef({ owner, repo, ref: "heads/" + b.name });
+                removed++;
+                core.info(`Deleted ${b.name}: ${b.reason}`);
+              } catch (error) {
+                if (error.status === 404 || error.status === 422) {
+                  core.warning(`Branch already removed or blocked by rules: ${b.name} (${error.status})`);
+                  continue;
+                }
+                throw error;
               }
-              await github.rest.git.deleteRef({ owner, repo, ref: "heads/" + b.name });
-              removed++;
-              core.info(`Deleted ${b.name}: ${b.reason}`);
             }
             core.summary.addRaw(`\nDeleted ${removed} of ${candidates.length} candidates.\n`);
             await core.summary.write();
+
+  auto-delete-merged-head:
+    # Future hygiene: delete only a merged PR's unchanged same-repository head.
+    # No other branches are affected. Never run for unmerged/closed PRs.
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove unchanged head after confirmed merge
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            if (!pr?.merged_at || pr.head.repo?.full_name?.toLowerCase() !== `${owner}/${repo}`.toLowerCase()) {
+              core.info("Not a same-repository merged PR; no changes");
+              return;
+            }
+            const name = pr.head.ref;
+            const defaultBranch = (await github.rest.repos.get({ owner, repo })).data.default_branch;
+            if (name === defaultBranch) {
+              core.info("Default branch is protected; no changes");
+              return;
+            }
+            const open = await github.paginate(github.rest.pulls.list, { owner, repo, state: "open", per_page: 100 });
+            if (open.some(p => p.head.ref === name && p.head.repo?.full_name?.toLowerCase() === `${owner}/${repo}`.toLowerCase())) {
+              core.info("Another open PR uses this branch; preserved");
+              return;
+            }
+            try {
+              const branch = (await github.rest.repos.getBranch({ owner, repo, branch: name })).data;
+              if (branch.protected || branch.commit.sha !== pr.head.sha) {
+                core.info("Branch has advanced or is protected; preserved");
+                return;
+              }
+              await github.rest.git.deleteRef({ owner, repo, ref: "heads/" + name });
+              core.info(`Deleted merged PR #${pr.number} head: ${name}`);
+            } catch (error) {
+              if (error.status === 404 || error.status === 422) {
+                core.info(`Nothing deleted (branch removed by another job or protected): ${name}`);
+                return;
+              }
+              throw error;
+            }

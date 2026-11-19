@@ -1,0 +1,60 @@
+name: Temporary regenerate approved HTL brand book for PR 78
+on:
+  push:
+    branches:
+      - fix/approved-positioning-no-founder-profiles-43
+    paths:
+      - "brand/guidelines/src/**"
+      - ".github/workflows/temp-brandbook-pr78.yml"
+permissions:
+  contents: write
+concurrency:
+  group: temp-brandbook-pr78
+  cancel-in-progress: true
+jobs:
+  rebuild:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: browser-actions/setup-chrome@v1
+      - name: Install fonts and dependencies
+        run: |
+          python -m pip install markdown
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils fontconfig
+          git clone --quiet --depth 1 --filter=blob:none --sparse https://github.com/google/fonts.git /tmp/htl-fonts
+          cd /tmp/htl-fonts
+          git sparse-checkout set ofl/instrumentsans ofl/newsreader ofl/jetbrainsmono
+          mkdir -p "$HOME/.local/share/fonts/HTL"
+          find ofl/instrumentsans ofl/newsreader ofl/jetbrainsmono -iname '*.ttf' -exec cp {} "$HOME/.local/share/fonts/HTL/" \;
+          fc-cache -f
+      - name: Rebuild approved PDF, validate messaging and commit to review branch
+        run: |
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium)"
+          export CHROME
+          python brand/_source/build_guidelines.py
+          pdfinfo brand/guidelines/HTL-Brand-Guidelines.pdf | grep '^Pages:'
+          pdftotext -layout brand/guidelines/HTL-Brand-Guidelines.pdf /tmp/htl-checked.txt
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('/tmp/htl-checked.txt').read_text()
+          for required in ("Custom software", "AI Audit", "Forward-Deployed AI Engineering", "The six service pillars"):
+              assert required.lower() in text.lower(), f"Missing approved branding: {required}"
+          for forbidden in ("founder-led, AI-first", "We begin with an AI Audit", "Fahad Ibrahim", "Tamim Abir", "The five service pillars"):
+              assert forbidden.lower() not in text.lower(), f"Outdated or person-specific branding: {forbidden}"
+          print("PASS brand PDF content")
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add brand/guidelines/HTL-Brand-Guidelines.pdf
+          if git diff --cached --quiet; then
+            echo "PDF unchanged"
+          else
+            git commit -m "docs(brand): regenerate full-service company brand book (#43)"
+            git push origin HEAD:fix/approved-positioning-no-founder-profiles-43
+          fi

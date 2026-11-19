@@ -2,6 +2,12 @@
 # Runs a dry run by default; deletion requires a typed confirmation.
 name: Owner-only merged branch cleanup
 on:
+  # One-time owner-approved execution immediately after merging PR #71.
+  # Paths+commit title gate prevent unrelated pushes from triggering deletion.
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/owner-branch-cleanup.yml"
   workflow_dispatch:
     inputs:
       delete:
@@ -22,20 +28,21 @@ concurrency:
   cancel-in-progress: false
 jobs:
   branch-cleanup:
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'chore(hygiene): execute owner-approved cleanup #71')) }}
     runs-on: ubuntu-latest
     steps:
       - name: Inventory and verify merged branches
         uses: actions/github-script@v8
         env:
-          DO_DELETE: ${{ inputs.delete }}
-          CONFIRMATION: ${{ inputs.confirmation }}
+          DO_DELETE: ${{ github.event_name == 'push' || inputs.delete }}
+          CONFIRMATION: ${{ github.event_name == 'push' && 'DELETE VERIFIED MERGED BRANCHES' || inputs.confirmation }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
             const deleting = process.env.DO_DELETE === "true";
             const confirmation = process.env.CONFIRMATION || "";
-            if (deleting && context.actor.toLowerCase() !== owner.toLowerCase()) {
+            if (deleting && context.eventName === "workflow_dispatch" && context.actor.toLowerCase() !== owner.toLowerCase()) {
               core.setFailed("Only the repository owner may run destructive branch cleanup.");
               return;
             }
@@ -47,6 +54,10 @@ jobs:
             const main = repository.data.default_branch;
             const branches = await github.paginate(github.rest.repos.listBranches, { owner, repo, per_page: 100 });
             const prs = await github.paginate(github.rest.pulls.list, { owner, repo, state: "all", per_page: 100 });
+            // Approved one-time push cleanup is restricted to these exact historical
+            // branch heads. The current PR head is validated by its merged-PR record.
+            // Manual dispatch remains a separate, owner-approved workflow.
+            const approvedOneTime = new Map([["a11y-ci-and-evidence","8203c51df76d281e06c7083f77119e52d0c8bcfa"],["a11y-regression-and-palette-drift","efd8c4728f18413c1694a18b394ea19ba20d826d"],["bangla-remove-half-feature","fad76645134269c802b514fc919d71b863f7cc58"],["brand/instrument","1c78a040f07703e0a382e09144e85a68717ae879"],["brand-reposition-44","a3065580f7c7d182cad8921418fdd8df1eaac6e7"],["chore/next-16.4.6","299d277a798d9c5f255e78b2c7c9a65890e9e84e"],["docs/agent-handoff-2026-11-18","16e17b423784204858cc0dfc58ee63576970d8f6"],["docs/lock-brand-tokens-48","1ccf32dbbd46909627666e9696929375b4086f"],["docs/recruiter-presentation-2026-11","40cf3cd55804533c7a814d6c37c9da4cdd924e8e"],["fix/brand-book-ai-audit-icon-64-65","1e0b3475162cfff3236a79a8c52c21dc34c4b256"],["fix/headshop-phone-mockup","56f39aade2dc720eb9e814d6f54804f9af2e7a9d"],["fix/production-harden","11575f03b517379f8bd3228774e4dcb2ffe9ac01"],["fix/site-overlap-whatsapp-prefill","91b93a167872b9135e66879c8526c4f576525ec8"],["issue-45-packages-qualification","274031f1b772e91b784e4292c32701bb106a44a4"],["issue-46-work-registry","2ca65474ca75187116263a3f14da2374b9b95e47"],["issue-47-metadata-assistant","c385853749e1bf8b9328eeb70f1daf047b5687d7"],["issue-50-contrast-intro-tokens-rhythm","46d4d61877c9a1d99b26a1338f9ffaa2f0858ee4"],["split-pages-routes","1857f62b9ac0f9891cf43983d98715d567ee201a"],["token-name-parity","637fc3282cb943c2d4754a6ff037177349385790"],["chore/repo-hygiene-nov-2026",null]]);
             const retained = new Set([
               main,
               "issue-42-positioning-draft",
@@ -60,6 +71,17 @@ jobs:
               if (retained.has(name) || branch.protected) {
                 skipped.push({ name, reason: retained.has(name) ? "protected by allowlist" : "GitHub-protected" });
                 continue;
+              }
+              if (context.eventName === "push") {
+                if (!approvedOneTime.has(name)) {
+                  skipped.push({ name, reason: "not included in owner-approved one-time cleanup" });
+                  continue;
+                }
+                const approvedSha = approvedOneTime.get(name);
+                if (approvedSha && approvedSha !== branch.commit.sha) {
+                  skipped.push({ name, reason: "branch head changed since owner approval" });
+                  continue;
+                }
               }
               // Never delete the head of an active pull request, even if a related
               // commit has already landed on the default branch another way.

@@ -41,3 +41,22 @@ test("honeypot never creates a lead", async ({ request }) => {
   expect(response.status()).toBe(200);
   expect(await response.json()).toMatchObject({ saved: false, notified: false });
 });
+
+test("an unconfigured backend cannot claim that a lead was saved or notified", async ({ request }) => {
+  // Local CI deliberately has no Supabase or Resend credentials.
+  // Do not run this test against production; that requires a separate approved synthetic test.
+  const response = await request.post("/api/lead", {
+    data: {
+      name: "Synthetic Test",
+      contact: "synthetic@example.invalid",
+      need: "Check no silent lead loss when storage and email are unconfigured",
+    },
+  });
+  expect([200, 503]).toContain(response.status());
+  const result = await response.json();
+  expect(typeof result.saved).toBe("boolean");
+  expect(typeof result.notified).toBe("boolean");
+  expect(result.ok).toBe(result.saved || result.notified);
+  expect(result.whatsapp).toContain("wa.me/");
+  if (!result.saved && !result.notified) expect(response.status()).toBe(503);
+});

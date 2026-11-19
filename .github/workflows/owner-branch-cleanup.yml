@@ -28,7 +28,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   branch-cleanup:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'chore(hygiene): execute owner-approved cleanup #71')) }}
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'chore(hygiene): execute owner-approved cleanup #71')) }}
     runs-on: ubuntu-latest
     steps:
       - name: Inventory and verify merged branches

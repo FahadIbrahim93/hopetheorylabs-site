@@ -85,8 +85,11 @@ export async function POST(request: Request): Promise<Response> {
     const saved = await saveLead(lead);
     const notified = await emailLead(lead);
 
-    logEvent("lead.ok", { saved, notified, lang });
-    return jsonResponse({ ok: true, saved, notified, whatsapp }, 200);
+    const delivered = saved || notified;
+    logEvent("lead.result", { saved, notified, lang });
+    // Do not return ok:true if the lead was neither persisted nor delivered.
+    // The UI keeps the prefilled WhatsApp handoff available on failure.
+    return jsonResponse({ ok: delivered, saved, notified, whatsapp }, delivered ? 200 : 503);
   } catch {
     logEvent("lead.crash", { status: 1 });
     return jsonResponse(
@@ -97,7 +100,7 @@ export async function POST(request: Request): Promise<Response> {
         notified: false,
         whatsapp: WHATSAPP,
       },
-      200,
+      503,
     );
   }
 }

@@ -1,0 +1,62 @@
+name: Live per-route Lighthouse and responsive QA
+on:
+  push:
+    branches: [test/live-per-route-qa-66]
+    paths:
+      - ".github/workflows/live-per-route-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Responsive screenshots, keyboard navigation, axe, fallback and reduced-motion
+        run: node scripts/brand-production-qa.mjs
+      - name: Five individual mobile Lighthouse reports
+        if: always()
+        continue-on-error: true
+        run: |
+          mkdir -p artifacts/brand-production-qa
+          for route in home services pricing about contact; do
+            path="$route"
+            if [ "$route" = "home" ]; then path=""; fi
+            echo "Checking route /$path"
+            npx --yes lighthouse "https://hopetheorylabs.vercel.app/$path" \
+              --only-categories=performance,accessibility,best-practices,seo \
+              --form-factor=mobile --screenEmulation.mobile=true \
+              --chrome-flags="--headless=new --no-sandbox" \
+              --output=json --output-path="artifacts/brand-production-qa/lighthouse-$route.json" --quiet || true
+          done
+          node - <<'JS'
+          const fs=require('node:fs');
+          let lines=['### Current production — five mobile Lighthouse routes','','| Route | Performance | Accessibility | Best practices | SEO | LCP ms | CLS |','|---|---:|---:|---:|---:|---:|---:|'];
+          for(const route of ['home','services','pricing','about','contact']){
+            const f='artifacts/brand-production-qa/lighthouse-'+route+'.json';
+            if(!fs.existsSync(f)){lines.push('| '+route+' | Not available | | | | | |');continue;}
+            try{
+              const j=JSON.parse(fs.readFileSync(f,'utf8'));
+              const c=j.categories,a=j.audits;
+              const score=k=>c[k]?Math.round(c[k].score*100):'—';
+              lines.push('| /'+(route==='home'?'':route)+' | '+score('performance')+' | '+score('accessibility')+' | '+score('best-practices')+' | '+score('seo')+' | '+Math.round(a['largest-contentful-paint']?.numericValue||0)+' | '+Number(a['cumulative-layout-shift']?.numericValue||0).toFixed(3)+' |');
+            }catch(e){lines.push('| '+route+' | Parse error | | | | | |');}
+          }
+          const txt=lines.join('\n')+'\n';
+          fs.writeFileSync('artifacts/brand-production-qa/FIVE-ROUTE-SCORES.md',txt);
+          if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,txt);
+          console.log(txt);
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: htl-five-route-production-qa
+          path: artifacts/brand-production-qa/
+          retention-days: 14

@@ -1,0 +1,63 @@
+name: Temporary regenerate HTL social graphics and brand book for PR 78
+on:
+  push:
+    branches: [fix/approved-positioning-no-founder-profiles-43]
+    paths:
+      - "brand/_source/build_assets.py"
+      - ".github/workflows/temp-brand-assets-pr78.yml"
+permissions:
+  contents: write
+concurrency:
+  group: temp-htl-assets-pr78
+  cancel-in-progress: true
+jobs:
+  build-assets:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: browser-actions/setup-chrome@v1
+      - name: Dependencies and licensed OFL fonts
+        run: |
+          python -m pip install markdown fonttools uharfbuzz pillow
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq librsvg2-bin qpdf fontconfig poppler-utils
+          git clone --quiet --depth 1 --filter=blob:none --sparse https://github.com/google/fonts.git /tmp/htl-fonts
+          cd /tmp/htl-fonts
+          git sparse-checkout set ofl/instrumentsans ofl/newsreader ofl/jetbrainsmono
+          export HTL_FONTS="$HOME/.local/share/fonts/HTL"
+          mkdir -p "$HTL_FONTS"
+          cp "$(find ofl/instrumentsans -maxdepth 1 -iname '*.ttf' | grep -vi italic | head -1)" "$HTL_FONTS/instrument.ttf"
+          cp "$(find ofl/newsreader -maxdepth 1 -iname '*.ttf' | grep -vi italic | head -1)" "$HTL_FONTS/newsreader.ttf"
+          cp "$(find ofl/jetbrainsmono -maxdepth 1 -iname '*.ttf' | grep -vi italic | head -1)" "$HTL_FONTS/jbmono.ttf"
+          fc-cache -f
+      - name: Rebuild social, OG, website branding and revised brand-book PDF
+        run: |
+          export HTL_FONTS="$HOME/.local/share/fonts/HTL"
+          export CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium)"
+          python brand/_source/build_assets.py
+          python brand/_source/build_guidelines.py
+          pdftotext -layout brand/guidelines/HTL-Brand-Guidelines.pdf /tmp/htl-checked.txt
+          python - <<'PY'
+          from pathlib import Path
+          t=Path('/tmp/htl-checked.txt').read_text()
+          assert 'Complex problems.' in t and 'Working software.' in t
+          assert 'AI Audit' in t
+          for forbidden in ('Fahad Ibrahim','Tamim Abir','Find where AI pays off.','The five service pillars'):
+              assert forbidden.lower() not in t.lower(), forbidden
+          assert 'Complex problems.' in Path('brand/_source/build_assets.py').read_text()
+          print("PASS: generated brand graphics and book have approved scope and no named founders")
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add brand/logo/ brand/social/ brand/github/ brand/email-signature/htl-signature-logo.svg brand/guidelines/HTL-Brand-Guidelines.pdf public/og.png public/icons/ public/brand/ app/icon.svg app/favicon.ico app/apple-icon.png
+          if git diff --cached --quiet; then
+            echo "Artifacts unchanged"
+          else
+            git commit -m "build(brand): regenerate approved company-wide social and OG art (#43)"
+            git push origin HEAD:fix/approved-positioning-no-founder-profiles-43
+          fi

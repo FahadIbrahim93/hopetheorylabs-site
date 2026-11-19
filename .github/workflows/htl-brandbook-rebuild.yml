@@ -8,6 +8,9 @@ on:
       - ".github/workflows/htl-brandbook-rebuild.yml"
 permissions:
   contents: write
+concurrency:
+  group: htl-brandbook-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -30,6 +33,24 @@ jobs:
           mkdir -p "$HOME/.local/share/fonts/HTL"
           find ofl/instrumentsans ofl/newsreader ofl/jetbrainsmono -iname '*.ttf' -exec cp {} "$HOME/.local/share/fonts/HTL/" \;
           fc-cache -f
+      - name: Verify six icon definitions and generator syntax
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+          p=Path("brand/_source/build_assets.py")
+          tree=ast.parse(p.read_text())
+          node=next(n for n in tree.body if isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id=="PILLAR_ICONS" for t in n.targets))
+          icons=ast.literal_eval(node.value)
+          assert len(icons)==6
+          for name, label, shapes in icons:
+              expected=('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" '
+                        'fill="none" stroke="#07090C" stroke-width="1.5" stroke-linecap="square" '
+                        'stroke-linejoin="miter" role="img" aria-label="'+label+'">'+shapes+'</svg>\n')
+              actual=Path("brand/icons/"+name+".svg").read_text()
+              assert expected==actual, name + " is out of sync with generator"
+          print("PASS: six icons exactly match deterministic build source")
+          PY
       - name: Rebuild PDF, validate messaging and commit to review branch
         run: |
           CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium)"

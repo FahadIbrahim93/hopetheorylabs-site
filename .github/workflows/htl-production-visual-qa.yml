@@ -1,11 +1,5 @@
 name: Production brand visual QA (mobile, tablet, desktop)
 on:
-  push:
-    branches:
-      - fix/brand-book-ai-audit-icon-64-65
-    paths:
-      - "scripts/brand-production-qa.mjs"
-      - ".github/workflows/htl-production-visual-qa.yml"
   workflow_dispatch:
 permissions:
   contents: read

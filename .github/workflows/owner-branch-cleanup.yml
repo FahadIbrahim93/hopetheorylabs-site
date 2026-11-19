@@ -35,6 +35,10 @@ jobs:
             const { owner, repo } = context.repo;
             const deleting = process.env.DO_DELETE === "true";
             const confirmation = process.env.CONFIRMATION || "";
+            if (deleting && context.actor.toLowerCase() !== owner.toLowerCase()) {
+              core.setFailed("Only the repository owner may run destructive branch cleanup.");
+              return;
+            }
             if (deleting && confirmation !== "DELETE VERIFIED MERGED BRANCHES") {
               core.setFailed("Deletion requires exactly DELETE VERIFIED MERGED BRANCHES.");
               return;

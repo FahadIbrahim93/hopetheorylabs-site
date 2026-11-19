@@ -29,19 +29,19 @@ if (compile.status !== 0) {
 }
 ok("project typechecks");
 
-for (const path of ["api/chat.ts", "api/lead.ts", "lib/assistant/server.ts", "lib/assistant/kb.ts"]) {
+for (const path of ["app/api/chat/route.ts", "app/api/lead/route.ts", "lib/assistant/server.ts", "lib/assistant/kb.ts"]) {
   const src = readFileSync(join(root, path), "utf8");
   if (!src.includes("export")) fail(`${path} has no exports`);
   ok(`present ${path}`);
 }
 
-const chat = readFileSync(join(root, "api/chat.ts"), "utf8");
+const chat = readFileSync(join(root, "app/api/chat/route.ts"), "utf8");
 if (!chat.includes("askGroq") || !chat.includes("askGemini") || !chat.includes("matchFaq")) {
   fail("chat handler missing provider chain");
 }
 ok("chat provider chain");
 
-const lead = readFileSync(join(root, "api/lead.ts"), "utf8");
+const lead = readFileSync(join(root, "app/api/lead/route.ts"), "utf8");
 if (!lead.includes("EMAIL") || !lead.includes("PHONE") || !lead.includes("honeypot")) {
   fail("lead handler missing validation/honeypot");
 }

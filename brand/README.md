@@ -9,7 +9,7 @@ Direction: **Instrument** — engineering as a precision instrument: calm, exact
 | `tokens/` | `tokens.json` (source of truth) and `tokens.css` (Night theme on `:root`, Paper theme on `[data-theme="paper"]`). |
 | `social/` | Avatar, X header, LinkedIn and Facebook covers, Open Graph image and two post templates. SVG sources; upload-ready PNGs in `social/png/`. |
 | `github/` | Organisation avatar, repository social preview (1280 × 640) and README banner. |
-| `business-card/` | Print PDFs, 3.5 × 2 in with 0.125 in bleed: front, a named back, a blank back, and a proof with crop marks. |
+| `business-card/` | Print PDFs, 3.5 × 2 in with 0.125 in bleed: brand front and a generic editable back template. No public person-specific cards or proofs. |
 | `email-signature/` | `signature.html` (paste into Gmail) and `signature.txt`. Its logo is served from `public/brand/htl-signature-logo.png`. |
 | `guidelines/` | The brand guidelines PDF and its markdown source. |
 | `_source/` | The scripts that build every file above. |
@@ -21,7 +21,7 @@ Direction: **Instrument** — engineering as a precision instrument: calm, exact
 - **GitHub:** upload `github/png/htl-github-social-preview-1280x640.png` in the repository's Settings › General › Social preview, and `github/png/htl-github-org-avatar-500.png` as the account or organisation avatar. The README banner is optional.
 - **Social:** upload `social/png/htl-avatar-1080.png` as the profile picture everywhere, and the matching cover for each platform.
 - **Print:** send the `*-print.pdf` files. They are RGB: ask the printer to convert to CMYK and to proof Brass `#B8892F` and Deep Ink `#0F1B2D` on paper before the full run.
-- **Email signature:** open `email-signature/signature.html` in a browser, copy the block between the rules and paste it into the signature box. The logo appears once this branch is deployed.
+- **Email signature:** open `email-signature/signature.html` in a browser, copy the block between the rules and paste it into the signature box. Company-only signature; do not insert founder names. The logo appears when the hosting domain serves it.
 
 ## Rebuilding
 

@@ -1,34 +1,38 @@
+## Linked issue and outcome
+
 Closes #
 
-## What changed
+**What changed and why:**
 
-<!-- One or two sentences. -->
+**Out of scope / deferred:**
 
-## Preview
+## Verification performed
 
-- Vercel preview URL:
-- Lighthouse mobile (Perf / A11y / Best Practices / SEO): __ / __ / __ / __
+- [ ] `npm run lint`
+- [ ] `npm run typecheck`
+- [ ] `npm run build`
+- [ ] `npm test`
+- [ ] `npm run test:e2e` (if UI, interaction or accessibility changed; explain N/A otherwise)
+- [ ] Preview URL recorded (for UI changes)
+- [ ] Reviewed at mobile 360/390px, tablet 768/1024px and desktop 1440/1920px, where applicable
+- [ ] Tested keyboard and reduced-motion/fallback behavior where applicable
+- [ ] Lighthouse mobile scores recorded **from an actual run**, never inferred
 
-## Checks
+**Evidence / screenshots / test logs:**
 
-- [ ] I read docs/SPEC.md, docs/BRAND.md, docs/DESIGN_RULES.md, docs/QA.md
-- [ ] Branch is `issue-<n>`; this PR covers one issue only
-- [ ] `npm run lint`, `npm run typecheck`, `npm run build` pass
-- [ ] No new paid services, tracking, analytics, cookies or external scripts
+**Known limitations / checks not performed:**
 
-## QA checklist (docs/QA.md) — tick what applies, mark N/A otherwise
+## Release and brand safeguards
 
-- [ ] Copy matches content files exactly; no invented stats, logos, reviews, credentials or degree claims.
-- [ ] Rollers Republic labelled "Concept"; speed slider labelled "Illustrative only" with no numbers.
-- [ ] No purple/blue gradients, glassmorphism, emoji, 3D blobs, generic icon grids, identical card rows, centered-everything sections.
-- [ ] Asymmetric grid, mono section labels, hairline rules, teal used sparingly.
-- [ ] Only one signature interaction (hero grid); all easing cubic-bezier(0.16,1,0.3,1) at 400–700ms.
-- [ ] prefers-reduced-motion: no motion; page fully readable with JS disabled.
-- [ ] Keyboard: skip link, visible focus on every control, timeline and slider operable.
-- [ ] WCAG AA contrast; #0F766E for links on light backgrounds.
-- [ ] All WhatsApp links open https://wa.me/8801718463471; email link works.
-- [ ] EN/Bangla toggle works and persists; lang attribute updates.
-- [ ] Lighthouse mobile 90+ in all four categories; first-load JS under 120 KB gzipped; CLS under 0.1.
-- [ ] No console errors.
-- [ ] 404 page, favicon, OG image, robots.txt, sitemap.xml present.
-- [ ] Looks good at 360px, 768px, 1280px and 1920px widths.
+- [ ] Matches `docs/SPEC.md`, `docs/BRAND.md`, `docs/DESIGN_RULES.md`, and the approved content in `content/en.ts`.
+- [ ] Uses the Instrument brand: Night / Deep Ink, off-white, Paper and one Brass accent; no retired teal/HTC/chrome branding.
+- [ ] Does not claim invented customers, credentials, reviews, ROI, deployments or team capacity.
+- [ ] Keeps pricing truthful: no published AI Audit rate; only approved website package prices.
+- [ ] Does not reintroduce an unreviewed Bangla translation or language toggle.
+- [ ] No secrets, unapproved analytics, cookies or new paid services.
+- [ ] No direct production settings changes or unapproved merge.
+- [ ] If the change affects user-facing content, note its impact on the assistant knowledge base and Open Graph metadata.
+
+## Branch housekeeping after merge
+
+The reviewer should confirm the PR is merged and no additional unique commits exist on the head branch, then delete its remote head branch. Do not remove `main` or unmerged draft work. GitHub can be configured to automatically delete merged PR head branches in **Settings → General → Pull Requests**.

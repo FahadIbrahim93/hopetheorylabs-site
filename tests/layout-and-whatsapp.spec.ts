@@ -11,7 +11,7 @@ test.beforeEach(({}, info) => {
   test.skip(info.project.name !== "desktop", "sets its own viewports");
 });
 
-const DEFAULT = "Hi Hope Theory Labs, I'd like to ask about an AI Audit.";
+const DEFAULT = "Hi Hope Theory Labs, I'd like to discuss a project.";
 
 /* ----------------------------- layout overlap ----------------------------- */
 

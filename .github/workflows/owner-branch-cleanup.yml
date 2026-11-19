@@ -31,7 +31,7 @@ concurrency:
 jobs:
   branch-cleanup:
     if: >-
-      ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'chore(hygiene): finish owner-approved branch cleanup #72')) }}
+      ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'chore(hygiene): finish two verified docs branches #73')) }}
     runs-on: ubuntu-latest
     steps:
       - name: Inventory and verify merged branches
@@ -60,7 +60,7 @@ jobs:
             // Approved one-time push cleanup is restricted to these exact historical
             // branch heads. The current PR head is validated by its merged-PR record.
             // Manual dispatch remains a separate, owner-approved workflow.
-            const approvedOneTime = new Map([["docs/lock-brand-tokens-48","1ccf32dbbd46909627666e9696929375b4086f"],["docs/recruiter-presentation-2026-11","40cf3cd55804533c7a814d6c37c9da4cdd924e8e"],["chore/final-branch-cleanup",null]]);
+            const approvedOneTime = new Map([["docs/lock-brand-tokens-48","1ccf32dbbd46909627666e9696929375b4086f2e"],["docs/recruiter-presentation-2026-11","40cf3cd55804533c0e379d21a2c938f0052a71a6"],["chore/finish-two-doc-branches",null]]);
             const retained = new Set([
               main,
               "issue-42-positioning-draft",

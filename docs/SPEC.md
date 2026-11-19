@@ -1,6 +1,6 @@
 # Hope Theory Labs — Canonical Website Specification
 
-**Design source:** Fahad's supplied standalone HTML concept (25 October 2026). This document supersedes older layout notes where they conflict. The site is built as **Next.js components + R3F**, not as the original inline HTML page.
+**Design source:** The supplied standalone HTML concept (25 October 2026). This document supersedes older layout notes where they conflict. The site is built as **Next.js components + R3F**, not as the original inline HTML page.
 
 ## Goal
 
@@ -22,14 +22,14 @@ One responsive, accessible marketing site. Do not iframe the source HTML. Copy, 
 ## Visual system
 
 - Palette and typography as in `docs/BRAND.md`.
-- Hero (AI-first, November 2026): eyebrow “AI Audit · Forward-deployed AI engineering · Dhaka”, H1 “Find where AI pays off. / Then we build it with you.”, then a two-sentence supporting line about the AI Audit and forward-deployed engineering. No tagline and no “clients worldwide”. Copy source: the AI-first messaging block (labs Drive) and `content/en.ts`.
+- Hero (approved broader positioning, November 2026): eyebrow “AI engineering · Custom software · Digital systems · Dhaka”, H1 “Complex problems. / Working software.”, then concise copy covering custom web/mobile, AI integration, automation, enterprise systems and forward-deployed engineering. No tagline until separately approved, and no invented clients or worldwide claims. Canonical copy: `content/en.ts`.
 - Eight flow sources: **Productivity, CRM, Databases, Files, Apps, APIs, Systems, People** with captions in `hero.coreNodeDetails` (kinds of data, not client integrations).
 - Intro overlay (brand + line), grain + vignette, custom cursor (mouse only), magnetic hero CTA, header blur on scroll.
 - HUD states: **Scattered → Structured → Alive** (not the old per-section IO labels in WebGL mode).
 
 ## Page sequence
 
-Header (Services · Approach · Work · About · Contact + “Discuss a project”; root-relative links so they work from every route), hero, Stage I/II as an **optional** maturity path (never a gate before AI or forward-deployed work), living flow (centred heading + three pills), how we work (five steps: Discover, Scope, Prototype, Deploy, Improve + live description), services (six, in order: AI Audit, forward-deployed AI engineering, AI integration and automation as lead services, then custom software, web and mobile, enterprise systems and data, and managed engineering as supporting services; website packages shown as a separate, secondary offer), website packages (the pricing page leads with the AI Audit and forward-deployed work, then the packages), work (Rollers Republic **Concept**), about (solo founder Fahad Ibrahim, role only), contact + ticker, footer (Pricing lives here, not in the primary nav), floating WhatsApp.
+Header (Services · Approach · Work · About · Contact + “Discuss a project”; root-relative links so they work from every route), hero, Stage I/II as an **optional** maturity path (never a gate before AI or forward-deployed work), living flow (centred heading + three pills), how we work (five steps: Discover, Scope, Prototype, Deploy, Improve + live description), services (six equally credible, in order: forward-deployed engineering, custom software/web/mobile, AI integrations, enterprise systems, optional AI Audit, and managed engineering; website packages remain a separate fixed-price offer), website packages (pricing page explains custom engineering and AI scope quotes alongside published web tiers), work (Rollers Republic **Concept**), about (company-only description; no founder identities or photos), contact + ticker, footer (Pricing lives here, not in the primary nav), floating WhatsApp.
 
 `/services` explains each pillar as problem → what we deliver → who it fits → how we engage. Custom work is “quoted after discovery”; no invented fees or ranges.
 
@@ -49,4 +49,4 @@ Header (Services · Approach · Work · About · Contact + “Discuss a project�
 
 ## Release gates
 
-`npm run lint`, `typecheck`, `build`; preview QA including mobile Lighthouse, keyboard, reduced motion, fallback; merge only after review. Production promotion remains Fahad's call.
+`npm run lint`, `typecheck`, `build`; preview QA including mobile Lighthouse, keyboard, reduced motion, fallback; merge only after review. Production promotion requires direct repository-owner approval.

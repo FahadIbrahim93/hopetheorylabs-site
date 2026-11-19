@@ -10,7 +10,7 @@ Routes: `/`, `/about`, `/services`, `/pricing`, `/contact`. Agents: start with [
 
 Deploys automatically when changes merge to **`main`** (Vercel project `hopetheorylabs`, static export from `out/`). Custom domain is configured in the Vercel dashboard when ready.
 
-Current release (18 Nov 2026): AI-first copy and the "Instrument" brand, a full-viewport **WebGL scene** with an SVG fallback, website package pricing (the AI Audit has no published price), and a **floating site assistant** (FAQ, optional free-tier models, lead capture).
+Current release (20 Nov 2026): AI-first copy and the "Instrument" brand, a full-viewport **WebGL scene** with an SVG fallback, website package pricing (the AI Audit has no published price), and a **floating site assistant** (FAQ, optional free-tier models, lead capture). PR #70 updated the brand book and sixth service icon and added repeatable live-site visual QA.
 
 ## Stack
 
@@ -67,7 +67,7 @@ Security headers and caching: `vercel.json`.
 
 - Feature work: branch from `main` (`issue-<n>` or short descriptive name), PR into `main`, `Closes #n` when applicable.
 - Do **not** push directly to `main`, and do not merge without Fahad's OK. A merge to `main` deploys production (see AGENTS.md).
-- Merged branches pile up; deleting them needs Fahad's OK (see issue #67). `main` is the only long-lived branch.
+- `main` is the only long-lived branch. After a reviewed merge, verify the merged PR and branch head, then delete the remote feature branch. Enable automatic deletion of merged PR branches in GitHub Settings → General → Pull Requests. Historic cleanup and owner approval: [issue #67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67).
 
 ## Vercel
 

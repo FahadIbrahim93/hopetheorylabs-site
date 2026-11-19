@@ -1,21 +1,26 @@
-# Roadmap — 18 November 2026
+# Roadmap — 20 November 2026
 
-Remaining work, in priority order. Each item has an issue with acceptance criteria. Items marked **suggestion** are ideas, not commitments. Pick the top `agent-ready` issue unless Fahad says otherwise.
+This roadmap tracks **remaining** work. Completed issues should not be presented to coding agents as selectable tasks. Before taking a task, read `docs/STATUS.md` and verify the current GitHub issue and `main`.
 
-| # | Item | Priority | Who |
-| --- | --- | --- | --- |
-| 1 | [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66) Re-run QA on the current build and refresh `docs/QA_RESULTS.md` (real Lighthouse scores, manual checklist at four widths) | med | agent |
-| 2 | [#64](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/64) Rebuild the brand book PDF for AI-first positioning (pages 2, 4, 16, 21, 22) | med | agent |
-| 3 | [#67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67) Owner-only settings: Dependabot alerts, merged-branch cleanup, required a11y check, Vercel env vars, brand uploads, custom domain | med | Fahad |
-| 4 | [#65](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/65) AI Audit icon, so the kit has six | low | agent |
-| 5 | [#68](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/68) **Suggestion:** Bangla version, once Fahad supplies reviewed copy | low | Fahad, then agent |
+| Priority | Item | Next responsible person |
+|---|---|---|
+| High — decision | [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) Approve or correct the final public positioning, services and founder representation; the old two-founder drafts disagree with the published single-founder Instrument copy | Founder |
+| High — tracking | [#42](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/42) Conclude the historical repositioning epic after #43; avoid reopening already shipped work | Founder |
+| Medium — owner | [#67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67) Delete verified redundant branches, configure auto-delete and required checks, review Dependabot, Vercel secrets and brand uploads | Repository owner |
+| Medium — QA | [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66) Complete manual device / WebGL / screen-reader QA and Lighthouse checks across each public route | Reviewer |
+| Low — optional | [#68](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/68) Bangla localization after reviewed Bangla copy exists | Founder / native reviewer |
 
-## Other suggestions
+## Recently completed
 
-- Require the `a11y-playwright-axe` check once it has stayed stable for a few PRs (in #67).
-- When there is a real, approved case study, add it to the work registry in `content/en.ts`. There is no ServeAI card yet, by Fahad's decision.
-- Revisit pricing copy after the first few audit enquiries show what visitors ask.
+- [#64](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/64) AI-first brand guidelines PDF — [PR #70](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/70).
+- [#65](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/65) Sixth AI Audit icon, generator and docs — PR #70.
+- Automated five-viewport production browser + axe tests and mobile homepage Lighthouse were recorded in [docs/QA_RESULTS.md](QA_RESULTS.md). Manual sign-off is still open under #66.
+- [#44](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/44) Original homepage repositioning; shipped through #51 and #61.
+- Next.js security update #62, overlap/WhatsApp changes #63, and Instrument identity #61.
 
-## Closed
+## Deferred suggestions (not authorized tasks)
 
-- Repositioning ([#44](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/44)), AI-first copy and Instrument brand (#61), Next.js security upgrade (#62), overlap and WhatsApp fixes (#63).
+- Add verifiable client case studies when evidence and publication permission exist.
+- Revisit conversion copy after actual AI Audit inquiries; do not fabricate success metrics.
+- Publish bilingual site copy only after native review.
+- Compare the original Claude Design project against Instrument implementation once source assets are supplied; [handoff audit](BRAND_HANDOFF_AUDIT_2026-11-20.md).

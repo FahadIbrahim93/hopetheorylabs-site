@@ -29,15 +29,9 @@ The fonts actually loaded on the site, and the pair to use going forward:
 
 Do not load or document Inter or Space Grotesk. Load the weights the CSS actually uses, rather than relying on a synthetic bold.
 
-## Architecture terms (neutral, reviewable)
+## Imagery and illustration
 
-- "retro" — housing and facade style that includes vintage, wholesale, old Dhaka, and aged or used surfaces. Applied to buildings and surroundings only. Never people, clothing, or products.
-- "dark-sky" — navy `#0F1B2D`, used as a surface aid for cards, panels and photography backdrops. Never the page background, never black text on dark backgrounds, never pure black.
-- "soft-gray" — a paper-grey scale (`#E5E7EB` / `#B0B3BB` / `#6B7080`) used in photography references. It is not the muted text token on the site; use `#A3ACB8` there.
-
-## Photography
-
-Urban housing, office and facade context. Present texture, memory, and worn beauty. No people.
+Follow the canonical [Instrument imagery rules](../brand/guidelines/src/07-imagery.md) and [iconography rules](../brand/guidelines/src/06-iconography.md). Favor actual software screenshots, properly labeled concept mockups, documentary working environments in Dhaka and precise system diagrams. Never present generated imagery, staged visuals, or architectural references as real completed client projects or owned premises. Record image usage rights; consent-cleared people photography requires separate approval.
 
 ## Identity
 

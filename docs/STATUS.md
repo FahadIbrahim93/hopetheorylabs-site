@@ -1,51 +1,49 @@
-# Status — 18 November 2026
+# Status — 20 November 2026
 
-Snapshot of `main` at `9cc0a14`. Written from the code, git history, CI runs and the live site on this date.
+This is a point-in-time summary, not a substitute for checking live GitHub Actions and Vercel before deploying.
 
-## What is live
+## Deployed site
 
-https://hopetheorylabs.vercel.app serves `main`. The home page and `/about`, `/services`, `/pricing` and `/contact` all return 200.
+- Production: https://hopetheorylabs.vercel.app
+- Branch: `main`; Next.js static export, Three.js/React Three Fiber with fallback, and optional Vercel Functions for chat/lead capture.
+- Positioning: AI Audit and forward-deployed AI engineering lead; custom software, web/mobile, systems and managed engineering remain available.
+- Identity: Instrument brand, H-T-L logo and social assets in `brand/`. AI Audit and custom engineering fees are quoted per scope. Published Starter / Counter / Showroom web packages remain separate.
+- Public contact: `hopetheorylabs@gmail.com`, company X account `@HopeTheoryLabs`; WhatsApp links have prefilled text.
+- English-only public site. The assistant can respond in Bangla. No approved Bangla site translation exists.
+- Assistant model/lead-save functionality depends on Vercel secrets; do not infer those settings from the repository.
 
-- AI-first copy: the hero reads "Find where AI pays off. Then we build it with you." The AI Audit leads, then forward-deployed AI engineering. Web and software are supporting work.
-- Instrument brand: H-T-L monogram in the header, new icons, manifest and Open Graph image, and the brand kit in `brand/`.
-- The pricing page opens with the AI Audit and forward-deployed work ("quoted per scope after discovery", no audit price). The website packages (Starter ৳10,000, Counter ৳25,000, Showroom ৳45,000) sit below as a separate offer.
-- Footer links to https://x.com/HopeTheoryLabs. Contact email is hopetheorylabs@gmail.com. Every WhatsApp link opens with a prefilled message, and the contact form fills in the visitor's answers.
-- Floating site assistant with a scripted FAQ. Live AI replies and lead capture only work if the Vercel env vars are set; that is not verifiable from the repo (see #67).
+## Verified releases and checks
 
-## Recent work
+| Date | Change / evidence | Outcome |
+|---|---|---|
+| 18 Nov | [PR #61](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/61): Instrument + AI-first messaging | Merged |
+| 18 Nov | [PR #62](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/62): Next.js 16.4.6 security update | Merged |
+| 18 Nov | [PR #63](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/63): side rail and WhatsApp links | Merged |
+| 19 Nov | [PR #70](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/70): brand-book corrections, sixth icon, live QA | Merged |
+| 20 Nov | [Live browser QA](https://github.com/FahadIbrahim93/hopetheorylabs-site/actions/runs/44615009731) | 360, 390, 768, 1440, 1920px pass; no detected axe violations or horizontal overflow |
+| 20 Nov | Mobile Lighthouse, production | Performance 95, Accessibility 100, Best Practices 100, SEO 100; LCP ~1.14s, CLS 0 |
 
-| PR | Date | What |
-| --- | --- | --- |
-| [#63](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/63) | 18 Nov | Side rail no longer overlaps the hero labels at wide widths; WhatsApp prefill |
-| [#61](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/61) | 18 Nov | Instrument identity and AI-first copy |
-| [#62](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/62) | 18 Nov | Next.js 16.4.6 (security advisory) |
-| [#60](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/60) | 17 Nov | CI accessibility gate |
-| [#59](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/59), [#53](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/53) | 17 Nov | Design tokens renamed; contrast, intro flash and section rhythm |
-| [#51](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/51), [#52](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/52) | 16 Nov | Repositioned homepage, nav, services and founder; locked colour roles and fonts |
+Detailed evidence and known limits: [QA_RESULTS.md](QA_RESULTS.md). Automated checks do not replace human visual, real-device WebGL, cross-browser and screen-reader testing.
 
-## Open pull requests
+## Remaining tracking
 
-None, apart from this docs PR.
+| Issue | Status |
+|---|---|
+| [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) | Founder approval for final positioning, service hierarchy and public founder wording is not recorded |
+| [#42](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/42) | Original repositioning epic; implementation largely done, awaiting owner decision via #43 |
+| [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66) | Manual cross-device / screen-reader / WebGL QA and additional per-route mobile Lighthouse evidence pending |
+| [#67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67) | Owner-only GitHub / Vercel settings, branch housekeeping, social uploads |
+| [#68](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/68) | Optional future Bangla localization; no commitment until reviewed copy exists |
 
-## Checks
+Issues [#64](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/64) and [#65](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/65) were resolved by PR #70.
 
-- On 18 Nov 2026: `npm run lint`, `typecheck`, `test` and `build` pass locally. CI on `main` is green. `npm audit --omit=dev` reports 0 vulnerabilities.
-- Required check: `lint-typecheck-build`. `a11y-playwright-axe` runs but is not required.
-- GitHub Dependabot alerts are disabled on this repo, so GitHub shows no advisories either way (#67).
-- `Supabase Preview` is skipped because the free Supabase plan is full. Not required.
+## Branch hygiene snapshot
 
-## Known gaps
+As audited before this documentation PR, GitHub had **23 branches including `main`**: 14 were ancestors of `main`, five matched the head commits of already merged PRs (some squash-merged), and three were unmerged historical work that should be preserved pending review.
 
-- The brand book PDF still carries the old positioning on pages 2, 4, 16, 21 and 22 ([#64](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/64)).
-- The brand kit has five service icons and the site lists six services; there is no AI Audit icon ([#65](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/65)).
-- `docs/QA_RESULTS.md` dates from 26 Oct 2026, before the rebrand ([#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66)).
-- Twenty remote branches are left besides `main`: 14 fully merged, and 6 squash-merged or superseded that need a diff check first. Deleting them needs Fahad's OK ([#67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67)).
-- The site is English only; the Bangla toggle was removed in #56.
+- **Do not delete:** `main`, `issue-42-positioning-draft`, `issue-43-positioning` or `fix/visual-token-drift-50` without explicit resolution of their unique content.
+- The full reviewed removal list, branch heads and owner-only action instructions are tracked in issue #67. GitHub's automatically-delete-head-branches setting can prevent future accumulation.
 
-## Security alerts
+## Known account/setup limits
 
-None known. Next.js is at 16.4.6.
-
-## Issue board
-
-[#42](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/42) (epic) and [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) (founder sign-off) are still open and wait on Fahad. #44 is closed.
+A November 18 audit recorded GitHub security alerts and the a11y required-check setting as incomplete, and the Supabase Preview integration as not usable under the current free-plan quota. These owner settings need re-verification in GitHub/Vercel. Do not assert a security clean bill merely because alerts are disabled.

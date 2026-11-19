@@ -2,7 +2,7 @@
 
 These are the locked colour and type tokens for the Hope Theory Labs site. They were confirmed in writing on 16 November 2026 (issue #48). Do not migrate the palette.
 
-Fahad approved the "Instrument" identity in November 2026, so the earlier rule against a new master mark no longer applies. The identity adds the H-T-L monogram, the brand kit in `brand/` and the rules below. The palette itself is unchanged. The full brand book is `brand/guidelines/HTL-Brand-Guidelines.pdf`; the kit index is `brand/README.md`.
+The "Instrument" identity was approved in November 2026, so the earlier rule against a new master mark no longer applies. The identity adds the H-T-L monogram, the brand kit in `brand/` and the rules below. The palette itself is unchanged. The full brand book is `brand/guidelines/HTL-Brand-Guidelines.pdf`; the kit index is `brand/README.md`.
 
 The live page and `docs/DESIGN_RULES.md` already follow this system. Where an older note in this file disagreed, this page is now the source of truth for colour and typography. Layout and page sequence remain in `docs/SPEC.md`.
 
@@ -45,10 +45,10 @@ Follow the canonical [Instrument imagery rules](../brand/guidelines/src/07-image
 
 ## Voice and positioning
 
-- Hope Theory Labs is an AI-first studio. Lead with the AI Audit, then forward-deployed AI engineering. Custom software, web and mobile, enterprise systems and managed engineering are supporting services.
+- Hope Theory Labs is an AI and software engineering company. Forward-deployed engineering, custom software, web/mobile, AI integrations and automation, enterprise systems and managed engineering stand alongside optional AI Audits. No mandatory AI Audit or digital foundation before another service.
 - The AI Audit and all engineering work are quoted per scope after a short discovery call. Never publish a fee, a range, or a founding or introductory rate for them. The website packages are the only public prices. On `/pricing` the AI work comes first, and the website packages sit below it as the supporting offer.
 - The footer links the company X account, https://x.com/HopeTheoryLabs. Add other social links only once the handle is confirmed.
-- No tagline is set on the site. The working line in the brand book is not locked; leave it off until Fahad decides.
+- No tagline is set on the site. Several alternatives are under review; leave all public uses blank until a separate explicit selection. Do not publish founder or team member identities or personal profiles.
 - Do not say "clients worldwide", and do not invent clients, numbers or testimonials. ServeAI is pre-production, never live, and Rollers Republic is a Concept.
 
 ## Rebuilding the brand kit

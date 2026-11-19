@@ -5,7 +5,7 @@ This is a point-in-time summary, not a substitute for checking live GitHub Actio
 ## Deployed site
 
 - Production: https://hopetheorylabs.vercel.app
-- Branch: `main`; Next.js static export, Three.js/React Three Fiber with fallback, and optional Vercel Functions for chat/lead capture.
+- Branch: `main`; Next.js currently static export (production `main`); a separate reviewed PR #81 proposes hybrid App Router execution to repair broken chat/lead routes. The public site remains accessible; production API GETs are HTTP 500 until that fix is deployed and rechecked.
 - Positioning: AI Audit and forward-deployed AI engineering lead; custom software, web/mobile, systems and managed engineering remain available.
 - Identity: Instrument brand, H-T-L logo and social assets in `brand/`. AI Audit and custom engineering fees are quoted per scope. Published Starter / Counter / Showroom web packages remain separate.
 - Public contact: `hopetheorylabs@gmail.com`, company X account `@HopeTheoryLabs`; WhatsApp links have prefilled text.

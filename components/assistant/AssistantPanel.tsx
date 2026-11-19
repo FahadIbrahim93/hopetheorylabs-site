@@ -223,9 +223,14 @@ export default function AssistantPanel({ copy, email, calcomUrl, onClose }: Assi
           website: honeypot,
         }),
       });
-      const data = (await response.json().catch(() => null)) as { saved?: boolean } | null;
-      if (response.ok && data?.saved) setNote({ kind: "saved", text: copy.enquiry.saved });
-      else setNote({ kind: "failed", text: copy.enquiry.saveFailed });
+      const data = (await response.json().catch(() => null)) as { saved?: boolean; notified?: boolean } | null;
+      if (response.ok && data?.saved) {
+        setNote({ kind: "saved", text: copy.enquiry.saved });
+      } else if (response.ok && data?.notified) {
+        setNote({ kind: "saved", text: copy.enquiry.notified });
+      } else {
+        setNote({ kind: "failed", text: copy.enquiry.saveFailed });
+      }
     } catch {
       setNote({ kind: "failed", text: copy.enquiry.saveFailed });
     } finally {

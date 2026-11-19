@@ -24,7 +24,7 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 - [ ] Flow section: eight node labels keyboard-focusable; tap/click triggers burst where designed
 - [ ] `?experience=fallback` shows static core without WebGL chunk errors
 - [ ] `prefers-reduced-motion`: no continuous WebGL loop; intro/cursor suppressed; content readable
-- [ ] Page readable with JavaScript disabled (static HTML from export)
+- [ ] Page readable with JavaScript disabled (prerendered server HTML)
 
 ## Accessibility
 
@@ -47,7 +47,7 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 
 Target: **90+** in all four categories when feasible. Record via `npm run perf:lighthouse` (build + local static serve + Lighthouse mobile).
 
-- [ ] `npm run perf:first-load` recorded (critical-path + total script gzip); **Lighthouse 90+** is the release gate — legacy **120 KB** target is tracked for regression only on Next 16 static export
+- [ ] `npm run perf:first-load` recorded (critical-path + total script gzip); **Lighthouse 90+** is the release gate — legacy **120 KB** target is informational only; use current Next build asset reports
 - [ ] Performance, Accessibility, Best Practices, SEO scores recorded
 - [ ] CLS ideally **< 0.1** (fixed WebGL layer should not shift document flow)
 - [ ] LCP is hero text or other above-the-fold copy
@@ -57,7 +57,7 @@ Target: **90+** in all four categories when feasible. Record via `npm run perf:l
 ## Build and deploy
 
 - [ ] `npm run lint`, `npm run typecheck`, `npm run build` pass
-- [ ] Static export in `out/`; `vercel.json` security headers present
+- [ ] Next production build in `.next/`, marketing routes prerendered, `app/api/*` GET/POST tested; `vercel.json` security headers present
 - [ ] Production deploy on `main` matches expected commit (Vercel dashboard)
 
 ## Final checklist (sign-off)

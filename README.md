@@ -8,13 +8,13 @@ Routes: `/`, `/about`, `/services`, `/pricing`, `/contact`. Agents: start with [
 
 **Production:** https://hopetheorylabs.vercel.app
 
-Deploys automatically when changes merge to **`main`** (Vercel project `hopetheorylabs`, static export from `out/`). Custom domain is configured in the Vercel dashboard when ready.
+Deploys automatically when changes merge to **`main`** (Vercel project `hopetheorylabs`, Next.js hybrid deployment (prerendered pages and App Router functions)). Custom domain is configured in the Vercel dashboard when ready.
 
 Current release (20 Nov 2026): AI-first copy and the "Instrument" brand, a full-viewport **WebGL scene** with an SVG fallback, website package pricing (the AI Audit has no published price), and a **floating site assistant** (FAQ, optional free-tier models, lead capture). PR #70 updated the brand book and sixth service icon and added repeatable live-site visual QA.
 
 ## Stack
 
-Next.js App Router · TypeScript · Tailwind v4 · Three.js + React Three Fiber (`components/experience/`) · static export (`output: "export"`). Optional server: root `api/chat.ts` and `api/lead.ts` (Vercel Functions).
+Next.js App Router · TypeScript · Tailwind v4 · Three.js + React Three Fiber (`components/experience/`) · hybrid Next.js deployment with App Router handlers in `app/api/chat/route.ts` and `app/api/lead/route.ts`.
 
 ## Run locally
 
@@ -25,7 +25,7 @@ npm install
 npm run dev          # http://localhost:3000
 npm run lint
 npm run typecheck
-npm run build        # output in out/
+npm run build        # production .next/ build
 npm test             # design tokens, assistant KB, API and WhatsApp link checks
 npm run test:e2e     # Playwright layout and axe tests
 npx serve out        # optional static preview
@@ -59,7 +59,7 @@ Environment variables are optional; see [`.env.example`](.env.example) and [docs
 - `lib/whatsapp.ts`: every WhatsApp link, built with a `?text=` message.
 - `components/experience/`: WebGL narrative after `window` `load`; SVG/canvas fallback when needed.
 - `components/assistant/`: gold bubble (first-load) + lazy panel; knowledge from `lib/assistant/kb.ts` bound to `content/en.ts`.
-- `api/chat.ts` / `api/lead.ts`: Groq → Gemini → FAQ; lead save (Supabase / Resend optional).
+- `app/api/chat/route.ts` / `app/api/lead/route.ts`: Groq → Gemini → FAQ; lead save (Supabase / Resend optional).
 
 Security headers and caching: `vercel.json`.
 
@@ -71,6 +71,6 @@ Security headers and caching: `vercel.json`.
 
 ## Vercel
 
-- Framework: Next.js; build `npm run build`; output `out/`.
+- Framework: Next.js; build `npm run build`; Next.js project preset; no custom static output directory.
 - Preview on every PR; production on merge to `main`.
 - Optional secrets: `GROQ_API_KEY`, `GEMINI_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `NEXT_PUBLIC_CALCOM_URL`.

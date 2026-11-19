@@ -13,12 +13,6 @@ export function About({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         <p className="eyebrow">{content.about.eyebrow}</p>
         <Heading id="about-heading">{content.about.heading}</Heading>
         <p>{content.about.text}</p>
-        <ul className="about-founder" role="list">
-          <li>
-            <b>{content.about.founder.name}</b>
-            <span>{content.about.founder.role}</span>
-          </li>
-        </ul>
       </div>
     </section>
   );

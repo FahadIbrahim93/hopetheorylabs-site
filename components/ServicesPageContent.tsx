@@ -25,7 +25,6 @@ export function ServicesPageContent() {
             <li key={pillar.slug} id={pillar.slug} className="services-detail">
               <p className="services-pillar-index">
                 <span aria-hidden="true">0{index + 1}</span>
-                <span className={`services-pillar-lane is-${pillar.lane}`}> · {services.laneLabels[pillar.lane]}</span>
               </p>
               <h2>{pillar.title}</h2>
               <p className="services-detail-summary">{pillar.summary}</p>

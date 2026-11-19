@@ -124,6 +124,13 @@ try {
 
   if (/founding/i.test(en)) fail("content/en.ts still mentions a founding offer");
   if (/clients worldwide|worldwide/i.test(en)) fail("content/en.ts still says clients worldwide");
+  for (const sourcePath of ["content/en.ts", "app/about/page.tsx", "app/layout.tsx", "lib/assistant/kb.ts"]) {
+    const content = require("fs").readFileSync(join(root, sourcePath), "utf8");
+    if (/Fahad Ibrahim|Tamim Abir|founder-led|solo founder|founded and run by/i.test(content)) {
+      fail(`public identity or solo-founder claim leaked into ${sourcePath}`);
+    }
+  }
+  ok("public site copy and assistant do not disclose founder identities");
   ok("no founding offer and no worldwide claim in the site copy");
 
   console.log("check-assistant-kb: all passed");

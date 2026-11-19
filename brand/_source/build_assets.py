@@ -103,13 +103,13 @@ ims = [Image.open(f"{tmp}/{s}.png").convert("RGBA") for s in (16, 32, 48)]
 ims[2].save(os.path.join(ROOT, "app/favicon.ico"), format="ICO", sizes=[(16, 16), (32, 32), (48, 48)], append_images=ims[:2])
 
 # ---------------------------------------------------------------- Open Graph 1200x630
-HERO = "Find where AI pays off. Then we build it with you."
-EYEBROW = "AI Audit · Forward-deployed AI engineering · Dhaka"
+HERO = "Complex problems. Working software."
+EYEBROW = "AI engineering · Custom software · Digital systems · Dhaka"
 def og():
     W, H, m = 1200, 630, 80
     body, _ = lockup(m, 72, 40)
     b = [body, label(EYEBROW, m, 250)]
-    lines = ["Find where AI pays off.", "Then we build it with you."]
+    lines = ["Complex problems.", "Working software."]
     for i, ln in enumerate(lines):
         b.append(text(ln, m, 330 + i * 76, "serif", 500, 68, INK, opsz=72))
     b.append(label("hopetheorylabs.vercel.app", m, 520, 15, MUTED))
@@ -122,7 +122,7 @@ png(og_svg, "public/og.png", 1200, 630)
 def x_header():
     W, H, r = 1500, 500, 1420
     b = [label(EYEBROW, r, 170, 16, MUTED, "end")]
-    for i, ln in enumerate(["Find where AI pays off.", "Then we build it with you."]):
+    for i, ln in enumerate(["Complex problems.", "Working software."]):
         b.append(text(ln, r, 250 + i * 66, "serif", 500, 58, INK, anchor="end", opsz=72))
     b.append(ticks(620, 420, 800, accent_at=42))
     return svg(W, H, "".join(b), "Hope Theory Labs header", NIGHT)
@@ -136,7 +136,7 @@ def linkedin_cover():
 def facebook_cover():
     W, H, c = 1640, 624, 820
     b = [label(EYEBROW, c, 228, 18, MUTED, "middle")]
-    for i, ln in enumerate(["Find where AI pays off.", "Then we build it with you."]):
+    for i, ln in enumerate(["Complex problems.", "Working software."]):
         b.append(text(ln, c, 320 + i * 74, "serif", 500, 64, INK, anchor="middle", opsz=72))
     b.append(ticks(420, 520, 800, accent_at=48))
     return svg(W, H, "".join(b), "Hope Theory Labs cover", NIGHT)
@@ -188,9 +188,9 @@ for name, fn, w, h in [("htl-post-field-note-1080", post_note, 1080, 1080), ("ht
 def gh_preview():
     W, H, m = 1280, 640, 96
     body, _ = lockup(m, 96, 48)
-    b = [body, label("FahadIbrahim93 / hopetheorylabs-site", m, 300, 18),
+    b = [body, label("Hope Theory Labs / Engineering", m, 300, 18),
          text("The Hope Theory Labs website.", m, 380, "serif", 500, 60, INK, opsz=72),
-         text("Next.js · static export · no tracking", m, 440, "sans", 400, 26, MUTED),
+         text("Next.js · AI + software engineering · no tracking", m, 440, "sans", 400, 26, MUTED),
          ticks(m, 560, W - 2 * m, accent_at=60)]
     return svg(W, H, "".join(b), "hopetheorylabs-site", NIGHT)
 

@@ -30,7 +30,7 @@ try {
   const wa = require(join(dir, "lib/whatsapp.js"));
   const { en } = require(join(dir, "content/en.js"));
 
-  const DEFAULT = "Hi Hope Theory Labs, I'd like to ask about an AI Audit.";
+  const DEFAULT = "Hi Hope Theory Labs, I'd like to discuss a project.";
   const decode = (href) => {
     const url = new URL(href);
     if (url.origin + url.pathname !== "https://wa.me/8801718463471") fail(`unexpected target ${href}`);
@@ -41,7 +41,7 @@ try {
   eq(decode(wa.whatsappDefaultUrl), DEFAULT, "default link decodes to the default message");
   eq(
     wa.whatsappDefaultUrl,
-    "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20to%20ask%20about%20an%20AI%20Audit%2E",
+    "https://wa.me/8801718463471?text=Hi%20Hope%20Theory%20Labs%2C%20I%27d%20like%20to%20discuss%20a%20project%2E",
     "default link href is fully percent-encoded (no trailing '.' or raw apostrophe)",
   );
   eq(decode(wa.whatsappUrl("")), DEFAULT, "empty message falls back to the default");
@@ -101,7 +101,7 @@ try {
   }
   ok(`all ${hrefs.length} WhatsApp links in the site copy carry a prefilled message`);
   eq(decode(en.contact.phoneHref), DEFAULT, "contact page plain WhatsApp link uses the default message");
-  eq(decode(en.hero.whatsappLink), "Hi Hope Theory Labs, I'm interested in the AI Audit.", "hero link names the AI Audit");
+  eq(decode(en.hero.whatsappLink), "Hi Hope Theory Labs, I'm interested in software or AI engineering.", "hero link names the approved engineering scope");
 
   // No source file may hard-code a bare wa.me link.
   const bare = [];

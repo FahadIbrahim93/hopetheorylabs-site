@@ -6,9 +6,9 @@ import { Footer } from "@/components/Footer";
 import { PricingSection } from "@/components/PricingSection";
 
 export const metadata: Metadata = {
-  title: "AI Audit and website packages",
+  title: "Custom Software, AI Engineering and Website Packages",
   description:
-    "The AI Audit and forward-deployed AI engineering are quoted per scope after discovery. Website packages from ৳10,000 are a separate, supporting offer.",
+    "Custom software, AI integrations, forward-deployed engineering and optional AI Audits are quoted per scope. Website packages from ৳10,000 are available separately.",
   alternates: { canonical: "/pricing" },
 };
 

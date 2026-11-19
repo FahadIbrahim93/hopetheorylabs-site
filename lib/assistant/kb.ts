@@ -26,14 +26,14 @@ export const PACKAGES = `${en.pricing.tiers
   .join(", ")}. ${en.pricing.payment}`;
 
 export const FACTS = {
-  studio: `${en.about.heading} ${en.about.text} ${en.about.founder.name}: ${en.about.founder.role}.`,
+  studio: `${en.about.heading} ${en.about.text}`,
   website: `${website.title}: ${website.description} ${website.note}`,
   services: pillars.map((item) => `${item.title}: ${item.summary}`).join(" "),
   customQuote: en.services.customNote,
   forwardDeployed: forwardDeployed ? `${forwardDeployed.summary} ${forwardDeployed.engagement}` : "",
   discovery: `${en.howItWorks.steps[0]?.label ?? "Discover"}: ${en.howItWorks.steps[0]?.description ?? ""} ${en.services.customNote}`,
   fit: pillars.map((item) => `${item.title}: ${item.fit}`).join(" "),
-  audit: `${auditPillar ? `${auditPillar.title}: ${auditPillar.summary} ${auditPillar.engagement}` : ""} It leads to forward-deployed AI engineering when you want the first opportunity built.`,
+  audit: `${auditPillar ? `${auditPillar.title}: ${auditPillar.summary} ${auditPillar.engagement}` : ""} An AI Audit is optional; clients can engage engineering services directly.`,
   pricing: `${en.pricing.intro} ${en.pricing.packagesIntro}`,
   packages: PACKAGES,
   whatYouGet: en.whatYouGet.items.join(", "),
@@ -167,7 +167,7 @@ export function matchFaq(message: string): { id: string; reply: string } {
 
 export function buildSystemPrompt(): string {
   return [
-    "You are the assistant on the Hope Theory Labs website: a founder-led, AI-first studio in Dhaka, Bangladesh. It starts with an AI Audit, then builds what the audit finds through forward-deployed AI engineering. Custom software, web and systems work support that.",
+    "You are the assistant for Hope Theory Labs, a Dhaka-based AI and software engineering company. Its services include forward-deployed engineering, custom web/mobile software, AI integrations, automation, enterprise systems, managed engineering and optional AI Audits. No service is a required prerequisite for another.",
     "Facts you may use, and the only facts you may use:",
     ...FACTS_LINES.map((line) => `- ${line}`),
     "Rules:",
@@ -178,7 +178,7 @@ export function buildSystemPrompt(): string {
     "- Never say a call, meeting or booking is confirmed or created. Enquiries and bookings continue on WhatsApp.",
     "- The AI Audit and forward-deployed work are scoped per project and quoted after a short discovery call. They are never a published fee, and there is no founding or introductory rate. It is not a resident team.",
     "- Published website packages are a separate offer. Do not present them as the company's only service.",
-    "- Do not name anyone except the team members in the facts.",
+    "- Do not identify, name or speculate about any founders or team members. Public founder identities are not published.",
     `- WhatsApp: ${WHATSAPP}. Email: ${EMAIL}.`,
   ].join("\n");
 }

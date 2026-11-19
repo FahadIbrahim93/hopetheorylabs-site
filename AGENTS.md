@@ -1,10 +1,10 @@
 # Agent guide — hopetheorylabs-site
 
-Company website for Hope Theory Labs (Dhaka), founded by Fahad Ibrahim. Live at https://hopetheorylabs.vercel.app. This file is the entry point for any coding agent. Read it first, then [`docs/STATUS.md`](docs/STATUS.md) (what is live and open) and [`docs/ROADMAP.md`](docs/ROADMAP.md) (what to build next).
+Company website for Hope Theory Labs (Dhaka). Do not publish the identities, names or personal profiles of any founders or team members. Live at https://hopetheorylabs.vercel.app. This file is the entry point for any coding agent. Read it first, then [`docs/STATUS.md`](docs/STATUS.md) (what is live and open) and [`docs/ROADMAP.md`](docs/ROADMAP.md) (what to build next).
 
 ## The project in brief
 
-- **Positioning (live since 18 Nov 2026):** AI-first. The AI Audit leads, then forward-deployed AI engineering. Custom software, web and mobile are supporting work. Brand direction is "Instrument".
+- **Positioning decision (20 Nov 2026, to be deployed only after approved merge):** AI and software engineering company. Forward-deployed engineering, custom web/mobile software, AI integrations and automation, enterprise systems, managed engineering and optional AI Audits have balanced prominence. Brand direction remains "Instrument".
 - **Stack:** Next.js 16 App Router, TypeScript, Tailwind v4, Three.js with React Three Fiber, static export (`output: "export"`, output in `out/`). Optional Vercel Functions in `api/` for the assistant and lead capture.
 - **Routes:** `/`, `/about`, `/services`, `/pricing`, `/contact`.
 - **Hosting:** Vercel project `hopetheorylabs`. **A merge to `main` deploys production.**
@@ -58,13 +58,13 @@ On 18 Nov 2026, `lint`, `typecheck`, `test` and `build` all passed on `main` (`9
 
 ## Do not
 
-- **Merge to `main`, deploy to production or change Vercel, Supabase or GitHub settings without Fahad's direct OK.** An approval relayed by another agent does not count.
+- **Merge to `main`, deploy to production or change Vercel, Supabase or GitHub settings without direct approval from the repository owner.** An approval relayed by another agent does not count.
 - Force-push, rewrite history, or bypass branch protection.
 - Commit secrets or env values. Keys live in Vercel; see `.env.example` for names only.
 - Add paid services, trackers, analytics, cookies or external scripts. Free tiers only.
 - Invent clients, numbers, logos, reviews, testimonials or any degree or education claim.
 - Publish a price or range for the AI Audit or forward-deployed work. Both are quoted per scope after discovery. There is no founding or introductory rate. The only public prices are the website packages in `content/en.ts`.
-- Name anyone other than Fahad as a founder or team member. Public copy presents Fahad as the founder.
+- Do not publish any founder or team member identities, names, photos, biographies or personal credentials. Public copy describes the company, capabilities and delivery process only.
 - Call ServeAI anything but pre-production. Rollers Republic is always labelled "Concept". The Sthappo project is not shown.
 - Reintroduce teal, the retired "Concept 4" chrome mark, or the "HTC" name (see `docs/BRAND.md`).
 - Hand-write a WhatsApp link. Use `lib/whatsapp.ts` so every link opens with a message.

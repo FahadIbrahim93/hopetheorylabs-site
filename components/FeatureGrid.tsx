@@ -25,7 +25,6 @@ export function FeatureGrid() {
                 <span className="services-pillar-index" aria-hidden="true">0{index + 1}</span>
                 <b>
                   {pillar.title}
-                  <small className={`services-pillar-lane is-${pillar.lane}`}>{services.laneLabels[pillar.lane]}</small>
                 </b>
                 <span>{pillar.summary}</span>
               </li>

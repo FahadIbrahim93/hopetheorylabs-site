@@ -233,14 +233,19 @@ export const en: SiteContent = {
     ],
     aiCards: [
       {
-        title: "AI Audit", tag: "Optional discovery", price: "Quoted per scope",
-        description: "Discovery with your team, a workflow and data review, and a written roadmap of prioritised AI opportunities with rough effort and cost. Fees are set after a short discovery call.",
-        cta: "Ask about the AI Audit", whatsappLink: whatsappFor("the AI Audit"),
-      },
-      {
         title: "Forward-deployed AI engineering", tag: "Build alongside your team", price: "Quoted per scope",
         description: "We work alongside your team to build, connect and deploy focused software and AI systems, with appropriate human oversight. An AI Audit is not required.",
         cta: "Ask about AI engineering", whatsappLink: whatsappFor("forward-deployed AI engineering"),
+      },
+      {
+        title: "Custom software and integrations", tag: "Web · Mobile · Systems", price: "Quoted per scope",
+        description: "Applications, portals, APIs and connected workflows built around your business requirements, with integrations and deployment scoped after discovery.",
+        cta: "Discuss custom software", whatsappLink: whatsappFor("a custom software or integration project"),
+      },
+      {
+        title: "AI Audit", tag: "Optional discovery", price: "Quoted per scope",
+        description: "Discovery with your team, a workflow and data review, and a written roadmap of prioritised AI opportunities with rough effort and cost. Fees are set after a short discovery call.",
+        cta: "Ask about the AI Audit", whatsappLink: whatsappFor("the AI Audit"),
       },
     ],
   },

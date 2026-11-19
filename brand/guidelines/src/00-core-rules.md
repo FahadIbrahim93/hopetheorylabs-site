@@ -1,6 +1,6 @@
 # Core rules
 
-Hope Theory Labs is a founder-led AI and software engineering company in Dhaka. The brand direction is **Instrument**: engineering as a precision instrument, calm, exact and built to last. Every surface should feel measured, not decorated.
+Hope Theory Labs is a founder-led, AI-first studio in Dhaka. We begin with an AI Audit, then use forward-deployed AI engineering to deliver practical solutions, supported by custom software, web and enterprise systems. The brand direction is **Instrument**: engineering as a precision instrument, calm, exact and built to last. Every surface should feel measured, not decorated.
 
 ## Core rules
 

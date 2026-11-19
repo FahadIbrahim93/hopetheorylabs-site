@@ -1,0 +1,103 @@
+# Owner-invoked only. This workflow cannot run on push or pull_request.
+# Runs a dry run by default; deletion requires a typed confirmation.
+name: Owner-only merged branch cleanup
+on:
+  workflow_dispatch:
+    inputs:
+      delete:
+        description: "Delete verified branches (false means dry run)"
+        required: true
+        type: boolean
+        default: false
+      confirmation:
+        description: 'Type DELETE VERIFIED MERGED BRANCHES to authorize deletion'
+        required: false
+        type: string
+        default: ""
+permissions:
+  contents: write
+  pull-requests: read
+jobs:
+  branch-cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inventory and verify merged branches
+        uses: actions/github-script@v8
+        env:
+          DO_DELETE: ${{ inputs.delete }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const deleting = process.env.DO_DELETE === "true";
+            const confirmation = process.env.CONFIRMATION || "";
+            if (deleting && confirmation !== "DELETE VERIFIED MERGED BRANCHES") {
+              core.setFailed("Deletion requires exactly DELETE VERIFIED MERGED BRANCHES.");
+              return;
+            }
+            const repository = await github.rest.repos.get({ owner, repo });
+            const main = repository.data.default_branch;
+            const branches = await github.paginate(github.rest.repos.listBranches, { owner, repo, per_page: 100 });
+            const prs = await github.paginate(github.rest.pulls.list, { owner, repo, state: "all", per_page: 100 });
+            const retained = new Set([
+              main,
+              "issue-42-positioning-draft",
+              "issue-43-positioning",
+              "fix/visual-token-drift-50",
+            ]);
+            const candidates = [];
+            const skipped = [];
+            for (const branch of branches) {
+              const name = branch.name;
+              if (retained.has(name) || branch.protected) {
+                skipped.push({ name, reason: retained.has(name) ? "protected by allowlist" : "GitHub-protected" });
+                continue;
+              }
+              let reason = null;
+              try {
+                const cmp = await github.rest.repos.compareCommitsWithBasehead({
+                  owner, repo, basehead: `${main}...${name}`,
+                });
+                if (cmp.data.ahead_by === 0) reason = "ancestor of default branch";
+              } catch (e) {
+                skipped.push({ name, reason: "comparison unavailable: " + e.message });
+                continue;
+              }
+              if (!reason) {
+                const matchedPR = prs.find(pr =>
+                  pr.merged_at && pr.base.ref === main &&
+                  pr.head.ref === name && pr.head.sha === branch.commit.sha &&
+                  pr.head.repo?.full_name?.toLowerCase() === `${owner}/${repo}`.toLowerCase()
+                );
+                if (matchedPR) reason = `exact head of merged PR #${matchedPR.number}`;
+              }
+              if (reason) candidates.push({ name, sha: branch.commit.sha, reason });
+              else skipped.push({ name, reason: "unique/unmerged commits or no matching merged PR" });
+            }
+            core.summary.addHeading(deleting ? "Owner branch cleanup: deletion" : "Owner branch cleanup: dry run");
+            core.summary.addRaw(`Repository: ${owner}/${repo}; default branch: ${main}\n\n`);
+            core.summary.addTable([
+              [{ data: "Candidate branch", header: true }, { data: "Evidence", header: true }],
+              ...candidates.map(b => [b.name, b.reason]),
+            ]);
+            core.summary.addRaw("\n### Preserved branches\n" + skipped.map(b => `- \`${b.name}\` — ${b.reason}`).join("\n") + "\n");
+            if (!deleting) {
+              core.info(`DRY RUN — ${candidates.length} candidate branches, ${skipped.length} preserved. No changes made.`);
+              await core.summary.write();
+              return;
+            }
+            // Owner-triggered deletion. Re-check the current ref to avoid deleting an updated branch.
+            let removed = 0;
+            for (const b of candidates) {
+              const fresh = await github.rest.repos.getBranch({ owner, repo, branch: b.name });
+              if (fresh.data.commit.sha !== b.sha || fresh.data.protected) {
+                core.warning(`Skipped changed/protected branch ${b.name}`);
+                continue;
+              }
+              await github.rest.git.deleteRef({ owner, repo, ref: "heads/" + b.name });
+              removed++;
+              core.info(`Deleted ${b.name}: ${b.reason}`);
+            }
+            core.summary.addRaw(`\nDeleted ${removed} of ${candidates.length} candidates.\n`);
+            await core.summary.write();

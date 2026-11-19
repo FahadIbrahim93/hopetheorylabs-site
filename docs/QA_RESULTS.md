@@ -1,6 +1,30 @@
 # QA results
 
-> **Out of date.** The numbers and checklist below were recorded on 26 Oct 2026, before the repositioning, the Instrument brand and the route split. A refresh is tracked in [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66). The live-site facts as of 18 Nov 2026 are in [STATUS.md](STATUS.md).
+## Current production verification — 20 November 2026 (automated, live deployment)
+
+**Target:** https://hopetheorylabs.vercel.app, **live production** (not a mocked/local build).  
+**Evidence:** [GitHub Actions run 44615009731](https://github.com/FahadIbrahim93/hopetheorylabs-site/actions/runs/44615009731), [download QA screenshots and JSON](https://github.com/FahadIbrahim93/hopetheorylabs-site/actions/runs/44615009731/artifacts/14574343173).  
+**Method:** Headless Chromium, Playwright + axe WCAG A/AA checks, standalone mobile Lighthouse against production.
+
+| Viewport | HTTP | Horizontal overflow | Measured header mark | axe violations | JS errors |
+| --- | --- | --- | --- | --- | --- |
+| 360 × 800 mobile | 200 | None | 26 px | 0 | 0 |
+| 390 × 844 mobile | 200 | None | 26 px | 0 | 0 |
+| 768 × 1024 tablet | 200 | None | 26 px | 0 | 0 |
+| 1440 × 900 desktop | 200 | None | 26 px | 0 | 0 |
+| 1920 × 1080 desktop | 200 | None | 26 px | 0 | 0 |
+
+All four secondary routes (/about, /services, /pricing, /contact) returned 200 and exactly one h1. Mobile navigation opened successfully. The forced SVG/fallback query was exercised and rendered the correct hero. Reduced-motion media matching was confirmed; the test observed zero running document animations.
+
+**Actual production mobile Lighthouse (this release):** Performance **95**, Accessibility **100**, Best Practices **100**, SEO **100**. LCP **~1.14 seconds** (numeric 1141.69 ms); CLS **0**.
+
+**Still needs a person:** visually inspect the artifact screenshots at native size, manually judge layout/hierarchy and logo recognizability, test WebGL motion smoothness/FPS on representative real GPU phones and desktops, complete a hands-on keyboard/screen-reader pass, and validate Safari/Firefox. Zero automated axe findings is not proof of total accessibility.
+
+---
+
+## Historical measurements — 26 October 2026 (pre-rebrand)
+
+> **Historical results below.** The following measurements and checklist predate the Instrument redesign. The current automated production results are documented above; manual visual sign-off remains outstanding (see [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66)).
 
 **Production URL:** https://hopetheorylabs.vercel.app  
 **Architecture:** Next.js static export · WebGL on capable desktops · SVG core on mobile / fallback.

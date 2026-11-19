@@ -1,0 +1,82 @@
+name: Verify HTL brand book and six-icon source
+on:
+  pull_request:
+    paths:
+      - "brand/guidelines/**"
+      - "brand/icons/**"
+      - "brand/_source/**"
+      - ".github/workflows/htl-brandbook-rebuild.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: htl-brandbook-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: browser-actions/setup-chrome@v1
+      - name: Install official OFL fonts and render dependencies
+        run: |
+          python -m pip install markdown
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils fontconfig
+          git clone --quiet --depth 1 --filter=blob:none --sparse https://github.com/google/fonts.git /tmp/htl-fonts
+          cd /tmp/htl-fonts
+          git sparse-checkout set ofl/instrumentsans ofl/newsreader ofl/jetbrainsmono
+          mkdir -p "$HOME/.local/share/fonts/HTL"
+          find ofl/instrumentsans ofl/newsreader ofl/jetbrainsmono -iname '*.ttf' -exec cp {} "$HOME/.local/share/fonts/HTL/" \;
+          fc-cache -f
+      - name: Verify six icon definitions and generator syntax
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+          p=Path("brand/_source/build_assets.py")
+          tree=ast.parse(p.read_text())
+          node=next(n for n in tree.body if isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id=="PILLAR_ICONS" for t in n.targets))
+          icons=ast.literal_eval(node.value)
+          assert len(icons)==6
+          for name, label, shapes in icons:
+              expected=('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" '
+                        'fill="none" stroke="#07090C" stroke-width="1.5" stroke-linecap="square" '
+                        'stroke-linejoin="miter" role="img" aria-label="'+label+'">'+shapes+'</svg>\n')
+              actual=Path("brand/icons/"+name+".svg").read_text()
+              assert expected==actual, name + " is out of sync with generator"
+          print("PASS: six icons exactly match deterministic build source")
+          PY
+      - name: Rebuild PDF and verify checked-in content (read-only)
+        run: |
+          cp brand/guidelines/HTL-Brand-Guidelines.pdf /tmp/htl-checked-in.pdf
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium)"
+          export CHROME
+          git show origin/main:brand/guidelines/HTL-Brand-Guidelines.pdf >/tmp/htl-original.pdf
+          python brand/_source/build_guidelines.py
+          before="$(pdfinfo /tmp/htl-original.pdf | awk '/^Pages:/ {print $2}')"
+          after="$(pdfinfo brand/guidelines/HTL-Brand-Guidelines.pdf | awk '/^Pages:/ {print $2}')"
+          echo "Original pages: $before; rebuilt pages: $after"
+          test "$before" = "$after"
+          pdftotext -layout brand/guidelines/HTL-Brand-Guidelines.pdf /tmp/htl-new.txt
+          python - <<'PY'
+          from pathlib import Path
+          t=Path('/tmp/htl-new.txt').read_text()
+          for phrase in ('AI Audit', 'Forward-Deployed AI Engineering', 'The six service pillars'):
+              assert phrase in t, f'Missing: {phrase}'
+          for phrase in ('clients worldwide', 'founding rate', 'The five service pillars', 'Website packages for small retail'):
+              assert phrase.lower() not in t.lower(), f'Stale copy: {phrase}'
+          print('PDF messaging validation passed')
+          PY
+          pdftotext -layout /tmp/htl-checked-in.pdf /tmp/htl-checked-in.txt
+          if ! cmp -s /tmp/htl-checked-in.txt /tmp/htl-new.txt; then
+            echo "::error::The committed PDF text is stale against the generator; rebuild and commit it."
+            diff -u /tmp/htl-checked-in.txt /tmp/htl-new.txt | head -120 || true
+            exit 1
+          fi
+          echo "PASS: the checked-in PDF matches the current source text"

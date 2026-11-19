@@ -1,6 +1,6 @@
 # Core rules
 
-Hope Theory Labs is a founder-led AI and software engineering company in Dhaka. The brand direction is **Instrument**: engineering as a precision instrument, calm, exact and built to last. Every surface should feel measured, not decorated.
+Hope Theory Labs is a founder-led, AI-first studio in Dhaka. We begin with an AI Audit, then use forward-deployed AI engineering to deliver practical solutions, supported by custom software, web and enterprise systems. The brand direction is **Instrument**: engineering as a precision instrument, calm, exact and built to last. Every surface should feel measured, not decorated.
 
 ## Core rules
 
@@ -34,4 +34,4 @@ Clear, evidence-led, technically capable and direct. Plain English, no hype, no 
 
 ## Components
 
-The components live in `components/bundle.js` as `window.HTL` and need React 18 on the page. Load the stylesheet `components/bundle.css` after the tokens. Fonts load from Google Fonts (see Typography).
+The shipped website uses Next.js and React 19, with reusable components in the repository `components/` folder and web design rules in `docs/BRAND.md`. The canonical portable design tokens are in `brand/tokens/tokens.json` and `tokens.css`. A standalone Claude Design `components/bundle.js` is not shipped in this repository; do not treat it as an implemented website dependency. Fonts are loaded by the website through `next/font/google` (see Typography).

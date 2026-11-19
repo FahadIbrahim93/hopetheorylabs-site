@@ -211,4 +211,20 @@ EMAIL = svg(round(_w, 2), 60, _sig, "Hope Theory Labs")
 p = out("brand/email-signature/htl-signature-logo.svg", EMAIL)
 png(p, "public/brand/htl-signature-logo.png", round(_w * 2))  # shown at half size (retina)
 print("signature logo css width", round(_w / 2.5), "x 24")
+# ---------------------------------------------------------------- six service-pillar icons
+# Regenerates all six icon files without introducing a second source of truth.
+# Their 24px grid, square caps and 1.5px strokes match the existing kit.
+PILLAR_ICONS = [
+    ("pillar-ai-audit", "AI Audit", "<rect x=\"3\" y=\"3\" width=\"14\" height=\"18\"/><path d=\"M6 7h8M6 11h7M6 15h5\"/><rect x=\"15\" y=\"14\" width=\"7\" height=\"7\"/><path d=\"M17 17.5h3M18.5 16v3\"/>"),
+    ("pillar-forward-deployed", "Forward-deployed engineering", "<rect x=\"8\" y=\"4\" width=\"12\" height=\"16\"/><path d=\"M2 12H13M10 9l3 3-3 3\"/>"),
+    ("pillar-ai-automation", "AI integration and automation", "<rect x=\"3\" y=\"3\" width=\"6\" height=\"6\"/><rect x=\"15\" y=\"15\" width=\"6\" height=\"6\"/><path d=\"M9 6H18V15\"/><rect x=\"15.5\" y=\"8.5\" width=\"5\" height=\"5\" fill=\"#07090C\" stroke=\"none\"/>"),
+    ("pillar-web-mobile", "Web and mobile development", "<rect x=\"2\" y=\"5\" width=\"13\" height=\"11\"/><path d=\"M2 8.5H15\"/><rect x=\"17\" y=\"8\" width=\"5\" height=\"11\"/><path d=\"M19 16.5h1\"/>"),
+    ("pillar-systems-data", "Enterprise systems and data", "<rect x=\"4\" y=\"4\" width=\"16\" height=\"4\"/><rect x=\"4\" y=\"10\" width=\"16\" height=\"4\"/><rect x=\"4\" y=\"16\" width=\"16\" height=\"4\"/><path d=\"M7 6h2M7 12h2M7 18h2\"/>"),
+    ("pillar-managed", "Managed engineering", "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\"/><path d=\"M7 9v2M12 8v3M17 9v2M12 16l4-4\"/>"),
+]
+for icon_name, accessible_name, shapes in PILLAR_ICONS:
+    body = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" '
+            'fill="none" stroke="#07090C" stroke-width="1.5" stroke-linecap="square" '
+            'stroke-linejoin="miter" role="img" aria-label="' + accessible_name + '">' + shapes + '</svg>\n')
+    out("brand/icons/" + icon_name + ".svg", body)
 print("built")

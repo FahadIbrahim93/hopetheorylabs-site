@@ -5,7 +5,7 @@ Direction: **Instrument** — engineering as a precision instrument: calm, exact
 | Folder | What is in it |
 | --- | --- |
 | `logo/` | H-T-L monogram, horizontal and stacked lockups and wordmark: `light` (on dark grounds), `dark` (on paper and white), `mono-black`, `mono-white`. App icon, favicon cuts, maskable icon. PNG exports in `logo/png/`. |
-| `icons/` | The five service-pillar icons (24 px grid, 1.5 px stroke, ink `#07090C`). |
+| `icons/` | Six service-pillar icons, including AI Audit (24 px grid, 1.5 px stroke, ink `#07090C`). They are rebuilt by `_source/build_assets.py`; the site currently does not display these icons. |
 | `tokens/` | `tokens.json` (source of truth) and `tokens.css` (Night theme on `:root`, Paper theme on `[data-theme="paper"]`). |
 | `social/` | Avatar, X header, LinkedIn and Facebook covers, Open Graph image and two post templates. SVG sources; upload-ready PNGs in `social/png/`. |
 | `github/` | Organisation avatar, repository social preview (1280 × 640) and README banner. |

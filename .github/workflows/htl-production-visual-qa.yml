@@ -1,0 +1,48 @@
+name: Production brand visual QA (mobile, tablet, desktop)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visual-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Browser screenshots, axe WCAG, navigation, motion and logo geometry on production
+        id: audit
+        run: node scripts/brand-production-qa.mjs
+        env:
+          HTL_QA_URL: https://hopetheorylabs.vercel.app
+      - name: Lighthouse mobile on live production
+        if: always()
+        continue-on-error: true
+        run: |
+          mkdir -p artifacts/brand-production-qa
+          npx --yes lighthouse https://hopetheorylabs.vercel.app \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --form-factor=mobile --screenEmulation.mobile=true \
+            --chrome-flags="--headless=new --no-sandbox" \
+            --output=json --output-path=artifacts/brand-production-qa/lighthouse-mobile.json --quiet
+          node - <<'JS'
+          const fs = require('node:fs');
+          const file='artifacts/brand-production-qa/lighthouse-mobile.json';
+          if (!fs.existsSync(file)) process.exit(0);
+          const j=JSON.parse(fs.readFileSync(file,'utf8'));
+          const m={ performance:j.categories.performance.score*100, accessibility:j.categories.accessibility.score*100, bestPractices:j.categories['best-practices'].score*100, seo:j.categories.seo.score*100, lcp:j.audits['largest-contentful-paint']?.numericValue, cls:j.audits['cumulative-layout-shift']?.numericValue };
+          const s='\n### Live Lighthouse mobile\n\n' + Object.entries(m).map(([k,v]) => '- '+k+': '+(typeof v==='number'?Math.round(v*100)/100:v)).join('\n')+'\n';
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,s);
+          console.log(s);
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: htl-live-brand-qa-evidence
+          path: artifacts/brand-production-qa/
+          retention-days: 14

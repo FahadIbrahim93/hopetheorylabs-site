@@ -15,8 +15,9 @@ Hope Theory Labs is a **single masterbrand**. Everything public carries the HTL 
 | Level | Name | How it appears |
 |---|---|---|
 | Masterbrand | Hope Theory Labs | Full lockup. "HTL" after first mention. |
-| Service pillars | Forward-Deployed Engineering · Web and Mobile Development · AI Integration and Automation · Enterprise Systems and Data · Managed Engineering | Plain descriptive names in `heading-*` with the matching pillar icon. Never logos of their own. |
-| Entry offer | Website packages for small retail | Described in copy only. It is the entry offer, not the brand. |
+| Service pillars | AI Audit · Forward-Deployed AI Engineering · AI Integration and Automation · Custom Software, Web and Mobile · Enterprise Systems and Data · Managed Engineering | Six descriptive service names, each with a matching icon. No separate service logos. |
+| Primary entry point | AI Audit | Discovery and a written roadmap before scoped implementation; fees quoted only after a discovery conversation. |
+| Separate website offer | Starter · Counter · Showroom | Standard, published website packages. A website is not required before AI or custom engineering work. |
 | Products | HTL ServeAI (pre-production) | "HTL" prefix + product name in Instrument Sans. Uses the masterbrand palette. Always labelled with its real status. |
 | Internal tools | MausBot | Not used in public material. |
 

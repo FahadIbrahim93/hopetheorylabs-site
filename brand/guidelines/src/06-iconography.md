@@ -2,7 +2,7 @@
 
 ## Pillar icons
 
-The five service pillars have their own icons in **Icons**: `pillar-forward-deployed.svg`, `pillar-web-mobile.svg`, `pillar-ai-automation.svg`, `pillar-systems-data.svg` and `pillar-managed.svg`.
+The six service pillars have their own icons in **Icons**: `pillar-ai-audit.svg`, `pillar-forward-deployed.svg`, `pillar-ai-automation.svg`, `pillar-web-mobile.svg`, `pillar-systems-data.svg` and `pillar-managed.svg`. The AI Audit icon represents a workflow document being evaluated, not a generic AI brain.
 
 - 24 × 24 grid, 1.5px stroke, square caps, mitred corners, no curves except where a shape needs one.
 - The files are drawn in Night `#07090C`. On dark grounds, set the stroke to `ink` (`#EEF0F2`) or inline the SVG with `stroke="currentColor"`.

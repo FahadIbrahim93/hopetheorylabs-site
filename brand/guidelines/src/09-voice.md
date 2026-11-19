@@ -26,7 +26,7 @@
 1. **What we are:** a founder-led, AI-first studio for organisations.
 2. **What we do:** start with an AI Audit, then design, build, connect and operate what it finds, with custom software and systems work in support.
 3. **How we do it:** forward-deployed engineers who work alongside your team until it runs.
-4. **Why it matters:** scattered tools become one working record, and routine work gets done by software.
+4. **Why it matters:** an AI Audit identifies the highest-value opportunities, then forward-deployed engineering turns a prioritized opportunity into a useful, controlled workflow.
 
 ## Approved lines
 
@@ -48,7 +48,7 @@
 
 | Instead of | Write |
 |---|---|
-| "AI-powered solutions that transform your business!" | "We connect your tools and add AI where it removes real work." |
+| "AI-powered solutions that transform your business!" | "We audit your workflows to find where AI is worth using, then build the first practical solution with your team." |
 | "Trusted by leading brands" | (Say nothing until it's true.) |
 | "Get started today — limited slots!" | "Discuss a project" |
 | "Our cutting-edge platform" | "The system we built for [client], shipped in [month]." |

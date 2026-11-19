@@ -6,17 +6,19 @@
 |---|---|
 | Tokens (colour, type, spacing, radius, motion, layout) | `tokens.json` here; `brand/tokens/tokens.json` and `tokens.css` in the website repository |
 | Logos: monograms, lockups, wordmark, app icon, favicons (SVG + PNG) | Logos here; `brand/logo/` in the repository |
-| Pillar icons | Icons here; `brand/icons/` |
+| Six service-pillar icons, including AI Audit | Icons here; `brand/icons/` |
 | Website: header lockup, favicons, app icons, web manifest, Open Graph image | `components/BrandMark.tsx`, `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`, `app/manifest.ts`, `public/og.png` |
 | Social: avatar, X header, LinkedIn and Facebook covers, two post templates | `brand/social/` (SVG sources, PNG exports in `png/`) |
 | GitHub: organisation avatar, repository social preview, README banner | `brand/github/` |
 | Business cards (front, named back, blank back, proof with crop marks) | `brand/business-card/` |
 | Email signature (HTML and plain text) | `brand/email-signature/`; the logo is served from the website at `/brand/htl-signature-logo.png` |
-| Presentation and pitch template | The "Hope Theory Labs — Presentation and pitch template" deck |
-| Proposal and company profile templates | The "Proposal template" and "Company profile" docs |
 | Brand guidelines PDF | `brand/guidelines/HTL-Brand-Guidelines.pdf` |
 
 Everything in `brand/` is rebuilt from one source by the scripts in `brand/_source/`. Text in every SVG is converted to outlines, so no font needs to be installed to open or print them.
+
+## External Claude Design handoff — not verified
+
+The original three creative directions, scored comparison, founder selection record, presentation/pitch template, proposal template and company profile were referenced in the design engagement but **are not included as files in this repository**. Verify them directly in the original Claude Design project or its exports before calling them delivered or approved. The GitHub implementation proves only the Instrument direction and the assets listed above.
 
 ## Needs a vector application (Figma, Illustrator or Inkscape)
 

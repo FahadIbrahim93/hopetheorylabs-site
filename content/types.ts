@@ -59,11 +59,6 @@ export interface ServicePillar {
   engagement: string;
 }
 
-export interface Founder {
-  name: string;
-  role: string;
-}
-
 export interface PricingTier {
   name: string;
   subtitle: string;
@@ -138,7 +133,7 @@ export interface SiteContent {
     labels: { problem: string; demonstrates: string };
     cases: WorkCaseStudy[];
   };
-  about: { eyebrow: string; heading: string; text: string; founder: Founder };
+  about: { eyebrow: string; heading: string; text: string };
   contact: {
     eyebrow: string;
     heading: string;

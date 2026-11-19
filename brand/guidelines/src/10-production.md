@@ -6,7 +6,7 @@
 |---|---|
 | Tokens (colour, type, spacing, radius, motion, layout) | `tokens.json` here; `brand/tokens/tokens.json` and `tokens.css` in the website repository |
 | Logos: monograms, lockups, wordmark, app icon, favicons (SVG + PNG) | Logos here; `brand/logo/` in the repository |
-| Pillar icons | Icons here; `brand/icons/` |
+| Six service-pillar icons, including AI Audit | Icons here; `brand/icons/` |
 | Website: header lockup, favicons, app icons, web manifest, Open Graph image | `components/BrandMark.tsx`, `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`, `app/manifest.ts`, `public/og.png` |
 | Social: avatar, X header, LinkedIn and Facebook covers, two post templates | `brand/social/` (SVG sources, PNG exports in `png/`) |
 | GitHub: organisation avatar, repository social preview, README banner | `brand/github/` |

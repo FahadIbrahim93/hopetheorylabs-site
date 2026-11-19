@@ -1,5 +1,21 @@
 # QA results
 
+## Updated live production Lighthouse — 20 November 2026
+
+**Evidence:** [workflow run](https://github.com/FahadIbrahim93/hopetheorylabs-site/actions/runs/44640447740) · [screenshots + five individual Lighthouse JSON reports](https://github.com/FahadIbrahim93/hopetheorylabs-site/actions/runs/44640447740/artifacts/14586546480).
+
+| Route | Performance | Accessibility | Best Practices | SEO | LCP (ms) | CLS |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `/` | 92 | 100 | 100 | 100 | 1158 | 0.000 |
+| `/services` | 100 | 100 | 100 | 100 | 911 | 0.000 |
+| `/pricing` | 100 | 100 | 100 | 100 | 914 | 0.000 |
+| `/about` | 100 | 100 | 100 | 100 | 914 | 0.000 |
+| `/contact` | 100 | 100 | 100 | 100 | 914 | 0.000 |
+
+Responsive Chromium screenshots, axe accessibility, the fallback path and reduced-motion check completed with **zero automation failures**. These are lab measurements for the **current production site**, not manual real-GPU, Safari/Firefox or screen-reader acceptance, and not a prediction of the pending brand/API changes in PRs #78/#81.
+
+---
+
 ## Current production verification — 20 November 2026 (automated, live deployment)
 
 **Target:** https://hopetheorylabs.vercel.app, **live production** (not a mocked/local build).  

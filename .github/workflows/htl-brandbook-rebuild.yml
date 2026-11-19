@@ -1,13 +1,14 @@
-name: Regenerate HTL brand book (issues 64 and 65)
+name: Verify HTL brand book and six-icon source
 on:
-  push:
-    branches:
-      - fix/brand-book-ai-audit-icon-64-65
+  pull_request:
     paths:
-      - "brand/guidelines/src/**"
+      - "brand/guidelines/**"
+      - "brand/icons/**"
+      - "brand/_source/**"
       - ".github/workflows/htl-brandbook-rebuild.yml"
+  workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: htl-brandbook-${{ github.ref }}
   cancel-in-progress: true
@@ -51,8 +52,9 @@ jobs:
               assert expected==actual, name + " is out of sync with generator"
           print("PASS: six icons exactly match deterministic build source")
           PY
-      - name: Rebuild PDF, validate messaging and commit to review branch
+      - name: Rebuild PDF and verify checked-in content (read-only)
         run: |
+          cp brand/guidelines/HTL-Brand-Guidelines.pdf /tmp/htl-checked-in.pdf
           CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium)"
           export CHROME
           git show origin/main:brand/guidelines/HTL-Brand-Guidelines.pdf >/tmp/htl-original.pdf
@@ -71,12 +73,10 @@ jobs:
               assert phrase.lower() not in t.lower(), f'Stale copy: {phrase}'
           print('PDF messaging validation passed')
           PY
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add brand/guidelines/HTL-Brand-Guidelines.pdf
-          if git diff --cached --quiet; then
-            echo "PDF already up to date"
-          else
-            git commit -m "docs(brand): regenerate AI-first brand book PDF (#64)"
-            git push origin HEAD:fix/brand-book-ai-audit-icon-64-65
+          pdftotext -layout /tmp/htl-checked-in.pdf /tmp/htl-checked-in.txt
+          if ! cmp -s /tmp/htl-checked-in.txt /tmp/htl-new.txt; then
+            echo "::error::The committed PDF text is stale against the generator; rebuild and commit it."
+            diff -u /tmp/htl-checked-in.txt /tmp/htl-new.txt | head -120 || true
+            exit 1
           fi
+          echo "PASS: the checked-in PDF matches the current source text"

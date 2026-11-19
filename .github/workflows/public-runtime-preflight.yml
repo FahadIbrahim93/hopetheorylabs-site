@@ -1,0 +1,21 @@
+name: Public production and API reachability preflight
+on:
+  push:
+    branches: [test/public-reachability-apis-74]
+    paths:
+      - "scripts/verify-public-runtime.mjs"
+      - ".github/workflows/public-runtime-preflight.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify real unauthenticated production HTML and API GETs
+        run: node scripts/verify-public-runtime.mjs

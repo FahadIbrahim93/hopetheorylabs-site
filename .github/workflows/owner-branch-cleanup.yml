@@ -17,6 +17,9 @@ on:
 permissions:
   contents: write
   pull-requests: read
+concurrency:
+  group: owner-merged-branch-cleanup
+  cancel-in-progress: false
 jobs:
   branch-cleanup:
     runs-on: ubuntu-latest
@@ -52,6 +55,16 @@ jobs:
               const name = branch.name;
               if (retained.has(name) || branch.protected) {
                 skipped.push({ name, reason: retained.has(name) ? "protected by allowlist" : "GitHub-protected" });
+                continue;
+              }
+              // Never delete the head of an active pull request, even if a related
+              // commit has already landed on the default branch another way.
+              const activePR = prs.some(pr =>
+                pr.state === "open" && pr.head.ref === name &&
+                pr.head.repo?.full_name?.toLowerCase() === `${owner}/${repo}`.toLowerCase()
+              );
+              if (activePR) {
+                skipped.push({ name, reason: "open pull request" });
                 continue;
               }
               let reason = null;

@@ -2,6 +2,7 @@
 
 import { SectionMarker } from "./SectionMarker";
 import { WhatsAppCta } from "./WhatsAppCta";
+import { WebsitePackages } from "./WebsitePackages";
 import { useContent } from "./ContentProvider";
 
 /*
@@ -60,17 +61,7 @@ export function ServicesPageContent() {
           {services.whatsappCta}
         </WhatsAppCta>
 
-        <div id="services-website" className="services-lane services-packages">
-          <h2 className="services-lane-label">{services.packages.label}</h2>
-          <div className="services-lane-item">
-            <b>{services.packages.title}</b>
-            <span>{services.packages.description}</span>
-          </div>
-          <p className="services-lane-note">{services.packages.note}</p>
-          <a className="text-link" href={services.packages.cta.href}>
-            {services.packages.cta.label} <span aria-hidden="true">›</span>
-          </a>
-        </div>
+        <WebsitePackages />
       </div>
     </section>
   );

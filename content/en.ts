@@ -169,7 +169,7 @@ export const en: SiteContent = {
       description:
         "Fast, mobile-first sites with WhatsApp ordering and cash on delivery. From ৳10,000.",
       note: "A website is not required before any other work. It is a separate offer for businesses that need one.",
-      cta: { label: "See website packages", href: "/pricing" },
+      cta: { label: "See website packages", href: "/services#services-website" },
     },
   },
   whatYouGet: {
@@ -188,6 +188,7 @@ export const en: SiteContent = {
     packagesIntro: "A separate, supporting offer, fixed in taka. No monthly fee from us. Domain and hosting stay in your name.",
     customNote:
       "All AI and custom software work is quoted per scope after discovery.",
+    packagesNote: "The published website packages are listed with our services.",
     tiers: [
       {
         name: "Starter", subtitle: "One-page website", price: "৳10,000",
@@ -393,7 +394,7 @@ export const en: SiteContent = {
     navLabel: "Site",
     nav: [
       { label: "Services", href: "/services" },
-      { label: "Website packages", href: "/pricing" },
+      { label: "Website packages", href: "/services#services-website" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],

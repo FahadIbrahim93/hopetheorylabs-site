@@ -592,6 +592,14 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
 .services-actions .services-ai-cta { margin-top:20px; }
 .services-actions .text-link { margin-top:20px; }
 .services-packages { max-width:640px; margin-top:56px; }
+/* Published website packages, moved from /pricing to /services. */
+.services-packages-full { max-width:1040px; margin-top:64px; padding-top:40px; border-top:1px solid var(--color-line); scroll-margin-top:96px; }
+.services-packages-title { margin:10px 0 0; color:#fff; font-family:var(--font-heading); font-size:clamp(30px,4.4vw,48px); font-weight:400; line-height:1.06; letter-spacing:-.025em; }
+.services-packages-lead { max-width:640px; margin:16px 0 0; color:#c3cad3; font-size:16px; line-height:1.6; }
+.services-packages-note { max-width:640px; }
+.services-packages-full .pricing-tiers, .services-packages-full .pricing-terms { margin-top:32px; }
+.pricing-packages-link { margin:24px 0 0; color:#c3cad3; font-size:15px; line-height:1.6; }
+.pricing-packages-link .text-link { display:inline; }
 .services-page { align-items:flex-start; padding-top:148px; }
 .services-page > .section-marker { top:96px; }
 /* Dedicated routes start under the fixed header; keep HTL markers below the CTA / hamburger. */

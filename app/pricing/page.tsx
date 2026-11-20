@@ -6,9 +6,9 @@ import { Footer } from "@/components/Footer";
 import { PricingSection } from "@/components/PricingSection";
 
 export const metadata: Metadata = {
-  title: "AI Audit and website packages",
+  title: "AI Audit and AI engineering",
   description:
-    "The AI Audit and forward-deployed AI engineering are quoted per scope after discovery. Website packages from ৳10,000 are a separate, supporting offer.",
+    "The AI Audit and forward-deployed AI engineering are quoted per scope after discovery. The published Starter, Counter and Showroom website packages are listed on the services page.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -18,7 +18,7 @@ export default function PricingPage() {
       <div className="site-shell standalone-route">
         <Header />
         <main id="main" tabIndex={-1}>
-          <PricingSection headingLevel={1} />
+          <PricingSection headingLevel={1} packagesLink />
         </main>
         <Footer />
       </div>

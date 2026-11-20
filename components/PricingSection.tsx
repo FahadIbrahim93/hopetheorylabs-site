@@ -4,12 +4,16 @@ import { SectionMarker } from "./SectionMarker";
 import { WhatsAppCta } from "./WhatsAppCta";
 import { useContent } from "./ContentProvider";
 
-export function PricingSection({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
-  const { pricing } = useContent();
+/*
+  The AI engagement section. Website packages no longer live here: they are
+  published on /services beside the services they support, and /pricing keeps
+  one pointer link to that section.
+*/
+export function PricingSection({ headingLevel = 2, packagesLink = false }: { headingLevel?: 1 | 2; packagesLink?: boolean }) {
+  const { pricing, services } = useContent();
   // On /pricing the section heading is the page h1, so everything below it steps up one level.
   const Heading = (headingLevel === 1 ? "h1" : "h2") as "h1" | "h2";
   const SubHeading = (headingLevel === 1 ? "h2" : "h3") as "h2" | "h3";
-  const CardHeading = (headingLevel === 1 ? "h3" : "h4") as "h3" | "h4";
 
   return (
     <section id="pricing" className="pricing-section border-b border-body/10" aria-labelledby="pricing-heading">
@@ -32,35 +36,14 @@ export function PricingSection({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         </ul>
         <p className="pricing-lane-note">{pricing.customNote}</p>
 
-        <SubHeading className="pricing-subhead pricing-packages-heading">{pricing.packagesHeading}</SubHeading>
-        <p className="pricing-packages-intro">{pricing.packagesIntro}</p>
-        <ul className="pricing-tiers" role="list">
-          {pricing.tiers.map((tier) => {
-            const id = `tier-${tier.name.toLowerCase()}`;
-            return (
-              <li key={tier.name} className={`pricing-card${tier.badge ? " is-featured" : ""}`} aria-labelledby={id}>
-                {tier.badge ? <p className="pricing-badge">{tier.badge}</p> : null}
-                <CardHeading id={id} className="pricing-name">{tier.name}</CardHeading>
-                <p className="pricing-subtitle">{tier.subtitle}</p>
-                <p className="pricing-price">{tier.price}</p>
-                <ul className="pricing-features" role="list">
-                  {tier.features.map((f) => <li key={f}>{f}</li>)}
-                </ul>
-                <p className="pricing-delivery">{tier.delivery}</p>
-                <p className="pricing-for">{tier.forWho}</p>
-                <WhatsAppCta href={tier.whatsappLink} className="pricing-cta">{tier.cta}</WhatsAppCta>
-              </li>
-            );
-          })}
-        </ul>
-
-        <div className="pricing-terms">
-          <p>{pricing.payment}</p>
-          <CardHeading className="pricing-subhead">{pricing.addOnsHeading}</CardHeading>
-          <ul className="pricing-addons" role="list">
-            {pricing.addOns.map((a) => <li key={a.label}><span>{a.label}</span><b>{a.price}</b></li>)}
-          </ul>
-        </div>
+        {packagesLink ? (
+          <p className="pricing-packages-link">
+            {pricing.packagesNote}{" "}
+            <a className="text-link" href={services.packages.cta.href}>
+              {services.packages.cta.label} <span aria-hidden="true">›</span>
+            </a>
+          </p>
+        ) : null}
       </div>
     </section>
   );

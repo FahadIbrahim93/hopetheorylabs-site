@@ -4,7 +4,7 @@ Use this checklist on the **production** URL (`https://hopetheorylabs.vercel.app
 
 ## Visual and brand (docs/DESIGN_RULES.md)
 
-- [ ] Background `#07090C`, off-white `#EEF0F2`, muted `#A3ACB8`, hairline `#2A323D`, gold accent `#B8892F` (dark gold `#8A6420` for text on light), navy `#0F1B2D`, paper `#F8F6F1`, slate `#475569`, amber `#FFBD61`. **No teal anywhere** (see docs/BRAND.md)
+- [ ] Background `#07090C`, off-white `#EEF0F2`, muted `#A3ACB8`, hairline `#2A323D`, gold accent `#B8892F` (dark gold `#8A6420` for text on light), panel `#1A1511` for cards and pricing, Deep Ink `#0F1B2D` for the brand tile and theme colour, paper `#F8F6F1`, slate `#475569`, amber `#FFBD61`. **No teal anywhere** (see docs/BRAND.md)
 - [ ] `rg -i "teal|14b8a6|2dd4bf|7fd6c2|0f766e" app components content` returns nothing; Lighthouse color-contrast passes
 - [ ] Instrument Sans (UI/body), Newsreader (headings), system monospace (labels); no Bangla webfont is loaded
 - [ ] Editorial type, asymmetric layout, hairline rules, small uppercase labels — no centered-everything sections

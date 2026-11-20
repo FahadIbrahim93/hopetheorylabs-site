@@ -10,8 +10,9 @@
   --color-body: #eef0f2; /* body text on the page */
   --color-muted: #a3acb8; /* muted labels and secondary copy */
   --color-line: #2a323d; /* hairlines and decorative rules */
-  --color-line-control: #6b7685; /* control and input boundaries (3:1 on navy too) */
-  --color-navy: #0f1b2d; /* cards and the theme colour */
+  --color-line-control: #6b7685; /* control and input boundaries (3:1 on navy and panel too) */
+  --color-panel: #1a1511; /* commercial card and pricing surfaces, warm obsidian */
+  --color-navy: #0f1b2d; /* brand tile and browser theme colour */
   --color-gold: #b8892f; /* the single accent */
   --color-gold-dark: #8a6420; /* gold text on light surfaces only */
 
@@ -715,15 +716,15 @@ html.nogl .hero-visual-static { display:flex; }
   html:not([data-experience="webgl"]) .hero-visual-static { display:flex; }
 }
 
-/* Services & Pricing (brand navy #0F1B2D, gold #B8892F) */
+/* Services & Pricing (warm panel #1A1511, brass #B8892F) */
 .pricing-section { position:relative; display:block; padding:clamp(72px,10vw,120px) clamp(16px,5vw,64px); }
 .pricing-inner { max-width:1040px; margin:0 auto; }
 #pricing-heading { margin:0; font-family:var(--font-heading); font-size:clamp(34px,9vw,64px); line-height:1.05; font-weight:400; letter-spacing:-.03em; color:#fff; }
 .pricing-intro { max-width:640px; margin:16px 0 0; color:#c3cad3; font-size:16px; line-height:1.6; }
 .pricing-tiers, .pricing-ai { list-style:none; padding:0; margin:36px 0 0; display:grid; gap:20px; grid-template-columns:1fr; }
-.pricing-card { position:relative; display:flex; flex-direction:column; background:#0F1B2D; border:1px solid #2a3a52; border-radius:12px; padding:24px 20px; color:#eef0f2; }
+.pricing-card { position:relative; display:flex; flex-direction:column; background:var(--color-panel); border:1px solid #332a21; border-radius:12px; padding:24px 20px; color:#eef0f2; }
 .pricing-card.is-featured { border:2px solid #B8892F; }
-.pricing-badge { align-self:flex-start; margin:0 0 12px; padding:4px 10px; border-radius:999px; background:#B8892F; color:#0F1B2D; font:600 12px/1.4 var(--font-mono),monospace; letter-spacing:.08em; text-transform:uppercase; }
+.pricing-badge { align-self:flex-start; margin:0 0 12px; padding:4px 10px; border-radius:999px; background:#B8892F; color:var(--color-panel); font:600 12px/1.4 var(--font-mono),monospace; letter-spacing:.08em; text-transform:uppercase; }
 .pricing-badge-quiet { background:transparent; color:#B8892F; border:1px solid #B8892F; }
 .pricing-name { margin:0; font:500 24px/1.2 var(--font-heading); color:#fff; }
 .pricing-subtitle { margin:4px 0 0; color:#c3cad3; font-size:15px; }
@@ -732,7 +733,7 @@ html.nogl .hero-visual-static { display:flex; }
 .pricing-features { list-style:none; padding:0; margin:18px 0 0; display:grid; gap:10px; font-size:15px; line-height:1.5; color:#dde2e8; }
 .pricing-features li { padding-left:22px; position:relative; }
 .pricing-features li::before { content:""; position:absolute; left:2px; top:.55em; width:8px; height:8px; border-radius:2px; background:#B8892F; }
-.pricing-delivery { margin:18px 0 0; padding-top:14px; border-top:1px solid #2a3a52; font-size:14px; line-height:1.5; color:#dde2e8; }
+.pricing-delivery { margin:18px 0 0; padding-top:14px; border-top:1px solid #332a21; font-size:14px; line-height:1.5; color:#dde2e8; }
 .pricing-for { margin:10px 0 0; font-size:14px; line-height:1.5; color:#c3cad3; }
 .pricing-cta { margin-top:auto; align-self:flex-start; }
 .pricing-card .pricing-cta { margin-top:20px; }
@@ -743,7 +744,7 @@ html.nogl .hero-visual-static { display:flex; }
 .pricing-packages-intro { max-width:640px; margin:0; color:#c3cad3; font-size:16px; line-height:1.6; }
 .pricing-ai { margin-top:36px; }
 .pricing-addons { list-style:none; padding:0; margin:0; }
-.pricing-addons li { display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-top:1px solid #2a3a52; }
+.pricing-addons li { display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-top:1px solid #332a21; }
 .pricing-addons b { color:#B8892F; font-weight:600; white-space:nowrap; }
 @media (min-width: 700px) {
   .pricing-ai { grid-template-columns:repeat(2,minmax(0,1fr)); }

@@ -46,14 +46,16 @@ const PALETTE = {
   "color-muted": { value: "#a3acb8", role: "muted labels and secondary copy" },
   "color-line": { value: "#2a323d", role: "hairlines and decorative rules" },
   "color-line-control": { value: "#6b7685", role: "control and input boundaries" },
-  "color-navy": { value: "#0f1b2d", role: "cards and the theme colour" },
+  "color-panel": { value: "#1a1511", role: "commercial card and pricing surfaces" },
+  "color-navy": { value: "#0f1b2d", role: "brand tile and browser theme colour" },
   "color-gold": { value: "#b8892f", role: "the single accent" },
   "color-gold-dark": { value: "#8a6420", role: "gold text on light surfaces" },
 };
 
 const LIGHT_SURFACE = "#f8f6f1"; // paper, docs/BRAND.md
 const INPUT_GROUND = "#0e131a"; // .contact-form input background
-const NAVY = "#0f1b2d"; // cards, panels, pricing, theme colour
+const NAVY = "#0f1b2d"; // brand tile, browser theme colour
+const PANEL = "#1a1511"; // commercial card and pricing surfaces
 
 console.log("\nPalette — @theme must match docs/BRAND.md");
 for (const [name, { value, role }] of Object.entries(PALETTE)) {
@@ -74,10 +76,17 @@ for (const [name, { value, role }] of Object.entries(PALETTE)) {
 }
 
 console.log("\nStructure tokens — @theme");
-for (const name of ["color-line", "color-line-control", "color-navy"]) {
+for (const name of ["color-line", "color-line-control", "color-panel", "color-navy"]) {
   const declared = token(theme, name);
   if (!declared) fail(`@theme is missing --${name} (see PALETTE)`);
   else ok(`--${name} ${declared.toLowerCase()}`);
+}
+
+console.log("\nPricing surfaces — panel, not navy");
+if (!blockOf(".pricing-card {").includes("var(--color-panel)")) {
+  fail(".pricing-card must use var(--color-panel) (docs/BRAND.md, Panel)");
+} else {
+  ok(".pricing-card uses var(--color-panel)");
 }
 
 const hex = (value) => {
@@ -105,12 +114,15 @@ const PAIRS = [
   ["color-body", "color-page", 4.5, "body text on the page"],
   ["color-muted", "color-page", 4.5, "muted text on the page"],
   ["color-gold", "color-page", 4.5, "gold text on the page"],
-  ["color-body", NAVY, 4.5, "body text on navy cards"],
-  ["color-gold", NAVY, 4.5, "pricing price on navy cards"],
+  ["color-body", PANEL, 4.5, "body text on panel cards"],
+  ["color-gold", PANEL, 4.5, "pricing price on panel cards"],
+  ["color-line-control", PANEL, 3, "control border on panel cards"],
+  ["color-body", NAVY, 4.5, "body text on Deep Ink"],
+  ["color-gold", NAVY, 4.5, "gold text on Deep Ink"],
   ["color-gold-dark", LIGHT_SURFACE, 4.5, "gold text on light surfaces"],
   ["color-line-control", INPUT_GROUND, 3, "input border against its own ground"],
   ["color-line-control", "color-page", 3, "control border against the page"],
-  ["color-line-control", NAVY, 3, "control border on navy cards and panels"],
+  ["color-line-control", NAVY, 3, "control border on Deep Ink"],
 ];
 
 console.log("\nContrast — WCAG 2.2 AA floors");

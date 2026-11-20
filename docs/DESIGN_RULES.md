@@ -4,7 +4,7 @@ The supplied Hope Theory Labs HTML concept is the primary visual reference. Pres
 
 ## Visual language
 
-- Page background is near-black `#07090C`, with off-white `#EEF0F2`, muted `#A3ACB8` and hairline `#2A323D`. Navy `#0F1B2D` is for cards, panels, pricing and the theme colour only — not the page. Gold accent `#B8892F` (dark gold `#8A6420` for text on light, `--color-gold-dark`), paper `#F8F6F1`, slate `#475569`. The warmer highlight `#FFBD61` is a legacy exception, not a second brand colour. **No teal anywhere** (see `docs/BRAND.md`).
+- Page background is near-black `#07090C`, with off-white `#EEF0F2`, muted `#A3ACB8` and hairline `#2A323D`. Commercial cards and pricing surfaces use the warm panel `#1A1511` with `#332A21` hairlines; Deep Ink `#0F1B2D` is now the brand tile and browser theme colour only. Neither is the page. Gold accent `#B8892F` (dark gold `#8A6420` for text on light, `--color-gold-dark`), paper `#F8F6F1`, slate `#475569`. The warmer highlight `#FFBD61` is a legacy exception, not a second brand colour. **No teal anywhere** (see `docs/BRAND.md`).
 - Instrument Sans for body/UI; Newsreader for editorial headings; system monospace for technical labels. No Bangla webfont is loaded: the language toggle is removed until the copy is translated and reviewed.
 - Oversized editorial type, asymmetric grids, wide whitespace, fine rules and small uppercase labels.
 - Narrative: digital foundation (optional) → intelligence shift → living flow → how we work → six services, followed by the published website packages on the services page → work → about → contact.

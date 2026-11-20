@@ -29,9 +29,11 @@ One responsive, accessible marketing site. Do not iframe the source HTML. Copy, 
 
 ## Page sequence
 
-Header (Services · Approach · Work · About · Contact + “Discuss a project”; root-relative links so they work from every route), hero, Stage I/II as an **optional** maturity path (never a gate before AI or forward-deployed work), living flow (centred heading + three pills), how we work (five steps: Discover, Scope, Prototype, Deploy, Improve + live description), services (six, in order: AI Audit, forward-deployed AI engineering, AI integration and automation as lead services, then custom software, web and mobile, enterprise systems and data, and managed engineering as supporting services; website packages shown as a separate, secondary offer), website packages (the pricing page leads with the AI Audit and forward-deployed work, then the packages), work (Rollers Republic **Concept**), about (solo founder Fahad Ibrahim, role only), contact + ticker, footer (Pricing lives here, not in the primary nav), floating WhatsApp.
+Header (Services · Approach · Work · About · Contact + “Discuss a project”; root-relative links so they work from every route), hero, Stage I/II as an **optional** maturity path (never a gate before AI or forward-deployed work), living flow (centred heading + three pills), how we work (five steps: Discover, Scope, Prototype, Deploy, Improve + live description), services (six, in order: AI Audit, forward-deployed AI engineering, AI integration and automation as lead services, then custom software, web and mobile, enterprise systems and data, and managed engineering as supporting services; the published Starter, Counter and Showroom website packages follow as a separate, secondary product, with payment terms and add-ons), work (Rollers Republic **Concept**), about (solo founder Fahad Ibrahim, role only), contact + ticker, footer (Pricing lives here, not in the primary nav), floating WhatsApp.
 
-`/services` explains each pillar as problem → what we deliver → who it fits → how we engage. Custom work is “quoted after discovery”; no invented fees or ranges.
+`/services` explains each pillar as problem → what we deliver → who it fits → how we engage, then lists the published website packages in full. Custom work is “quoted after discovery”; no invented fees or ranges.
+
+`/pricing` covers only the AI Audit and forward-deployed AI engineering, both quoted per scope, and links once to the website packages on `/services`.
 
 ## Functional behaviour
 

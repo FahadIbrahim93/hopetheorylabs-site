@@ -8,11 +8,12 @@ The live page and `docs/DESIGN_RULES.md` already follow this system. Where an ol
 
 ## Colour
 
-- **Page background:** near-black `#07090C`. Body text on that ground is off-white `#EEF0F2`. Muted labels and secondary copy use `#A3ACB8`, and must stay at or above `#8B95A3` (the 4.5:1 floor). Hairlines use `#2A323D`. Control and input borders use `#6B7685` (3:1 or better on the page, the input ground and navy; it replaced `#5B6675`, which measured 2.96:1 on navy).
-- **Navy `#0F1B2D`:** cards, panels, pricing surfaces, and the browser theme colour only. It is not the page background.
+- **Page background:** near-black `#07090C`. Body text on that ground is off-white `#EEF0F2`. Muted labels and secondary copy use `#A3ACB8`, and must stay at or above `#8B95A3` (the 4.5:1 floor). Hairlines use `#2A323D`. Control and input borders use `#6B7685` (3:1 or better on the page, the input ground and Deep Ink; it replaced `#5B6675`, which measured 2.96:1 on navy).
+- **Transparent pricing cards:** cards and pricing surfaces have no fill. A `#2A323D` hairline defines them (brass `#B8892F` for the featured card), so the WebGL scene shows through the card body. Body copy stays off-white and prices brass; no blur, tint, gradient or glass effect is allowed. Decided by Fahad on 20 November 2026.
+- **Deep Ink `#0F1B2D`:** the brand tile (app icon, avatar, favicon) and the browser theme colour. It is not used for cards, panels or pricing surfaces.
 - **Gold `#B8892F`:** the single accent — buttons, highlights, particles, focus rings and active states. On the near-black page it passes WCAG AA for text.
 - **Dark gold `#8A6420`:** gold text and links on light (paper) backgrounds, exposed in CSS as `--color-gold-dark`. Never use `#B8892F` for text on light surfaces.
-- **Paper `#F8F6F1`:** light surfaces, and text on navy.
+- **Paper `#F8F6F1`:** light surfaces and text on Deep Ink.
 - **Slate `#475569`:** secondary text on light backgrounds.
 - **No teal.** Do not reintroduce teal, cyan or mint (`#14B8A6`, `#2DD4BF`, `#7FD6C2`, `#0F766E`, or Tailwind `teal-*`). Before merging, `rg -i "teal|14b8a6|2dd4bf|7fd6c2|0f766e"` must return nothing in `app/`, `components/` and `content/`.
 - One accent only. If a design starts pulling in a second accent, stop and simplify. The warmer highlight `#FFBD61` is a legacy exception, not a second brand colour.
@@ -46,7 +47,7 @@ Follow the canonical [Instrument imagery rules](../brand/guidelines/src/07-image
 ## Voice and positioning
 
 - Hope Theory Labs is an AI-first studio. Lead with the AI Audit, then forward-deployed AI engineering. Custom software, web and mobile, enterprise systems and managed engineering are supporting services.
-- The AI Audit and all engineering work are quoted per scope after a short discovery call. Never publish a fee, a range, or a founding or introductory rate for them. The website packages are the only public prices. On `/pricing` the AI work comes first, and the website packages sit below it as the supporting offer.
+- The AI Audit and all engineering work are quoted per scope after a short discovery call. Never publish a fee, a range, or a founding or introductory rate for them. The website packages are the only public prices. They live on `/services` as the separate, supporting product, beside the services they support. `/pricing` covers only the AI work, quoted per scope, and carries one link to the packages.
 - The footer links the company X account, https://x.com/HopeTheoryLabs. Add other social links only once the handle is confirmed.
 - No tagline is set on the site. The working line in the brand book is not locked; leave it off until Fahad decides.
 - Do not say "clients worldwide", and do not invent clients, numbers or testimonials. ServeAI is pre-production, never live, and Rollers Republic is a Concept.

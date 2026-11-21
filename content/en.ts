@@ -395,6 +395,7 @@ export const en: SiteContent = {
     nav: [
       { label: "Services", href: "/services" },
       { label: "Website packages", href: "/services#services-website" },
+      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],

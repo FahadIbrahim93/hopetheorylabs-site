@@ -13,8 +13,8 @@ Free tiers only. With no keys configured the assistant still answers via scripte
 | `components/assistant/assistant.css` | Bubble + panel styles (site tokens) |
 | `lib/assistant/kb.ts` | Facts from `content/en.ts`, FAQ matcher, price guard |
 | `lib/assistant/server.ts` | Rate limit, Supabase, Resend via `fetch` |
-| `api/chat.ts` | Groq → Gemini → FAQ |
-| `api/lead.ts` | Save enquiry + email |
+| `app/api/chat/route.ts` | Bundled Next.js GET health and POST chat; Groq → Gemini → FAQ |
+| `app/api/lead/route.ts` | Bundled Next.js GET health and POST lead persistence/email |
 | `supabase/migrations/20261030_assistant_leads.sql` | `leads` + `rate_limit_hits` |
 
 ## Behaviour
@@ -27,15 +27,11 @@ Free tiers only. With no keys configured the assistant still answers via scripte
 
 ## Deployment note
 
-Site uses `output: "export"`. Handlers live in root `api/`. Verify on preview:
+Next.js now runs as a hybrid App Router deployment (not `output: "export"`). Static marketing pages are prerendered and `app/api/*/route.ts` handlers run as Vercel Functions with Node.js. This fixes the confirmed legacy root `api/*.ts` ESM-vs-CommonJS runtime error.
 
-```bash
-curl -sS -X POST https://<preview>/api/chat \
-  -H 'content-type: application/json' \
-  -d '{"messages":[{"role":"user","content":"how much is a website?"}]}'
-```
+Run `npm run build && npm run start -- -p 3100` locally, then GET both `/api/chat` and `/api/lead` to validate their JSON health responses. CI Playwright tests those endpoints without external API keys. Production must still be checked independently after an approved merge.
 
-404 → functions not picked up; widget still falls back to FAQ. Product fix is drop export and use `app/api/*/route.ts` (Fahad decision).
+No secret values belong in this document. Missing storage/email configuration must produce honest failure states and a usable WhatsApp fallback.
 
 ## Checks
 

@@ -124,6 +124,8 @@ export interface SiteContent {
     packagesHeading: string;
     packagesIntro: string;
     customNote: string;
+    /** One-line pointer from /pricing to the packages on /services. */
+    packagesNote: string;
     tiers: PricingTier[];
     payment: string;
     addOnsHeading: string;

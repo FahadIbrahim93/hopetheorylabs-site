@@ -3,7 +3,7 @@
 
   Usage:
     npm run build
-    node scripts/serve-out.mjs 3100 &
+    npm run start -- -p 3100 &
     node scripts/capture-evidence.mjs --base http://127.0.0.1:3100
 
   Frames land in docs/screenshots/local/<width>/<route>.jpg (git-ignored) and

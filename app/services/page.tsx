@@ -4,6 +4,7 @@ import { ContentProvider } from "@/components/ContentProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ServicesPageContent } from "@/components/ServicesPageContent";
+import { StandaloneAtmosphere } from "@/components/StandaloneAtmosphere";
 
 export const metadata: Metadata = {
   title: "Services and website packages",
@@ -16,6 +17,7 @@ export default function ServicesPage() {
   return (
     <ContentProvider>
       <div className="site-shell standalone-route">
+        <StandaloneAtmosphere />
         <Header />
         <main id="main" tabIndex={-1}>
           <ServicesPageContent />

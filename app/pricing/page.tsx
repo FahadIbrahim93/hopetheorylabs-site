@@ -4,6 +4,7 @@ import { ContentProvider } from "@/components/ContentProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PricingSection } from "@/components/PricingSection";
+import { StandaloneAtmosphere } from "@/components/StandaloneAtmosphere";
 
 export const metadata: Metadata = {
   title: "AI Audit and AI engineering",
@@ -16,6 +17,7 @@ export default function PricingPage() {
   return (
     <ContentProvider>
       <div className="site-shell standalone-route">
+        <StandaloneAtmosphere />
         <Header />
         <main id="main" tabIndex={-1}>
           <PricingSection headingLevel={1} packagesLink />

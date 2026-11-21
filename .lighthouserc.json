@@ -1,8 +1,8 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "node scripts/serve-out.mjs 3100",
-      "startServerReadyPattern": "serve-out:",
+      "startServerCommand": "npm run start -- -p 3100",
+      "startServerReadyPattern": "Ready in",
       "url": [
         "http://127.0.0.1:3100/",
         "http://127.0.0.1:3100/services",

@@ -1,3 +1,8 @@
+// Next.js App Router handler: Vercel bundles these imports and serves GET/POST.
+// Do not restore legacy root api/*.ts functions; they failed at runtime.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 /*
  * POST /api/chat — the assistant's model endpoint.
  *
@@ -7,15 +12,15 @@
  *
  * Handlers never throw: cold-start and provider errors fall back to FAQ/handoff.
  */
-import { en } from "../content/en";
+import { en } from "@/content/en";
 import {
   HANDOFF_REPLY,
   buildSystemPrompt,
   hasBangla,
   matchFaq,
   unknownPrice,
-} from "../lib/assistant/kb";
-import { clientKey, jsonResponse, logEvent, overLimit, readJson } from "../lib/assistant/server";
+} from "@/lib/assistant/kb";
+import { clientKey, jsonResponse, logEvent, overLimit, readJson } from "@/lib/assistant/server";
 
 export const maxDuration = 30;
 

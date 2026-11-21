@@ -5,7 +5,7 @@ Company website for Hope Theory Labs (Dhaka), founded by Fahad Ibrahim. Live at 
 ## The project in brief
 
 - **Positioning (live since 18 Nov 2026):** AI-first. The AI Audit leads, then forward-deployed AI engineering. Custom software, web and mobile are supporting work. Brand direction is "Instrument".
-- **Stack:** Next.js 16 App Router, TypeScript, Tailwind v4, Three.js with React Three Fiber, static export (`output: "export"`, output in `out/`). Optional Vercel Functions in `api/` for the assistant and lead capture.
+- **Stack:** Next.js 16 App Router, TypeScript, Tailwind v4, Three.js with React Three Fiber, hybrid Next.js deployment: public pages prerendered, App Router API handlers under `app/api/` run as Node Vercel Functions.
 - **Routes:** `/`, `/about`, `/services`, `/pricing`, `/contact`.
 - **Hosting:** Vercel project `hopetheorylabs`. **A merge to `main` deploys production.**
 
@@ -18,7 +18,7 @@ npm ci
 npm run dev            # http://localhost:3000
 npm run lint
 npm run typecheck
-npm run build          # static export to out/
+npm run build          # production Next build (.next/)
 npm test               # design tokens, assistant KB, API, WhatsApp link checks
 npm run test:e2e       # Playwright layout + axe tests (needs: npx playwright install chromium)
 ```
@@ -34,7 +34,7 @@ On 18 Nov 2026, `lint`, `typecheck`, `test` and `build` all passed on `main` (`9
 | `content/en.ts`, `content/types.ts` | **All visible copy**, typed |
 | `lib/whatsapp.ts` | The only place WhatsApp links are built (prefilled `?text=`) |
 | `lib/assistant/` | Assistant knowledge base, price guard, server helpers |
-| `api/chat.ts`, `api/lead.ts` | Vercel Functions: Groq, then Gemini, then scripted FAQ; lead save and email |
+| `app/api/chat/route.ts`, `app/api/lead/route.ts` | Bundled Next Functions: Groq, then Gemini, then FAQ; lead save/email |
 | `brand/` | Instrument brand kit and its build scripts (`brand/README.md`) |
 | `scripts/` | Test and measurement scripts |
 | `tests/` | Playwright specs |

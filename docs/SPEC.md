@@ -8,7 +8,7 @@ One responsive, accessible marketing site. Do not iframe the source HTML. Copy, 
 
 ## Stack and implementation constraints
 
-- Next.js App Router, TypeScript, Tailwind CSS v4, Framer Motion LazyMotion, static export, Vercel.
+- Next.js App Router, TypeScript, Tailwind CSS v4, Framer Motion LazyMotion, hybrid Next.js App Router with static marketing pages and Node API routes, Vercel.
 - Copy in `content/en.ts`.
 - Fonts via `next/font/google`: Instrument Sans and Newsreader (mono labels use the system monospace stack).
 - No analytics, cookies, tracking, fake metrics or testimonials.

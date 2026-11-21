@@ -13,7 +13,7 @@ export interface AssistantCopy {
   enquiry: {
     name: string; contact: string; need: string; summary: string;
     sendWhatsApp: string; email: string; save: string; saving: string;
-    saved: string; saveFailed: string; required: string; emailSubject: string; back: string;
+    saved: string; notified: string; saveFailed: string; required: string; emailSubject: string; back: string;
   };
 }
 

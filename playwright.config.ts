@@ -3,8 +3,8 @@ import { defineConfig, devices } from "@playwright/test";
 const PORT = 3100;
 
 /*
-  Runs against the real static export, served by scripts/serve-out.mjs, so the
-  accessibility checks see exactly what the build ships (issue #50 follow-up).
+  Runs against production Next.js via next start, including live App Router APIs.
+  CI tests actual prerendered pages and server route handlers, not an out/ export.
 */
 export default defineConfig({
   testDir: "./tests",
@@ -20,7 +20,7 @@ export default defineConfig({
     { name: "mobile", use: { ...devices["Pixel 7"] } },
   ],
   webServer: {
-    command: `npm run build && node scripts/serve-out.mjs ${PORT}`,
+    command: `npm run build && npm run start -- -p ${PORT}`,
     url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,

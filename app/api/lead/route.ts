@@ -1,12 +1,16 @@
+// Next.js route handler, compiled and bundled with the application.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 /*
  * POST /api/lead — saves an enquiry and notifies Fahad.
  *
  * Supabase and Resend are optional. On any failure the response still includes
  * a prefilled WhatsApp link so the visitor can finish by hand.
  */
-import { en } from "../content/en";
-import { WHATSAPP } from "../lib/assistant/kb";
-import { whatsappUrl } from "../lib/whatsapp";
+import { en } from "@/content/en";
+import { WHATSAPP } from "@/lib/assistant/kb";
+import { whatsappUrl } from "@/lib/whatsapp";
 import {
   clientKey,
   emailLead,
@@ -15,7 +19,7 @@ import {
   overLimit,
   readJson,
   saveLead,
-} from "../lib/assistant/server";
+} from "@/lib/assistant/server";
 
 export const maxDuration = 20;
 
@@ -81,8 +85,11 @@ export async function POST(request: Request): Promise<Response> {
     const saved = await saveLead(lead);
     const notified = await emailLead(lead);
 
-    logEvent("lead.ok", { saved, notified, lang });
-    return jsonResponse({ ok: true, saved, notified, whatsapp }, 200);
+    const delivered = saved || notified;
+    logEvent("lead.result", { saved, notified, lang });
+    // Do not return ok:true if the lead was neither persisted nor delivered.
+    // The UI keeps the prefilled WhatsApp handoff available on failure.
+    return jsonResponse({ ok: delivered, saved, notified, whatsapp }, delivered ? 200 : 503);
   } catch {
     logEvent("lead.crash", { status: 1 });
     return jsonResponse(
@@ -93,7 +100,7 @@ export async function POST(request: Request): Promise<Response> {
         notified: false,
         whatsapp: WHATSAPP,
       },
-      200,
+      503,
     );
   }
 }

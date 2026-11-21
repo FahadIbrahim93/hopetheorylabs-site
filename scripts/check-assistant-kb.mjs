@@ -124,10 +124,30 @@ try {
 
   if (/founding/i.test(en)) fail("content/en.ts still mentions a founding offer");
   if (/clients worldwide|worldwide/i.test(en)) fail("content/en.ts still says clients worldwide");
+  // Founder and team identities must not appear in public copy. The names are
+  // kept out of this public repo too: we compare SHA-256 hashes of every
+  // lowercased word and two-word phrase against hashes of the protected names.
+  const { createHash } = require("node:crypto");
+  const sha256 = (text) => createHash("sha256").update(text).digest("hex");
+  const PROTECTED_IDENTITY_HASHES = new Set([
+    "987e45c8e167e6ef0c41d1d49ae0b34b00db967aae697d6e9cfe25589d11f615",
+    "7d7c5c6300eb0c0e9cfbd2869025e3b44487c252667838c670e6f686bfeadd7a",
+    "c55f5b2a1f03f0c6b9b5f021860b4ff22bf309343b71124a3ef4acec792779d1",
+    "b6750d994f8db7990a509ed7854e26121d589147f0fd619c2601d508b5c7cc90",
+  ]);
+  const leaksIdentity = (text) => {
+    const words = text.toLowerCase().match(/\p{L}+/gu) || [];
+    return words.some((word, i) =>
+      PROTECTED_IDENTITY_HASHES.has(sha256(word)) ||
+      (i + 1 < words.length && PROTECTED_IDENTITY_HASHES.has(sha256(`${word} ${words[i + 1]}`))),
+    );
+  };
+  if (!leaksIdentity("Meet " + ["Fahad", "Ibrahim"].join(" ") + ".")) fail("identity guard self-test did not trigger");
   for (const sourcePath of ["content/en.ts", "app/about/page.tsx", "app/layout.tsx", "lib/assistant/kb.ts"]) {
     const content = require("fs").readFileSync(join(root, sourcePath), "utf8");
-    if (/Fahad Ibrahim|Tamim Abir|founder-led|solo founder|founded and run by/i.test(content)) {
-      fail(`public identity or solo-founder claim leaked into ${sourcePath}`);
+    if (leaksIdentity(content)) fail(`a founder or team identity leaked into ${sourcePath}`);
+    if (/founder-led|solo founder|founded and run by/i.test(content)) {
+      fail(`solo-founder claim leaked into ${sourcePath}`);
     }
   }
   ok("public site copy and assistant do not disclose founder identities");

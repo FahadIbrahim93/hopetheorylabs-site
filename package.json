@@ -10,7 +10,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "perf:first-load": "node scripts/measure-first-load.mjs",
     "perf:lighthouse": "npm run build && node scripts/run-lighthouse-mobile.mjs",
-    "test": "node scripts/check-design-tokens.mjs && node scripts/check-assistant-kb.mjs && node scripts/check-api.mjs && node scripts/check-whatsapp.mjs",
+    "test": "node scripts/check-design-tokens.mjs && node scripts/check-assistant-kb.mjs && node scripts/check-package-price-consistency.mjs && node scripts/check-api.mjs && node scripts/check-whatsapp.mjs",
     "test:e2e": "playwright test",
     "evidence": "node scripts/capture-evidence.mjs"
   },

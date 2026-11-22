@@ -46,7 +46,7 @@ Follow the canonical [Instrument imagery rules](../brand/guidelines/src/07-image
 
 ## Voice and positioning
 
-- Hope Theory Labs is an AI-first studio. Lead with the AI Audit, then forward-deployed AI engineering. Custom software, web and mobile, enterprise systems and managed engineering are supporting services.
+- Hope Theory Labs presents forward-deployed engineering, AI integration and automation, custom software (web and mobile), and enterprise systems as a broad engineering offer. An AI Audit is an optional standalone entry point, not a required first step. Managed engineering provides scoped ongoing support.
 - The AI Audit and all engineering work are quoted per scope after a short discovery call. Never publish a fee, a range, or a founding or introductory rate for them. The website packages are the only public prices. They live on `/services` as the separate, supporting product, beside the services they support. `/pricing` covers only the AI work, quoted per scope, and carries one link to the packages.
 - The footer links the company X account, https://x.com/HopeTheoryLabs. Add other social links only once the handle is confirmed.
 - No tagline is set on the site. The working line in the brand book is not locked; leave it off until Fahad decides.

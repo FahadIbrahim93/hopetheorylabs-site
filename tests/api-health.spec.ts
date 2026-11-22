@@ -54,10 +54,15 @@ test("honeypot never creates a lead", async ({ request }) => {
   expect(await response.json()).toMatchObject({ saved: false, notified: false });
 });
 
-test("an unconfigured backend cannot claim that a lead was saved or notified", async ({ request }) => {
+test("an unconfigured backend cannot claim that a lead was saved or notified", async ({ request }, testInfo) => {
   // Local CI deliberately has no Supabase or Resend credentials.
   // Do not run this test against production; that requires a separate approved synthetic test.
+  // Desktop and mobile projects share one Next server and its in-memory rate limiter.
+  // Give each project its own reserved documentation-only IP to exercise the
+  // delivery failure path, rather than hitting the unrelated 429 limiter.
+  const syntheticIp = testInfo.project.name === "desktop" ? "198.51.100.81" : "198.51.100.82";
   const response = await request.post("/api/lead", {
+    headers: { "x-forwarded-for": syntheticIp },
     data: {
       name: "Synthetic Test",
       contact: "synthetic@example.invalid",

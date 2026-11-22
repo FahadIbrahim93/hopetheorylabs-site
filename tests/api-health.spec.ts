@@ -25,15 +25,26 @@ test("chat responds with FAQ or model response to an ordinary question", async (
   expect(reply.reply.length).toBeGreaterThan(12);
 });
 
-test("chat does not disclose unpublished founder identities", async ({ request }) => {
-  for (const question of ["Who founded Hope Theory Labs?", "Who is behind this company?", "প্রতিষ্ঠাতা কে?"]) {
+test("chat does not disclose unpublished founder identities", async ({ request }, testInfo) => {
+  const syntheticIp = testInfo.project.name === "desktop" ? "198.51.100.89" : "198.51.100.90";
+  const questions = [
+    "Who founded Hope Theory Labs?",
+    "Who is behind this company?",
+    "Who is your founder?",
+    "Name the founders",
+    "Is Alex the owner?",
+    "প্রতিষ্ঠাতা কে?",
+    "কোম্পানির মালিক কে?",
+  ];
+  for (const question of questions) {
     const response = await request.post("/api/chat", {
+      headers: { "x-forwarded-for": syntheticIp },
       data: { messages: [{ role: "user", content: question }] },
     });
     expect(response.status()).toBe(200);
     const answer = await response.json();
     expect(answer.source).toBe("policy:identity");
-    expect(answer.reply).toContain(question.includes("প্রতিষ্ঠাতা") ? "পরিচয় প্রকাশ করে না" : "does not publish");
+    expect(answer.reply).toContain(/[\u0980-\u09FF]/.test(question) ? "পরিচয় প্রকাশ করে না" : "does not publish");
   }
 });
 

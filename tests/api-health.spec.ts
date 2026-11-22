@@ -26,14 +26,14 @@ test("chat responds with FAQ or model response to an ordinary question", async (
 });
 
 test("chat does not disclose unpublished founder identities", async ({ request }) => {
-  for (const question of ["Who founded Hope Theory Labs?", "Who is behind this company?"]) {
+  for (const question of ["Who founded Hope Theory Labs?", "Who is behind this company?", "প্রতিষ্ঠাতা কে?"]) {
     const response = await request.post("/api/chat", {
       data: { messages: [{ role: "user", content: question }] },
     });
     expect(response.status()).toBe(200);
     const answer = await response.json();
     expect(answer.source).toBe("policy:identity");
-    expect(answer.reply).toContain("does not publish");
+    expect(answer.reply).toContain(question.includes("প্রতিষ্ঠাতা") ? "পরিচয় প্রকাশ করে না" : "does not publish");
   }
 });
 

@@ -2,14 +2,14 @@
 
 These are the locked colour and type tokens for the Hope Theory Labs site. They were confirmed in writing on 16 November 2026 (issue #48). Do not migrate the palette.
 
-Fahad approved the "Instrument" identity in November 2026, so the earlier rule against a new master mark no longer applies. The identity adds the H-T-L monogram, the brand kit in `brand/` and the rules below. The palette itself is unchanged. The full brand book is `brand/guidelines/HTL-Brand-Guidelines.pdf`; the kit index is `brand/README.md`.
+The approved "Instrument" identity in November 2026, so the earlier rule against a new master mark no longer applies. The identity adds the H-T-L monogram, the brand kit in `brand/` and the rules below. The palette itself is unchanged. The full brand book is `brand/guidelines/HTL-Brand-Guidelines.pdf`; the kit index is `brand/README.md`.
 
 The live page and `docs/DESIGN_RULES.md` already follow this system. Where an older note in this file disagreed, this page is now the source of truth for colour and typography. Layout and page sequence remain in `docs/SPEC.md`.
 
 ## Colour
 
 - **Page background:** near-black `#07090C`. Body text on that ground is off-white `#EEF0F2`. Muted labels and secondary copy use `#A3ACB8`, and must stay at or above `#8B95A3` (the 4.5:1 floor). Hairlines use `#2A323D`. Control and input borders use `#6B7685` (3:1 or better on the page, the input ground and Deep Ink; it replaced `#5B6675`, which measured 2.96:1 on navy).
-- **Transparent pricing cards:** cards and pricing surfaces have no fill. A `#2A323D` hairline defines them (brass `#B8892F` for the featured card), so the WebGL scene shows through the card body. Body copy stays off-white and prices brass; no blur, tint, gradient or glass effect is allowed. Decided by Fahad on 20 November 2026.
+- **Transparent pricing cards:** cards and pricing surfaces have no fill. A `#2A323D` hairline defines them (brass `#B8892F` for the featured card), so the WebGL scene shows through the card body. Body copy stays off-white and prices brass; no blur, tint, gradient or glass effect is allowed. Decision recorded on 20 November 2026.
 - **Deep Ink `#0F1B2D`:** the brand tile (app icon, avatar, favicon) and the browser theme colour. It is not used for cards, panels or pricing surfaces.
 - **Gold `#B8892F`:** the single accent — buttons, highlights, particles, focus rings and active states. On the near-black page it passes WCAG AA for text.
 - **Dark gold `#8A6420`:** gold text and links on light (paper) backgrounds, exposed in CSS as `--color-gold-dark`. Never use `#B8892F` for text on light surfaces.
@@ -47,10 +47,13 @@ Follow the canonical [Instrument imagery rules](../brand/guidelines/src/07-image
 ## Voice and positioning
 
 - Hope Theory Labs presents forward-deployed engineering, AI integration and automation, custom software (web and mobile), and enterprise systems as a broad engineering offer. An AI Audit is an optional standalone entry point, not a required first step. Managed engineering provides scoped ongoing support.
-- The AI Audit and all engineering work are quoted per scope after a short discovery call. Never publish a fee, a range, or a founding or introductory rate for them. The website packages are the only public prices. They live on `/services` as the separate, supporting product, beside the services they support. `/pricing` covers only the AI work, quoted per scope, and carries one link to the packages.
+- The AI Audit and all engineering work are quoted per scope after a short discovery call. Never publish a fee, a range, or a founding or introductory rate for them. The website packages are the only public prices. They live on `/services` as the separate, supporting product, beside the services they support. `/pricing` covers the core engineering services and optional audit, quoted per scope, and carries one link to the packages.
 - The footer links the company X account, https://x.com/HopeTheoryLabs. Add other social links only once the handle is confirmed.
-- No tagline is set on the site. The working line in the brand book is not locked; leave it off until Fahad decides.
+- No tagline is set on the site. The working line in the brand book is not locked; leave it off until a separate owner decision.
 - Do not say "clients worldwide", and do not invent clients, numbers or testimonials. ServeAI is pre-production, never live, and Rollers Republic is a Concept.
+
+- **Public identity policy (issue #43):** No personal founder names or profiles in website copy, assistant answers, metadata or newly published marketing assets. Historic printed assets under `brand/` require a separate privacy review before reuse. Public Git history cannot be made private by editing current files.
+- **Brand book synchronization:** The generated PDF uses older wording. Update source and regenerate/review the PDF together in a dedicated change; do not weaken its CI comparison.
 
 ## Rebuilding the brand kit
 

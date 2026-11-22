@@ -4,7 +4,7 @@ Company website for Hope Theory Labs (Dhaka). No personal founder identities may
 
 ## The project in brief
 
-- **Positioning (approved in issue #43, pending merge):** AI and software engineering. Core offers include forward-deployed engineering, custom web/mobile development, AI integrations, enterprise systems. AI Audit is optional; website packages remain separate. Keep the Instrument visual system.
+- **Positioning (approved in issue #43; deployment status must be verified):** AI and software engineering. Core offers include forward-deployed engineering, custom web/mobile development, AI integrations, enterprise systems. AI Audit is optional; website packages remain separate. Keep the Instrument visual system.
 - **Stack:** Next.js 16 App Router, TypeScript, Tailwind v4, Three.js with React Three Fiber, hybrid Next.js deployment: public pages prerendered, App Router API handlers under `app/api/` run as Node Vercel Functions.
 - **Routes:** `/`, `/about`, `/services`, `/pricing`, `/contact`.
 - **Hosting:** Vercel project `hopetheorylabs`. **A merge to `main` deploys production.**

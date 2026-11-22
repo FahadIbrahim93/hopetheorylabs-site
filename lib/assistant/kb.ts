@@ -107,7 +107,12 @@ export const IDENTITY_REPLY = "Hope Theory Labs does not publish individual foun
 export const IDENTITY_REPLY_BN = "Hope Theory Labs এই ওয়েবসাইটে প্রতিষ্ঠাতা বা দলের সদস্যদের ব্যক্তিগত পরিচয় প্রকাশ করে না। কোনো প্রকল্প নিয়ে কথা বলতে WhatsApp-এ যোগাযোগ করুন।";
 
 export function isIdentityQuestion(message: string): boolean {
-  return /\b(?:who\s+(?:founded|owns|runs|leads|started)\b|who\s+(?:is|are)\s+behind\b|(?:founder|co[- ]?founder|owner|team members|leadership)\s+(?:name|names|identity|details|profile)\b|(?:name|identify|meet)\s+(?:the|your|htl)\s+(?:founder|co[- ]?founder|owners?|team)\b)|প্রতিষ্ঠাতা|সহপ্রতিষ্ঠাতা/i.test(message);
+  if (/প্রতিষ্ঠাতা|সহপ্রতিষ্ঠাতা|মালিক/.test(message)) return true;
+  const input = message.toLowerCase();
+  if (/\bwho\s+(?:founded|owns|runs|leads|started)\b|\bwho\s+(?:is|are)\s+behind\b/.test(input)) return true;
+  const identityTerm = /\b(?:founders?|co[- ]?founders?|owners?|leadership|team members?)\b/.test(input);
+  const identityRequest = /\b(?:who|which|name|identify|is|are|tell|details?|bio|profiles?|identity|meet|behind|list)\b/.test(input);
+  return identityTerm && identityRequest;
 }
 
 export const HANDOFF_REPLY = `${en.assistant.handoff} ${WHATSAPP}`;

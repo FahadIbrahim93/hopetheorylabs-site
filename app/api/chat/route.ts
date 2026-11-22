@@ -147,7 +147,7 @@ export async function POST(request: Request): Promise<Response> {
 
     let limited = false;
     try {
-      limited = await overLimit(clientKey(request), MESSAGE_LIMIT, WINDOW_MS);
+      limited = await overLimit(`chat:${clientKey(request)}`, MESSAGE_LIMIT, WINDOW_MS);
     } catch {
       limited = false;
     }

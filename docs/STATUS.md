@@ -29,7 +29,7 @@ Detailed evidence and known limits: [QA_RESULTS.md](QA_RESULTS.md). Automated ch
 
 | Issue | Status |
 |---|---|
-| [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) | Founder approval for final positioning, service hierarchy and public founder wording is not recorded |
+| [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) | Owner-approved: broad engineering with optional audit and no public founder identities; implementation pending separate review/merge |
 | [#42](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/42) | Original repositioning epic; implementation largely done, awaiting owner decision via #43 |
 | [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66) | Manual cross-device / screen-reader / WebGL QA and additional per-route mobile Lighthouse evidence pending |
 | [#67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67) | Owner-only GitHub / Vercel settings, branch housekeeping, social uploads |

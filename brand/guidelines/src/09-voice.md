@@ -23,17 +23,17 @@
 
 ## Messaging hierarchy
 
-1. **What we are:** an AI and software engineering studio for organisations of different sizes.
-2. **What we do:** forward-deployed engineering, AI integration and automation, custom web and mobile software, and connected enterprise systems. An AI Audit is also available as an optional standalone engagement.
-3. **How we do it:** engineers work alongside the people who run the workflow, building and testing practical tools with them.
-4. **Why it matters:** identify a problem worth solving, build something the team can use, and keep human judgment where it belongs.
+1. **What we are:** a founder-led, AI-first studio for organisations.
+2. **What we do:** start with an AI Audit, then design, build, connect and operate what it finds, with custom software and systems work in support.
+3. **How we do it:** forward-deployed engineers who work alongside your team until it runs.
+4. **Why it matters:** an AI Audit identifies the highest-value opportunities, then forward-deployed engineering turns a prioritized opportunity into a useful, controlled workflow.
 
 ## Approved lines
 
 - Hero: *Find where AI pays off. Then we build it with you.*
 - Tagline: not set. A working line exists but is not approved; leave it off every public surface until Fahad decides.
-- Hero and header primary call to action: *Discuss a project* (project-prefilled WhatsApp for the hero; contact route in the header)
-- Secondary call to action: *Explore our work*
+- Primary call to action: *Ask about the AI Audit* (the header button stays *Discuss a project*)
+- Secondary call to action: *See our work*
 - Brief invitation: *Tell us what your team needs to build, automate or connect.*
 
 ## Words and formats
@@ -48,7 +48,7 @@
 
 | Instead of | Write |
 |---|---|
-| "AI-powered solutions that transform your business!" | "We work alongside your team to identify a useful workflow, build the right tool and test it with the people who use it." |
+| "AI-powered solutions that transform your business!" | "We audit your workflows to find where AI is worth using, then build the first practical solution with your team." |
 | "Trusted by leading brands" | (Say nothing until it's true.) |
 | "Get started today — limited slots!" | "Discuss a project" |
 | "Our cutting-edge platform" | "The system we built for [client], shipped in [month]." |

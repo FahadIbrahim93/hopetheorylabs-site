@@ -17,6 +17,9 @@ import {
   HANDOFF_REPLY,
   buildSystemPrompt,
   hasBangla,
+  isIdentityQuestion,
+  IDENTITY_REPLY,
+  IDENTITY_REPLY_BN,
   matchFaq,
   unknownPrice,
 } from "@/lib/assistant/kb";
@@ -144,7 +147,7 @@ export async function POST(request: Request): Promise<Response> {
 
     let limited = false;
     try {
-      limited = await overLimit(clientKey(request), MESSAGE_LIMIT, WINDOW_MS);
+      limited = await overLimit(`chat:${clientKey(request)}`, MESSAGE_LIMIT, WINDOW_MS);
     } catch {
       limited = false;
     }
@@ -156,8 +159,14 @@ export async function POST(request: Request): Promise<Response> {
       );
     }
 
-    const system = buildSystemPrompt();
     const lang = hasBangla(last.content) ? "bn" : "en";
+    // Enforce unpublished identity policy before any external model call.
+    // This prevents a model from guessing names despite a system instruction.
+    if (isIdentityQuestion(last.content)) {
+      logEvent("chat.identity_guard", { lang });
+      return jsonResponse({ reply: lang === "bn" ? IDENTITY_REPLY_BN : IDENTITY_REPLY, source: "policy:identity", lang }, 200);
+    }
+    const system = buildSystemPrompt();
 
     let reply = await askGroq(turns, system);
     let source = "groq";

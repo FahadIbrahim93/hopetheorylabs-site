@@ -3,7 +3,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /*
- * POST /api/lead — saves an enquiry and notifies Fahad.
+ * POST /api/lead — saves an enquiry and notifies a configured recipient.
  *
  * Supabase and Resend are optional. On any failure the response still includes
  * a prefilled WhatsApp link so the visitor can finish by hand.
@@ -69,7 +69,7 @@ export async function POST(request: Request): Promise<Response> {
 
     let limited = false;
     try {
-      limited = await overLimit(clientKey(request), LEAD_LIMIT, WINDOW_MS);
+      limited = await overLimit(`lead:${clientKey(request)}`, LEAD_LIMIT, WINDOW_MS);
     } catch {
       limited = false;
     }

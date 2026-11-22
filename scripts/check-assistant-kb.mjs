@@ -126,6 +126,32 @@ try {
   if (/clients worldwide|worldwide/i.test(en)) fail("content/en.ts still says clients worldwide");
   ok("no founding offer and no worldwide claim in the site copy");
 
+  // Issue #43: approved public identity is company-only. No personal founder
+  // profile or audit-first gate may re-enter site copy or the assistant.
+  for (const [label, value] of [
+    ["site content", en],
+    ["assistant response facts", kbModule.FACTS_LINES.join(" ")],
+    ["assistant system prompt", kbModule.buildSystemPrompt()],
+  ]) {
+    if (/founded (?:by|and run by)|solo founder|founder-led|founder\\.name|about\\.founder/i.test(value)) {
+      fail(`${label}: outdated personal founder or solo-founder claim`);
+    }
+  }
+  ok("public copy and assistant avoid personal founder profiles");
+  const servicesQuestion = route("What can your engineers build?");
+  if (servicesQuestion.id !== "services" || !servicesQuestion.reply.includes("Custom software")) {
+    fail("general engineering question must describe the software engineering offer");
+  }
+  const optionalAudit = route("Do I need an AI Audit?");
+  if (optionalAudit.id !== "audit" || !/optional/i.test(optionalAudit.reply)) {
+    fail("AI Audit must be described as optional");
+  }
+  const cards = en.slice(en.indexOf("aiCards: ["), en.indexOf("  work: {"));
+  for (const name of ["Forward-deployed engineering", "Custom software", "AI integration", "Enterprise systems", "AI Audit"]) {
+    if (!cards.includes(name)) fail(`missing engineering engagement card: ${name}`);
+  }
+  ok("engineering offers, optional audit and pricing cards are covered");
+
   console.log("check-assistant-kb: all passed");
 } finally {
   rmSync(dir, { recursive: true, force: true });

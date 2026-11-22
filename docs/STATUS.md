@@ -1,16 +1,23 @@
-# Status — 20 November 2026
+# Status — 23 November 2026
 
 This is a point-in-time summary, not a substitute for checking live GitHub Actions and Vercel before deploying.
 
 ## Deployed site
 
 - Production: https://hopetheorylabs.vercel.app
-- Branch: `main`; Next.js currently static export (production `main`); a separate reviewed PR #81 proposes hybrid App Router execution to repair broken chat/lead routes. The public site remains accessible; production API GETs are HTTP 500 until that fix is deployed and rechecked.
-- Positioning: AI Audit and forward-deployed AI engineering lead; custom software, web/mobile, systems and managed engineering remain available.
+- Branch: `main` runs the hybrid Next.js App Router architecture; PR #81 (API route migration) was merged. Marketing pages are prerendered and chat/lead handlers are Next.js API routes. Current signed-out production responses are **not reverified** here; issue #74 tracks public reachability and API smoke tests.
+- Hero copy on `main` was updated through merged PR #85. The broader company positioning and public-founder privacy changes are under review in PR #88; do not describe them as deployed until the merge and signed-out production QA are verified.
 - Identity: Instrument brand, H-T-L logo and social assets in `brand/`. AI Audit and custom engineering fees are quoted per scope. Published Starter / Counter / Showroom web packages remain separate.
 - Public contact: `hopetheorylabs@gmail.com`, company X account `@HopeTheoryLabs`; WhatsApp links have prefilled text.
 - English-only public site. The assistant can respond in Bangla. No approved Bangla site translation exists.
 - Assistant model/lead-save functionality depends on Vercel secrets; do not infer those settings from the repository.
+
+## Pending reviewed work
+
+- [PR #85](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/85): merged 23 Nov (squash `5b437b6`) after GitHub CI passed; production visibility needs independent confirmation.
+- [PR #86](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/86): obsolete stacked draft, closed without merging after the #85 squash merge.
+- [PR #88](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/88): clean, reviewable follow-up to #85 for broad engineering positioning, public founder-profile removal and distinct chat/lead rate limits. CI and production sign-off are release gates.
+- Generated brand-book PDF, historic named print assets and historical public revisions require a separate privacy/source audit; their presence is not remedied by a site-content PR.
 
 ## Verified releases and checks
 
@@ -29,8 +36,8 @@ Detailed evidence and known limits: [QA_RESULTS.md](QA_RESULTS.md). Automated ch
 
 | Issue | Status |
 |---|---|
-| [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) | Founder approval for final positioning, service hierarchy and public founder wording is not recorded |
-| [#42](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/42) | Original repositioning epic; implementation largely done, awaiting owner decision via #43 |
+| [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) | Positioning and site/assistant privacy implementation in PR #88; full brand-asset review pending in #87 |
+| [#42](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/42) | Historical repositioning epic; close after #43 release verification and brand/privacy gate |
 | [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66) | Manual cross-device / screen-reader / WebGL QA and additional per-route mobile Lighthouse evidence pending |
 | [#67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67) | Owner-only GitHub / Vercel settings, branch housekeeping, social uploads |
 | [#68](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/68) | Optional future Bangla localization; no commitment until reviewed copy exists |

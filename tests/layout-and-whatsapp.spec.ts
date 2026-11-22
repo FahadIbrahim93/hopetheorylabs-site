@@ -108,6 +108,16 @@ test("the rail clears the hero labels and the headline at 1920x1080", async ({ p
   expect(h1!.x + h1!.width, "headline ends left of the rail").toBeLessThanOrEqual(rail!.x - 8);
 });
 
+test("public About and service pages present the company without personal founder profiles", async ({ page }) => {
+  await page.goto("/about", { waitUntil: "networkidle" });
+  await expect(page.getByRole("heading", { name: "Engineering close to the work." })).toBeVisible();
+  await expect(page.locator(".about-founder")).toHaveCount(0);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /engineering/);
+  await page.goto("/services", { waitUntil: "networkidle" });
+  await expect(page.getByText("Core engineering").first()).toBeVisible();
+  await expect(page.getByText("Additional engagement").first()).toBeVisible();
+});
+
 /* -------------------------------- WhatsApp -------------------------------- */
 
 const decode = (href: string) => {

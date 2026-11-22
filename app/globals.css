@@ -614,10 +614,6 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
 .services-detail-grid dt { color:#8b95a3; font:400 11px var(--font-mono),monospace; letter-spacing:.14em; text-transform:uppercase; }
 .services-detail-grid dd { margin:8px 0 0; color:#a3acb8; font-size:15px; line-height:1.6; }
 .services-detail-grid ul { margin:0; padding-left:18px; }
-.about-founder { list-style:none; margin:32px 0 0; padding:0; max-width:640px; border-top:1px solid var(--color-line); }
-.about-founder li { display:grid; grid-template-columns:minmax(140px,.6fr) minmax(0,1.4fr); gap:18px; padding:16px 0; border-bottom:1px solid var(--color-line); }
-.about-founder b { color:#eef0f2; font-weight:500; font-size:18px; }
-.about-founder span { color:#a3acb8; font-size:15px; line-height:1.5; }
 .footer-nav { display:flex; flex-wrap:wrap; gap:4px 18px; }
 .footer-nav a { display:inline-flex; align-items:center; min-height:44px; color:#a3acb8; text-decoration:none; }
 .footer-nav a:hover, .footer-nav a:focus-visible { color:#eef0f2; }
@@ -685,7 +681,6 @@ html[data-experience="webgl"] .hero-fallback { opacity:0; }
   .services-pillar { grid-template-columns:30px minmax(0,1fr); gap:6px 14px; }
   .services-pillar > span:last-child { grid-column:2; }
   .services-page { padding-top:120px; }
-  .about-founder li { grid-template-columns:1fr; gap:4px; }
   .work-section { justify-content:flex-start; gap:38px; }
   .phone-mockup { margin:0 auto; }
   .contact-links { align-items:flex-start; flex-direction:column; gap:14px; }

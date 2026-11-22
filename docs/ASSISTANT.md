@@ -1,6 +1,6 @@
 # Site assistant
 
-Floating assistant on every page. Answers only from approved site copy, helps choose between the AI Audit, forward-deployed work and the published website packages, captures enquiries to WhatsApp / email / Supabase.
+Floating assistant on every page. Answers only from approved site copy, explains forward-deployed engineering, custom software, AI integration, enterprise systems, optional AI Audits and published website packages, and captures enquiries to WhatsApp / email / Supabase. It does not disclose founder or team identities.
 
 Free tiers only. With no keys configured the assistant still answers via scripted FAQ shipped in the page.
 
@@ -19,7 +19,7 @@ Free tiers only. With no keys configured the assistant still answers via scripte
 
 ## Behaviour
 
-- Prices only from `pricing.tiers` and payment in `content/en.ts`
+- Prices only from `pricing.tiers` and payment in `content/en.ts`; never invent bespoke fees or require an AI Audit before another service
 - Unknown ৳ figures replaced with WhatsApp handoff
 - Bangla script → model lang + lead `lang: "bn"`
 - Contact step validates email or phone before advancing

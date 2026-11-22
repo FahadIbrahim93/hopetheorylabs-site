@@ -1,6 +1,6 @@
 # Hope Theory Labs — Website
 
-Marketing site for **Hope Theory Labs** (Dhaka), founded by Fahad Ibrahim. It leads with the AI Audit and forward-deployed AI engineering. The main conversion is a WhatsApp conversation that opens with a prefilled message.
+Marketing site for **Hope Theory Labs** (Dhaka): forward-deployed engineering, custom web/mobile software, AI integration and enterprise systems. The AI Audit is an optional engagement. The main conversion is a prefilled WhatsApp project enquiry. No personal founder identity is published on the website.
 
 Routes: `/`, `/about`, `/services`, `/pricing`, `/contact`. Agents: start with [AGENTS.md](AGENTS.md), then [docs/STATUS.md](docs/STATUS.md) and [docs/ROADMAP.md](docs/ROADMAP.md).
 
@@ -66,7 +66,7 @@ Security headers and caching: `vercel.json`.
 ## Repository hygiene
 
 - Feature work: branch from `main` (`issue-<n>` or short descriptive name), PR into `main`, `Closes #n` when applicable.
-- Do **not** push directly to `main`, and do not merge without Fahad's OK. A merge to `main` deploys production (see AGENTS.md).
+- Do **not** push directly to `main`, and do not merge without direct repository-owner approval. A merge to `main` deploys production (see AGENTS.md).
 - `main` is the only long-lived branch. After a reviewed merge, verify the merged PR and branch head, then delete the remote feature branch. Enable automatic deletion of merged PR branches in GitHub Settings → General → Pull Requests. Historic cleanup and owner approval: [issue #67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67).
 
 ## Vercel

@@ -6,9 +6,9 @@ import { Footer } from "@/components/Footer";
 import { PricingSection } from "@/components/PricingSection";
 
 export const metadata: Metadata = {
-  title: "AI Audit and AI engineering",
+  title: "Engineering quotes and website packages",
   description:
-    "The AI Audit and forward-deployed AI engineering are quoted per scope after discovery. The published Starter, Counter and Showroom website packages are listed on the services page.",
+    "Forward-deployed engineering, custom software, AI integration and enterprise systems are quoted per scope. The optional AI Audit is scoped separately; website packages are listed on services.",
   alternates: { canonical: "/pricing" },
 };
 

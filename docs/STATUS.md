@@ -1,16 +1,22 @@
-# Status — 20 November 2026
+# Status — 23 November 2026
 
 This is a point-in-time summary, not a substitute for checking live GitHub Actions and Vercel before deploying.
 
 ## Deployed site
 
 - Production: https://hopetheorylabs.vercel.app
-- Branch: `main`; Next.js currently static export (production `main`); a separate reviewed PR #81 proposes hybrid App Router execution to repair broken chat/lead routes. The public site remains accessible; production API GETs are HTTP 500 until that fix is deployed and rechecked.
-- Positioning: AI Audit and forward-deployed AI engineering lead; custom software, web/mobile, systems and managed engineering remain available.
+- Branch: `main` runs the hybrid Next.js App Router architecture; PR #81 (API route migration) was merged. Marketing pages are prerendered and chat/lead handlers are Next.js API routes. Current signed-out production responses are **not reverified** here; issue #74 tracks public reachability and API smoke tests.
+- Positioning on deployed `main`: audit-first legacy copy. Issue #43 approves broad engineering with optional AI Audit and no public founder profiles; draft PRs #85 and #86 propose the changes but are **not merged**.
 - Identity: Instrument brand, H-T-L logo and social assets in `brand/`. AI Audit and custom engineering fees are quoted per scope. Published Starter / Counter / Showroom web packages remain separate.
 - Public contact: `hopetheorylabs@gmail.com`, company X account `@HopeTheoryLabs`; WhatsApp links have prefilled text.
 - English-only public site. The assistant can respond in Bangla. No approved Bangla site translation exists.
 - Assistant model/lead-save functionality depends on Vercel secrets; do not infer those settings from the repository.
+
+## Pending reviewed work
+
+- [PR #85](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/85): preserve the hero and add clearer FDE/project CTA; GitHub CI passed on 23 Nov. Draft, not deployed.
+- [PR #86](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/86): stacked on PR #85, broaden service positioning and remove public founder references from site/assistant; tests and approval pending. Draft, not deployed.
+- Generated brand-book PDF, historic named print assets and historical public revisions require a separate privacy/source audit; their presence is not remedied by a site-content PR.
 
 ## Verified releases and checks
 

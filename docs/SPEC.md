@@ -1,6 +1,6 @@
 # Hope Theory Labs — Canonical Website Specification
 
-**Design source:** Fahad's supplied standalone HTML concept (25 October 2026). This document supersedes older layout notes where they conflict. The site is built as **Next.js components + R3F**, not as the original inline HTML page.
+**Design source:** the approved standalone HTML concept (25 October 2026). This document supersedes older layout notes where they conflict. The site is built as **Next.js components + R3F**, not as the original inline HTML page.
 
 ## Goal
 
@@ -29,11 +29,11 @@ One responsive, accessible marketing site. Do not iframe the source HTML. Copy, 
 
 ## Page sequence
 
-Header (Services · Approach · Work · About · Contact + “Discuss a project”; root-relative links so they work from every route), hero, Stage I/II as an **optional** maturity path (never a gate before AI or forward-deployed work), living flow (centred heading + three pills), how we work (five steps: Discover, Scope, Prototype, Deploy, Improve + live description), services (six, in order: AI Audit, forward-deployed AI engineering, AI integration and automation as lead services, then custom software, web and mobile, enterprise systems and data, and managed engineering as supporting services; the published Starter, Counter and Showroom website packages follow as a separate, secondary product, with payment terms and add-ons), work (Rollers Republic **Concept**), about (solo founder Fahad Ibrahim, role only), contact + ticker, footer (Pricing lives here, not in the primary nav), floating WhatsApp.
+Header (Services · Approach · Work · About · Contact + “Discuss a project”; root-relative links so they work from every route), hero, Stage I/II as an **optional** maturity path (never a gate before AI or forward-deployed work), living flow (centred heading + three pills), how we work (five steps: Discover, Scope, Prototype, Deploy, Improve + live description), services (six, in order: forward-deployed engineering, custom web/mobile software, AI integration and automation, enterprise systems and data as core services, followed by an optional AI Audit and managed engineering; the published Starter, Counter and Showroom website packages follow as a separate, secondary product, with payment terms and add-ons), work (Rollers Republic **Concept**), about (company engineering approach, without personal founder identities), contact + ticker, footer (Pricing lives here, not in the primary nav), floating WhatsApp.
 
 `/services` explains each pillar as problem → what we deliver → who it fits → how we engage, then lists the published website packages in full. Custom work is “quoted after discovery”; no invented fees or ranges.
 
-`/pricing` covers only the AI Audit and forward-deployed AI engineering, both quoted per scope, and links once to the website packages on `/services`.
+`/pricing` presents the four core engineering offers and optional AI Audit, all quoted per scope, and links once to website packages on `/services`.
 
 ## Functional behaviour
 
@@ -51,4 +51,4 @@ Header (Services · Approach · Work · About · Contact + “Discuss a project�
 
 ## Release gates
 
-`npm run lint`, `typecheck`, `build`; preview QA including mobile Lighthouse, keyboard, reduced motion, fallback; merge only after review. Production promotion remains Fahad's call.
+`npm run lint`, `typecheck`, `build`; preview QA including mobile Lighthouse, keyboard, reduced motion, fallback; merge only after review. Production promotion requires explicit repository-owner approval.

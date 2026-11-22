@@ -73,8 +73,8 @@ export const en: SiteContent = {
       {
         slug: "forward-deployed-engineering",
         lane: "lead",
-        title: "Forward-deployed AI engineering",
-        summary: "We work inside your team, alongside the people who run the process, from discovery to production and handoff.",
+        title: "Forward-deployed engineering (FDE)",
+        summary: "We work alongside the people running the process, from discovery and workflow mapping through build, testing, integration and handoff.",
         problem: "The problem is inside how your team works, and a brief sent to an outside agency would miss most of it.",
         outputs: [
           "Workflow map and written scope",
@@ -140,7 +140,7 @@ export const en: SiteContent = {
           "A written roadmap",
         ],
         fit: "Teams that want a straight answer on where AI is worth the effort before they commit to building anything.",
-        engagement: "The entry point. Fees are set after a short discovery call and quoted per scope.",
+        engagement: "Optional standalone discovery. Fees are agreed after a short call and quoted per scope.",
       },
       {
         slug: "managed-engineering",
@@ -348,7 +348,7 @@ export const en: SiteContent = {
     typeLabel: "What kind of work?",
     typeOptions: [
       "AI Audit",
-      "Forward-deployed AI engineering",
+      "Forward-deployed engineering (FDE)",
       "AI integration or automation",
       "Custom software, web or mobile",
       "Enterprise systems or data",

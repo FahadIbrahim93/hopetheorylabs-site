@@ -8,7 +8,7 @@ import { ServicesPageContent } from "@/components/ServicesPageContent";
 export const metadata: Metadata = {
   title: "Services and website packages",
   description:
-    "Six ways Hope Theory Labs works with you, led by the AI Audit and forward-deployed AI engineering, plus the published Starter, Counter and Showroom website packages. AI and custom work is quoted per scope after discovery.",
+    "Forward-deployed engineering, custom web and mobile software, AI integration and automation, and enterprise systems. Optional AI Audits and managed support. Website packages priced separately.",
   alternates: { canonical: "/services" },
 };
 

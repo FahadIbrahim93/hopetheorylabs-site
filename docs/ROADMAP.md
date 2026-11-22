@@ -1,11 +1,11 @@
-# Roadmap — 20 November 2026
+# Roadmap — 23 November 2026
 
 This roadmap tracks **remaining** work. Completed issues should not be presented to coding agents as selectable tasks. Before taking a task, read `docs/STATUS.md` and verify the current GitHub issue and `main`.
 
 | Priority | Item | Next responsible person |
 |---|---|---|
-| High — decision | [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) Approve or correct the final public positioning, services and founder representation; the old two-founder drafts disagree with the published single-founder Instrument copy | Founder |
-| High — tracking | [#42](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/42) Conclude the historical repositioning epic after #43; avoid reopening already shipped work | Founder |
+| High — implementation | [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) Approved: broad AI/software engineering, optional audit, no public founder identities. Review stacked change after hero PR #85 and confirm production after approved merges. Historical brand assets need separate privacy review. | Repository owner + reviewer |
+| Medium — tracking | [#42](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/42) Conclude the historical repositioning epic after #43; avoid reopening already shipped work | Founder |
 | Medium — owner | [#67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67) Delete verified redundant branches, configure auto-delete and required checks, review Dependabot, Vercel secrets and brand uploads | Repository owner |
 | Medium — QA | [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66) Complete manual device / WebGL / screen-reader QA and Lighthouse checks across each public route | Reviewer |
 | Low — optional | [#68](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/68) Bangla localization after reviewed Bangla copy exists | Founder / native reviewer |

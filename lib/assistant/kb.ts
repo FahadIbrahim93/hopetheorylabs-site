@@ -104,6 +104,7 @@ export function hasBangla(text: string): boolean {
 
 /** Public identity policy (issue #43): do not route founder-name questions to models. */
 export const IDENTITY_REPLY = "Hope Theory Labs does not publish individual founder or team profiles on this website. For company or project enquiries, please contact us on WhatsApp.";
+export const IDENTITY_REPLY_BN = "Hope Theory Labs এই ওয়েবসাইটে প্রতিষ্ঠাতা বা দলের সদস্যদের ব্যক্তিগত পরিচয় প্রকাশ করে না। কোনো প্রকল্প নিয়ে কথা বলতে WhatsApp-এ যোগাযোগ করুন।";
 
 export function isIdentityQuestion(message: string): boolean {
   return /\b(?:who\s+(?:founded|owns|runs|leads|started)\b|who\s+(?:is|are)\s+behind\b|(?:founder|co[- ]?founder|owner|team members|leadership)\s+(?:name|names|identity|details|profile)\b|(?:name|identify|meet)\s+(?:the|your|htl)\s+(?:founder|co[- ]?founder|owners?|team)\b)|প্রতিষ্ঠাতা|সহপ্রতিষ্ঠাতা/i.test(message);

@@ -37,6 +37,40 @@ test("chat does not disclose unpublished founder identities", async ({ request }
   }
 });
 
+test("chat traffic does not consume the lead rate-limit budget", async ({ request }, testInfo) => {
+  // Share one synthetic client identity across chat and lead, without contacting real services.
+  const ip = testInfo.project.name === "desktop" ? "198.51.100.91" : "198.51.100.92";
+  const headers = { "x-forwarded-for": ip };
+  for (let n = 0; n < 6; n++) {
+    const chat = await request.post("/api/chat", {
+      headers,
+      data: { messages: [{ role: "user", content: "How do you work?" }] },
+    });
+    expect(chat.status(), `chat #${n + 1}`).toBe(200);
+  }
+  const lead = await request.post("/api/lead", {
+    headers,
+    data: { name: "Synthetic", contact: "isolation@example.invalid", need: "Local-only isolation check" },
+  });
+  expect(lead.status(), "chat requests must not pre-limit a new lead").toBe(503);
+  const result = await lead.json();
+  expect(result).toMatchObject({ ok: false, saved: false, notified: false });
+  expect(result.whatsapp).toContain("wa.me/");
+});
+
+test("lead submissions still enforce their own five-per-window rate limit", async ({ request }, testInfo) => {
+  const ip = testInfo.project.name === "desktop" ? "198.51.100.93" : "198.51.100.94";
+  const payload = { name: "Synthetic", contact: "limit@example.invalid", need: "Local-only limiter check" };
+  const headers = { "x-forwarded-for": ip };
+  for (let n = 0; n < 5; n++) {
+    const response = await request.post("/api/lead", { headers, data: payload });
+    expect(response.status(), `lead #${n + 1}`).toBe(503);
+  }
+  const sixth = await request.post("/api/lead", { headers, data: payload });
+  expect(sixth.status()).toBe(429);
+  expect(await sixth.json()).toMatchObject({ error: "rate_limited", saved: false, notified: false });
+});
+
 test("lead rejects missing fields and invalid contact", async ({ request }) => {
   const empty = await request.post("/api/lead", { data: {} });
   expect(empty.status()).toBe(400);

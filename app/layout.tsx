@@ -23,9 +23,9 @@ const instrumentSans = Instrument_Sans({
 
 const siteUrl = "https://hopetheorylabs.vercel.app";
 
-const title = "Hope Theory Labs — AI Audit and forward-deployed AI engineering | Dhaka";
+const title = "Hope Theory Labs — Forward-deployed AI & software engineering | Dhaka";
 const description =
-  "Founder-led, AI-first studio in Dhaka. We start with an AI Audit that shows where AI can genuinely help your team, then build it alongside you through forward-deployed AI engineering, with custom software, web and systems work in support.";
+  "AI and software engineering studio in Dhaka. Forward-deployed engineering, custom web and mobile software, AI integration, and connected enterprise systems. Optional AI Audits for workflow discovery.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

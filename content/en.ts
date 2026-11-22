@@ -18,11 +18,11 @@ export const en: SiteContent = {
     skip: "Skip to content",
   },
   hero: {
-    eyebrow: "AI Audit · Forward-deployed AI engineering · Dhaka",
+    eyebrow: "Forward-deployed engineering (FDE) · Dhaka, Bangladesh",
     heading: "Find where AI pays off. / Then we build it with you.",
     subheading:
-      "An AI Audit maps your workflows and data and ranks the practical opportunities. Forward-deployed engineering turns the first one into a tool your team uses.",
-    primaryCta: "Ask about the AI Audit", whatsappLink: whatsappFor("the AI Audit"),
+      "An AI Audit maps your workflows and data, identifies where time is lost, and ranks AI opportunities worth pursuing. Our forward-deployed engineers then work alongside your team to build and test practical tools with the people who will use them.",
+    primaryCta: "Discuss a project", whatsappLink: whatsappProjectLink,
     secondaryCta: "Explore our work", secondaryHref: "/#work",
     coreDescription: "An animated intelligence core connects websites, CRM, databases, files, apps, APIs, systems and people.",
     coreNodes: ["Productivity", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],

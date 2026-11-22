@@ -22,7 +22,7 @@ One responsive, accessible marketing site. Do not iframe the source HTML. Copy, 
 ## Visual system
 
 - Palette and typography as in `docs/BRAND.md`.
-- Hero (AI-first, November 2026): eyebrow “AI Audit · Forward-deployed AI engineering · Dhaka”, H1 “Find where AI pays off. / Then we build it with you.”, then a two-sentence supporting line about the AI Audit and forward-deployed engineering. No tagline and no “clients worldwide”. Copy source: the AI-first messaging block (labs Drive) and `content/en.ts`.
+- Hero (FDE-led, 23 November 2026): eyebrow “Forward-deployed engineering (FDE) · Dhaka, Bangladesh”, H1 “Find where AI pays off. / Then we build it with you.” The two-sentence supporting line explains the optional AI Audit (workflow/data mapping, lost time, ranked AI opportunities) and forward-deployed engineers building and testing with the people who use the tools. Primary CTA “Discuss a project” opens a project-prefilled WhatsApp message; secondary CTA “Explore our work” leads to the work section. Keep the original white/brass headline styling and immersive experience. Do not imply every client must buy an audit. No tagline, invented proof or “first in Bangladesh” claim. Copy source: `content/en.ts`.
 - Eight flow sources: **Productivity, CRM, Databases, Files, Apps, APIs, Systems, People** with captions in `hero.coreNodeDetails` (kinds of data, not client integrations).
 - Intro overlay (brand + line), grain + vignette, custom cursor (mouse only), magnetic hero CTA, header blur on scroll.
 - HUD states: **Scattered → Structured → Alive** (not the old per-section IO labels in WebGL mode).

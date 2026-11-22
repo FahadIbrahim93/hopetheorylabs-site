@@ -11,7 +11,7 @@ export const WHATSAPP_NUMBER = "8801718463471";
 export const WHATSAPP_BASE = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 /** Default opening line for any button that has no form answers to carry. */
-export const WHATSAPP_DEFAULT_MESSAGE = "Hi Hope Theory Labs, I'd like to ask about an AI Audit.";
+export const WHATSAPP_DEFAULT_MESSAGE = "Hi Hope Theory Labs, I'd like to discuss a project.";
 
 /** Longest free-text answer carried into a link, so URLs stay well under limits. */
 const MAX_FIELD = 700;

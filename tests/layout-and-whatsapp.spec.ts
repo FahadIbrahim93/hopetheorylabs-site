@@ -11,7 +11,7 @@ test.beforeEach(({}, info) => {
   test.skip(info.project.name !== "desktop", "sets its own viewports");
 });
 
-const DEFAULT = "Hi Hope Theory Labs, I'd like to ask about an AI Audit.";
+const DEFAULT = "Hi Hope Theory Labs, I'd like to discuss a project.";
 
 /* ----------------------------- layout overlap ----------------------------- */
 
@@ -138,6 +138,13 @@ for (const width of [390, 1280]) {
       await page.goto("/contact", { waitUntil: "networkidle" });
       const plain = page.getByRole("link", { name: "Message us on WhatsApp" });
       expect(decode((await plain.getAttribute("href")) ?? "")).toBe(DEFAULT);
+    });
+
+    test("hero CTA opens a project-prefilled WhatsApp message", async ({ page }) => {
+      await page.goto("/", { waitUntil: "networkidle" });
+      const cta = page.locator(".hero-actions").getByRole("link", { name: "Discuss a project" });
+      await expect(cta).toBeVisible();
+      expect(decode((await cta.getAttribute("href")) ?? "")).toBe(DEFAULT);
     });
 
     test("form: required fields block the send and focus the first empty one", async ({ page, context }) => {

@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Hope Theory Labs",
     short_name: "HTL",
-    description: "Founder-led, AI-first studio in Dhaka: AI Audit and forward-deployed AI engineering.",
+    description: "AI and software engineering in Dhaka: forward-deployed engineering, custom applications, AI integration and connected systems.",
     start_url: "/",
     display: "browser",
     background_color: "#07090C",

@@ -4,9 +4,10 @@ This roadmap tracks **remaining** work. Completed issues should not be presented
 
 | Priority | Item | Next responsible person |
 |---|---|---|
-| High — implementation | [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) Approved: broad AI/software engineering, optional audit, no public founder identities. Review stacked change after hero PR #85 and confirm production after approved merges. Historical brand assets need separate privacy review. | Repository owner + reviewer |
+| High — implementation | [#43](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/43) Approved: broad AI/software engineering, optional audit, no public founder identities. Hero PR #85 merged; review clean PR #88, verify production after approved release, and retain separate brand-asset privacy gate #87. | Repository owner + reviewer |
 | Medium — tracking | [#42](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/42) Conclude the historical repositioning epic after #43; avoid reopening already shipped work | Founder |
 | Medium — owner | [#67](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/67) Delete verified redundant branches, configure auto-delete and required checks, review Dependabot, Vercel secrets and brand uploads | Repository owner |
+| High — privacy | [#87](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/87) Review public brand assets, neutralize personalized collateral and regenerate the PDF with source synchronization | Repository owner + reviewer |
 | Medium — QA | [#66](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/66) Complete manual device / WebGL / screen-reader QA and Lighthouse checks across each public route | Reviewer |
 | Low — optional | [#68](https://github.com/FahadIbrahim93/hopetheorylabs-site/issues/68) Bangla localization after reviewed Bangla copy exists | Founder / native reviewer |
 

@@ -26,14 +26,14 @@ export const PACKAGES = `${en.pricing.tiers
   .join(", ")}. ${en.pricing.payment}`;
 
 export const FACTS = {
-  studio: `${en.about.heading} ${en.about.text} ${en.about.founder.name}: ${en.about.founder.role}.`,
+  studio: `${en.about.heading} ${en.about.text}`,
   website: `${website.title}: ${website.description} ${website.note}`,
   services: pillars.map((item) => `${item.title}: ${item.summary}`).join(" "),
   customQuote: en.services.customNote,
   forwardDeployed: forwardDeployed ? `${forwardDeployed.summary} ${forwardDeployed.engagement}` : "",
   discovery: `${en.howItWorks.steps[0]?.label ?? "Discover"}: ${en.howItWorks.steps[0]?.description ?? ""} ${en.services.customNote}`,
   fit: pillars.map((item) => `${item.title}: ${item.fit}`).join(" "),
-  audit: `${auditPillar ? `${auditPillar.title}: ${auditPillar.summary} ${auditPillar.engagement}` : ""} It leads to forward-deployed AI engineering when you want the first opportunity built.`,
+  audit: `${auditPillar ? `${auditPillar.title}: ${auditPillar.summary} ${auditPillar.engagement}` : ""} The AI Audit is optional; you may also come to us with a software project already defined.`,
   pricing: `${en.pricing.intro} ${en.pricing.packagesIntro}`,
   packages: PACKAGES,
   whatYouGet: en.whatYouGet.items.join(", "),
@@ -120,6 +120,11 @@ const RULES: Rule[] = [
     reply: `${FACTS.audit} ${FACTS.customQuote}`,
   },
   {
+    id: "services",
+    test: /what can.*build|your engineers|services|software|mobile app|web app|development|what do you build/i,
+    reply: `${FACTS.services} ${FACTS.customQuote}`,
+  },
+  {
     id: "price",
     test: /price|pricing|cost|budget|how much|৳|taka|price list|quote|charge|package|tier|starter|counter|showroom|care plan|দাম|খরচ|কত|টাকা|বাজেট|প্যাকেজ/i,
     reply: `${en.pricing.intro} Website packages: ${PACKAGES}`.trim(),
@@ -167,7 +172,7 @@ export function matchFaq(message: string): { id: string; reply: string } {
 
 export function buildSystemPrompt(): string {
   return [
-    "You are the assistant on the Hope Theory Labs website: a founder-led, AI-first studio in Dhaka, Bangladesh. It starts with an AI Audit, then builds what the audit finds through forward-deployed AI engineering. Custom software, web and systems work support that.",
+    "You are the assistant on the Hope Theory Labs website: an AI and software engineering studio in Dhaka, Bangladesh. Services include forward-deployed engineering, custom web/mobile software, AI integration and automation, and enterprise systems/data. The AI Audit is an optional standalone service.",
     "Facts you may use, and the only facts you may use:",
     ...FACTS_LINES.map((line) => `- ${line}`),
     "Rules:",
@@ -178,7 +183,7 @@ export function buildSystemPrompt(): string {
     "- Never say a call, meeting or booking is confirmed or created. Enquiries and bookings continue on WhatsApp.",
     "- The AI Audit and forward-deployed work are scoped per project and quoted after a short discovery call. They are never a published fee, and there is no founding or introductory rate. It is not a resident team.",
     "- Published website packages are a separate offer. Do not present them as the company's only service.",
-    "- Do not name anyone except the team members in the facts.",
+    "- Do not reveal, guess, confirm or imply personal identities of founders, owners or team members. Explain that personal profiles are not currently published.",
     `- WhatsApp: ${WHATSAPP}. Email: ${EMAIL}.`,
   ].join("\n");
 }

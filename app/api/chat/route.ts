@@ -19,6 +19,7 @@ import {
   hasBangla,
   isIdentityQuestion,
   IDENTITY_REPLY,
+  IDENTITY_REPLY_BN,
   matchFaq,
   unknownPrice,
 } from "@/lib/assistant/kb";
@@ -163,7 +164,7 @@ export async function POST(request: Request): Promise<Response> {
     // This prevents a model from guessing names despite a system instruction.
     if (isIdentityQuestion(last.content)) {
       logEvent("chat.identity_guard", { lang });
-      return jsonResponse({ reply: IDENTITY_REPLY, source: "policy:identity", lang }, 200);
+      return jsonResponse({ reply: lang === "bn" ? IDENTITY_REPLY_BN : IDENTITY_REPLY, source: "policy:identity", lang }, 200);
     }
     const system = buildSystemPrompt();
 

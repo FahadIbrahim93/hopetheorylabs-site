@@ -188,9 +188,9 @@ for name, fn, w, h in [("htl-post-field-note-1080", post_note, 1080, 1080), ("ht
 def gh_preview():
     W, H, m = 1280, 640, 96
     body, _ = lockup(m, 96, 48)
-    b = [body, label("FahadIbrahim93 / hopetheorylabs-site", m, 300, 18),
+    b = [body, label("Hope Theory Labs / website", m, 300, 18),
          text("The Hope Theory Labs website.", m, 380, "serif", 500, 60, INK, opsz=72),
-         text("Next.js · static export · no tracking", m, 440, "sans", 400, 26, MUTED),
+         text("Next.js · pre-rendered pages · server-side APIs", m, 440, "sans", 400, 26, MUTED),
          ticks(m, 560, W - 2 * m, accent_at=60)]
     return svg(W, H, "".join(b), "hopetheorylabs-site", NIGHT)
 

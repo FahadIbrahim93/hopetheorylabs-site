@@ -23,16 +23,16 @@
 
 ## Messaging hierarchy
 
-1. **What we are:** a founder-led, AI-first studio for organisations.
-2. **What we do:** start with an AI Audit, then design, build, connect and operate what it finds, with custom software and systems work in support.
+1. **What we are:** a software and AI engineering studio in Dhaka.
+2. **What we do:** design, build and improve software with the team that uses it.
 3. **How we do it:** forward-deployed engineers who work alongside your team until it runs.
 4. **Why it matters:** an AI Audit identifies the highest-value opportunities, then forward-deployed engineering turns a prioritized opportunity into a useful, controlled workflow.
 
 ## Approved lines
 
 - Hero: *Find where AI pays off. Then we build it with you.*
-- Tagline: not set. A working line exists but is not approved; leave it off every public surface until Fahad decides.
-- Primary call to action: *Ask about the AI Audit* (the header button stays *Discuss a project*)
+- Tagline: not set. A working line exists but is not approved; leave it off every public surface until the studio approves it.
+- Primary call to action: *Discuss a project*
 - Secondary call to action: *See our work*
 - Brief invitation: *Tell us what your team needs to build, automate or connect.*
 

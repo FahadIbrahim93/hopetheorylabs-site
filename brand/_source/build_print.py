@@ -17,7 +17,6 @@ W, H = TW + 2 * BLEED, TH + 2 * BLEED  # 270 × 162 pt
 SAFE = BLEED + 9                       # safe area starts 0.125 in inside trim
 
 CARDS = {
-    "fahad-ibrahim": {"name": "Fahad Ibrahim", "role": "Founder · Engineering and technical delivery"},
     "template": {"name": "[Full name]", "role": "[Role]"},
 }
 CONTACT = [("Phone", "+880 1718 463471"), ("Email", "hopetheorylabs@gmail.com"), ("Web", "hopetheorylabs.vercel.app")]
@@ -90,6 +89,6 @@ for key, c in CARDS.items():
     open(pp, "w").write(proof(art, f"Back: {c['name']}"))
     pdf(pp, f"/tmp/htl-proof-back-{key}.pdf")
 pp = "/tmp/htl-proof-front.svg"; open(pp, "w").write(proof(f_art, "Front")); pdf(pp, "/tmp/htl-proof-front.pdf")
-subprocess.run(["qpdf", "--deterministic-id", "--empty", "--pages", "/tmp/htl-proof-front.pdf", "/tmp/htl-proof-back-fahad-ibrahim.pdf",
+subprocess.run(["qpdf", "--deterministic-id", "--empty", "--pages", "/tmp/htl-proof-front.pdf",
                 "/tmp/htl-proof-back-template.pdf", "--", os.path.join(OUT, "htl-card-proof-with-crop-marks.pdf")], check=True)
 print("cards built")

@@ -326,11 +326,11 @@ export const en: SiteContent = {
         tag: "Shipped",
         discipline: "Website",
         summary:
-          "This marketing site — static export, accessible fallbacks, WebGL intelligence scene on capable desktops only.",
+          "The studio website uses pre-rendered pages and server-side handlers for chat and enquiries.",
         problem:
           "The studio's own site has to demonstrate the work it sells, on the devices buyers actually use.",
         demonstrates:
-          "A static export with accessible fallbacks, a WebGL scene on capable desktops only, and reduced-motion support. Built and shipped by the studio itself.",
+          "The site includes accessible fallbacks, a WebGL scene on capable desktops and reduced-motion support. Built and shipped by the studio itself.",
         deliverables: [
           "Static Next.js export on Vercel",
           "WhatsApp-first contact and plain-language pricing",

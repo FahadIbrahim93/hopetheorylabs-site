@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { SectionMarker } from "./SectionMarker";
 import { useContent } from "./ContentProvider";
 import { WorkCaseView } from "./WorkCaseView";
@@ -18,9 +19,9 @@ export function WorkCasePageContent({ slug }: { slug: string }) {
       <div className="work-page-inner scene-copy">
         <p className="eyebrow">{work.eyebrow}</p>
         <p className="work-back-row">
-          <a className="text-link" href="/work">
+          <Link className="text-link" href="/work">
             {work.back} <span aria-hidden="true">‹</span>
-          </a>
+          </Link>
         </p>
         <WorkCaseView
           item={item}

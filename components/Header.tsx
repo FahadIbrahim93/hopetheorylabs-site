@@ -5,7 +5,7 @@ import { useContent } from "./ContentProvider";
 import { WhatsAppCta } from "./WhatsAppCta";
 
 /*
-  Route-aware header: every href is root-relative (`/services`, `/#work`), so the
+  Route-aware header: every href is root-relative (`/services`, `/work`), so the
   same links work from the homepage and from the dedicated routes.
 */
 export function Header() {

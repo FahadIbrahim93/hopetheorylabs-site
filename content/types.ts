@@ -133,6 +133,10 @@ export interface SiteContent {
     intro: string;
     honestyNote: string;
     labels: { problem: string; demonstrates: string };
+    /** Link from homepage cards and index rows to /work/[slug]. */
+    readCta: string;
+    /** Back link on case detail pages. */
+    back: string;
     cases: WorkCaseStudy[];
   };
   about: { eyebrow: string; heading: string; text: string };

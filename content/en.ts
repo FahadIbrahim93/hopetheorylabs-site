@@ -8,7 +8,7 @@ export const en: SiteContent = {
     nav: [
       { label: "Services", href: "/services" },
       { label: "Approach", href: "/#how" },
-      { label: "Work", href: "/#work" },
+      { label: "Work", href: "/work" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -23,7 +23,7 @@ export const en: SiteContent = {
     subheading:
       "An AI Audit maps your workflows and data, identifies where time is lost, and ranks AI opportunities worth pursuing. Our forward-deployed engineers then work alongside your team to build and test practical tools with the people who will use them.",
     primaryCta: "Discuss a project", whatsappLink: whatsappProjectLink,
-    secondaryCta: "Explore our work", secondaryHref: "/#work",
+    secondaryCta: "Explore our work", secondaryHref: "/work",
     coreDescription: "An animated intelligence core connects websites, CRM, databases, files, apps, APIs, systems and people.",
     coreNodes: ["Productivity", "CRM", "Databases", "Files", "Apps", "APIs", "Systems", "People"],
     coreNodeDetails: [
@@ -268,6 +268,8 @@ export const en: SiteContent = {
       "We build a free website concept before you pay. Case studies below say whether work is a concept pitch, in progress, or shipped — including studio games and sites we ship ourselves. No client logos, reviews, or made-up numbers.",
     honestyNote: "Ask us on WhatsApp if you want permission details for a concept built from a real catalog.",
     labels: { problem: "The problem", demonstrates: "What it demonstrates" },
+    readCta: "Open page",
+    back: "All work",
     cases: [
       {
         slug: "rollers-republic",
@@ -324,11 +326,11 @@ export const en: SiteContent = {
         tag: "Shipped",
         discipline: "Website",
         summary:
-          "This marketing site — static export, accessible fallbacks, WebGL intelligence scene on capable desktops only.",
+          "The studio website uses pre-rendered pages and server-side handlers for chat and enquiries.",
         problem:
           "The studio's own site has to demonstrate the work it sells, on the devices buyers actually use.",
         demonstrates:
-          "A static export with accessible fallbacks, a WebGL scene on capable desktops only, and reduced-motion support. Built and shipped by the studio itself.",
+          "The site includes accessible fallbacks, a WebGL scene on capable desktops and reduced-motion support. Built and shipped by the studio itself.",
         deliverables: [
           "Static Next.js export on Vercel",
           "WhatsApp-first contact and plain-language pricing",
@@ -339,7 +341,7 @@ export const en: SiteContent = {
   },
   about: {
     eyebrow: "About", heading: "Engineering close to the work.",
-    text: "Hope Theory Labs is an AI and software engineering studio based in Dhaka. We build custom web and mobile applications, integrate AI into workflows, and connect the systems businesses rely on. In forward-deployed engagements, our engineers work alongside the people doing the job, from discovery through testing, deployment and handoff. On-site involvement and ongoing support are agreed per project.",
+    text: "Hope Theory Labs is a software engineering studio in Dhaka, Bangladesh. We design, build and integrate software for startups, growing businesses and larger organisations — from forward-deployed engineering on the floor to custom products, AI integrations and connected systems. An AI Audit is available when the right starting point is unclear.",
   },
   contact: {
     eyebrow: "Contact", heading: "Begin the conversation.",
@@ -347,11 +349,11 @@ export const en: SiteContent = {
     nameLabel: "Your name",
     typeLabel: "What kind of work?",
     typeOptions: [
-      "AI Audit",
-      "Forward-deployed engineering (FDE)",
-      "AI integration or automation",
+      "Forward-deployed engineering",
       "Custom software, web or mobile",
+      "AI integration or automation",
       "Enterprise systems or data",
+      "AI Audit",
       "A website package",
       "Not sure yet",
     ],
@@ -368,7 +370,7 @@ export const en: SiteContent = {
     title: "Hope Theory assistant",
     open: "Open the Hope Theory assistant",
     close: "Close the assistant",
-    intro: "Hi — I'm the Hope Theory assistant. Ask about our engineering services, how we work with your team, optional AI Audits, or website packages.",
+    intro: "Hi — I'm the Hope Theory assistant. Ask about our engineering services, how discovery works, or the published website packages.",
     inputLabel: "Your message",
     placeholder: "Type your question",
     send: "Send",
@@ -380,9 +382,9 @@ export const en: SiteContent = {
     rateLimited: "You've sent a few messages already. Give it a few minutes, or message us on WhatsApp.",
     tooLong: "That message is too long. Keep it under 1,000 characters.",
     chips: [
-      "What can your engineers build?",
-      "How does forward-deployed engineering work?",
-      "Do I need an AI Audit?",
+      "What is forward-deployed engineering?",
+      "What does an AI Audit cover?",
+      "Compare website packages",
       "Start an enquiry",
     ],
     booking: "Book a call",
@@ -411,6 +413,7 @@ export const en: SiteContent = {
     nav: [
       { label: "Services", href: "/services" },
       { label: "Website packages", href: "/services#services-website" },
+      { label: "Work", href: "/work" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],

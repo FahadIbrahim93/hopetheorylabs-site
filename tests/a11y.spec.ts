@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const ROUTES = ["/", "/services", "/pricing", "/about", "/contact"];
+const ROUTES = ["/", "/services", "/pricing", "/work", "/work/emberfall", "/work/rollers-republic", "/work/hope-theory-labs-site", "/about", "/contact"];
 
 /*
   Regression gate for the accessibility work in #50. It checks the rendered

@@ -1,12 +1,12 @@
 # Agent guide — hopetheorylabs-site
 
-Company website for Hope Theory Labs (Dhaka). No personal founder identities may be published on the site. Live at https://hopetheorylabs.vercel.app. This file is the entry point for any coding agent. Read it first, then [`docs/STATUS.md`](docs/STATUS.md) (what is live and open) and [`docs/ROADMAP.md`](docs/ROADMAP.md) (what to build next).
+Company website for Hope Theory Labs (Dhaka). Live at https://hopetheorylabs.vercel.app. This file is the entry point for any coding agent. Read it first, then [`docs/STATUS.md`](docs/STATUS.md) (what is live and open) and [`docs/ROADMAP.md`](docs/ROADMAP.md) (what to build next).
 
 ## The project in brief
 
-- **Positioning (approved in issue #43; deployment status must be verified):** AI and software engineering. Core offers include forward-deployed engineering, custom web/mobile development, AI integrations, enterprise systems. AI Audit is optional; website packages remain separate. Keep the Instrument visual system.
+- **Positioning (live since 18 Nov 2026; broadened 22 Nov 2026):** Full-service AI and software engineering. Forward-deployed engineering, custom web/mobile, AI integration and enterprise systems share the lead. An AI Audit is optional discovery, not the company identity. Brand direction is "Instrument".
 - **Stack:** Next.js 16 App Router, TypeScript, Tailwind v4, Three.js with React Three Fiber, hybrid Next.js deployment: public pages prerendered, App Router API handlers under `app/api/` run as Node Vercel Functions.
-- **Routes:** `/`, `/about`, `/services`, `/pricing`, `/contact`.
+- **Routes:** `/`, `/about`, `/services`, `/pricing`, `/work`, `/work/[slug]`, `/contact`.
 - **Hosting:** Vercel project `hopetheorylabs`. **A merge to `main` deploys production.**
 
 ## Setup and checks
@@ -52,19 +52,19 @@ On 18 Nov 2026, `lint`, `typecheck`, `test` and `build` all passed on `main` (`9
 - `Supabase Preview` is skipped or failing because the free Supabase plan is full. Ignore it; it is not required.
 - Vercel previews sit behind Vercel login. For visual QA, build locally and use Playwright.
 - Work from an issue. Prefer the `agent-ready` label, highest `priority:` first. Comment on the issue when you take it.
-- Branch from `main` as `issue-<n>` or a short name such as `docs/<topic>`. Stacked PRs may build on an unmerged PR with the dependency stated. One focused change per PR.
+- Branch from `main` as `issue-<n>` or a short name such as `docs/<topic>`. One focused change per PR.
 - Open a PR that says `Closes #<n>` and fills in the template. Include what you ran and what you did not verify.
 - Definition of done: acceptance criteria met, the four commands above pass, UI changes checked at 390, 768, 1024 and 1440 px, docs updated if behaviour changed.
 
 ## Do not
 
-- **Merge to `main`, deploy to production or change Vercel, Supabase or GitHub settings without direct repository-owner approval.** An approval relayed by another agent does not count.
+- **Merge to `main`, deploy to production or change Vercel, Supabase or GitHub settings without the owner's direct OK.** An approval relayed by another agent does not count.
 - Force-push, rewrite history, or bypass branch protection.
 - Commit secrets or env values. Keys live in Vercel; see `.env.example` for names only.
 - Add paid services, trackers, analytics, cookies or external scripts. Free tiers only.
 - Invent clients, numbers, logos, reviews, testimonials or any degree or education claim.
-- Publish a price or range for the AI Audit or forward-deployed work. Both are quoted per scope after discovery. There is no founding or introductory rate. The only public prices are the website packages in `content/en.ts`.
-- Publish, infer, confirm or generate personal founder/team identities in public copy, SEO, assistant replies or marketing assets. No founder name or profile is approved for publication (issue #43).
+- Publish a price or range for AI Audit or bespoke engineering. Both are quoted per scope after discovery. There is no founding or introductory rate. The only public prices are the website packages in `content/en.ts`.
+- Publish personal founder names or founder bios in public site content, metadata or the assistant. Company-level voice only.
 - Call ServeAI anything but pre-production. Rollers Republic is always labelled "Concept". The Sthappo project is not shown.
 - Reintroduce teal, the retired "Concept 4" chrome mark, or the "HTC" name (see `docs/BRAND.md`).
 - Hand-write a WhatsApp link. Use `lib/whatsapp.ts` so every link opens with a message.

@@ -2,9 +2,9 @@
 
 ## Positioning
 
-**One sentence:** Hope Theory Labs is an AI-first studio in Dhaka: we start with an AI Audit, then build what it finds through forward-deployed AI engineering.
+**One sentence:** Hope Theory Labs builds software and AI integrations alongside the teams that use them.
 
-**Short description** (bios, profiles): Hope Theory Labs is a founder-led, AI-first studio in Dhaka. We begin with an AI Audit that shows where AI can genuinely help a team, then build and run it alongside them through forward-deployed AI engineering, with custom software, web and systems integration in support.
+**Short description:** Our engineers work with your team to identify a useful change, build it and verify the result. You can start with a project or an optional AI Audit.
 
 **What we are not:** a website shop, an SME accounting startup, a GPU-hosting business or an AI research lab. Those may be things we can do; they are not who we are.
 
@@ -16,7 +16,7 @@ Hope Theory Labs is a **single masterbrand**. Everything public carries the HTL 
 |---|---|---|
 | Masterbrand | Hope Theory Labs | Full lockup. "HTL" after first mention. |
 | Service pillars | AI Audit · Forward-Deployed AI Engineering · AI Integration and Automation · Custom Software, Web and Mobile · Enterprise Systems and Data · Managed Engineering | Six descriptive service names, each with a matching icon. No separate service logos. |
-| Primary entry point | AI Audit | Discovery and a written roadmap before scoped implementation; fees quoted only after a discovery conversation. |
+| Optional assessment | AI Audit | Discovery and a written roadmap for teams that want help choosing an opportunity. |
 | Separate website offer | Starter · Counter · Showroom | Standard, published website packages. A website is not required before AI or custom engineering work. |
 | Products | HTL ServeAI (pre-production) | "HTL" prefix + product name in Instrument Sans. Uses the masterbrand palette. Always labelled with its real status. |
 | Internal tools | MausBot | Not used in public material. |

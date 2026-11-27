@@ -10,7 +10,7 @@
 | Website: header lockup, favicons, app icons, web manifest, Open Graph image | `components/BrandMark.tsx`, `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`, `app/manifest.ts`, `public/og.png` |
 | Social: avatar, X header, LinkedIn and Facebook covers, two post templates | `brand/social/` (SVG sources, PNG exports in `png/`) |
 | GitHub: organisation avatar, repository social preview, README banner | `brand/github/` |
-| Business cards (front, named back, blank back, proof with crop marks) | `brand/business-card/` |
+| Business cards (front, reusable back, proof with crop marks) | `brand/business-card/` |
 | Email signature (HTML and plain text) | `brand/email-signature/`; the logo is served from the website at `/brand/htl-signature-logo.png` |
 | Brand guidelines PDF | `brand/guidelines/HTL-Brand-Guidelines.pdf` |
 

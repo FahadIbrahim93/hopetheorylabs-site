@@ -9,7 +9,7 @@ Direction: **Instrument** — engineering as a precision instrument: calm, exact
 | `tokens/` | `tokens.json` (source of truth) and `tokens.css` (Night theme on `:root`, Paper theme on `[data-theme="paper"]`). |
 | `social/` | Avatar, X header, LinkedIn and Facebook covers, Open Graph image and two post templates. SVG sources; upload-ready PNGs in `social/png/`. |
 | `github/` | Organisation avatar, repository social preview (1280 × 640) and README banner. |
-| `business-card/` | Print PDFs, 3.5 × 2 in with 0.125 in bleed: front, a named back, a blank back, and a proof with crop marks. |
+| `business-card/` | Print PDFs, 3.5 × 2 in with 0.125 in bleed: front, a reusable back, and a proof with crop marks. |
 | `email-signature/` | `signature.html` (paste into Gmail) and `signature.txt`. Its logo is served from `public/brand/htl-signature-logo.png`. |
 | `guidelines/` | The brand guidelines PDF and its markdown source. |
 | `_source/` | The scripts that build every file above. |

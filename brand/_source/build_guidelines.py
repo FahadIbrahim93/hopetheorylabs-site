@@ -53,7 +53,7 @@ appendix = f'''
 </div>
 <div class="grid2">
 <figure>{img("business-card/htl-card-front.svg", "Business card front", "width:100%")}<figcaption>Business card front (3.5 × 2 in, with bleed)</figcaption></figure>
-<figure>{img("business-card/htl-card-back-fahad-ibrahim.svg", "Business card back", "width:100%")}<figcaption>Business card back</figcaption></figure>
+<figure>{img("business-card/htl-card-back-template.svg", "Business card back", "width:100%")}<figcaption>Business card back</figcaption></figure>
 </div>
 </section>'''
 

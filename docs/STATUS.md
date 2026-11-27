@@ -1,4 +1,11 @@
-# Status — 23 November 2026
+# Status — 27 November 2026
+
+- [#92](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/92) and [#89](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/89) merged. Vercel reported production READY at `42d8575bb03423cf8a9b539c4f6e60e1ad9e9503`. Signed-out GETs returned 200 for home, about, services, pricing, contact, the portfolio index, all three case pages, and both API health routes. The health responses identified the chat and lead services.
+- One synthetic enquiry reached the production database on 25 November and was removed after verification. Email alerts were inactive at that check. See [production evidence](PRODUCTION_CHECK_2026-11-25.md) and [lead operations](LEAD_OPERATIONS.md). The 27 November check sent GET requests only.
+- [#93](https://github.com/FahadIbrahim93/hopetheorylabs-site/pull/93) updates the company-only brand kit. Its first PDF check failed because the CI renderer omitted Bengali glyphs. Review the latest PR checks before merging.
+- Remaining launch work includes inbox delivery, real-device QA and the internal [Workflow Lab prototype](FLAGSHIP_DEMO_WORKFLOW_LAB.md). The 1 January 2027 soft launch is a target.
+
+## 23 November baseline
 
 Point-in-time report. **Vercel READY, GitHub CI green and a merged code fix do not establish functioning public API delivery or human QA.** Recheck the latest `main` and exact production deployment before making release claims.
 
